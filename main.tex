@@ -37,42 +37,105 @@
 
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
-\begin{itemize}
-\item Scope of the book (sparse graphs, vertex coloring), target audience (PhD level,
+
+\section{Scope of the book}
+
+(sparse graphs, vertex coloring), target audience (PhD level,
 familiarity with graph theory and basic coloring results expected, otherwise self-contained).
-\item Basic definitions and overview of results (surfaces + girth, maximum average degree,
-minors).
-\item Notation question: ``$6$-critical'' vs ``critical for $5$-coloring''?
-\end{itemize}
+
+\section{Basic definitions}
+
+ (surfaces + girth, maximum average degree,
+minors). 
+
+\section{Overview of Results}
+
+Note: How much overview here?
+
+Notation question: ``$6$-critical'' vs ``critical for $5$-coloring''? Ideally the latter?!
+
 % \input introduction.tex
 
-\chapter{Methods}
+\part{Standard Methods}
+
+Overview of Standard Methods (with examples and comments on common tricks and pitfalls):
+
+Grotzch's theorem as a non-trivial motivating example
+
+\chapter{Reducible Configurations and Discharging}
+
+\section{Overview of the Method}
+
 \begin{itemize}
-\item Standard methods (with examples and comments on common tricks and pitfalls):
-\begin{itemize}
-\item Reducible configurations and discharging.
-\begin{itemize}
-\item Example: ???
+\item Discuss Euler's formula
+\item Proof of $5$-color theorem
+\item Example: $3$-colorability with no 4 to 9 cycles
 \item Comments on the choice of the initial charge, iteration between improving discharging rules and finding reducible configurations.
-\item Rule values via linear programming, obstructions from dual solution.
-\item Trick with precolored face to get rid of short cycles.
-\item Example: 3-colorability of planar graphs without 4-, \ldots, 8-cycles?
 \end{itemize}
-\item Nibbling method.
+
+\section{Easy Examples?}
+
 \begin{itemize}
-\item Examples: Two proofs of 5-choosability of planar graphs.
+\item (say from Cranston and West), e.g. $5/2$ coloring for planar graphs?
+\item Rule values via linear programming, obstructions from dual solution. (What does this mean?)
+\end{itemize}
+
+\section{Trick: A Precolored Face}
+
+Use precolored face to get rid of short cycles. Example: no $4$ to $7$ (or $8$?), $3$-coloring?
+ 
+\section{The Short Discharging Proof of Grotzsch's theorem (Zdenek's proof)}
+
+\section{On the $4$-color-theorem?}
+
+\chapter{List Coloring}
+
+\section{Overview of the Method}
+\begin{itemize}
+\item definitions and why useful
+\item Even cycles are $2$-choosable; antimatching (Erdos, Rubin, Taylor); Brooks' for list?
+\end{itemize}
+
+\section{Book Proof: $5$-choosability of planar graphs}
+
+\begin{itemize}
+\item (What is the second proof?!)
 \item Comments on choice of the assumptions (if we can come up with something profound on the topic :-).
 \end{itemize}
-\item Recoloring.
+
+\section{The Short List-Coloring Proof of Grotzsch's theorem}
+
+using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size two
+
+\chapter{Recoloring?}
+
+\section{Overview of the Method}
+
 \begin{itemize}
 \item Example: 3-colorability of quadrangulations of torus that contain several disjoint even non-contactible cycles
 (cut, $2$-color the resulting bipartite graph, recolor near one of the faces created by cutting).
 \end{itemize}
-\end{itemize}
-\end{itemize}
-% \input methods.tex
+
+\section{Kempe Chains: proof of $5$-color theorem}
+
+\section{Proof of Vizing's theorem}
+
+
+\part{Coloring Graphs on Surfaces}
+
+\chapter{Motivation and Problems}
+
+\section{Euler's formula for Surfaces and the Heawood bound}
+
+\section{The Modern View}
+
+\section{Algorithms, Locally Planar Graphs and Critical Graphs}
+
+\section{Precolored Vertices, Crossings, and Many Colorings}
 
 \chapter{Critical Graphs}
+
+\section{Definitions, Motivations and Examples}
 
 \begin{itemize}
 \item Definitions.
@@ -82,91 +145,153 @@ minors).
 give a coloring if one exists.
 \end{itemize}
 \item Examples: coloring embedded graphs with at least $6$ colors.
-\item Survey of the bounds for size and desity, known full lists of critical graphs.
-\item Criticality with respect to a subgraph.
-\item Methods to bound size of a critical graph.
+\end{itemize}
+
+\section{A History of Results}
+
+Survey of the bounds for size and desity, known full lists of critical graphs.
+
+Key Idea: Criticality with respect to a subgraph.
+
+\section{Bounding the Size of a Critical Graph}
+
+Overview Methods to bound size of a critical graph:
 \begin{itemize}
 \item Reductions increasing a properly defined weight (example: linear bound on the size of graphs in disk
 critical for $5$-coloring?).
-\item Specific subgraphs at the precolored face coming from the nibble method (example: quadratic (or linear?) bound
+\item Specific subgraphs at the precolored face coming from the nibbling method (example: quadratic (or linear?) bound
 on the size of graphs in disk critical for $5$-list-coloring)?
 \end{itemize}
-\end{itemize}
+
+\section{Increasing Weight via Discharging}
+
+\section{Increasing Weight via Nibbling}
 % \input critical.tex
 
 \chapter{Hyperbolicity}
 % \input hyperbolicity.tex
 
-\begin{itemize}
-\item Weak hyperbolicity and its consequences.
-\begin{itemize}
-\item Edgewidth of critical graphs.
-\item Logarithmic radius and coloring algorithm.
-\item Precoloring extension.
-\item Number of colorings.
-\end{itemize}
-\item Strong hyperbolicity and the size of embedded critical graphs.
-\item Overview of the known hyperbolic families and bounds.
-\end{itemize}
+\section{Weak hyperbolicity and its consequences.}
+
+\subsection{Edgewidth of critical graphs. }
+\subsection{Logarithmic radius and coloring algorithm.}
+\subsection{Precoloring extension?}
+\subsection{Number of colorings? }
+
+\section{Proof of the Weak Hyperbolic Structure Theorem?}
+
+\section{Strong hyperbolicity and the size of embedded critical graphs.}
+
+\section{Locally Free}
+
+Application to far apart (at least in plane). Prove the plane version via Steiner Trees.
+
+\section{Overview of the known hyperbolic families and bounds.}
+
 
 \chapter{Triangle-free Graphs and Quadrangulations}
 % \input quadrangulations.tex
 
-\begin{itemize}
-\item Bounding the sum of lengths of $(\ge\!5)$-faces in $4$-critical triangle-free graphs (outline only).
-\item Coloring quadrangulations and near-quadrangulations.
-\begin{itemize}
-\item Winding number.
+\section{Bounding the sum of lengths of $(\ge\!5)$-faces in $4$-critical triangle-free graphs (outline only).}
+\section{Coloring quadrangulations and near-quadrangulations.}
+
+\subsection{ Winding number.}
 \begin{itemize}
 \item The disk case, analysis of critical graphs via flows.
 \end{itemize}
-\item The general case (statement + proof outline).
-\end{itemize}
-\item Applications of the theory:
-\begin{itemize}
-\item Algorithmic (outline).
-\item Graphs with high edgewidth.
-\item Coloring with few uncolored vertices.
-\item Distant anomalies, Havel's problem (outline).
-\end{itemize}
-\end{itemize}
+
+\subsection{The general case (statement + proof outline).}
+
+\section{Applications of the theory:}
+\subsection{Algorithmic (outline).}
+\subsection{Graphs with high edgewidth.}
+\subsection{Coloring with few uncolored vertices.}
+\subsection{Distant anomalies, Havel's problem (outline).}
+
+\part{Advanced Methods}
 
 \chapter{Density of Critical Graphs and the Potential Method}
 % \input potential.tex
 
-\begin{itemize}
-\item Maximum average degree, degeneracy, embedded graphs.
-\item Potential instead of mad.
-\item Example: density of 4-critical graphs.
-\item Survey of other results.
-\end{itemize}
+\section{Maximum average degree, degeneracy, embedded graphs.}
+\section{Potential instead of mad.}
+\section{Short Potential Proof of Brook's Theorem}
+\section{The Short Potential Proof of Grotzsch's Theorem}
+\section{Outline of general $k$?}
+\section{Survey of other results.}
 
-\chapter{List and Correspondence Coloring}
+\chapter{Flows and Orientations}
+\section{Definitions and Motivation}
+\section{Flow-Coloring duality and Tutte's Flow Conjectures}
+\section{The Short Flow Proof of Grotzsch's Theorem}
+\section{Thomassen's proof of the weak $3$-flow conjecture}
+\section{Thomassen-inspired proof of $6$-flow?}
+
+\chapter{Probabilistic Methods}
+\section{Probabilistic Tools: Local Lemma and Concentration Inequalities}
+\section{Nibble Method: Short Proof of Kim's result}
+\section{Outline of Johansson?}
+\section{Reed's Conjecture}
+\subsection{Density Lemma}
+\subsection{Outline of Sparsity Lemma}
+
+\part{Variants of Colorings}
+
+\chapter{More on List Coloring?}
+\section{Orientations? Paintability?}
+\section{Ohba's?}
+
+\chapter{Edge Coloring}
+\section{Vizing Fans, Kierstead Paths}
+\section{Tashkinov Trees and the Goldberg-Seymour Conjecture}
+\section{List Coloring Conjecture for Bipartite Graphs (Galvin's Proof)}
+\section{List Coloring Conjecture: Outline of Kahn's Proof?}
+
+\chapter{Correspondence Coloring}
 % \input listandcorr.tex
 
-\begin{itemize}
-\item Definition and properties of correspondence coloring.
-\item Results on list coloring via correspondence coloring:
+\section{Definitions and Motivation}
+
+Definition and properties of correspondence coloring.
+
+\section{Results on list coloring via correspondence coloring}
+
 \begin{itemize}
 \item More reducible configurations: $3$-list-coloring graphs without $4$-, \ldots, $8$-cycles.
 \item Restoring uniformity in probabilistic arguments: Sparse graphs of bounded maximum degree.
 \end{itemize}
-\end{itemize}
 
-\chapter{Coloring and Structure}
+\section{Old Results through the lens of Corr. Coloring}
+
+Corr. coloring tied to average degree (Berhnetsyn's Proof)
+
+\section{Open Questions}
+
+Lift matching number? (i.e. special case of correspondence edge coloring)
+
+\chapter{Circular Coloring and Acyclic Coloring?}
+
+
+\part{Coloring and Structure}
+
+\chapter{Excluding Minors}
 % \input structure.tex
 
-\begin{itemize}
-\item Results on graphs avoiding a minor:
-\begin{itemize}
-\item Decomposition to two low tree-width graphs, $2$-approximation algorithm.
-\item Hadwiger's conjecture and its relaxations (colors induce subgraphs of bounded maximum degree, maximum component size).
-\end{itemize}
-\item Hajos' conjecture and counterexamples.
-\item Forbidden induced subgraphs, bounds + algorithms for chromatic number, $\chi$-boundedness?
-\end{itemize}
+Results on graphs avoiding a minor:
 
-\chapter{Open Problems}
+
+\section{Decomposition to two low tree-width graphs, $2$-approximation algorithm.}
+\section{Hadwiger's conjecture and its relaxations}
+(colors induce subgraphs of bounded maximum degree, maximum component size).
+\section{Hajos' conjecture and counterexamples}
+
+\chapter{Forbidding Subgraphs}
+
+\section{Strong Perfect Graph Theorem}
+\section{Gyarfas Conj + $\chi$-boundedness}
+\section{Erdos-Hajnal}
+
+\part{Open Problems}
 % \input open.tex
 
 \begin{itemize}
