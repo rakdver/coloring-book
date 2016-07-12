@@ -1,0 +1,191 @@
+\documentclass[12pt,twoside,openright,a4paper]{book}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{makeidx}
+\makeindex
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}{Conjecture}[chapter]
+
+\begin{document}
+\pagestyle{empty}
+\begin{titlepage}
+
+\begin{center}
+
+\vspace{10cm}
+
+{\large\bf A Coloring Book}
+
+\end{center}
+\end{titlepage}
+
+\newpage
+
+\pagestyle{plain}
+\pagenumbering{roman}
+\tableofcontents
+
+\newpage
+
+\pagestyle{headings}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\begin{itemize}
+\item Scope of the book (sparse graphs, vertex coloring), target audience (PhD level,
+familiarity with graph theory and basic coloring results expected, otherwise self-contained).
+\item Basic definitions and overview of results (surfaces + girth, maximum average degree,
+minors).
+\item Notation question: ``$6$-critical'' vs ``critical for $5$-coloring''?
+\end{itemize}
+% \input introduction.tex
+
+\chapter{Methods}
+\begin{itemize}
+\item Standard methods (with examples and comments on common tricks and pitfalls):
+\begin{itemize}
+\item Reducible configurations and discharging.
+\begin{itemize}
+\item Example: ???
+\item Comments on the choice of the initial charge, iteration between improving discharging rules and finding reducible configurations.
+\item Rule values via linear programming, obstructions from dual solution.
+\item Trick with precolored face to get rid of short cycles.
+\item Example: 3-colorability of planar graphs without 4-, \ldots, 8-cycles?
+\end{itemize}
+\item Nibbling method.
+\begin{itemize}
+\item Examples: Two proofs of 5-choosability of planar graphs.
+\item Comments on choice of the assumptions (if we can come up with something profound on the topic :-).
+\end{itemize}
+\item Recoloring.
+\begin{itemize}
+\item Example: 3-colorability of quadrangulations of torus that contain several disjoint even non-contactible cycles
+(cut, $2$-color the resulting bipartite graph, recolor near one of the faces created by cutting).
+\end{itemize}
+\end{itemize}
+\end{itemize}
+% \input methods.tex
+
+\chapter{Critical Graphs}
+
+\begin{itemize}
+\item Definitions.
+\item Motivation for bounding the size and the structure of critical graphs.
+\begin{itemize}
+\item Algorithmic remarks---complexity of finding a fixed subgraph; does not directly
+give a coloring if one exists.
+\end{itemize}
+\item Examples: coloring embedded graphs with at least $6$ colors.
+\item Survey of the bounds for size and desity, known full lists of critical graphs.
+\item Criticality with respect to a subgraph.
+\item Methods to bound size of a critical graph.
+\begin{itemize}
+\item Reductions increasing a properly defined weight (example: linear bound on the size of graphs in disk
+critical for $5$-coloring?).
+\item Specific subgraphs at the precolored face coming from the nibble method (example: quadratic (or linear?) bound
+on the size of graphs in disk critical for $5$-list-coloring)?
+\end{itemize}
+\end{itemize}
+% \input critical.tex
+
+\chapter{Hyperbolicity}
+% \input hyperbolicity.tex
+
+\begin{itemize}
+\item Weak hyperbolicity and its consequences.
+\begin{itemize}
+\item Edgewidth of critical graphs.
+\item Logarithmic radius and coloring algorithm.
+\item Precoloring extension.
+\item Number of colorings.
+\end{itemize}
+\item Strong hyperbolicity and the size of embedded critical graphs.
+\item Overview of the known hyperbolic families and bounds.
+\end{itemize}
+
+\chapter{Triangle-free Graphs and Quadrangulations}
+% \input quadrangulations.tex
+
+\begin{itemize}
+\item Bounding the sum of lengths of $(\ge\!5)$-faces in $4$-critical triangle-free graphs (outline only).
+\item Coloring quadrangulations and near-quadrangulations.
+\begin{itemize}
+\item Winding number.
+\begin{itemize}
+\item The disk case, analysis of critical graphs via flows.
+\end{itemize}
+\item The general case (statement + proof outline).
+\end{itemize}
+\item Applications of the theory:
+\begin{itemize}
+\item Algorithmic (outline).
+\item Graphs with high edgewidth.
+\item Coloring with few uncolored vertices.
+\item Distant anomalies, Havel's problem (outline).
+\end{itemize}
+\end{itemize}
+
+\chapter{Density of Critical Graphs and the Potential Method}
+% \input potential.tex
+
+\begin{itemize}
+\item Maximum average degree, degeneracy, embedded graphs.
+\item Potential instead of mad.
+\item Example: density of 4-critical graphs.
+\item Survey of other results.
+\end{itemize}
+
+\chapter{List and Correspondence Coloring}
+% \input listandcorr.tex
+
+\begin{itemize}
+\item Definition and properties of correspondence coloring.
+\item Results on list coloring via correspondence coloring:
+\begin{itemize}
+\item More reducible configurations: $3$-list-coloring graphs without $4$-, \ldots, $8$-cycles.
+\item Restoring uniformity in probabilistic arguments: Sparse graphs of bounded maximum degree.
+\end{itemize}
+\end{itemize}
+
+\chapter{Coloring and Structure}
+% \input structure.tex
+
+\begin{itemize}
+\item Results on graphs avoiding a minor:
+\begin{itemize}
+\item Decomposition to two low tree-width graphs, $2$-approximation algorithm.
+\item Hadwiger's conjecture and its relaxations (colors induce subgraphs of bounded maximum degree, maximum component size).
+\end{itemize}
+\item Hajos' conjecture and counterexamples.
+\item Forbidden induced subgraphs, bounds + algorithms for chromatic number, $\chi$-boundedness?
+\end{itemize}
+
+\chapter{Open Problems}
+% \input open.tex
+
+\begin{itemize}
+\item 4-colorability (surfaces, planar + edge, one crossing, \ldots).
+\item Characterization of planar graphs with $\alpha(G)=n/4$, Eulerian triangulations with $\alpha(G)=n/3$.
+\item $4$-colorability of Eulerian triangulations of surfaces.
+\item $3$-colorability without $4$-, $5$-, $6$-cycles.
+\item Improving the distance in Havel's conjecture, constants in the bounds on critical graphs.
+\item Algorithmic: extending a precoloring of an arbitrarily long face in triangle-free planar graphs.
+\item Vertex minors and $\chi$-boundedness.
+\end{itemize}
+
+\newpage
+\pagestyle{plain}
+\addcontentsline{toc}{chapter}{Index}
+\printindex
+
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{acm}
+\bibliography{cb}
+
+\end{document}
