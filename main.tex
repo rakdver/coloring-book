@@ -43,16 +43,40 @@
 (sparse graphs, vertex coloring), target audience (PhD level,
 familiarity with graph theory and basic coloring results expected, otherwise self-contained).
 
-\section{Basic definitions}
+\section{Basic definitions and notation}
 
- (surfaces + girth, maximum average degree,
-minors). 
+Notation for number of vertices/edges/faces of a graph $G$???
+
+$\phi$ vs. $\varphi$?
+
+$P_k$ denotes a path on $k$ vertices, its length is $k-1$.
+
+$C_k$ denotes a cycle on $k$ vertices, its length is $k$.  Length of a cycle $C$ is denoted by $|C|$.
+
+Girth (no special notation)?
+
+Face of an embedded graph $G$ is a maximal connected subset of the surface minus $G$.
+A face is \emph{$2$-cell} if it is homeomorphic to an open disk, \emph{closed $2$-cell}
+if additionally bounded by a cycle.  Embedding is $2$-cell if all faces are $2$-cell.
+\emph{Facial walk} of $f$ is a closed walk in $G$ tracing
+a component of the boundary of $f$, the length $|f|$ of $f$ is the sum of lengths of its facial
+walks.
+
+Surfaces: $\Sigma$, $\Pi$; Euler genus $g(\Sigma)$.
+
+Other notation (to be moved to where it becomes relevant).
+
+critical for $k$-coloring/$k$-list-coloring
+
+list chromatic number, $k$-list-colorable
+
+If $G$ is $H$-critical,then $G\neq H$.
+
+$\text{ch}_0$ for initial charge, $\text{ch}$ for final charge.  Discharging to non-negative.
 
 \section{Overview of Results}
 
 Note: How much overview here?
-
-% \input introduction.tex
 
 \part{Standard Methods}
 
@@ -61,6 +85,8 @@ Overview of Standard Methods (with examples and comments on common tricks and pi
 Grotzch's theorem as a non-trivial motivating example
 
 \chapter{Reducible Configurations and Discharging}
+
+ZD
 
 \section{Overview of the Method}
 
@@ -90,6 +116,8 @@ Pitfall: Vertices appearing more than once in a configuration.
 
 \chapter{List Coloring}
 
+LP
+
 \section{Overview of the Method}
 \begin{itemize}
 \item definitions and why useful
@@ -109,6 +137,8 @@ using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size t
 
 \chapter{Recoloring?}
 
+ZD
+
 \section{Overview of the Method}
 
 \begin{itemize}
@@ -120,10 +150,11 @@ using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size t
 
 \section{Proof of Vizing's theorem}
 
-
 \part{Coloring Graphs on Surfaces}
 
 \chapter{Motivation and Problems}
+
+LP
 
 \section{Euler's formula for Surfaces and the Heawood bound}
 
@@ -131,11 +162,11 @@ using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size t
 
 \section{Algorithms, Locally Planar Graphs and Critical Graphs}
 
-Notation: ``$6$-critical'' vs ``critical for $5$-coloring''.  We use the latter.
-
 \section{Precolored Vertices, Crossings, and Many Colorings}
 
 \chapter{Critical Graphs}
+
+ZD
 
 \section{Definitions, Motivations and Examples}
 
@@ -168,10 +199,10 @@ on the size of graphs in disk critical for $5$-list-coloring)?
 \section{Increasing Weight via Discharging}
 
 \section{Increasing Weight via Nibbling}
-% \input critical.tex
 
 \chapter{Hyperbolicity}
-% \input hyperbolicity.tex
+
+LP
 
 \section{Weak hyperbolicity and its consequences.}
 
@@ -192,7 +223,8 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 
 
 \chapter{Triangle-free Graphs and Quadrangulations}
-% \input quadrangulations.tex
+
+ZD
 
 \section{Bounding the sum of lengths of $(\ge\!5)$-faces in $4$-critical triangle-free graphs (outline only).}
 \section{Coloring quadrangulations and near-quadrangulations.}
@@ -213,7 +245,8 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 \part{Advanced Methods}
 
 \chapter{Density of Critical Graphs and the Potential Method}
-% \input potential.tex
+
+LP
 
 \section{Maximum average degree, degeneracy, embedded graphs.}
 \section{Potential instead of mad.}
@@ -240,10 +273,15 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 \part{Variants of Colorings}
 
 \chapter{More on List Coloring?}
+
+Maybe?
+
 \section{Orientations? Paintability?}
 \section{Ohba's?}
 
 \chapter{Edge Coloring}
+
+Maybe?
 
 Do we want to have this chapter?  Or possibly we could refocus it on the
 sparse setting (cubic graphs, planar graphs -- Seymour's conjecture)?
@@ -254,7 +292,8 @@ sparse setting (cubic graphs, planar graphs -- Seymour's conjecture)?
 \section{List Coloring Conjecture: Outline of Kahn's Proof?}
 
 \chapter{Correspondence Coloring}
-% \input listandcorr.tex
+
+LP
 
 \section{Definitions and Motivation}
 
@@ -277,11 +316,13 @@ Lift matching number? (i.e. special case of correspondence edge coloring)
 
 \chapter{Circular Coloring and Acyclic Coloring?}
 
+Maybe?
 
 \part{Coloring and Structure}
 
 \chapter{Excluding Minors}
-% \input structure.tex
+
+Maybe?
 
 Results on graphs avoiding a minor:
 
@@ -293,12 +334,13 @@ Results on graphs avoiding a minor:
 
 \chapter{Forbidding Subgraphs}
 
+Maybe?
+
 \section{Strong Perfect Graph Theorem}
 \section{Gyarfas Conj + $\chi$-boundedness}
 \section{Erdos-Hajnal}
 
 \part{Open Problems}
-% \input open.tex
 
 \begin{itemize}
 \item 4-colorability (surfaces, planar + edge, one crossing, \ldots).
