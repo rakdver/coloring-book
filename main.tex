@@ -9,6 +9,9 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}{Conjecture}[chapter]
+\newcommand{\initch}{\text{ch}_0}
+\newcommand{\finch}{\text{ch}}
+\newcommand{\GG}{\mathcal{G}}
 
 \begin{document}
 \pagestyle{empty}
@@ -60,6 +63,11 @@ $C_k$ denotes a cycle on $k$ vertices, its length is $k$.  Length of a cycle $C$
 
 Girth (no special notation)?
 
+Graphs on surfaces: genus (Euler by default), representativity and edge-width, contractible and
+noncontractible curves (separating vs non-separating, one-sided vs two-sided).
+
+Planar vs plane graphs.
+
 Face of an embedded graph $G$ is a maximal connected subset of the surface minus $G$.
 A face is \emph{$2$-cell} if it is homeomorphic to an open disk, \emph{closed $2$-cell}
 if additionally bounded by a cycle.  Embedding is $2$-cell if all faces are $2$-cell.
@@ -77,7 +85,9 @@ list chromatic number, $k$-list-colorable
 
 If $G$ is $H$-critical,then $G\neq H$.
 
-$\text{ch}_0$ for initial charge, $\text{ch}$ for final charge.  Discharging to non-negative.
+$\initch$ for initial charge, $\finch$ for final charge.  Discharging to non-negative.
+
+(maximum) average degree/degeneracy/coloring number
 
 \section{Overview of Results}
 
@@ -91,22 +101,194 @@ Grotzch's theorem as a non-trivial motivating example
 
 \chapter{Reducible Configurations and Discharging}
 
-ZD
+% ZD
+Suppose we want to show that graphs from some hereditary class $\GG$ are $k$-colorable.  Clearly, we can
+restrict our attention to graphs from $\GG$ of minimum degree at least $k$: if a graph $G\in \GG$
+contains a vertex $v$ of degree less than $k$, it suffices to find a $k$-coloring of the graph $G-v$
+which also belongs to $\GG$, and then give $v$ a color different from the colors of its neighbors,
+which is always available since $v$ has less than $k$ neighbors.
+
+More formally, we are constructing a proof by contradiction.  Suppose that $G$ is a graph belonging to $\GG$
+with the smallest number of vertices that is not $k$-coloriable.  Hence, $G$ is a hypothetical smallest counterexample
+to the claim that all graphs from $\GG$ are $k$-colorable.
+By the previous paragraph, we see that $G$ does not contain a vertex of degree at most $k-1$.
+Substructures with the property that they cannot appear in any smallest counterexample
+are called \emph{reducible configurations}, and they form a basis of many arguments in graph coloring.
+
+In the most direct application, we can be able to identify a set of reducible configurations such that
+at least one of them must necessarily appear in any graph from $\GG$, thus excluding the existence of
+a (smallest) counterexample and showing that indeed, all graphs from $\GG$ are $k$-colorable.
+In more advanced applications, reducible configurations can be used to restrict the properties
+of the smallest counterexample, and a contradiction is obtained by different means afterwards, typically
+by showing through another method that all graphs satisfying these restrictions are $k$-colorable.
+
+There are many tricks used in showing that a configuration is reducible, which we will discuss some
+of them throughout this chapter and elsewhere in the book. However, the basic idea almost always resembles
+our starting example: the configuration is removed (and possibly some further local changes are
+performed in the graph), and then a coloring of the modified graph is transformed in a coloring of the
+original graph.  Reducible configurations usually involve vertices whose degree is
+smaller than or close to the number of colors $k$ we are using, since a coloring of the rest of the graph
+can be extended to such vertices (nearly) greedily.
+
+Consequently, reducible configurations are easiest to find in graph classes $\GG$ that are sparse, in the
+sense that the graphs in $\GG$ have average degree close to $k$. To prove that each graph in such a class $\GG$
+contains one of the reducible configurations, one needs to argue that their absence would force the graph to be
+too dense.  The \emph{discharging method} is a systematic way to organize such an argument.  In the most straightforward
+form, a real number called \emph{charge} is assigned to vertices (and in the case of embedded graphs, possibly faces)
+of the graph, so that the sum of the charges is negative; for example, if graphs in $\GG$ have average degree less than $d$,
+a possible assignment of charge to a vertex $v$ is $\deg v-d$.  The charge is then redistributed according to some local
+rules, without changing its total amount.  As a result, there exists a vertex (or face) whose final charge is negative,
+and based on the discharging rules, we argue that this is only possible if a reducible configuration appears in its neighborhood.
+Of course, this description omits the most important aspect: how to choose the discharging rules?
+While this seems a daunting task at first, with a bit of experience this becomes a fairly mechanical process of trial and error
+(which can in fact be automatized to some extent), as we will discuss later in this chapter.
+
+Although reducible configurations and discharging method are independent tools that have many applications on their
+own, in the coloring context they are most commonly applied together, and so we devote this chapter to both of them.
 
 \section{Overview of the Method}
 
+Let us now flesh out the ideas from the introduction a bit.  While discharging and reducible configurations
+are applicable in many contexts, they are at their best in the realm of graphs drawn on a fixed surface, and
+especially for planar graphs.  This is primarily due to the well-known relationship between the numbers
+of their vertices, edges, and faces.
+
+\begin{theorem}[Euler's formula]\label{thm:eulerfla}
+If $G$ is a graph embedded in a surface of genus $g$, then
+$$|E(G)|\le |V(G)|+|F(G)|+g-2,$$
+with equality if and only if the embedding of $G$ is $2$-cell.
+\end{theorem}
+
+Let us start with a mandatory toy example: 5-colorability of planar graphs.
+
+\begin{theorem}\label{thm:planar5col}
+Every planar graph is $5$-colorable.
+\end{theorem}
+\begin{proof}
+Suppose for a contradiction that this is not the case, and let $G$ be a non-$5$-colorable plane graph
+with the smallest number of vertices.
+
+Clearly, $G$ is connected and it has minimum degree at least $5$.  We can strengthen this claim: $G$ does not
+contain any vertex of degree $5$.  Indeed, suppose that $v\in V(G)$ has degree $5$.  Since $G$ is planar, it does
+not contain $K_6$ as a subgraph, and thus $v$ has two non-adjacent neighbors $x$ and $y$.  Let $G'$ be the graph obtained
+from $G$ by removing $v$ and identifying vertices $x$ and $y$ to a single vertex $z$.  Note that $G'$ is a plane graph,
+and by the minimality of $G$, we conclude that $G'$ has a $5$-coloring $\varphi$.  We can extend this $5$-coloring to $G$,
+by giving $x$ and $y$ the color $\varphi(z)$, and by coloring $v$ greedily (there are $5$ available colors, but only
+$4$ of them are used at the neihbors of $v$, since $x$ and $y$ have the same color).  This contradicts the assumption
+that $G$ is not $5$-colorable, and thus we conclude that $G$ cannot contain a vertex of degree $5$.
+
+Let us now give each vertex $v\in V(G)$ charge $\initch(v)=\deg(v)-6$ and each face $f\in F(G)$ charge $\initch(f)=2|f|-6$.
+Since all vertices of $G$ have degree at least $6$, their charge is non-negative.  Furthermore, $G$ clearly has at least $6$
+vertices, and since it is connected, all its faces have length at least $3$ and their charge is non-negative.
+However,
+$$\sum_{v\in V(G)} \initch(v)=\left(\sum_{v\in V(G)} \deg(v)\right)-6|V(G)|=2|E(G)|-6|V(G)|$$
+and
+$$\sum_{f\in F(G)} \initch(f)=\left(2\sum_{f\in F(G)} |f|\right)-6|F(G)|=4|E(G)|-6|F(G)|,$$
+and thus the sum of charges of vertices and faces is
+$$6(|E(G)|-|V(G)|-|F(G)|)=-12$$
+by Euler's formula.  This is a contradiction, showing that no non-$5$-colorable plane graph exists.
+\end{proof}
+
+For the demonstration purposes, the preceding example has a disadvantage of
+having only a trivial discharging phase, with no discharging rules.  Let us
+turn this to our advantage and discuss two aspects seen in the proof: its
+overall structure and the choice of the assignment of charges.
+
+We see that the proof is cleanly split to two parts: first we identify the reducible configurations, then we show
+that they need to appear in each planar graph.  This makes for a clear presentation, but it hides the process of
+how we devised the two parts, which usually is not in isolation; more on that in Section~\ref{sec:rules}.
+
+Both parts are presented as proofs by contradiction: we consider a smallest counterexample in the first part,
+and we argue that since we have no reducible configuration the sum of charges would have to be non-negative.
+This is not the only possiblity, and both parts can be presented in a more ``positive'' manner.
+
+\begin{proof}[Proof of Theorem~\ref{thm:planar5col}, alternative formulation]
+We prove the claim by induction on the number of vertices.  So, consider some plane graph $G$, and assume
+that every planar graph with fewer than $|V(G)|$ vertices is $5$-colorable.
+
+If $G$ is disconnected, we can $5$-color its components separately by the induction hypothesis, and thus $G$
+is $5$-colorable.  Hence, we can assume that $G$ is connected.  Also, if $|V(G)|\le 5$, then we can give all
+vertices distinct colors.  Hence, assume that $|V(G)|\ge 6$.
+
+Let us assign charges to vertices and faces in the same way as in the first proof of the theorem.
+Since their sum is negative and all faces have non-negative charge, there exists a vertex $v\in V(G)$
+such that $\initch(v)<0$, and thus $\deg(v)\le 5$.
+
+If $v$ has degree at most $4$, then a $5$-coloring of $G-v$ which exists by the induction hypothesis can be extended to $G$ by giving $v$ a color
+different from the colors of its neighbors.  And, if $v$ has degree $5$, then we can $5$-color by
+the induction hypothesis the graph $G'$ constructed in the same way as in the first proof of the theorem, and extend its
+$5$-coloring to $G$.
+\end{proof}
+
+Of course, both proofs are equivalent, and it is a matter of taste which style of presentation one chooses.
+In our experience, the latter style is more convenient when one wants to discuss the algorithmic aspects of the proof.
+The former style has the advantage that we can speak about the properties of one fixed object (the hypothetical minimal
+counterexample $G$), and say things like ``$G$ has minimum degree at least $k$ and does not contain this-and-that'';
+the respective formulations in the former style tend to be more cumbersome.
+
+\subsection{Initial assignment of charge}\label{ssec:initch}
+
+How do we decide what initial charge we assign to vertices and faces?  Since we want to take advantage of Euler's formula,
+there is actually not much freedom, and when the discharging method is used for embedded graphs, the assignment
+of charges almost exclusively follows one of the options from the following lemma.
+
+\begin{lemma}\label{lemma:initch}
+Let $a\ge 0$ and $b>0$ be real numbers, and let $G$ be a graph with $2$-cell embedding in a surface of genus $g$.
+Let $\initch(v)=a\deg(v)-2b$ for $v\in V(G)$ and $\initch(f)=(b-a)|f|-2b$ for $f\in F(G)$.
+Then
+$$\sum_{v\in V(G)}\initch(v)+\sum_{f\in F(G)}\initch(f)=2b(g-2).$$
+\end{lemma}
+\begin{proof}
+By Euler's formula, we have
+\begin{align*}
+\sum_{v\in V(G)}\initch(v)+\sum_{f\in F(G)}\initch(f)&=\left(-2b|V(G)|+a\sum_{v\in V(G)}\deg(v)\right)+\left(-2b|F(G)|+(b-a)\sum_{f\in F(G)}|f|\right)\\
+&(-2b|V(G)|+2a|E(G)|)+(-2b|F(G)|+2(b-a)|E(G)|)\\
+&=2b(|E(G)|-|V(G)|-|F(G)|)=2b(g-2).
+\end{align*}
+\end{proof}
+
+The most common choices of charge for vertices $v$ and faces $f$ are the following:
 \begin{itemize}
-\item Discuss Euler's formula
-\item Proof of $5$-color theorem
-\item Example: $3$-colorability with no 4 to 9 cycles
+\item $\initch(v)=\deg(v)-6$ and $\initch(f)=2|f|-6$, obtained by setting $a=1$ and $b=3$: This is the charge we used in the proof of Theorem~\ref{thm:planar5col},
+and for connected plane graphs, it sums to $-12$.  The charge of all faces is nonnegative, putting the focus on vertices.  This tends to be a good
+choice when proving results for unrestricted plane graphs.
+\item $\initch(v)=\deg(v)-4$ and $\initch(f)=|f|-4$, obtained by setting $a=1$ and $b=2$: For connected plane graphs, the charge sums to $-8$.
+Only $3$-faces have negative charge, which makes this a good choice for triangle-free graphs or graphs with restrictions on triangles.
+\item $\initch(v)=2\deg(v)-6$ and $\initch(f)=|f|-6$, obtained by setting $a=2$ and $b=3$: For connected plane graphs, the charge sums to $-12$.
+and this choice is convenient when dealing with $3$-regular graphs (so that vertices have no charge), or sometimes when dealing with graphs of large girth.
+\end{itemize}
+Of course, other choices may be useful in other special situations. The proper
+choice of charge can greatly simplify the discharging rules.  However, let us
+remark that at least in principle, all the charge choices are equivalent.
+Indeed, suppose that we have assigned charge $\initch(v)=a\deg(v)-2b$ for $v\in V(G)$ and $\initch(f)=(b-a)|f|-2b$ for $f\in F(G)$.
+Consider any other real numbers $a'\ge 0$ and $b'>0$.
+Now, let each vertex send $\gamma=\frac{ab'-a'b}{b'}$ units of charge to each incident face, and let $\finch$ denote the resulting assigment of charges.
+We have $\finch(v)=(a-\gamma)\deg(v)-2b=\frac{b}{b'}(a'\deg(v)-2b')$ and $\finch(f)=(b-a+\gamma)|f|-2b=\frac{b}{b'}((b'-a')|f|-2b')$,
+which up to scaling is the same charge we would obtain if we instead of $a$ and $b$ chose $a'$ and $b'$.
+Hence, if a discharging argument is possible with the latter choice, it is also possible with the former one, by adding the discharging rule of
+moving $\gamma$ units of charge from each vertex to each incident face.
+In other words, choosing a ``wrong'' charge may make the discharging rules more complicated, but not impossible to find.
+
+Let us remark that some authors prefer to negate the charge assignments we suggest, so that the sum of charges is positive and
+after redistribution using the discharging rules, a reducible configuration
+is then found near the vertices or faces of positive charge.  This convention can be mostly found
+in older works, most notably in the proofs of Four Color Theorem~\cite{AppHak1,rsst}.  As this is purely a matter of taste
+and nowadays the choice of charge summing to negative is more popular, this will be the convention used in this book.
+
+% AMHERE
+Example: $3$-colorability with no 4 to 9 cycles
+% averaging on long faces
+
+\section{How to find the rules?}\label{sec:rules}
+\begin{itemize}
 \item Comments on the choice of the initial charge, iteration between improving discharging rules and finding reducible configurations.
+\item Rule values via linear programming, obstructions from dual solution. (What does this mean?)
 \end{itemize}
 
 \section{Easy Examples?}
 
 \begin{itemize}
 \item (say from Cranston and West), e.g. $5/2$ coloring for planar graphs?
-\item Rule values via linear programming, obstructions from dual solution. (What does this mean?)
 \end{itemize}
 
 \section{Trick: A Precolored Face}
@@ -121,7 +303,7 @@ Pitfall: Vertices appearing more than once in a configuration.
 
 \chapter{List Coloring}
 
-LP
+% LP
 
 \section{Overview of the Method}
 \begin{itemize}
@@ -142,7 +324,7 @@ using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size t
 
 \chapter{Recoloring?}
 
-ZD
+% ZD
 
 \section{Overview of the Method}
 
@@ -159,7 +341,7 @@ ZD
 
 \chapter{Motivation and Problems}
 
-LP
+% LP
 
 \section{Euler's formula for Surfaces and the Heawood bound}
 
@@ -171,7 +353,7 @@ LP
 
 \chapter{Critical Graphs}
 
-ZD
+% ZD
 
 \section{Definitions, Motivations and Examples}
 
@@ -207,7 +389,7 @@ on the size of graphs in disk critical for $5$-list-coloring)?
 
 \chapter{Hyperbolicity}
 
-LP
+% LP
 
 \section{Weak hyperbolicity and its consequences.}
 
@@ -229,7 +411,7 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 
 \chapter{Triangle-free Graphs and Quadrangulations}
 
-ZD
+% ZD
 
 \section{Bounding the sum of lengths of $(\ge\!5)$-faces in $4$-critical triangle-free graphs (outline only).}
 \section{Coloring quadrangulations and near-quadrangulations.}
@@ -251,7 +433,7 @@ ZD
 
 \chapter{Density of Critical Graphs and the Potential Method}
 
-LP
+% LP
 
 \section{Maximum average degree, degeneracy, embedded graphs.}
 \section{Potential instead of mad.}
@@ -298,7 +480,7 @@ sparse setting (cubic graphs, planar graphs -- Seymour's conjecture)?
 
 \chapter{Correspondence Coloring}
 
-LP
+% LP
 
 \section{Definitions and Motivation}
 
