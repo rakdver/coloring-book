@@ -54,8 +54,11 @@ familiarity with graph theory and basic coloring results expected, otherwise sel
 
 Notation for number of vertices/edges/faces of a graph $G$:
 $|V(G)|$, $|E(G)|$, $|F(G)|$.  Use $n$ and $m$ for vertices and edges when repeated.
+Graphs have no loops or parallel edges by default, multigraphs may have parallel edges but still no loops.
 
 Colorings: $\varphi$, $\psi$, \ldots
+
+$[k]=\{1,\ldots,k\}$.
 
 $P_k$ denotes a path on $k$ vertices, its length is $k-1$.
 
@@ -100,6 +103,8 @@ Overview of Standard Methods (with examples and comments on common tricks and pi
 Grotzch's theorem as a non-trivial motivating example
 
 \chapter{Reducible Configurations and Discharging}
+
+% NEEDED: list coloring, greedy algorithm, Brooks for list coloring (Gallai trees)
 
 % ZD
 Suppose we want to show that graphs from some hereditary class $\GG$ are $k$-colorable.  Clearly, we can
@@ -222,9 +227,9 @@ $5$-coloring to $G$.
 
 Of course, both proofs are equivalent, and it is a matter of taste which style of presentation one chooses.
 In our experience, the latter style is more convenient when one wants to discuss the algorithmic aspects of the proof.
-The former style has the advantage that we can speak about the properties of one fixed object (the hypothetical minimal
+The former style has the advantage that we can speak about the properties of one fixed object (a hypothetical minimal
 counterexample $G$), and say things like ``$G$ has minimum degree at least $k$ and does not contain this-and-that'';
-the respective formulations in the former style tend to be more cumbersome.
+the respective formulations in the latter style tend to be more cumbersome.
 
 \subsection{Initial assignment of charge}\label{ssec:initch}
 
@@ -275,9 +280,152 @@ is then found near the vertices or faces of positive charge.  This convention ca
 in older works, most notably in the proofs of Four Color Theorem~\cite{AppHak1,rsst}.  As this is purely a matter of taste
 and nowadays the choice of charge summing to negative is more popular, this will be the convention used in this book.
 
-% AMHERE
-Example: $3$-colorability with no 4 to 9 cycles
-% averaging on long faces
+\section{A more substantial example}
+
+We now give a further example demonstrating more of the aspects of the method.  Specifically, we will show that all
+projective-planar graphs without $4$-cycles are $4$-colorable.  Let us start with the reducible configurations.
+
+\begin{lemma}\label{lemma:no4cproj-redu}
+Let $G$ be a graph with no $4$-cycles drawn in the projective plane, such that every projective-planar graph
+with no $4$-cycles and with fewer than $|V(G)|$ vertices is $4$-colorable.  If $G$ is not $4$-colorable, then
+\begin{itemize}
+\item[\textrm{(a)}] $G$ is connected;
+\item[\textrm{(b)}] the minimum degree of $G$ is at least $4$;
+\item[\textrm{(c)}] if $f$ is a $5$-face of $G$ sharing an edge $v_1v_2$ with a $3$-face $g$ and all vertices
+incident with $f$ and $g$ except for $v_1$ have degree $4$, then $v_1$ has degree at least $6$; and,
+\item[\textrm{(d)}] if $v\in V(G)$ has degree $6$ and is incident with a $3$-face $g_1$, a $5$-face $f_1$,
+a $3$-face $g_2$, and a $5$-face $f_2$ in order, then at least one vertex incident with these faces other than $v$ has
+degree at least $5$.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+For (a), if $G$ were a disjoint union of non-empty graphs $G_1$ and $G_2$, then both $G_1$ and $G_2$ would be
+$4$-colorable by the assumption, and thus $G$ would also be $4$-colorable.  Similarly, for (b), if $G$ contained a vertex $v$ of
+degree at most $3$, then $G-v$ is $4$-colorable by the assumption and the coloring can be extended to $G$ by giving $v$ a color
+different from the colors of its neighbors.
+
+For (c), let $K=v_1v_2\ldots v_5$ be the boundary walk of $f$.  Let us first consider the case that the face $f$ is not bounded by a $5$-cycle.
+Since $G$ has no loops or parallel
+edges, an edge $e$ appears twice in the boundary of $f$, and the remaining three edges form a triangle.  Note that $e\neq v_1v_2$,
+since the edge $v_1v_2$ is incident with a face $g$ distinct from $f$.  Also, the only triangle containing the edge $v_1v_2$
+is the one bounding $g$, since $G$ does not contain a $4$-cycle.  It follows that either the path $v_1v_2v_3$ or the path $v_5v_1v_2$
+is contained in the boundaries of both $f$ and $g$, and thus either $v_1$ or $v_2$ has degree two, which is a contradiction.
+
+Hence, $K$ is a cycle, and since $G$ has no $4$-cycles, $K$ is induced.  Let $T=v_1v_2v_6$ be the triangle bounding the face $g$.
+Since $K$ is an induced cycle, we have $v_6\not\in V(K)$, and since $G$ contains no $4$-cycles, $v_6$ has no neighbor in $K$ other
+than $v_1$ and $v_2$.  Suppose for a contradiction that $\deg(v_1)\le 5$.  By the assumptions, there exists a $4$-coloring $\varphi$
+of $G-\{v_1,\ldots, v_6\}$.  For $i\in[6]$, let $L(v_i)$ denote the subset of $[4]$ consisting of the colors not
+appearing on the neighbors of $v_i$ in the coloring $\varphi$; we have $|L(v_i)|\ge 2$ for $i\in\{1,3,4,5,6\}$ and $|L(v_2)|=3$.
+To extend the coloring $\varphi$ to a $4$-coloring of $G$, it suffices to color $K\cup T$ from the lists given by $L$.
+
+First, let us choose a color $c_1\in L(v_2)$ such that $|L(v_3)\setminus\{c\}|\ge 2$.  If we can color $v_1$ and $v_6$ by colors
+different from $c_1$, we can then color $v_2$ by $c_1$ and greedily color $v_5$, $v_4$, and $v_3$ in order by colors from their lists different from
+the colors of their neighbors.  Otherwise, we have $L(v_1)=L(v_6)=\{c_1,c_2\}$ for some color $c_2$.
+Let $c_3\in L(v_2)$ be a color different from $c_1$ and $c_2$.  We color $v_2$ by $c_3$ and greedily color $v_3$, $v_4$, $v_5$, $v_1$, and $v_6$
+in order.  It follows that $G$ is $4$-colorable, which is a contradiction; hence, (c) holds.
+
+Finally, let us consider (d).  Let $vv_1v_2$, $vv_2v_3v_4v_5$, $vv_5v_6$, and $vv_6v_7v_8v_9$ be the facial walks of
+$g_1$, $f_1$, $g_2$, and $f_2$.  Observe that since $G$ has no parallel edges, no $4$-cycles, and minimum degree at least $4$,
+the vertices $v_1$, \ldots, $v_9$ are pairwise distinct.  By the assumptions, there exists a $4$-coloring $\varphi$ of $G-\{v,v_1,\ldots,v_9\}$.
+Note that $v$ has only one neighbor $y$ colored by $\varphi$, and $v_1$ has at most two neighbors $y_1$ and $y_2$ that are
+colored by $\varphi$.  Hence, we can choose a color $c\in[4]\setminus\{\varphi(y)\}$ such that $|[4]\setminus\{c,\varphi(y_1),\varphi(y_2)\}|\ge 2$.
+Color $v$ by the color $c$, then color vertices $v_9$, $v_8$, \ldots, $v_1$ greedily in order.
+\end{proof}
+
+Now, we can proceed with the discharging phase.
+
+\begin{theorem}\label{thm:no4cproj}
+Every projective-planar graph without $4$-cycles is $4$-colorable.
+\end{theorem}
+\begin{proof}
+Suppose for a contradiction this is not the case, and let $G$ be a
+non-$4$-colorable graph drawn in the projective plane with
+the smallest number of
+vertices.  By Lemma~\ref{lemma:no4cproj-redu}(a), $G$ is connected.
+Let us assign initial charge $\initch(v)=\deg(v)-4$ to each vertex $v$ of $G$,
+and initial charge $\initch(f)=|f|-4$ to each face $f$ of $G$.
+
+If the embedding of $G$ is $2$-cell, then the sum of the initial charges
+is $-4$ by Lemma~\ref{lemma:initch}.  If the embedding is not $2$-cell, then
+since $G$ is connected, there exists a unique face of $G$ whose interior contains
+the crosscap of the projective plane, and $G$ is planar and the sum of the initial charges is $-8$.
+In either case, the total amount of charge is negative.
+
+Next, we redistribute the charge according to the following rules.
+For a $3$-face $g$, let $r(g)$ denote the number of incident vertices of degree
+at least $5$.
+\begin{itemize}
+\item[(R1)] A vertex $v$ of degree at least $5$ incident with a $3$-face $g$ sends $1$ to $g$
+if $\deg(v)\ge 7$, or if $\deg(v)=6$ and $v$ is incident with at most two triangles,
+or if $\deg(v)=6$ and $g$ is the only triagle incident with $v$ satisfying $r(g)=1$.
+The vertex $v$ sends $2/3$ to $g$ if $\deg(v)=6$ and $v$ is incident with three $3$-faces $g$, $g_1$, and $g_2$
+such that $r(g)=r(g_1)=1$.  Otherwise, $v$ sends $1/2$ to $g$.
+\item[(R2)] If a face $f$ shares an edge $uv$ with a $3$-face $g$ such that $\deg(u)=\deg(v)=4$,
+then $f$ sends $1/3$ to $g$ if $r(g)=0$, and $f$ sends $1/5$ to $g$ if $r(g)=1$.
+\item[(R3)] If a face $f$ shares an edge $uv$ with a $3$-face $g$ such that $r(g)=1$ and $\deg(u)=4$ and $\deg(v)\ge 5$,
+then $f$ sends $3/20$ to $g$ if $|f|\ge 6$, or $|f|=5$ and $\deg(v)=5$, or $|f|=5$ and $\deg(v)=6$ and $f$ is incident with a vertex of degree
+at least $5$ distinct from $v$.
+\end{itemize}
+Let $\finch$ denote the final charge after performing the redistribution.
+Note that the total amount of charge is unchanged, and thus the sum of
+final charges is negative.
+
+We argue that each vertex and face has a non-negative final charge,
+which gives a contradiction.  Let us start with vertices: By Lemma~\ref{lemma:no4cproj-redu}(b),
+each vertex $v$ of $G$ has degree at least $4$.  If $\deg(v)=4$, then $v$ sends no charge
+and $\finch(v)=\initch(v)=0$.  Suppose now that $\deg(v)\ge 5$, and let $t$ denote the number
+of $3$-faces incident with $v$.  Since $G$ contains no $4$-cycles, no two $3$-faces are consecutive
+in the cyclic order around $v$, and thus $t\le \lfloor\deg(v)/2\rfloor$.
+If $\deg(v)=5$, then $t\le 2$ and $v$ sends $1/2$ to each incident $3$-face by (R1), and thus
+$\finch(v)=\initch(v)-t/2=1-t/2\ge 0$.  If $\deg(v)\ge 7$, then $v$ sends $1$ to each incident $3$-face by (R1),
+and thus
+$\finch(v)=\initch(v)-t\ge \deg(v)-4-\lfloor\deg(v)/2\rfloor=\lceil\deg(v)/2\rceil-4\ge 0$.
+So, suppose that $\deg(v)=6$.  If $t\le2$, then $\finch(v)=\initch(v)-t\ge 0$.  If $t=3$, then let $g_1$, $g_2$, and $g_3$
+be the $3$-faces incident with $v$ such that $r(g_1)\le r(g_2)\le r(g_3)$.  If $r(g_2)\ge 2$, then $v$ sends $1/2$ to $g_2$ and to $g_3$,
+and at most $1$ to $g_1$, hence $\finch(v)\ge\initch(v)-2=0$.  If $r(g_2)=1$, then $v$ sends at most $2/3$ to each incident $3$-face,
+and $\finch(v)\ge\initch(v)-2=0$.
+
+Next, consider the charge of the faces.  Let $g$ be a $3$-face; since $G$ does not contain $4$-cycles
+and has minimum degree greater than $2$, all faces that share an edge with $g$ have length at least $5$,
+and thus $g$ sends no charge.  If $r(g)\ge 2$, then $g$ receives at least $1/2$ from each incident vertex of degree at least $5$ by (R1)
+and thus $g$ receives at least $1$ in total.
+If $r(g)=0$, then $g$ receives $1/3$ from each face with that it shares an edge by (R2).
+Hence, suppose that $r(g)=1$, and let $v$ be the vertex of degree at least $5$ incident with $g$.  Note that
+$g$ receives $1/5$ from the face opposite to $v$ by (R2).  If $\deg(v)=5$, then $g$ receives $1/2$ from $v$ by (R1)
+and $3/20$ from each of the two faces with that $g$ shares an edge incident with $v$ by (R3), and the total amount received
+is $1/5+1/2+2\times 3/20=1$.  If $\deg(v)=7$, or $\deg(v)=6$ and $v$ is inicident with at most two $3$-faces,
+or $\deg(v)=6$ and $g$ is the only $3$-face with $r(g)=1$ incident with $v$, then $g$ receives $1$ from $v$ by (R1).
+Finally, suppose that $\deg(v)=6$, $v$ is incident with three $3$-faces, and a $3$-face $g_1\neq g$ incident with $v$ satisfies $r(g_1)=1$.
+In this case, $v$ sends $2/3$ to $g$.
+Let $f_1$, $g$, $f_2$, $g_1$ be faces incident with $v$ in order according to the drawing of $G$.
+By Lemma~\ref{lemma:no4cproj-redu}(d), it cannot be the case that both $f_1$ and $f_2$ are $5$-faces whose only incident vertex
+of degree at least $5$ is $v$, and thus either $f_1$ or $f_2$ sends $3/20$ to $g$ by (R3).  The total amount sent to $g$
+is at least $1/5+2/3+3/20>1$.
+In all the cases, the final charge of $g$ is at least $\initch(g)+1=0$.
+
+Finally, let $f$ be a face of length at least $5$.  If $|f|\ge 6$, then $\finch(f)\ge \initch(f)-|f|/3=\frac{2}{3}|f|-4\ge 0$
+by (R2) and (R3).  Hence, suppose that $|f|=5$.  If $f$ sends at most $1/5$ to each incident $3$-face by (R2), then
+$\finch(f)\ge \initch(f)-1=0$.  Hence, suppose that $f$ sends $1/3$ to an incident $3$-face $g$ with $r(g)=0$ by (R2).
+By Lemma~\ref{lemma:no4cproj-redu}(c), not all vertices incident with $f$ have degree $4$.  Let $v_1v_2v_3v_4v_5$ be the boundary
+walk of $f$, where $\deg(v_5)\ge 5$.  If at least one of $v_1$, \ldots, $v_4$ has degree at least $5$, then
+$f$ sends at most $\max(2\times 1/3+2\times 3/20, 1/3+4\times 3/20)<1$ by (R2) and (R3), and $\finch(f)>\initch(f)-1=0$.
+Hence, suppose that $\deg(v_1)=\ldots=\deg(v_4)=4$.  Let $g_1$ and $g_2$ be the faces sharing edges $v_1v_5$ and $v_4v_5$ with $f$,
+respectively.  If $f$ sends charge to neither $g_1$ nor $g_2$ by (R3), then $f$ sends at most $3\times 1/3$ by (R2) and (R3),
+and $\finch(f)\ge \initch(f)-1=0$.  By symmetry, we can assume that $f$ sends positive amount of charge to $g_1$, and thus $g_1$
+is a $3$-face with $r(g_1)=1$.  Since the only vertex incident with $f$ of degree at least $5$ is $v_5$, the rule (R3)
+applies only if $\deg(v_5)=5$.  However, this is not possible by Lemma~\ref{lemma:no4cproj-redu}(c).
+\end{proof}
+
+In the next section, we explain how we came up with the reducible configurations and arcane-looking rules (R1)--(R3).
+However, before that, let us comment on errors that often appear (even in some published) proofs using the method of reducible
+configurations.
+
+\subsection{Common errors}
+Remark on faces bounded by non-cycles.
+
+multiple application of rule (R2)
+
+Pitfall: Vertices appearing more than once in a configuration.
 
 \section{How to find the rules?}\label{sec:rules}
 \begin{itemize}
@@ -288,14 +436,14 @@ Example: $3$-colorability with no 4 to 9 cycles
 \section{Easy Examples?}
 
 \begin{itemize}
+\item $3$-colorability with no 4 to 9 cycles
 \item (say from Cranston and West), e.g. $5/2$ coloring for planar graphs?
 \end{itemize}
 
 \section{Trick: A Precolored Face}
 
 Use precolored face to get rid of short cycles. Example: no $4$ to $7$ (or $8$?), $3$-coloring?
-
-Pitfall: Vertices appearing more than once in a configuration.
+% averaging on long faces
  
 \section{The Short Discharging Proof of Grotzsch's theorem (Zdenek's proof)}
 
