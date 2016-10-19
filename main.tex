@@ -1,5 +1,6 @@
 \documentclass[12pt,twoside,openright,a4paper]{book}
 \usepackage{graphicx}
+\usepackage{asymptote}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{makeidx}
@@ -12,6 +13,34 @@
 \newcommand{\initch}{\text{ch}_0}
 \newcommand{\finch}{\text{ch}}
 \newcommand{\GG}{\mathcal{G}}
+
+\begin{asydef}
+unitsize(10mm);
+
+void vertex(pair a, pen barva=white)
+{
+  filldraw(circle (a, 0.1), fillpen=barva);
+}
+
+void outnbrs(pair a, real d, int n)
+{
+  if (n == 0)
+    return;
+
+  if (n == 1)
+    {
+      draw(a--(a+0.3dir(d)));
+      return;
+    }
+
+  int i;
+  for (i = 0; i < n; ++i)
+    draw(a -- (a + 0.3dir((d-25)+50i/(n-1))));
+}
+
+pair v[];
+int i,j;
+\end{asydef}
 
 \begin{document}
 \pagestyle{empty}
@@ -283,7 +312,66 @@ and nowadays the choice of charge summing to negative is more popular, this will
 \section{A more substantial example}
 
 We now give a further example demonstrating more of the aspects of the method.  Specifically, we will show that all
-projective-planar graphs without $4$-cycles are $4$-colorable.  Let us start with the reducible configurations.
+projective-planar graphs without $4$-cycles are $4$-colorable.  Let us start with the reducible configurations (see Figure~\ref{fig:no4cproj-redu}).
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[0]=(0,0);
+
+for (i = 0; i < 5; ++i)
+  v[i+1]=(3.2,1) + 1.2dir(-90-72i);
+v[6] = 0.5(v[3]+v[4])+(0,0.9);
+
+v[7] = (8,0);
+for (i = 0; i < 9; ++i)
+  v[8+i] = v[7]+2.5dir(160-140i/8);
+
+draw(v[3]--v[6]--v[4]--v[5]--v[1]--v[2]--v[3]--v[4]);
+draw(v[7]--v[8]--v[9]--v[10]--v[11]--v[12]--v[13]--v[14]--v[15]--v[16]--v[7]--v[9]);
+draw(v[12]--v[7]--v[13]);
+
+outnbrs (v[0],90,3);
+outnbrs (v[1],-90,2);
+outnbrs (v[2],-90-72,2);
+outnbrs (v[3],135,2);
+outnbrs (v[4],45,1);
+outnbrs (v[5],-18,2);
+outnbrs (v[6],90,2);
+outnbrs (v[7],-90,1);
+outnbrs (v[8],180,2);
+for (i = 1; i < 8; ++i)
+  outnbrs(v[8+i], 160-140i/8, i==1 || i==4 || i == 5 ? 1 : 2);
+outnbrs (v[16],0,2);
+
+for (i = 0; i <=16; ++i)
+  vertex(v[i]);
+
+label("$v_1$", v[3],SE);
+label("$v_2$", v[4],E);
+label("$v_3$", v[5],NE);
+label("$v_4$", v[1],E);
+label("$v_5$", v[2],NW);
+label("$v_6$", v[6],E);
+
+label("$v$", v[7],SE);
+label("$v_1$", v[8],E);
+label("$v_2$", v[9],E);
+label("$v_3$", v[10],SE);
+label("$v_4$", v[11],SE);
+label("$v_5$", v[12],SE);
+label("$v_6$", v[13],SE);
+label("$v_7$", v[14],S);
+label("$v_8$", v[15],SW);
+label("$v_9$", v[16],S);
+
+label("(b)", v[0]+(0,-1));
+label("(c)", v[1]+(0,-1));
+label("(d)", v[7]+(0,-1));
+\end{asy}
+\end{center}
+\caption{Reducible configurations from Lemma~\ref{lemma:no4cproj-redu}}\label{fig:no4cproj-redu}
+\end{figure}
 
 \begin{lemma}\label{lemma:no4cproj-redu}
 Let $G$ be a graph with no $4$-cycles drawn in the projective plane, such that every projective-planar graph
@@ -327,9 +415,13 @@ in order.  It follows that $G$ is $4$-colorable, which is a contradiction; hence
 Finally, let us consider (d).  Let $vv_1v_2$, $vv_2v_3v_4v_5$, $vv_5v_6$, and $vv_6v_7v_8v_9$ be the facial walks of
 $g_1$, $f_1$, $g_2$, and $f_2$.  Observe that since $G$ has no parallel edges, no $4$-cycles, and minimum degree at least $4$,
 the vertices $v_1$, \ldots, $v_9$ are pairwise distinct.  By the assumptions, there exists a $4$-coloring $\varphi$ of $G-\{v,v_1,\ldots,v_9\}$.
-Note that $v$ has only one neighbor $y$ colored by $\varphi$, and $v_1$ has at most two neighbors $y_1$ and $y_2$ that are
-colored by $\varphi$.  Hence, we can choose a color $c\in[4]\setminus\{\varphi(y)\}$ such that $|[4]\setminus\{c,\varphi(y_1),\varphi(y_2)\}|\ge 2$.
-Color $v$ by the color $c$, then color vertices $v_9$, $v_8$, \ldots, $v_1$ greedily in order.
+Note that $v$ has only one neighbor $y$ colored by $\varphi$, and $v_1$ has exactly two neighbors $y_1$ and $y_2$ that are
+colored by $\varphi$ (since $v_1$ cannot be adjacent to $v_3$, \ldots, $v_9$ by the absence of $4$-cycles).
+Hence, we can choose a color $c\in[4]\setminus\{\varphi(y)\}$ such that $|[4]\setminus\{c,\varphi(y_1),\varphi(y_2)\}|\ge 2$.
+Color $v$ by the color $c$, then color vertices $v_9$, $v_8$, \ldots, $v_1$ greedily in order using colors different
+from the colors of their neighbors colored earlier (note that even if there are some
+edges among $v_2$, \ldots, $v_9$ not contained in the path $v_2\ldots v_9$, this does not affect the validity of the
+greedy coloring procedure).
 \end{proof}
 
 Now, we can proceed with the discharging phase.
@@ -421,17 +513,186 @@ However, before that, let us comment on errors that often appear (even in some p
 configurations.
 
 \subsection{Common errors}
-Remark on faces bounded by non-cycles.
 
-multiple application of rule (R2)
+Dealing with planar graphs or graphs embedded on other surfaces has an advantage of easy visualisation.
+The disadvantage is the ease of drawing missleading pictures.
 
-Pitfall: Vertices appearing more than once in a configuration.
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[0]=(0,0);
+v[1]=v[0]+3dir(120);
+v[2]=v[0]+3dir(60);
+v[3]=v[0]+1.5dir(105);
+v[4]=v[0]+1.5dir(75);
+draw(v[0]--v[1]--v[2]--v[0]--v[3]--v[4]--cycle);
+for (i = 0; i < 5; ++i)
+  vertex(v[i]);
+label ("$v_1=v_4$", v[0], S);
+label ("$v_2$", v[1], NW);
+label ("$v_3$", v[2], NE);
+label ("$v_5$", v[4], NE);
+label ("$v_6$", v[3], NW);
+
+label ("$f$", v[0] + 2dir(90));
+\end{asy}
+\end{center}
+\caption{A face not bounded by a cycle.}\label{fig:noncycface}
+\end{figure}
+
+A common source of errors is the assumption that faces must be bounded by cycles.  Even excluding faces with disconnected boundary,
+this is not necessarily the case; e.g., a $6$-face $f$ may be bounded by walk $v_1\ldots v_6$ with $v_1=v_4$, see Figure~\ref{fig:noncycface}.
+When coloring graphs without $6$-cycles, it would therefore be wrong to argue that such graphs do not have $6$-faces and skip their
+discussion in the discharging\footnote{We skipped the discussion of $4$-faces in our proof of Theorem~\ref{thm:no4cproj}, which
+we suspect did not bother the reader till now.  In our case, this is actually safe---if $v_1v_2v_3v_4$ is a boundary walk of a $4$-face
+and say $v_1=v_3$, then since the graphs we consider do not have parallel edges, it must actually be that $v_1v_2$ and $v_2v_3$
+is the same edge incident twice and consecutively with the face, and thus $v_2$ would have degree $1$, which is excluded by Lemma~\ref{lemma:no4cproj-redu}(b).}.
+
+The usual way to deal with this issue is to argue that the considered hypothetical minimum counterexample must be $2$-connected
+(which is often easy, as we will see in later examples).  In plane graphs, this is equivalent with the statement that all faces
+are bounded by cycles.  However, in graphs embedded in other surfaces, this is not true---there exist $2$-connected graphs
+drawn with representativity $1$---and thus one needs to be more careful and consider the existence of faces not bounded by cycles
+both in the discharging and the discussion of reducible configurations.
+
+On a related note, one often sees formulations like ``if a vertex $v$ is incident with a face $f$ satisfying some conditions,
+then $v$ sends $x$ units of charge to $f$'' in the discharging rules.  Unless $f$ is bounded by a cycle, this is ambiguous;
+if $v$ appears $k$ times in the boundary walk of $f$, does $v$ send $x$ or $kx$ units of charge to $f$?  Almost always the latter
+is the correct interpretation, and this is actually rarely a source of substantial problems with the proof, but still it is better to
+be careful.
+
+There is a similar source of (at least formal) problems in the proofs of reducibility of configurations.
+It is easiest to illustrate it by an example.
+Let us demonstate another reducible configuration we could have used in the proof of Theorem~\ref{thm:no4cproj}
+(if it turned out those obtained in Lemma~\ref{lemma:no4cproj-redu} are not up to the task).
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[1]=(0,0);
+v[2]=v[1]+2dir(0);
+v[3]=v[1]+2dir(60);
+for (i = 0; i < 3; ++i)
+  v[4+i]=v[1]+1.5dir(114) + 1.5dir(-66+(2+i)*72);
+for (i = 0; i < 4; ++i)
+  v[7+i]=v[2]+1.5dir(60) + 1.5dir(-120-(2+i)*60);
+
+draw(v[1]--v[6]--v[5]--v[4]--v[3]--v[7]--v[8]--v[9]--v[10]--v[2]--v[1]--v[3]--v[2]);
+outnbrs(v[1],-90,2);
+outnbrs(v[2],-90,2);
+outnbrs(v[4],90,2);
+outnbrs(v[5],120,2);
+outnbrs(v[6],180,2);
+outnbrs(v[7],90,2);
+outnbrs(v[8],60,2);
+outnbrs(v[9],0,2);
+outnbrs(v[10],-30,2);
+for (i = 1; i < 11; ++i)
+  vertex(v[i]);
+
+label("$v_1$", v[1], NW);
+label("$v_2$", v[2], NE);
+label("$v_3$", v[3], N);
+label("$x_1$", v[4], S);
+label("$x_2$", v[5], SW);
+label("$x_3$", v[6], S);
+label("$y_1$", v[7], S);
+label("$y_2$", v[8], SW);
+label("$y_3$", v[9], W);
+label("$y_4$", v[10], NW);
+
+label("$f_1$", v[1]+1.5dir(114));
+label("$f_2$", v[2]+1.5dir(60));
+\end{asy}
+\end{center}
+\caption{A configuration from Lemma~\ref{lemma:false-redu}.}\label{fig:false-redu-nf}
+\end{figure}
+
+\begin{lemma}\label{lemma:false-redu}
+Let $G$ be a graph with no $4$-cycles drawn in the projective plane, such that every projective-planar graph
+with no $4$-cycles and with fewer than $|V(G)|$ vertices is $4$-colorable, but $G$ itself is not $4$-colorable.
+Let $g$ be a $3$-face of $G$ bounded by a cycle $v_1v_2v_3$, where $\deg(v_1)=\deg(v_2)=5$ and $\deg(v_3)=4$.
+If the edge $v_1v_3$ is incident with a $5$-face $f_1$ and the edge $v_2v_3$ is incident with a $6$-face $f_2$,
+then at least one vertex incident with $f_1$ or $f_2$ distinct from $v_1$ and $v_2$ has degree at least $5$.
+\end{lemma}
+\begin{proof}[A flawed proof]
+Similarly to the proof of Lemma~\ref{lemma:no4cproj-redu}(c), we argue that $f_1$ and $f_2$ are bounded by cycles,
+say $v_1v_3x_1x_2x_3$ and $v_2v_3y_1y_2y_3y_4$, respectively; see Figure~\ref{fig:false-redu-nf}.  By the assumptions, there exists a $4$-coloring $\varphi$
+of the subgraph of $G$ obtained by removing vertices incident with $f_1$ and $f_2$.
+For each vertex $x$ incident with $f_1$ or $f_2$, let $L(x)$ denote the subset of $[4]$ consisting of the colors not
+appearing on the neighbors of $x$ in the coloring $\varphi$; we have $|L(x)|\ge 2$ for all such vertices except for $v_3$,
+which has $L(v_3)=[4]$.  We now need to extend $\varphi$ by coloring the vertices from the lists given by $L$.
+
+If there exists a color $c\in L(v_1)$ such that $|L(v_2)\setminus \{c\}|\ge 2$, then color $v_1$ by $c$, color
+$x_3$, $x_2$, and $x_1$ greedily in order, and remove $c$ and the color of $x_1$ from the list of $v_3$.  It is
+easy to see that the $6$-cycle bounding $f_2$ can be colored from the resulting lists of size at least two.
+
+Hence, we can assume that there exists no such color, and thus $v_1$ and $v_2$ have the same list of size two, say $L(v_1)=L(v_2)=\{1,2\}$.
+Remove the colors $1$ and $2$ from the list of $v_3$ and note that we color the $10$-cycle $v_1x_3x_2x_1v_3y_1y_2y_3y_4v_2$ (ignoring the now
+irrelevant edges $v_1v_3$ and $v_2v_3$) from the resulting lists of size at least two.
+\end{proof}
+Did you spot the error?  The problem is that it might be the case that $x_2=y_3$ and the lists $L$ obtained in the first paragraph
+of the ``proof'' might be the ones depicted in Figure~\ref{fig:false-redu-flaw}---it is easy to see that there is no proper coloring
+from these lists.  This kind of omissions is quite common in the literature.
+
+Let us remark that even if we assumed that $f_1$ and $f_2$ only share the vertex $v_3$, we would still need to additionally discuss
+possible edges between the incident vertices (e.g, there might be an edge joining $x_2$ and $y_2$), which also change the subgraph
+to that we extend the coloring $\varphi$.
 
 \section{How to find the rules?}\label{sec:rules}
-\begin{itemize}
-\item Comments on the choice of the initial charge, iteration between improving discharging rules and finding reducible configurations.
-\item Rule values via linear programming, obstructions from dual solution. (What does this mean?)
-\end{itemize}
+
+In this section, let us give a semi-fictional story of how we came up with the reducible configurations
+and rules from the proof of Theorem~\ref{thm:no4cproj}.  The actual story had a bit more of a trial-and-error,
+including introduction of a reducible configuration that we did not use at the end; but the cleaner version
+we present here should hopefully be instructive enough.
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[1]=(0,0);
+v[2]=v[1]+2dir(0);
+v[3]=v[1]+2dir(60);
+for (i = 0; i < 3; ++i)
+  v[4+i]=v[1]+1.5dir(114) + 1.5dir(-66+(2+i)*72);
+v[7]=v[2]+1.5dir(60) + 1.5dir(-240)+(0,-1);
+v[8]=v[2]+1.5dir(60) + 1.5dir(-120-3*60)+(-0.5,0);
+for (i = 2; i < 4; ++i)
+  v[7+i]=v[2]+1.5dir(60) + 1.5dir(-120-(2+i)*60);
+v[11] = (1,4.5);
+
+draw(v[1]--v[6]{dir(120)}..v[11]--v[4]--v[3]--v[7]--v[8]--v[11]{dir(20)}..v[10]--v[2]--v[1]--v[3]--v[2]);
+outnbrs(v[1],-90,2);
+outnbrs(v[2],-90,2);
+outnbrs(v[4],0,2);
+outnbrs(v[6],225,2);
+outnbrs(v[7],90,2);
+outnbrs(v[8],180,2);
+outnbrs(v[10],-60,2);
+for (i = 1; i <= 11; ++i)
+  if (i != 5 && i != 9)
+    vertex(v[i]);
+
+label("$f_1$", v[1]+1.5dir(114));
+label("$f_2$", v[2]+1.5dir(60));
+
+label(scale(0.8)*Label("12"), v[1], NW);
+label(scale(0.8)*Label("12"), v[2], NE);
+label(scale(0.8)*Label("1234"), v[3], N);
+label(scale(0.8)*Label("34"), v[4], W);
+label(scale(0.8)*Label("12"), v[6], NE);
+label(scale(0.8)*Label("34"), v[7], S);
+label(scale(0.8)*Label("34"), v[8], E);
+label(scale(0.8)*Label("12"), v[10], NW);
+label(scale(0.8)*Label("1234"), v[11], N);
+\end{asy}
+\end{center}
+\caption{The problem with the proof of Lemma~\ref{lemma:false-redu}.}\label{fig:false-redu-flaw}
+\end{figure}
+
+...
+
+\subsection{Discharging rules and linear programming}
+
+Rule values via linear programming, obstructions from dual solution. (What does this mean?)
 
 \section{Easy Examples?}
 
