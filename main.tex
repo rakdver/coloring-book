@@ -453,9 +453,9 @@ or if $\deg(v)=6$ and $g$ is the only triagle incident with $v$ satisfying $r(g)
 The vertex $v$ sends $2/3$ to $g$ if $\deg(v)=6$ and $v$ is incident with three $3$-faces $g$, $g_1$, and $g_2$
 such that $r(g)=r(g_1)=1$.  Otherwise, $v$ sends $1/2$ to $g$.
 \item[(R2)] If a face $f$ shares an edge $uv$ with a $3$-face $g$ such that $\deg(u)=\deg(v)=4$,
-then $f$ sends $1/3$ to $g$ if $r(g)=0$, and $f$ sends $1/5$ to $g$ if $r(g)=1$.
+then $f$ sends $1/3$ to $g$ if $r(g)=0$, and $f$ sends $1/6$ to $g$ if $r(g)=1$.
 \item[(R3)] If a face $f$ shares an edge $uv$ with a $3$-face $g$ such that $r(g)=1$ and $\deg(u)=4$ and $\deg(v)\ge 5$,
-then $f$ sends $3/20$ to $g$ if $|f|\ge 6$, or $|f|=5$ and $\deg(v)=5$, or $|f|=5$ and $\deg(v)=6$ and $f$ is incident with a vertex of degree
+then $f$ sends $1/6$ to $g$ if $|f|\ge 6$, or $|f|=5$ and $\deg(v)=5$, or $|f|=5$ and $\deg(v)=6$ and $f$ is incident with a vertex of degree
 at least $5$ distinct from $v$.
 \end{itemize}
 Let $\finch$ denote the final charge after performing the redistribution.
@@ -483,24 +483,24 @@ and thus $g$ sends no charge.  If $r(g)\ge 2$, then $g$ receives at least $1/2$ 
 and thus $g$ receives at least $1$ in total.
 If $r(g)=0$, then $g$ receives $1/3$ from each face with that it shares an edge by (R2).
 Hence, suppose that $r(g)=1$, and let $v$ be the vertex of degree at least $5$ incident with $g$.  Note that
-$g$ receives $1/5$ from the face opposite to $v$ by (R2).  If $\deg(v)=5$, then $g$ receives $1/2$ from $v$ by (R1)
-and $3/20$ from each of the two faces with that $g$ shares an edge incident with $v$ by (R3), and the total amount received
-is $1/5+1/2+2\times 3/20=1$.  If $\deg(v)=7$, or $\deg(v)=6$ and $v$ is inicident with at most two $3$-faces,
+$g$ receives $1/6$ from the face opposite to $v$ by (R2).  If $\deg(v)=5$, then $g$ receives $1/2$ from $v$ by (R1)
+and $1/6$ from each of the two faces with that $g$ shares an edge incident with $v$ by (R3), and the total amount received
+is $1/2+3\times 1/6=1$.  If $\deg(v)=7$, or $\deg(v)=6$ and $v$ is inicident with at most two $3$-faces,
 or $\deg(v)=6$ and $g$ is the only $3$-face with $r(g)=1$ incident with $v$, then $g$ receives $1$ from $v$ by (R1).
 Finally, suppose that $\deg(v)=6$, $v$ is incident with three $3$-faces, and a $3$-face $g_1\neq g$ incident with $v$ satisfies $r(g_1)=1$.
 In this case, $v$ sends $2/3$ to $g$.
 Let $f_1$, $g$, $f_2$, $g_1$ be faces incident with $v$ in order according to the drawing of $G$.
 By Lemma~\ref{lemma:no4cproj-redu}(d), it cannot be the case that both $f_1$ and $f_2$ are $5$-faces whose only incident vertex
-of degree at least $5$ is $v$, and thus either $f_1$ or $f_2$ sends $3/20$ to $g$ by (R3).  The total amount sent to $g$
-is at least $1/5+2/3+3/20>1$.
+of degree at least $5$ is $v$, and thus either $f_1$ or $f_2$ sends $1/6$ to $g$ by (R3).  The total amount sent to $g$
+is at least $2/3+2\times 1/6=1$.
 In all the cases, the final charge of $g$ is at least $\initch(g)+1=0$.
 
 Finally, let $f$ be a face of length at least $5$.  If $|f|\ge 6$, then $\finch(f)\ge \initch(f)-|f|/3=\frac{2}{3}|f|-4\ge 0$
-by (R2) and (R3).  Hence, suppose that $|f|=5$.  If $f$ sends at most $1/5$ to each incident $3$-face by (R2), then
-$\finch(f)\ge \initch(f)-1=0$.  Hence, suppose that $f$ sends $1/3$ to an incident $3$-face $g$ with $r(g)=0$ by (R2).
+by (R2) and (R3).  Hence, suppose that $|f|=5$.  If $f$ sends at most $1/6$ to each incident $3$-face by (R2), then
+$\finch(f)\ge \initch(f)-5/6>0$.  Hence, suppose that $f$ sends $1/3$ to an incident $3$-face $g$ with $r(g)=0$ by (R2).
 By Lemma~\ref{lemma:no4cproj-redu}(c), not all vertices incident with $f$ have degree $4$.  Let $v_1v_2v_3v_4v_5$ be the boundary
 walk of $f$, where $\deg(v_5)\ge 5$.  If at least one of $v_1$, \ldots, $v_4$ has degree at least $5$, then
-$f$ sends at most $\max(2\times 1/3+2\times 3/20, 1/3+4\times 3/20)<1$ by (R2) and (R3), and $\finch(f)>\initch(f)-1=0$.
+$f$ sends at most $\max(2\times 1/3+2\times 1/6, 1/3+4\times 1/6)=1$ by (R2) and (R3), and $\finch(f)\ge \initch(f)-1=0$.
 Hence, suppose that $\deg(v_1)=\ldots=\deg(v_4)=4$.  Let $g_1$ and $g_2$ be the faces sharing edges $v_1v_5$ and $v_4v_5$ with $f$,
 respectively.  If $f$ sends charge to neither $g_1$ nor $g_2$ by (R3), then $f$ sends at most $3\times 1/3$ by (R2) and (R3),
 and $\finch(f)\ge \initch(f)-1=0$.  By symmetry, we can assume that $f$ sends positive amount of charge to $g_1$, and thus $g_1$
@@ -512,7 +512,7 @@ In the next section, we explain how we came up with the reducible configurations
 However, before that, let us comment on errors that often appear (even in some published) proofs using the method of reducible
 configurations.
 
-\subsection{Common errors}
+\subsection{Common errors}\label{ssec:errors}
 
 Dealing with planar graphs or graphs embedded on other surfaces has an advantage of easy visualisation.
 The disadvantage is the ease of drawing missleading pictures.
@@ -640,10 +640,11 @@ to that we extend the coloring $\varphi$.
 
 \section{How to find the rules?}\label{sec:rules}
 
-In this section, let us give a semi-fictional story of how we came up with the reducible configurations
-and rules from the proof of Theorem~\ref{thm:no4cproj}.  The actual story had a bit more of a trial-and-error,
-including introduction of a reducible configuration that we did not use at the end; but the cleaner version
-we present here should hopefully be instructive enough.
+In this section, let us give a semi-fictional story\footnote{The actual story had a bit more of a trial-and-error,
+including introduction of a reducible configuration that we did not use in the end and a last-minute change
+in the discharging rules to match what we ended up describing in this section; but the cleaner version
+should hopefully be instructive enough.} of how we came up with the reducible configurations
+and rules from the proof of Theorem~\ref{thm:no4cproj}.
 
 \begin{figure}
 \begin{center}
@@ -688,11 +689,105 @@ label(scale(0.8)*Label("1234"), v[11], N);
 \caption{The problem with the proof of Lemma~\ref{lemma:false-redu}.}\label{fig:false-redu-flaw}
 \end{figure}
 
-...
+Let us consider a minimal counterexample $G$ to Theorem~\ref{thm:no4cproj}.
+We start with the obvious observation that since we are $4$-coloring the graph, $G$ has minimum degree at least $4$.
+Furthermore, since $G$ has no $4$-cycles, all its faces have length $3$ or at least $5$ (at this stage, we can just
+ignore the issues raised in Subsection~\ref{ssec:errors}, as long as we remember to consider them in the final proof).
+Considering the options from Lemma~\ref{lemma:initch}, it is natural to assign charge $\deg(v)-4$ to each vertex $v$
+and $|f|-4$ to each face $f$, so that the negative charge appears only on $3$-faces.
+
+Since $G$ contains no $4$-cycles, each face $f$ sharing an edge with a $3$-face $g$ must have length at least $5$, and thus it has positive charge.
+As $g$ is incident with three such faces, it is natural to discharge $g$ by sending $1/3$ from each such face, giving
+us the following precursor of rules (R2) and (R3):
+\begin{itemize}
+\item[(R2')] If a face $f$ shares an edge with a $3$-face $g$, then $f$ sends $1/3$ to $g$.
+\end{itemize}
+We did not do anything with the (nonnegative) charges of vertices, (R2') was designed to make charge of triangles $0$,
+and if $f$ is a face of length at least $6$, then its charge decreases by at most $|f|/3$ using rule (R2'),
+giving its final charge at least $|f|-4-|f|/3\ge 0$.
+
+Hence, the only place where we now have negative charges are $5$-faces---the extreme case being a $5$-face $f$ sharing
+edges with five $3$-faces $g_1$, \ldots, $g_5$, which now has charge $-2/3$.  We still have positive charge on vertices
+whose degree is at least $5$; but if there is no such vertex incident with $f$ or $g_1$, \ldots, $g_5$, it would be difficult
+to formulate a rule to redirect this charge to $f$.  So, let us try to find a reducible configuration in the case that
+all vertices incident with $f$, $g_1$, \ldots, $g_5$ have degree $4$.  Now, using Theorem~\ref{thm:gallaiforest}, we see that
+any $2$-connected subgraph consisting of vertices of degree $4$ different from an odd cycle is reducible.  Thus, we need even
+less to find a reducible configuration: a $5$-face $f$ sharing an edge with a $3$-face $g$ such that all vertices incident with $f$
+and $g$ have degree $4$.  We will refer to this configuration (a special case of the configuration from Lemma~\ref{lemma:no4cproj-redu}(c))
+as (c').
+
+So, in the discussed situation of a $5$-face $f$ sharing edge with $3$-faces $g_1$, \ldots, $g_5$, we know that either $f$
+or all of $g_1$, \ldots, $g_5$ are incident with a $(\ge\!5)$-vertex, and we need to move its charge somehow to $f$.
+There are multiple semi-equivalent ways how to achieve that in the rules: we could write a rule directly moving the charge from
+the vertex to $f$; or, as we decided to do in our proof of Theorem~\ref{thm:no4cproj}, we can move this charge to the incident
+triangle, and then decrease the amount of charge that needs to be sent to $3$-faces from incident faces. Which choice leads to
+simpler analysis depends on circumstances (and the personal preference) and typically needs a bit of an experimentation.
+
+Anyway, let us go with our choice to send the charge from vertices of degree at least $5$ to incident $3$-faces first.
+How much charge can we send? Vertex of degree $5$ has charge $1$ and can be incident with up to two $3$-faces,
+so sending $1/2$ is a safe option (this will leave positive charge on vertices of larger degree, which we may find
+useful later).
+\begin{itemize}
+\item[(R1')] A vertex $v$ of degree at least $5$ incident with a $3$-face $g$ sends $1/2$ to $g$.
+\end{itemize}
+A $3$-face $g$ with $r(g)\ge 2$ now has non-negative charge, and thus we do not need to send it anything more.
+A $3$-face $g$ with $r(g)=0$ is unaffected and thus we keep the rule (R2') for such faces unchanged.
+The interesting case is a $3$-face $g$ with $r(g)=1$, bounded by a $3$-cycle $v_1v_2v_3$ with $\deg(v_3)\ge 5$.
+After executing (R1'), this face has charge $-1/2$, which we need to obtain from the neighboring faces.
+Unlike the case $r(g)=0$, the situation is not symmetric---it may be useful to send different amounts of charge
+across the edge $v_1v_2$ and across the edges incident with $v_3$.  But since at the moment we do not have
+much idea what amounts would be appropriate, let us go with the symmetric option for now, and let us
+replace (R2') by the following rule.
+\begin{itemize}
+\item[(R2'')] If a face $f$ shares an edge with a $3$-face $g$, then $f$ sends $\max(2-r(g),0)/6$ to $g$.
+\end{itemize}
+Now, if a $5$-face $f$ is incident with at least two vertices of degree at least $5$, then $f$ sends
+at most $\max\bigl(2\times \frac{1}{3}+2\times\frac{1}{6},\frac{1}{3}+4\times\frac{1}{6}\bigr)=1$
+by (R2''), and the final charge of $f$ is non-negative.  If all vertices incident with $f$ have degree $4$,
+then by (c') $f$ cannot share an edge with a face $g$ with $r(g)=0$, and thus $f$ sends at most $5/6$ by (R2'').
+Hence, suppose that $f$ is bounded by the cycle $v_1\ldots v_5$ with $\deg(v_5)\ge 5$ and $\deg(v_1)=\ldots=\deg(v_4)$.
+Then $f$ may send $3\times \frac{1}{3}$ over edges $v_1v_2$, $v_2v_3$, and $v_3v_4$ by (R2''), and if
+say the edge $v_1v_5$ is shared with a $3$-face $g$ with $r(g)=1$, then sending $1/6$ to $g$ will make the charge
+of $f$ negative; let us call this situation \emph{the light $5$-face}.
+
+We now have two options: modify rule (R2'') to deal with this situation, or to try to find another reducible configuration.
+The former turns out to be a bad idea (if $g$ did not receive any charge from $f$, it might for the same reason
+not be able to receive any charge across its other edge incident with $v_5$, and thus it would have to receive charge
+$1/2$ from the third face $f'$ with that it shares an edge, which would likely lead to shortage of charge in $f'$).
+So, we try to work out whether the configuration we now have (a $5$-face with exactly one vertex $v_5$ of degree greater than $4$,
+such that one edge of $f$ incident with $v_5$ is shared with a $3$-face $g$ satisfying $r(g)=1$) is reducible.
+And we saw in Lemma~\ref{lemma:no4cproj-redu}(c), this turns out to be the case when $\deg(v_5)=5$.
+
+Hence, suppose that $\deg(v_5)\ge 6$.  In this case we are not able to find a reducible configuration, but we have some
+extra charge to use.  If $\deg(v_5)\ge 7$, then $v_5$ has at least $1$ unit of charge available
+per incident $3$-face, and thus it can fully cover the charge of all such $3$-faces and $f$ does not need to send them anything.
+Similarly, we can discharge the case that $\deg(v_5)=6$ and $v_5$ is incident with at most two $3$-faces,
+or $\deg(v_5)=6$ and $v_5$ is incident with three $3$-faces, but only one $3$-face $g$ satisfying $r(g)=1$.
+
+However, if $\deg(v_5)=6$ and $v_5$ is incident with three $3$-faces, such that at least two of them (say $g$ and $g_1$)
+satisfy $r(g)=r(g_1)=1$, then $v_5$ does not have enough charge to cover the triangles by itself.
+Let $v_1v_5v'_1$ be the triangle bounding $g$.  Worst-case, $v_5$ may be only able to send $2/3$ to $g$, and
+$g$ will receive $1/6$ across the edge $v_1v'_1$, so we still lack $1/6$.  We could modify the rules to only take $1/12$
+from $f$ and the face across the edge $v_5v'_1$, but this does not help in the light $5$-face case, so we need to
+try to redistribute the charge in another way.
+
+We could increase the amount of charge received from the face $f'$ that shares the edge $v_1v'_1$ with $g$ to $1/3$, but that would
+be problematic at $f'$ (what if $f'$ shares edges with four such triangles incident with vertices of degree $6$?).
+Or, we can try to take whole missing amount $1/6$ from the face $f''$ with that $g$ shares the edge $v_5v'_1$;
+but this would again fail if $f''$ also forms the light $5$-face configuration.  As discharging does not seem possible,
+it would be nice to find another reducible configuration in one of these cases.  In the former one, we did not succeed,
+but fortunately the latter one gave us the reducible configuration described in Lemma~\ref{lemma:no4cproj-redu}(d), once
+we recalled that $v_5$ must also be incident with another $3$-face $g_1$ with $r(g_1)=3$.
+
+Rules (R1), (R2), and (R3) are now just a summary of what we decided to do in the last few paragraphs.
+Of course, at this point one needs to again go over all the cases and check the altered rules indeed
+discharge all the vertices and faces; and in more complicated proofs, further iterations of tweaking the rules
+and adding reducible configurations may be needed.
 
 \subsection{Discharging rules and linear programming}
 
 Rule values via linear programming, obstructions from dual solution. (What does this mean?)
+...
 
 \section{Easy Examples?}
 
