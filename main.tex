@@ -548,7 +548,7 @@ we suspect did not bother the reader till now.  In our case, this is actually sa
 and say $v_1=v_3$, then since the graphs we consider do not have parallel edges, it must actually be that $v_1v_2$ and $v_2v_3$
 is the same edge incident twice and consecutively with the face, and thus $v_2$ would have degree $1$, which is excluded by Lemma~\ref{lemma:no4cproj-redu}(b).}.
 
-The usual way to deal with this issue is to argue that the considered hypothetical minimum counterexample must be $2$-connected
+The usual way to deal with this issue is to argue that the considered hypothetical minimal counterexample must be $2$-connected
 (which is often easy, as we will see in later examples).  In plane graphs, this is equivalent with the statement that all faces
 are bounded by cycles.  However, in graphs embedded in other surfaces, this is not true---there exist $2$-connected graphs
 drawn with representativity $1$---and thus one needs to be more careful and consider the existence of faces not bounded by cycles
@@ -644,7 +644,8 @@ In this section, let us give a semi-fictional story\footnote{The actual story ha
 including introduction of a reducible configuration that we did not use in the end and a last-minute change
 in the discharging rules to match what we ended up describing in this section; but the cleaner version
 should hopefully be instructive enough.} of how we came up with the reducible configurations
-and rules from the proof of Theorem~\ref{thm:no4cproj}.
+and rules from the proof of Theorem~\ref{thm:no4cproj}.  At this point, we will give relatively little attention to the
+issue of how to recognize a reducible configuration, as this will be discussed in more detail in Subsection~\ref{ssec:howto-redu}.
 
 \begin{figure}
 \begin{center}
@@ -784,13 +785,94 @@ Of course, at this point one needs to again go over all the cases and check the 
 discharge all the vertices and faces; and in more complicated proofs, further iterations of tweaking the rules
 and adding reducible configurations may be needed.
 
-\subsection{How to find reducible configurations}
-
-...
-
 \subsection{Discharging rules and linear programming}
 
-Rule values via linear programming, obstructions from dual solution. (What does this mean?)
+Of course, in more complicated proofs, it may become hard to guess what the right amounts of charge to
+transfer are, and time consuming to keep track of charges of all the arrangements of vertices and faces
+when the discharging rules change.  In such a situation, it may be useful to use a computer-assisted approach
+to find the amounts via linear programming.  Let us demonstrate this technique again using the setting
+of Theorem~\ref{thm:no4cproj}.
+
+Suppose that we are again at the point of the proof where we do not yet have any reducible configurations
+(beyond noting that a minimal counterexample must have minimum degree at least $4$)
+and we just decided to assign the initial charge $\initch$ to vertices and faces as described before.
+We need to discharge triangles, and let us guess that the amount of charge sent from each face $f$ to a $3$-face $g$
+with that $f$ shares an edge $uv$ will only depend on the degrees of $u$, $v$, and the third vertex $w$ incident with $g$,
+where no disctinction will
+be made between vertices of degree say $7$ and larger degrees.  Thus, for all triples $a,b,c\in\{4,5,6,{\ge\!7}\}$,
+we introduce a variable $x_{abc}$, denoting the amount of charge $f$ sends to $g$ if the degree of $u$ is $a$, the degree of $v$ is $b$,
+and the degree of $w$ is $c$ (to reduce the number of variables, we can of course by symmetry assume $a\le b$).
+Let us also guess that it will suffice to distribute the charge of vertices of degree at least $5$ evenly
+among the incident $3$-faces, so vertices of degree $5$, $6$, and $\ge\!7$ will send at least $1/2$, $2/3$, and $1$ to incident triangles,
+respectively.
+
+For each type of a $3$-face (determined by the degrees of its vertices), we now introduce linear constraints
+describing that its final charge after performing the discharging should be non-negative.  For example, a $3$-face
+incident with vertices of degrees $4$, $4$, and $5$ will receive charge $1/2$ from the vertex of degree $5$ and
+$x_{445}+2x_{454}$ from the incident faces, and thus we need
+$$x_{445}+2x_{454}-1/2=-1+x_{445}+2x_{454}+1/2\ge 0.$$
+
+Next, we need to set up the inequalities for other faces.  A face of length at least $6$ may send up to $1/3$ per edge,
+so let us add constraints
+$$x_{abc}\le 1/3$$
+for all $a,b,c\in\{4,5,6,{\ge\!7}\}$.
+For $5$-faces, we will add inequalities for all possible types, depending on the degrees of incident vertices, whether
+the edges are incident with $3$-faces, and in case they are, on the degrees of their vertices not incident with the $5$-face.
+For example, for a $5$-face bounded by a cycle $v_1\ldots v_5$ of vertices of degree $4$, where each edge $v_iv_{i+1}$ is incident with
+a triangle $g_i$, such that say $r(g_1)=r(g_2)=r(g_3)=0$, $g_4$ is incident with a vertex of degree $5$, and $g_5$ is incident with
+a vertex of degree $6$, we get the inequality
+$$1-3x_{444}-x_{445}-x_{446}\ge 0.$$
+
+If the described linear program was feasible, a solution would give us amounts of charge for each rule.
+However, this turns out not to be the case.  How far we are from being able to discharge everything?
+Let us introduce another variable $\varepsilon$, and let us modify the inequalities for $5$-faces by adding $\varepsilon$ to their
+left-hand sides; i.e., the last inequality becomes
+$$1-3x_{444}-x_{445}-x_{446}+\varepsilon\ge 0.$$
+Let us now minimize $\varepsilon$ subject to these constraints---it turns out the minimum is $2/3$.  That is, we can set up the amounts
+transfered by the rules so that all vertices and faces have non-negative charge, except for $5$-faces which have charge at least $-2/3$.
+Let us remark that since the sum of charges in the projective planar case is $-4$, this means the hypothetical minimal counterexample
+we consider must have at least six $5$-faces.
+
+What do we need to do to get closer to discharge everything?  Let us have a look at an optimum solution for the dual of
+our linear program.  It has only two non-zero variables:
+\begin{itemize}
+\item[(i)] the one corresponding to the inequality $1-5x_{444}+\varepsilon\ge 0$
+(which comes from a $5$-face sharing edge with five $3$-faces $g$ with $r(g)=0$) has value $1$, and
+\item[(ii)] the one corresponding to the inequality $-1+3x_{444}\ge 0$ (which comes from a $3$-face incident only with vertices of degree $4$) has value $5/3$.
+\end{itemize}
+Indeed, the corresponding linear combination gives
+$$\varepsilon-2/3=1-5x_{444}+\varepsilon+\frac{5}{3}(-1+3x_{444})\ge 0.$$
+In order to decrease $\varepsilon$, we need either to alter the discharging rules (so that the inequalities corresponding to
+the situations (i) or (ii) are changed) or to find a reducible configuration excluding (i) or (ii).  While there does not
+seem much we can do in the case (i), the case (ii) is excluded by introducing the reducible configuration (c')---a $5$-face and a $3$-face
+sharing an edge and only incident with vertices of degree $4$.
+
+Therefore, we can remove inequalities for all $5$-face types matching (c') from the linear program.
+Once we do so, the minimum value for $\varepsilon$ decreases to $1/4$, and in a solution to the dual linear program,
+the non-zero variables correspond to the inequalities for the following configurations:
+\begin{itemize}
+\item a $3$-face $g$ with $r(g)=0$,
+\item a $3$-face $g$ with $r(g)=1$ incident with a vertex of degree $5$,
+\item a $5$-face $f$ with all incident vertices of degree 4, such that all edges of $f$ are shared with $3$-faces
+incident with a vertex of degree $5$, and
+\item a $5$-face $f$ incident with a vertex of degree $5$ and all other vertices of degree $4$,
+such that all edges of $f$ are shared with $3$-faces whose vertices not incident with $f$ have degree $4$.
+\end{itemize}
+Among these, the last subcase can be excluded using the reducible configuration given by Lemma~\ref{lemma:no4cproj-redu}(c)\footnote{The next
+to last case also forms a reducible configuration, which however turned out not to be useful in the end, and so we ignore it
+for the purposes of this example.}.
+
+After introducing the configuration from Lemma~\ref{lemma:no4cproj-redu}(c) and removing the matching inequalities,
+the minimum value for $\varepsilon$ decreases to $1/9$, and the dual non-zero variables correspond to the following configurations:
+\begin{itemize}
+\item a $3$-face $g$ with $r(g)=0$,
+\item a $3$-face $g$ with $r(g)=1$ incident with a vertex of degree $6$,
+\item a $5$-face $f$ with all incident vertices of degree 4, such that all edges of $f$ are shared with $3$-faces
+incident with a vertex of degree $6$, and
+\item a $5$-face $f$ incident with a vertex of degree $6$ and all other vertices of degree $4$,
+such that all edges of $f$ are shared with $3$-faces whose vertices not incident with $f$ have degree $4$.
+\end{itemize}
+
 ...
 
 \section{Easy Examples?}
@@ -806,6 +888,8 @@ Use precolored face to get rid of short cycles. Example: no $4$ to $7$ (or $8$?)
 % averaging on long faces
  
 \section{The Short Discharging Proof of Grotzsch's theorem (Zdenek's proof)}
+
+\subsection{How to find reducible configurations}\label{ssec:howto-redu}
 
 \section{On the $4$-color-theorem?}
 

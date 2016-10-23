@@ -656,7 +656,6 @@ gen_eq_triangle_kind (enum vtype a, enum vtype b, enum vtype c)
   ch = r_add (ch, vtype_charge (c));
 
   clear_coefs ();
-  add_coef (rem_id, rat (1, 1));
   add_coef (name_to_id (trirule (a, b, c)), rat (1, 1));
   add_coef (name_to_id (trirule (b, c, a)), rat (1, 1));
   add_coef (name_to_id (trirule (a, c, b)), rat (1, 1));
@@ -857,23 +856,19 @@ static void
 gen_eq_six (void)
 {
   clear_coefs ();
-  add_coef (rem_id, rat (1, 1));
   add_coef (name_to_id ("six_to_nonbitri"), rat (-2, 1));
   write_eq (rat (4,3), "six-one triangle");
 
   clear_coefs ();
-  add_coef (rem_id, rat (1, 1));
   add_coef (name_to_id ("six_to_nonbitri"), rat (-2, 1));
   add_coef (name_to_id ("six_to_light"), rat (-1, 1));
   write_eq (rat (2,3), "six-two triangles adj");
 
   clear_coefs ();
-  add_coef (rem_id, rat (1, 1));
   add_coef (name_to_id ("six_to_nonbitri"), rat (-4, 1));
   write_eq (rat (2,3), "six-two triangles nonadj");
 
   clear_coefs ();
-  add_coef (rem_id, rat (1, 1));
   add_coef (name_to_id ("six_to_light"), rat (-1, 1));
   add_coef (name_to_id ("six_from_nonlight"), rat (2, 1));
   write_eq (rat (0,1), "six-three triangles");
@@ -916,11 +911,11 @@ int main (void)
       for (k = 0; k < LAST_VTYPE; k++)
 	if (GRBaddvar (model, 0, NULL, NULL, 0, -GRB_INFINITY, 1.0/3, GRB_CONTINUOUS, trirule (i, j, k)))
 	  abort ();
-  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, GRB_INFINITY, GRB_CONTINUOUS, "six_to_nonbitri"))
+  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, 0, GRB_CONTINUOUS, "six_to_nonbitri"))
     abort ();
-  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, GRB_INFINITY, GRB_CONTINUOUS, "six_to_light"))
+  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, 0, GRB_CONTINUOUS, "six_to_light"))
     abort ();
-  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, GRB_INFINITY, GRB_CONTINUOUS, "six_from_nonlight"))
+  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, 0, GRB_CONTINUOUS, "six_from_nonlight"))
     abort ();
 
   if (GRBupdatemodel (model))
