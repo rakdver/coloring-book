@@ -869,11 +869,33 @@ the minimum value for $\varepsilon$ decreases to $1/9$, and the dual non-zero va
 \item a $3$-face $g$ with $r(g)=1$ incident with a vertex of degree $6$,
 \item a $5$-face $f$ with all incident vertices of degree 4, such that all edges of $f$ are shared with $3$-faces
 incident with a vertex of degree $6$, and
-\item a $5$-face $f$ incident with a vertex of degree $6$ and all other vertices of degree $4$,
+\item a $5$-face $f$ incident with a vertex $v$ of degree $6$ and all other vertices of degree $4$,
 such that all edges of $f$ are shared with $3$-faces whose vertices not incident with $f$ have degree $4$.
 \end{itemize}
 
-...
+In the last configuration, we might suspect the vertex $v$ of degree $6$ to have some extra charge that it could send to $f$.
+Let us add a rule for this, represented by variable $x_{6l}\ge 0$.  More precisely, the rule is: let $v$ be a vertex of degree $6$
+incident with a $5$-face $f$ such that all other vertices incident with $f$ have degree $4$, and let $e_1$ and $e_2$
+be the edges in the boundary of $f$ incident with $v$.  For $i\in\{1,2\}$, if $f$ shares the edge $e_i$ with a $3$-face $g_i$
+such that $r(g_i)=1$, then $v$ sends $x_{6l}$ to $f$.  Hence, the inequality for the last configuration becomes
+$1-3x_{444}-2x_{464}+2x_{6l}+\varepsilon\ge 0$.  Of course, we also need to add inequalities ensuring that the final charge
+of $6$-vertices is non-negative; e.g., a $6$-vertex incident with two $3$-faces sends $2/3$ to each of them, and may also
+send four times the amount $x_{6l}$, giving the inequality $2/3-4x_{6l}\ge 0$.
+
+A $6$-vertex $z$ incident with three $3$-faces, we observe using Lemma~\ref{lemma:no4cproj-redu}(d) that
+$z$ sends at most $2x_{6l}$ by this new rule.  However, it also sends all its charge to incident $3$-faces,
+and thus we need to find the charge to cover $2x_{6l}$ somewhere else.  By Lemma~\ref{lemma:no4cproj-redu}(d),
+we also see that $z$ is either incident with a $(\ge\!6)$-face, or with a $5$-face incident with more than one $(\ge\!5)$-vertex,
+and it is natural for such a face to cover this charge.  Since $(\ge\!6)$-faces have at least $|f|/3$ units of charge available,
+for them it suffices to add inequalities $1/3-x_{abc}-2x_{6l}\ge 0$ for all $a,b,c\in\{4,5,6,{\ge\!7}\}$.  For $5$-faces,
+we just add the term $-2x_{6l}$ to relevant inequalities.
+
+With these changes, the minimum value of $\varepsilon$ becomes $0$, indicating that we managed to make the final charge
+of vertices and faces non-negative.  We can now read off the amounts sent by the rules from the solution to the linear program.
+Let us remark that linear programming solvers usually do not work in precise arithmetics, and thus one might be concerned
+about the correctness of the proof obtained this way.  It is therefore necessary to verify that the discharging rules with
+the amounts obtained from the linear program (after rounding to rational numbers) work either by hand, or by writing another program
+to test that all vertices and faces are discharged to a non-negative value in exact arithmetics.
 
 \section{Easy Examples?}
 

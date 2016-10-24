@@ -698,7 +698,6 @@ gen_eq_face_type (int len, int intria[], enum vtype type[], enum vtype opptype[]
   int i, ap; 
   enum vtype md = deg4;
   int nmd = 0, idx = -1;
-  int light = 0;
 
   if (len != 5)
     abort ();
@@ -708,10 +707,9 @@ gen_eq_face_type (int len, int intria[], enum vtype type[], enum vtype opptype[]
       if (type[i] > md)
 	{
 	  md = type[i];
-	  nmd = 1;
 	  idx = i;
 	}
-      else if (type[i] == md)
+      if (type[i] > deg4)
 	nmd++;
     }
 
@@ -733,12 +731,16 @@ gen_eq_face_type (int len, int intria[], enum vtype type[], enum vtype opptype[]
   clear_coefs ();
   add_coef (rem_id, rat (1, 1));
 
-  if (md == deg6 && nmd == 1
-      && intria[idx] && opptype[idx] == deg4
-      && intria[(idx + len - 1) % len] && opptype[(idx + len - 1) % len] == deg4)
+  if (md == deg6 && nmd == 1)
     {
-      add_coef (name_to_id ("six_to_light"), rat (1, 1));
-      light = 1;
+      int nl = 0;
+      if (intria[idx] && opptype[idx] == deg4)
+	nl++;
+      if (intria[(idx + len - 1) % len] && opptype[(idx + len - 1) % len] == deg4)
+	nl++;
+
+      if (nl)
+	add_coef (name_to_id ("six_to_light"), rat (nl, 1));
     }
 
   for (i = 0; i < len; i++)
@@ -753,13 +755,9 @@ gen_eq_face_type (int len, int intria[], enum vtype type[], enum vtype opptype[]
 	}
 
       if (type[i] == deg6
-	  && intria[(i + len - 1) % len] + intria[i] == 1)
-	add_coef (name_to_id ("six_to_nonbitri"), rat (1, 1));
-
-      if (type[i] == deg6
 	  && intria[(i + len - 1) % len] && intria[i]
-	  && !light)
-	add_coef (name_to_id ("six_from_nonlight"), rat (-1, 1));
+	  && nmd > 1)
+	add_coef (name_to_id ("six_to_light"), rat (-2, 1));
     }
 
   ap = 0;
@@ -856,22 +854,12 @@ static void
 gen_eq_six (void)
 {
   clear_coefs ();
-  add_coef (name_to_id ("six_to_nonbitri"), rat (-2, 1));
+  add_coef (name_to_id ("six_to_light"), rat (-2, 1));
   write_eq (rat (4,3), "six-one triangle");
 
   clear_coefs ();
-  add_coef (name_to_id ("six_to_nonbitri"), rat (-2, 1));
-  add_coef (name_to_id ("six_to_light"), rat (-1, 1));
-  write_eq (rat (2,3), "six-two triangles adj");
-
-  clear_coefs ();
-  add_coef (name_to_id ("six_to_nonbitri"), rat (-4, 1));
-  write_eq (rat (2,3), "six-two triangles nonadj");
-
-  clear_coefs ();
-  add_coef (name_to_id ("six_to_light"), rat (-1, 1));
-  add_coef (name_to_id ("six_from_nonlight"), rat (2, 1));
-  write_eq (rat (0,1), "six-three triangles");
+  add_coef (name_to_id ("six_to_light"), rat (-4, 1));
+  write_eq (rat (2,3), "six-two triangles");
 
   /* Correction for (>=6)-faces.  */
   enum vtype b, c;
@@ -881,7 +869,7 @@ gen_eq_six (void)
 	char consname[1000];
 	clear_coefs ();
 	add_coef (rem_id, rat (1, 1));
-	add_coef (name_to_id ("six_from_nonlight"), rat (-1, 1));
+	add_coef (name_to_id ("six_to_light"), rat (-2, 1));
 	add_coef (name_to_id (trirule (deg6, b, c)), rat (-1, 1));
 	sprintf (consname, "6-face correction at triangle 6%c%c", vtype_repr[b], vtype_repr[c]);
 	write_eq (rat (1,3), consname);
@@ -911,11 +899,7 @@ int main (void)
       for (k = 0; k < LAST_VTYPE; k++)
 	if (GRBaddvar (model, 0, NULL, NULL, 0, -GRB_INFINITY, 1.0/3, GRB_CONTINUOUS, trirule (i, j, k)))
 	  abort ();
-  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, 0, GRB_CONTINUOUS, "six_to_nonbitri"))
-    abort ();
-  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, 0, GRB_CONTINUOUS, "six_to_light"))
-    abort ();
-  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, 0, GRB_CONTINUOUS, "six_from_nonlight"))
+  if (GRBaddvar (model, 0, NULL, NULL, 0, 0, GRB_INFINITY, GRB_CONTINUOUS, "six_to_light"))
     abort ();
 
   if (GRBupdatemodel (model))
@@ -948,9 +932,7 @@ int main (void)
     for (j = i; j < LAST_VTYPE; j++)
       for (k = 0; k < LAST_VTYPE; k++)
 	dump_rule (trirule (i, j, k));
-  dump_rule ("six_to_nonbitri");
   dump_rule ("six_to_light");
-  dump_rule ("six_from_nonlight");
 
   rational rrem = to_rational (remv);
   printf ("Remains: %d/%d (%.5f)\n", rrem.a, rrem.b, remv);
