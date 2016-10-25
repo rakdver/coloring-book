@@ -754,9 +754,7 @@ gen_eq_face_type (int len, int intria[], enum vtype type[], enum vtype opptype[]
 	  add_coef (name_to_id (trirule (v1, v2, v3)), rat (-1, 1));
 	}
 
-      if (type[i] == deg6
-	  && intria[(i + len - 1) % len] && intria[i]
-	  && nmd > 1)
+      if (type[i] == deg6 && nmd > 1)
 	add_coef (name_to_id ("six_to_light"), rat (-2, 1));
     }
 
