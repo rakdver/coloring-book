@@ -12,6 +12,7 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}{Conjecture}[chapter]
+\newcommand{\col}{\text{col}}
 \newcommand{\initch}{\text{ch}_0}
 \newcommand{\finch}{\text{ch}}
 \newcommand{\GG}{\mathcal{G}}
@@ -89,6 +90,8 @@ Graphs have no loops or parallel edges by default, multigraphs may have parallel
 
 Colorings: $\varphi$, $\psi$, \ldots
 
+List coloring.
+
 $[k]=\{1,\ldots,k\}$.
 
 $P_k$ denotes a path on $k$ vertices, its length is $k-1$.
@@ -123,19 +126,83 @@ $\initch$ for initial charge, $\finch$ for final charge.  Discharging to non-neg
 
 (maximum) average degree/degeneracy/coloring number
 
-\section{Overview of Results}
+\section{Basic results on graph coloring}
 
-Note: How much overview here?
+We assume throughout the book that the reader has a previous knowledge of some basic facts
+about graph coloring, which we summarize here.  Hence, we state them with not much exposition;
+more information can generally be found in any basic graph theory textbook.
+Where possible, we will also give pointers to sections of this book where the results are
+studied in more depth.
+
+\subsection{Greedy coloring, degeneracy, and maximum degree}
+
+\emph{Greedy coloring} is a very basic technique how to color a graph: fix some ordering $v_1$, \ldots, $v_n$ of
+vertices of the graph.  Then assign colors to vertices in order. When coloring the vertex $v_i$ for some $i\in[n]$,
+choose a color not appearing on any preceding neighbors of $v_i$ and use it to color $v_i$.  If all possible colors
+appeared on these neighbors, the procedure would fail; this is usually guaranteed not to happen in the situations where
+we use greedy coloring for a carefully specified ordering of vertices.  Note that this technique can also be used for list coloring.
+Furthermore, it can be used to extend a precoloring of a part of the graph---if an induced subgraph $H$ of a graph $G$ was given
+a coloring, we can fix some ordering of $V(G)\setminus V(H)$ and assign colors in order, so that the colors are different
+from the colors of the adjacent vertices of $V(H)$ as well as preceding adjacent vertices of $V(G)\setminus V(H)$.
+
+Greedy coloring can naturally be applied to the ordering that defines degeneracy of a graph, giving the following result.
+\begin{lemma}\label{lemma:degen}
+Every $d$-degenerate graph has choosability (as well as chromatic number) at most $d+1$; i.e., $\chi(G)\le\chi_l(G)\le \col(G)$.
+\end{lemma}
+
+Clearly, this also implies that a graph of maximum degree at most $\Delta$ has chromatic number
+at most $\Delta+1$.  Brooks~\cite{brooks1941colouring} proved that this bound can be improved, the only exceptions
+being odd cycles and complete graphs.  We will frequently use the following strengthening of Brooks' theorem
+in the list coloring setting~\cite{galfor}.
+\begin{lemma}\label{lemma:gallai1}
+Let $G$ be a $2$-connected graph and let $L$ be a list assignment for $G$ such that $|L(v)|\ge \deg(v)$ for all $v\in V(G)$.
+If $G$ is neither an odd cycle nor a complete graph, then $G$ is $L$-colorable.
+\end{lemma}
+For even more general version of this claim, see Subsection~\ref{ssec-gallai}.
+
+Lemma~\ref{lemma:gallai1} is most often used to extend a precoloring of a part of a graph.
+Let $G$ be a graph with a list assignment $L$ and let $H$ be an induced subgraph of $G$ with an $L$-coloring $\psi$.
+Let $L'$ be an assignment of lists to vertices of $V(G)\setminus V(H)$ such that $L'(v)=L(v)\setminus \{\psi(u):u\in V(H),uv\in E(G)\}$,
+i.e., $L'(v)$ is obtained from $L(v)$ by removing the colors of its neighbors in $H$.  Clearly, $\psi$ extends to an $L$-coloring of $G$
+if and only if the subgraph $J$ of $G$ induced by $V(G)\setminus V(H)$ is $L'$-colorable.  Note that if $|L(v)|\ge \deg_G v$, then
+$|L'(v)|\ge \deg_J(G)$.  Hence, Lemma~\ref{lemma:gallai1} gives the following.
+\begin{corollary}\label{cor:gallai1}
+Let $G$ be a graph and let $J$ be its $2$-connected induced subgraph.  Let $L$ be a list assignment for $G$ such that $|L(v)|\ge \deg_G v$ for all $v\in V(J)$.
+If $J$ is neither an odd cycle nor a complete graph, then every precoloring of $G-V(J)$ extends to an $L$-coloring of $G$.
+\end{corollary}
+Of course, this corollary can be applied even for ordinary coloring, by giving all vertices the same list.
+
+\subsection{Planar graphs and graphs on surfaces}
+
+A large body of work in graph coloring theory is devoted to the chromatic properties of planar graphs.
+Since planar graphs are $5$-degenerate, they have chromatic number at most $6$ by Lemma~\ref{lemma:degen}.
+The bound can be fairly easily improved to $5$, but of course the most important result in this context is
+Four Color Theorem.
+
+\begin{theorem}[Four Color Theorem]
+Every planar graph is $4$-colorable.
+\end{theorem}
+
+A result of Gr\"{o}tzsch concerning triangle-free planar graphs has been also similarly influential.
+\begin{theorem}[Gr\"{o}tzsch' Theorem]
+Every planar triangle-free graph is $3$-colorable.
+\end{theorem}
+Unlike Four Color Theorem, Gr\"{o}tzsch' Theorem has many proofs based on diverse ideas, all of them non-trivial but also
+relatively simple and educational; we will use several of them to demonstrate various coloring methods.
+
+The wealth of results regarding planar graphs motivated the study of graphs drawn on other surfaces.
+Heawood's formula giving an upper bound for their chromatic number is probably the best known result in this area.
+\begin{theorem}[Heawood's formula]
+Every graph drawn in a surface $\Sigma$ of genus $g$ has chromatic number at most
+$$\Bigl\lfloor\frac{7+\sqrt{24g+1}}{2}\Bigr\rfloor.$$
+\end{theorem}
+This bound is tight for all surfaces except for the Klein bottle, for which the tight upper bound is $6$.
 
 \part{Standard Methods}
 
-Overview of Standard Methods (with examples and comments on common tricks and pitfalls):
-
-Grotzch's theorem as a non-trivial motivating example
+Overview of Standard Methods (with examples and comments on common tricks and pitfalls).
 
 \chapter{Reducible Configurations and Discharging}
-
-% NEEDED: list coloring, greedy algorithm, Brooks for list coloring (Gallai trees)
 
 % ZD
 Suppose we want to show that graphs from some hereditary class $\GG$ are $k$-colorable.  Clearly, we can
@@ -172,7 +239,7 @@ contains one of the reducible configurations, one needs to argue that their abse
 too dense.  The \emph{discharging method} is a systematic way to organize such an argument.  In the most straightforward
 form, a real number called \emph{charge} is assigned to vertices (and in the case of embedded graphs, possibly faces)
 of the graph, so that the sum of the charges is negative; for example, if graphs in $\GG$ have average degree less than $d$,
-a possible assignment of charge to a vertex $v$ is $\deg v-d$.  The charge is then redistributed according to some local
+a possible assignment of charge to a vertex $v$ is $\deg(v)-d$.  The charge is then redistributed according to some local
 rules, without changing its total amount.  As a result, there exists a vertex (or face) whose final charge is negative,
 and based on the discharging rules, we argue that this is only possible if a reducible configuration appears in its neighborhood.
 Of course, this description omits the most important aspect: how to choose the discharging rules?
@@ -713,8 +780,8 @@ Hence, the only place where we now have negative charges are $5$-faces---the ext
 edges with five $3$-faces $g_1$, \ldots, $g_5$, which now has charge $-2/3$.  We still have positive charge on vertices
 whose degree is at least $5$; but if there is no such vertex incident with $f$ or $g_1$, \ldots, $g_5$, it would be difficult
 to formulate a rule to redirect this charge to $f$.  So, let us try to find a reducible configuration in the case that
-all vertices incident with $f$, $g_1$, \ldots, $g_5$ have degree $4$.  Now, using Theorem~\ref{thm:gallaiforest}, we see that
-any $2$-connected subgraph consisting of vertices of degree $4$ different from an odd cycle is reducible.  Thus, we need even
+all vertices incident with $f$, $g_1$, \ldots, $g_5$ have degree $4$.  Now, using Corollary~\ref{cor:gallai1}, we see that
+any $2$-connected subgraph consisting of vertices of degree $4$ different from an odd cycle or a clique is reducible.  Thus, we need even
 less to find a reducible configuration: a $5$-face $f$ sharing an edge with a $3$-face $g$ such that all vertices incident with $f$
 and $g$ have degree $4$.  We will refer to this configuration (a special case of the configuration from Lemma~\ref{lemma:no4cproj-redu}(c))
 as (c').
@@ -938,12 +1005,67 @@ in the proof of Theorem~\ref{thm:no4cproj}, adding a rule to send charge from or
 the rules for sending charge to $3$-faces.  The reader is invited to find a more faithful formulation of the linear program
 as an exercise.
 
-\section{Easy Examples?}
+\section{Coloring with forbidden cycle lengths}
 
+Given Gr\"otzsch Theorem, it is natural to ask whether forbidding other cycle lengths is sufficient to
+ensure that a planar graph is $3$-colorable.  It is easy to see that forbidding either $4$-cycles or $5$-cycles
+by themselves is not sufficient.  Steinberg~\cite{conj-stein} conjectured that forbidding both $4$- and $5$-cycles
+ensures that a planar graph is $3$-colorable, however this was recently disproved~\cite{steinfalse}.
+On the other hand, Borodin et al.~\cite{bor47} proved that excluding cycles of lengths $4$ to $7$ is sufficient,
+leaving only the case of excluded cycles of lengths $4$ to $6$ open.
+
+Here, we consider the case of planar graphs with no cycles of lengths $4$ to $9$,
+giving another example of a discharging argument.
+This argument will also be used as a starting point in a presentation of an important trick in the following section.
+
+\begin{theorem}\label{thm:no4to9}
+Every planar graph with no cycles of lengths $4$ to $9$ is $3$-colorable.
+\end{theorem}
+\begin{proof}
+For a contradiction, suppose that $G$ is a plane graph with no cycles of lengths $4$ to $9$ that is not $3$-colorable,
+such that the number of vertices of $G$ is minimum.  Clearly, $G$ is connected and has minimum degree at least three.
+
+Furthermore, $G$ is $2$-connected: otherwise, $G=G_1\cup G_2$ for proper induced subgraphs $G_1$ and $G_2$ intersecting
+in a vertex $v\in V(G)$.  By the minimality of $G$, there exists a $3$-coloring $\varphi_i$ of $G_i$ for $i\in\{1,2\}$.
+By permuting the colors in the coloring of $G_2$, we can assume that $\varphi_1(v)=\varphi_2(v)$.  However, then $\varphi_1$ together
+with $\varphi_2$ give a $3$-coloring of $G$, which is a contradiction.
+
+Hence, every face of $G$ is bounded by a cycle, and thus its length is either $3$ or at least $10$.
+By Lemma~\ref{lemma:gallai1}, we conclude that every $10$-face of $G$ is
+incident with a vertex of degree at least $4$.
+
+Let us now assign charge $\initch(v)=\deg(v)-6$ to each vertex $v\in V(G)$ and $\initch(f)=2|f|-6$ to each face $f\in F(G)$.
+By Lemma~\ref{lemma:initch}, the sum of these charges is negative, specifically $-12$.
+Let us now redistribute the charge according to the following rule.
 \begin{itemize}
-\item $3$-colorability with no 4 to 9 cycles
-\item (say from Cranston and West), e.g. $5/2$ coloring for planar graphs?
+\item[(R1)] Let $v_1v_2v_3$ be a part of the boundary walk of a face $f$ of length at least $10$,
+where $\deg(v_2)=3$.  If neither of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
+then $f$ sends $1$ to $v_2$, otherwise $f$ sends $3/2$ to $v_2$.
+\item[(R2)] Let $v_1v_2v_3$ be a part of the boundary walk of a face $f$ of length at least $10$,
+where $\deg(v_2)\in\{4,5\}$.  If neither of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
+then $f$ sends $1/2$ to $v_2$.  If exactly one of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
+then $f$ sends $3/4$ to $v_2$.  If both $v_1v_2$ and $v_2v_3$ are incident with $3$-faces, then
+$f$ sends $1$ to $v_2$.
 \end{itemize}
+Let $\finch$ denote the final charge after these rules are performed.
+Let us argue that all vertices and faces have non-negative charges, which is a contradiction since the total amount of
+charge is unchanged.
+
+Let us first consider a vertex $v\in V(G)$.  If $\deg(v)\ge 6$, then $\finch(v)=\initch(v)\ge 0$.
+If $\deg(v)=5$, then since $G$ does not contain $4$-cycles, there are at most two $3$-faces incident with $v$, and
+thus $v$ receives at least $3\times 1/2$ by (R2) from the incident faces and $\finch(v)\ge \initch(v)+3/2>0$.
+If $\deg(v)=4$, then $v$ receives $4\times 1/2$, $1/2+2\times 3/4$, or $2\times 1$ from the incident faces by (R2)
+depending on the number of incident triangles, and $\finch(v)=\initch(v)+2=0$.  Finally, if $\deg(v)=3$, then $v$ receives
+$3\times 1$ if $v$ is not incident with a $3$-face and $2\times 3/2$ otherwise, and $\finch(v)=\initch(v)+3=0$.
+
+Let us now consider a face $f\in F(G)$.  If $|f|=3$, then $\finch(f)=\initch(f)=0$.  Hence, suppose that $|f|\ge 10$.
+Note that $f$ sends at most $3/2$ to each incident vertex by (R1) and (R2), and thus
+$$\finch(f)\ge \initch(v)-\frac{3}{2}|f|=\frac{|f|}{2}-6.$$
+If $|f|\ge 12$, this implies that $\finch(f)\ge 0$.  If $|f|=11$, note that $f$ cannot send $3/2$ to all incident
+vertices (otherwise all would be vertices of degree three incident with a $3$-face, which is not possible by parity).
+Hence, $f$ sends at most $1$ to one incident vertex, and $\finch(f)\ge \initch(v)-10\times 3/2-1=0$.
+...
+\end{proof}
 
 \section{Trick: A Precolored Face}
 
@@ -954,8 +1076,6 @@ Use precolored face to get rid of short cycles. Example: no $4$ to $7$ (or $8$?)
 
 \subsection{How to find reducible configurations}\label{ssec:howto-redu}
 
-\section{On the $4$-color-theorem?}
-
 \chapter{List Coloring}
 
 % LP
@@ -965,6 +1085,8 @@ Use precolored face to get rid of short cycles. Example: no $4$ to $7$ (or $8$?)
 \item definitions and why useful
 \item Even cycles are $2$-choosable; antimatching (Erdos, Rubin, Taylor); Brooks' for list?
 \end{itemize}
+
+\subsection{Brooks' Theorem and Gallai trees}\label{ssec-gallai}
 
 \section{Book Proof: $5$-choosability of planar graphs}
 
@@ -989,6 +1111,8 @@ using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size t
 \end{itemize}
 
 \section{Kempe Chains: proof of $5$-color theorem}
+
+\subsection{On the $4$-color-theorem}
 
 \section{Proof of Vizing's theorem}
 
