@@ -439,7 +439,7 @@ label("(c)", v[1]+(0,-1));
 label("(d)", v[7]+(0,-1));
 \end{asy}
 \end{center}
-\caption{Reducible configurations from Lemma~\ref{lemma:no4cproj-redu}}\label{fig:no4cproj-redu}
+\caption{Reducible configurations from Lemma~\ref{lemma:no4cproj-redu}.}\label{fig:no4cproj-redu}
 \end{figure}
 
 \begin{lemma}\label{lemma:no4cproj-redu}
@@ -1036,15 +1036,15 @@ incident with a vertex of degree at least $4$.
 
 Let us now assign charge $\initch(v)=\deg(v)-6$ to each vertex $v\in V(G)$ and $\initch(f)=2|f|-6$ to each face $f\in F(G)$.
 By Lemma~\ref{lemma:initch}, the sum of these charges is negative, specifically $-12$.
-Let us now redistribute the charge according to the following rule.
+Let us redistribute the charge according to the following rule.
 \begin{itemize}
 \item[(R1)] Let $v_1v_2v_3$ be a part of the boundary walk of a face $f$ of length at least $10$,
 where $\deg(v_2)=3$.  If neither of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
 then $f$ sends $1$ to $v_2$, otherwise $f$ sends $3/2$ to $v_2$.
 \item[(R2)] Let $v_1v_2v_3$ be a part of the boundary walk of a face $f$ of length at least $10$,
 where $\deg(v_2)\in\{4,5\}$.  If neither of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
-then $f$ sends $1/2$ to $v_2$.  If exactly one of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
-then $f$ sends $3/4$ to $v_2$.  If both $v_1v_2$ and $v_2v_3$ are incident with $3$-faces, then
+then $f$ sends $1$ to $v_2$.  If exactly one of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
+then $f$ sends $1/2$ to $v_2$.  If both $v_1v_2$ and $v_2v_3$ are incident with $3$-faces, then
 $f$ sends $1$ to $v_2$.
 \end{itemize}
 Let $\finch$ denote the final charge after these rules are performed.
@@ -1054,25 +1054,263 @@ charge is unchanged.
 Let us first consider a vertex $v\in V(G)$.  If $\deg(v)\ge 6$, then $\finch(v)=\initch(v)\ge 0$.
 If $\deg(v)=5$, then since $G$ does not contain $4$-cycles, there are at most two $3$-faces incident with $v$, and
 thus $v$ receives at least $3\times 1/2$ by (R2) from the incident faces and $\finch(v)\ge \initch(v)+3/2>0$.
-If $\deg(v)=4$, then $v$ receives $4\times 1/2$, $1/2+2\times 3/4$, or $2\times 1$ from the incident faces by (R2)
+If $\deg(v)=4$, then $v$ receives $4\times 1$, $1+2\times 1/2$, or $2\times 1$ from the incident faces by (R2)
 depending on the number of incident triangles, and $\finch(v)=\initch(v)+2=0$.  Finally, if $\deg(v)=3$, then $v$ receives
 $3\times 1$ if $v$ is not incident with a $3$-face and $2\times 3/2$ otherwise, and $\finch(v)=\initch(v)+3=0$.
 
 Let us now consider a face $f\in F(G)$.  If $|f|=3$, then $\finch(f)=\initch(f)=0$.  Hence, suppose that $|f|\ge 10$.
 Note that $f$ sends at most $3/2$ to each incident vertex by (R1) and (R2), and thus
-$$\finch(f)\ge \initch(v)-\frac{3}{2}|f|=\frac{|f|}{2}-6.$$
+$$\finch(f)\ge \initch(f)-\frac{3}{2}|f|=\frac{|f|}{2}-6.$$
 If $|f|\ge 12$, this implies that $\finch(f)\ge 0$.  If $|f|=11$, note that $f$ cannot send $3/2$ to all incident
 vertices (otherwise all would be vertices of degree three incident with a $3$-face, which is not possible by parity).
-Hence, $f$ sends at most $1$ to one incident vertex, and $\finch(f)\ge \initch(v)-10\times 3/2-1=0$.
-...
+Hence, $f$ sends at most $1$ to one incident vertex, and $\finch(f)\ge \initch(f)-10\times 3/2-1=0$.
+
+Finally, suppose that $|f|=10$.  If $f$ sends $3/2$ to at most $8$ incident vertices, then
+$\finch(f)\ge\initch(f)-8\times 3/2-2\times 1=0$. Recall that $f$ is incident with at least
+one vertex of degree at least $4$, and thus we can assume that $f$ sends $3/2$ to $9$ incident
+vertices.  Hence, we can label the vertices of the cycle bounding $f$ as $v_1v_2\ldots v_{10}$
+so that $v_2$ is the unique vertex of degree at least $4$ incident with $f$ and the edges $v_2v_3$, $v_4v_5$,
+\ldots, $v_{10}v_1$ are incident with triangles.  By (R2), $f$ sends at most $1/2$ to $v_2$, and thus
+$\finch(f)=\ge\initch(f)-9\times 3/2-1/2=0$.
 \end{proof}
 
 \section{Trick: A Precolored Face}
 
-Use precolored face to get rid of short cycles. Example: no $4$ to $7$ (or $8$?), $3$-coloring?
-% averaging on long faces
+We would now like to improve Theorem~\ref{thm:no4to9} by allowing $9$-faces in the graph.
+With no further reducible configurations, the discharging phase of course fails for $9$-faces.
+The worst case is a $9$-face $f$ bounded by a cycle $v_1v_2\ldots v_9$ with all
+incident vertices of degree three and edges $v_1v_2$, $v_3v_4$, $v_5v_6$, and $v_7v_8$
+incident with $3$-faces (for $i\in \{1,3,5,7,9\}$, let $x_i$ denote the neighbor of $v_i$
+not incident with $f$); the final charge of such a face according to the discharging rules
+(R1) and (R2) is $12-8\times 3/2-1=-1$.
+
+One could wonder whether such a $9$-face does not
+form a reducible configuration; however, just removing the incident vertices does not work---letting $G'=G-\{v_1,\ldots, v_9\}$,
+a $3$-coloring of $G'$ in that $x_1$, $x_3$, \ldots, and $x_9$ happen to have the same color does not extend to
+a $3$-coloring of $G$.  But, this is the only bad situation, as it is easy to see that if at least two different colors
+appear on these vertices, then the coloring extends to $G$.  So, perhaps instead of considering $G'$, we could
+consider the graph obtained from $G'$ by adding say the edge $x_1x_5$?  Any $3$-coloring of $G'+x_1x_5$ indeed extends to
+a $3$-coloring of $G$, but adding the edge $x_1x_5$ might create a cycle of length $4$ to $8$, and thus
+it might be the case that $G'+x_1x_5$ is not $3$-colorable without contradicting the minimality of the counterexample $G$
+(in the final proof, we will actually use a more general reducible configuration, whose reduction however faces the
+same difficulty).
+
+The presence of such a cycle in $G'+x_1x_5$ would mean that $x_1$ and $x_5$ are joined by a path of length $3$ to $7$ in $G'$,
+and this path together with the path $x_1v_2v_3v_4v_5x_5$ forms a cycle $C$ of length $8$ to $12$ in $G$.  It is also
+easy to see that $C$ is a separating cycle (at least one vertex of $G$ appears both inside and outside of $C$).
+If we were to show that such a separating cycle cannot appear in a minimal counterexample, this difficulty would go away.
+
+A natural way of dealing with a separating cycle $C$ is to first color the part of $G$ outside of $C$, and then
+extend the corresponding precoloring of $C$ to the subgraph of $G$ drawn inside $C$.
+Of course, we need to prove that the last part is possible, forcing us to prove
+a stronger statement with the precolored cycle.  This idea (which we will demonstrate momentarily, as well
+as again in Section~\ref{sec:disch-grotzsch}) turns out to be very useful in many arguments to extend
+the set of available reducible configurations.
+
+Let us now proceed with the example.  Let us say that a plane graph $G$ is a \emph{counterexample}
+if $G$ contains no cycles of lengths $4$ to $8$, its outer face is bounded
+by a cycle $C$ of length at most $12$ and some $3$-coloring of $G[V(C)]$ does not extend to a $3$-coloring of $G$.
+We aim to show that no counterexample exists; this indeed suffices to establish our claim.
+
+\begin{lemma}\label{lemma:no4to8-exce}
+Let $G$ be a plane graph with no cycles of lengths $4$ to $8$.  If $G$ is not $3$-colorable,
+then there exists a counterexample with at most $|V(G)|$ vertices.
+\end{lemma}
+\begin{proof}
+By Theorem~\ref{thm:no4to9}, $G$ contains a cycle $C$ of length $9$, which is necessarily induced.
+Let $G'$ and $G''$ be the subgraphs of $G$ drawn inside and outside of $C$, respectively
+(more precisely, let $G'$ be the subgraph of $G$ drawn in the closed disk $\Delta$ bounded by $C$, and let $G''$ be the
+subgraph of $G$ drawn in the closure of the complement of $\Delta$).
+Let $\psi$ be an arbitrary precoloring of $C$.  Since $G$ is not $3$-colorable,
+$\psi$ does not extend to a $3$-coloring of either $G'$ or $G''$. By symmetry, we can assume the former,
+and thus $G'$ is a counterexample.
+\end{proof}
+
+Let us start by showing some properties of a hypothetical minimal counterexample.
+
+\begin{lemma}\label{lemma:no4to8-prop}
+Let $G$ be a counterexample with $|V(G)|+|E(G)|$ the smallest possible.  Then $G$ is $2$-connected,
+and the cycle $C$ bounding its outer face is induced.  Furthermore, if $K$ is a cycle
+of length at most $12$ in $G$ distinct from $C$, then the open disk bounded by $K$ contains no
+vertices, and if $uv$ and $uw$ are two chords of $K$ incident with the same vertex $u$,
+then $vw\not\in E(G)$.
+\end{lemma}
+\begin{proof}
+Let $\psi$ be a $3$-coloring of $G[V(C)]$ that does not extend to a $3$-coloring of $G$.
+If $C$ were not induced and $e$ were a chord of $C$, then $\psi$ would not extend to a $3$-coloring of $G-e$
+either and $G-e$ would be a counterexample contradicting the minimality of $G$.  Hence, $C$ is an induced
+cycle.
+
+If $G$ is not $2$-connected, then let $G_1$ and $G_2$ be proper induced subgraphs of $G$
+such that $G=G_1\cup G_2$ and $G_1$ and $G_2$ intersect in at most one vertex, and $C\subseteq G_1$.
+By the minimality of $G$ and Lemma~\ref{lemma:no4to8-exce}, we conclude that $\psi$ extends to a $3$-coloring $\varphi_1$ of $G_1$
+and that $G_2$ has a $3$-coloring $\varphi_2$.  However, we can permute the colors in $\varphi_2$ so that $\varphi_1$ and $\varphi_2$
+assign the same color to the vertex in the intersection of $G_1$ and $G_2$ (if any), and thus the combination of $\varphi_1$
+and $\varphi_2$ would give a $3$-coloring of $G$ extending $\psi$.  This is a contradiction, showing that $G$ is $2$-connected.
+
+Suppose that $K$ is a cycle of length at most $12$ in $G$ distinct from $C$ and the open disk $\Lambda$ bounded by $K$ contains some
+vertex.  Let $G_1$ be the subgraph obtained from $G$ by removing all vertices drawn in $\Lambda$, and let $G_2$ be the subgraph
+of $G$ drawn in the closure of $\Lambda$ (hence, $G_1$ and $G_2$ intersect in $K$ and the chords of $K$ drawn in $\Lambda$).
+By the minimality of $G$, we conclude that $\psi$ extends to a $3$-coloring of $G_1$, and that the resulting $3$-coloring of $K$
+extends to a $3$-coloring of $G_2$, which gives a $3$-coloring of $G$ that extends $\psi$.  This is a contradiction,
+showing that $\Lambda$ contains no vertices.
+
+Finally, consider chords $uv$ and $uw$ of $K$ drawn in $\Lambda$.  Note that the shortest cycle in $K+uv$ has length
+at most $\frac{|K|+2}{2}\le 7$, and since $G$ does not contain cycles of lengths $4$ to $8$, it follows that $uv$ is incident
+with a triangle $T$ in $K+uv$.  If $vw\in E(G)$, then $uvw$ would be a triangle distinct from $T$ (since $uw$ is a chord of $K$),
+and the union of the two triangles would contain a $4$-cycle, which is a contradiction.  Hence, $vw\not\in E(G)$.
+\end{proof}
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[0]=(0,0);
+v[1]=(1,0.5);
+v[2]=(2,0.5);
+v[3]=(3,0.5);
+v[4]=(4,0.5);
+v[5]=(5,0);
+v[6]=(1.5,1.5);
+v[7]=(3.5,1.5);
+
+draw(v[0]--v[1]--v[2]--v[3]--v[4]--v[5]);
+draw(v[1]--v[6]--v[2]);
+draw(v[3]--v[7]--v[4]);
+
+for (i = 1; i <= 4; ++i)
+  vertex(v[i]);
+vertex(v[0],black);
+vertex(v[5],black);
+vertex(v[6],black);
+vertex(v[7],black);
+
+label("$v_0$", v[0],S);
+label("$v_1$", v[1],S);
+label("$v_2$", v[2],S);
+label("$v_3$", v[3],S);
+label("$v_4$", v[4],S);
+label("$v_5$", v[5],S);
+label("$x$", v[6],N);
+label("$y$", v[7],N);
+\end{asy}
+\end{center}
+\caption{A tetrad.}\label{fig:tetrad}
+\end{figure}
+
+Next, we establish reducible configurations.  Let \emph{tetrad} denote a path of four vertices $v_1v_2v_3v_4$ of degree three
+contained in a boundary of a face, such that edges $v_1v_2$ and $v_3v_4$ are incident with $3$-faces; see Figure~\ref{fig:tetrad}.
+Among the reducible configurations, tetrads are the interesting ones, whose reducibility uses the precolored cycle trick.
+
+\begin{lemma}\label{lemma:no4to8-redu}
+Let $G$ be a counterexample with $|V(G)|+|E(G)|$ the smallest possible, and let $C$ be the cycle bounding the outer face of $G$.
+Then $G$ contains none of the following.
+\begin{itemize}
+\item[\textrm{(a)}] A vertex of degree at most 2 not belonging to $C$.
+\item[\textrm{(b)}] An even cycle of vertices of degree three vertex-disjoint with $C$.
+\item[\textrm{(c)}] A tetrad vertex-disjoint with $C$.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+The proof of reducibility of (a) is trivial, and the reducibility of (b) follows from Corollary~\ref{cor:gallai1}.
+Hence, we only need to consider the configuration (c).  Let $\psi$ be a $3$-coloring of $C$ that does not extend to a $3$-coloring of $G$.
+Let $v_0v_1v_2v_3v_4v_5$ be a path contained in a boundary of a face, such that $v_1v_2v_3v_4$ is a tetrad.
+Let $x$ be the common neighbor of $v_1$ and $v_2$, and let $y$ be the common neighbor of $v_3$ and $v_4$.
+
+Let $G'=G-\{v_1,v_2,v_3,v_4\}$.  If $G'$ contains a path $P$ of length at most $8$ between $v_0$ and $y$, then
+$P$ together with the path $v_0v_1v_2v_3y$ is a cycle $K$ of length at most $12$ in $G$.  Let $\Lambda$ be the open disk bounded by
+$K$, and note that either the edge $v_3v_4$ or the edges $v_1x$ and $v_2x$ are contained in $\Lambda$.  The former
+is not possible, as otherwise $\Lambda$ would contain the vertex $v_4$, contradicting Lemma~\ref{lemma:no4to8-prop}.
+The latter is not possible either, as then either $\Lambda$ would contain the vertex $x$ or $K$ would have chords
+$v_1x$ and $v_2x$ with $v_1v_2\in E(G)$, again contradicting Lemma~\ref{lemma:no4to8-prop}.
+Hence, $G'$ contains no such path $P$.  Let $d_0$ and $d_y$ denote the distance from $v_0$ and $y$ to $C$ in $G'$, respectively.
+Since $|C|\le 12$, any two vertices of $C$ are joined by a path of length at most $6$ in $C$, and thus $d_0+d_y\ge 3$.
+
+Let $G''$ be the graph obtained from $G'$ by identifying $v_0$ with $y$.  By the previous paragraph,
+$G''$ does not contain any cycle of lengths $4$ to $8$.  Furthermore, since $d_0+d_y\ge 3$, at most one of $v_0$ and $y$ belongs
+to $C$ and if one does, the other one has no neighbors in $C$, and thus $C$ is an induced cycle in $G''$.  By the minimality of $G$, there exists a $3$-coloring of $G''$ that extends $\psi$,
+and thus there exists a $3$-coloring $\varphi$ of $G'$ that extends $\psi$ such that $\varphi(v_0)=\varphi(y)$.
+Next, extend $\varphi$ greedily to $v_4$ and $v_3$ in order, and note that $\varphi(v_3)\neq \varphi(v_0)$.
+If $\varphi(x)=\varphi(v_0)$, then we can extend $\varphi$ to $v_2$ and $v_1$ greedily in order,
+and if $\varphi(x)=\varphi(v_3)$, then we can extend $\varphi$ to $v_1$ and $v_2$ greedily in order.
+Finally, if $\varphi(v_0)\neq \varphi(x)\neq\varphi(v_3)$, then we can give $v_1$ the color $\varphi(v_3)$
+and $v_2$ the color $\varphi(v_0)$.  In any case, we conclude that $\psi$ extends to a $3$-coloring of $G$, which is a contradiction.
+\end{proof}
+
+Note that the some configurations that are reducible in general cease to be reducible when intersecting
+the precolored cycle $C$.  Consequently, the discharging phase of the argument may need to leave some negative charge on vertices of $C$.
+This will be compensated by the fact that the sum of initial charges is not just negative, but actually at most $-12$.
+
+Let $G$ be a plane graph with outer face bounded by a cycle $C$.  We say that a vertex $v$ is \emph{light} if $v\not\in V(C)$,
+$v$ has degree three, and $v$ is incident with a triangle.
+
+\begin{theorem}\label{thm:no4to8}
+Every planar graph with no cycles of lengths $4$ to $8$ is $3$-colorable.
+\end{theorem}
+\begin{proof}
+For a contradiction, suppose this is not the case, and thus by Lemma~\ref{lemma:no4to8-exce},
+there exists a counterexample.  Let $G$ be a counterexample with $|V(G)|+|E(G)|$ the smallest possible.
+By Lemma~\ref{lemma:no4to8-prop}, $G$ is $2$-connected (hence every face of $G$ is bounded by a cycle of length
+either $3$ or at least $9$), and the outer face of $G$ is bounded by an induced cycle
+$C$ of length at most $12$.  By Lemma~\ref{lemma:no4to8-redu}(a), vertices of $G$ not belonging to $C$ have degree at least three.
+
+Let us now assign charge $\initch(v)=\deg(v)-6$ to each vertex $v\in V(G)$ and $\initch(f)=2|f|-6$ to each face $f\in F(G)$.
+By Lemma~\ref{lemma:initch}, the sum of these charges is negative, specifically $-12$.
+Let us redistribute the charge according to the following rule.
+\begin{itemize}
+\item[(R0)] Each non-outer face of length at least $9$ incident with a vertex $v\in V(C)$ sends $3/2$ to $v$ if $\deg(v)=2$ and $3/4$ to $v$ if $\deg(v)=3$.
+\item[(R1)] Let $v_1v_2v_3$ be a part of the boundary walk of a face $f$ of length at least $9$,
+where $\deg(v_2)=3$ and $v_2\not\in V(C)$.  If neither of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
+then $f$ sends $1$ to $v_2$, otherwise $f$ sends $3/2$ to $v_2$.
+\item[(R2)] Let $v_1v_2v_3$ be a part of the boundary walk of a face $f$ of length at least $9$,
+where $\deg(v_2)\in\{4,5\}$ and $v_2\not\in V(C)$.  If neither of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
+then $f$ sends $1$ to $v_2$.  If exactly one of the edges $v_1v_2$ and $v_2v_3$ is incident with a $3$-face,
+then $f$ sends $1/2$ to $v_2$.  If both $v_1v_2$ and $v_2v_3$ are incident with $3$-faces, then
+$f$ sends $1$ to $v_2$.
+\end{itemize}
+Let $\finch$ denote the final charge after these rules are performed.
+Let us first argue that all vertices not in $C$ and all faces except for the outer one have non-negative charge.
+If $v$ is a vertex not belonging to $V(C)$, then the rules (R1) and (R2) apply to it in exactly the same way as in the
+proof of Theorem~\ref{thm:no4to9}, and thus $\finch(v)\ge 0$.
+
+Let us consider a face $f\in F(G)$.  If $|f|=3$, then $\finch(f)=\initch(f)=0$.  Hence, suppose that $|f|\ge 9$.
+Let $q$ denote the number of vertices of degree two
+incident with $f$ and let $t$ denote the number of light vertices incident with $f$.  Suppose first that $q=0$.
+If $|f|\ge 10$, then $\finch(f)\ge 0$ as in the proof of Theorem~\ref{thm:no4to9}.  If $|f|=9$, then note that $f$ is not incident
+with five consecutive light vertices, as otherwise four of them would form a tetrad, contradicting Lemma~\ref{lemma:no4to8-redu}(c).
+If $t\le 6$, then $\finch(f)\ge\initch(f)-6\times 3/2-3=0$.  If $t=7$, we can by symmetry and absence of tetrads disjoint from $C$
+label the vertices of the cycle bounding $f$ as $v_1v_2\ldots v_9$ so that $v_5$ and $v_9$ are not light and edges $v_9v_1$,
+$v_2v_3$, $v_4v_5$, $v_5v_6$, and $v_7v_8$ are shared with $3$-faces.  Since $v_8$ is light, edge $v_8v_9$ is not shared with a $3$-face.
+But then $f$ sends at most $1/2$ to $v_9$ by (R2), and $\finch(f)\ge\initch(f)-7\times 3/2-1-1/2=0$.
+
+Hence, we can assume that $q>0$.  Let $Q$ be a maximal subpath contained in the intersection of $C$ and the boundary of $f$
+(since $G$ is $2$-connected, $Q$ is indeed a path, i.e., the endvertices of $Q$ are distinct).  Note that $f$ sends at most $3/4$
+to each endvertex of $Q$ and $q+t\le |f|-2$.  Hence,
+\begin{align*}
+\finch(f)&\ge\initch(f)-2\times 3/4-(q+t)\times 3/2-(|f|-q-t-2)\times 1\\
+&=|f|-(q+t+11)/2\ge(|f|-9)/2\ge 0.
+\end{align*}
+
+Let us now consider the final charge of vertices of $C$.  If $v\in V(C)$ has degree two, then note that the non-outer face incident
+with $v$ does not have length $3$, since $C$ does not have chords; hence, $\finch(v)\ge\initch(v)+3/2=-5/2$ by (R0).
+If $v\in V(C)$ has degree three, then $v$ is incident with at least one non-outer face of length greater than three, and
+$\finch(v)\ge\initch(v)+3/4=-9/4$ by (R0).  If $v\in V(C)$ has degree at least four, then $\finch(v)=\initch(v)\ge -2$.
+Let $n_2$ denote the number of vertices of $C$ of degree two.  Since $G$ is $2$-connected,
+we have $n_2\le |C|-2$.  If $f_0$ is the outer face of $G$, then $\finch(f_0)=\initch(f_0)=2|C|-6$, and thus the sum of the final charges
+of vertices and faces of $G$ is at least
+\begin{align*}
+\finch(f_0)+\sum_{v\in V(C)}\finch(v)&\ge 2|C|-6-n_2\times 5/2-(|C|-n_2)\times 9/4\\
+&\ge 2|C|-6-|C|\times 5/2 + 2\times 1/4\\
+&=-\frac{|C|+11}{2}\ge-\frac{23}{2}>-12.
+\end{align*}
+This is a contradiction, since the initial and final charges have the same sum $-12$.
+\end{proof}
+
+Theorem~\ref{thm:no4to8} can be improved---it suffices to exclude cycles of lengths $4$ to $7$, as shown
+by Borodin et al.~\cite{bor47}.  The reader is invited to attempt to make the necessary changes to the
+argument as an exercise (it is necessary to introduce two more reducible configurations at $8$-faces,
+which should naturally follow from an attempt to discharge these faces).
  
-\section{The Short Discharging Proof of Grotzsch's theorem (Zdenek's proof)}
+\section{The Short Discharging Proof of Grotzsch's theorem (Zdenek's proof)}\label{sec:disch-grotzsch}
 
 \subsection{How to find reducible configurations}\label{ssec:howto-redu}
 
