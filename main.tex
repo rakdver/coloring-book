@@ -2,6 +2,7 @@
 \usepackage{graphicx}
 \usepackage{asymptote}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{makeidx}
 \usepackage{hyperref}
@@ -16,6 +17,7 @@
 \newcommand{\initch}{\text{ch}_0}
 \newcommand{\finch}{\text{ch}}
 \newcommand{\GG}{\mathcal{G}}
+\newcommand{\FF}{\mathcal{F}}
 
 \begin{asydef}
 unitsize(10mm);
@@ -1206,7 +1208,7 @@ Let $G$ be a counterexample with $|V(G)|+|E(G)|$ the smallest possible, and let 
 Then $G$ contains none of the following.
 \begin{itemize}
 \item[\textrm{(a)}] A vertex of degree at most 2 not belonging to $C$.
-\item[\textrm{(b)}] An even cycle of vertices of degree three vertex-disjoint with $C$.
+\item[\textrm{(b)}] A $10$-cycle of vertices of degree three, vertex-disjoint with $C$.
 \item[\textrm{(c)}] A tetrad vertex-disjoint with $C$.
 \end{itemize}
 \end{lemma}
@@ -1309,8 +1311,245 @@ Theorem~\ref{thm:no4to8} can be improved---it suffices to exclude cycles of leng
 by Borodin et al.~\cite{bor47}.  The reader is invited to attempt to make the necessary changes to the
 argument as an exercise (it is necessary to introduce two more reducible configurations at $8$-faces,
 which should naturally follow from an attempt to discharge these faces).
- 
-\section{The Short Discharging Proof of Grotzsch's theorem (Zdenek's proof)}\label{sec:disch-grotzsch}
+
+\subsection{The trick without precoloring}
+
+There is another largely equivalent way of dealing with the short separating cycles:
+look for a reducible configuration inside the region bounded by a separating cycle $C$ whose
+interior is (in some sense) minimized; the reduction of such a configuration cannot
+be prevented by another separating cycle $C'$, since the interior of $C'$ (or another suitable
+cycle in $C\cup C'$ in case the cycles intersect) would contradict the minimality of $C$.
+
+Let us give an example.  Let $v_0v_1v_2v_3v_4$ be a subpath of a boundary of a face in a plane
+graph such that $v_1v_2v_3v_4$ is a tetrad and let $y$ be the common neighbor of $v_3$ and $v_4$.
+We say that the tetrad is \emph{clean} if the distance between $v_0$ and $y$ in $G-\{v_1,v_2,v_3,v_4\}$
+is greater than $8$.
+
+\begin{lemma}\label{lemma:no4to8-exred}
+Every $2$-connected plane graph $G$ without cycles of lengths $4$ to $8$ contains a vertex of degree at most two,
+or a $10$-cycle of vertices of degree three, or a clean tetrad.
+\end{lemma}
+\begin{proof}
+If $G$ did not contain a triangle, then Euler's formula easily implies that $G$ contains a vertex of degree at most two.
+Hence, we can assume that $G$ is drawn so that the outer face of $G$ is bounded by a triangle.
+Also, we can assume that some vertices of $G$ are not incident with the outer face.
+
+Let $C_8$ be a triangle in $G$ such that the open disk $\Lambda_8$ bounded by $C_8$ contains a vertex of $G$,
+chosen among cycles with this property so that the number of vertices of $G$ drawn in $\Lambda_8$ is minimum,
+and let $G_8$ be the subgraph of $G$ drawn in the closure of $\Lambda_8$.
+For $\ell=9,\ldots,12$ in order, let $C_\ell$ be a cycle in $G_{\ell-1}$ of length at most $\ell$
+such that the open disk $\Lambda_\ell$ bounded by $C_\ell$ contains a vertex of $G$,
+chosen among cycles with this property so that the number of vertices of $G$ drawn in $\Lambda_\ell$ is minimum,
+and let $G_\ell$ be the subgraph of $G$ drawn in the closure of $\Lambda_\ell$.
+
+Clearly, $G_{12}$ is a $2$-connected graph and $C_{12}$ is an induced cycle in $G_{12}$.
+If $G_{12}$ did not contain any of the configurations (a), (b), and (c) from Lemma~\ref{lemma:no4to8-redu}, then we would 
+assign charge to the vertices and faces of $G_{12}$, perform the discharging, and obtain a contradiction in the same way as in
+the proof of Theorem~\ref{thm:no4to8}.  Hence, $G_{12}$ contains one of the three configurations.  Note that vertices of $G_{12}$
+not belonging to $C_{12}$ have the same degree in $G$ and in $G_{12}$, and thus if $G_{12}$ contains (a) or (b),
+then $G$ contains a vertex of degree at most two or a $10$-cycle of vertices of degree three.
+
+Therefore, we can assume that $G_{12}$ contains the configuration (c), i.e., a tetrad $v_1v_2v_3v_4$ vertex-disjoint from $C_{12}$.
+Since $v_1,\ldots, v_4\not\in V(C_{12})$, the path $v_1v_2v_3v_4$ is also a tetrad in $G$.  Suppose that the tetrad is not
+clean in $G$, i.e., letting $v_0$ and $y$ be as in the definition of the clean tetrad, there exists a path in $G$
+from $v_0$ to $y$ of length at most $8$, and thus the path $v_0v_1v_2v_3y$ is contained in a cycle $K'$ of length at most $12$.
+As in the proof of Lemma~\ref{lemma:no4to8-prop}, we argue that the open disk bounded by any such cycle $K'$ contains either $x$ or $v_4$.
+Let $\Lambda'$ be the open disk bounded by $K'$.  If $\Lambda'\subseteq\Lambda_{|K'|}$, then since both edges $v_2x$ and $v_3v_4$ are contained in $\Lambda_\ell$
+and exactly one of them is contained in $\Lambda'$, we have $\Lambda'\subsetneq\Lambda_{|K'|}$; however, this contradicts the choice
+of $C_\ell$.  Hence, $\Lambda'\not\subseteq\Lambda_{|K'|}$.  Let $s(K')\in \{8,\ldots,|K'|\}$ be the minimum such that
+$\Lambda'\not\subseteq \Lambda_{s(K')}$.
+
+Let $K$ be a cycle in $G$ containing the path $v_0v_1v_2v_3y$, chosen so that $\ell=|K|$ is minimum and
+subject to that $s=s(K)$ is maximum.  For $t\in\{s,s+1,\ldots,\ell\}$, let
+$Q_t$ be the subpath of $K$ containing $v_0v_1v_2v_3y$ such that endvertices of $Q_t$ belong to $C_t$
+and the rest of $Q_t$ is contained in $\Lambda_t$.
+
+Let $F_t$ be the subgraph of $K\cup C_t$ drawn in the closure of $\Lambda_t$,
+and let $\FF_t$ denote the set of faces of $F_t$ contained in $\Lambda_t$.  
+No face of $\FF_t$ has length three,
+as otherwise either $K$ would have a chord or $C_t$ would have a chord drawn in $\Lambda_t$, contradicting the choice
+of $K$ or $C_t$, and thus these faces have length at least $9$. 
+Furthermore, by the choice of $K$, the faces whose boundary contains $Q_t$
+have length at least $\ell+1$.  Hence, $\sum_{f\in \FF_t} |f|\ge 2(\ell+1)+9(|\FF_t|-2)$.
+On the other hand, since $K$ has at least one edge not contained in the closure
+of $\Lambda_t$, we have $\sum_{f\in \FF} |f|\le |C_t|+2(\ell-1)$.
+Since $|C_t|\le 12$, we conclude that $|\FF_t|=2$, and thus $K$ intersects $\Lambda_t$ only in $Q_t$.
+
+Let $w_t$ and $z_t$ be the ends of $Q_t$ and let $P_t$ be the path in $K$
+distinct from $Q_t$ joining $w_t$ with $z_t$.
+Let $P'_t$ and $P''_t$ be the subpaths of $C_t$ joining $w_t$ with $z_t$, where $P'_t$ is contained in the closure
+of $\Lambda$.  The cycle $Q_t\cup P''_t$ has length at least $\ell+1$, and thus
+$P''_t$ is longer than $P_t$.  Let $W_t$ be the closed walk consisting of $P'_t$ and $P_t$.  Note that
+$W_t$ is obtained from $C_t$ by replacing $P''_t$ with $P_t$, and thus $|W_t|<|C_t|$.  In particular, $|C_s|>|W_s|\ge 3$,
+and thus $s\ge 9$.
+
+We claim that no vertex of $G$ is contained in $\Lambda\setminus\overline{\Lambda_\ell}$.
+In order to prove this, we show by induction for $t=s,\ldots,\ell$ that $\Lambda\setminus\overline{\Lambda_t}$
+contains no vertex of $S$.  By the induction hypothesis, all the vertices in $\Lambda\setminus\overline{\Lambda_t}$
+belong to $\overline{\Lambda_{t-1}}$ (for $t=s$, this holds since $\Lambda\subseteq\Lambda_{s-1}$ by the choice of $s$).
+...
+
+Consider any non-outer face $f$ of the graph consisting of the vertices and edges of $W$.  We have $|f|\le |W|<|C_s|$.
+By the choice of $s$, we have $\Lambda\subseteq \Lambda_{s-1}$, and thus $f\subseteq\Lambda_{s-1}$.  At least one vertex
+of $C_s$ is contained in the closure of $\Lambda_{s-1}$ but not in the closure of $f$, and by the minimality of $\Lambda_{s-1}$,
+we conclude that no vertex of $G$ is contained in $f$.
+...
+\end{proof}
+
+\section{A Discharging Proof of Gr\"{o}tzsch' theorem}\label{sec:disch-grotzsch}
+
+As a final example, we will present a proof of Gr\"{o}tzsch' theorem via discharging and reducible configurations.
+In order to deal with separating cycles in reductions, we are going to prove a stronger precoloring extension
+result.
+
+\begin{theorem}\label{thm:grotzsch-gimbel}
+Let $G$ be a plane triangle-free graph with the outer face bounded by a cycle $C$ of length at most $6$.
+Suppose that there exists a $3$-coloring $\psi$ of $C$ that does not extend to a $3$-coloring of $G$.
+Then $|C|=6$ and $G$ has a subgraph $H$ containing $C$ such that all non-outer faces of $H$ have length $4$.
+\end{theorem}
+
+In this section, a plane triangle-free graph $G$ with the outer face bounded by a cycle $C$ of length at most $6$
+is \emph{safe} if either $|C|\le 5$, or $|C|=6$ and every subgraph of $G$ that includes $C$ has a non-outer face
+of length greater than $4$.  A \emph{counterexample} is a triple $(G,C,\psi)$, where $G$ is a safe graph with
+the outer face bounded by a cycle $C$ and $\psi$ is a $3$-coloring of $C$ that does not extend to a $3$-coloring of $G$.
+A counterexample is \emph{minimum} if $|V(G)|$ is minimum over all counterexamples, and subject to that, $|E(G)|$ is \emph{maximum}.
+
+Let us start by establishing some properties of a minimum counterexample.
+\begin{lemma}\label{lemma:grgimprop}
+If $(G,C,\psi)$ is a minimum counterexample, then
+\begin{itemize}
+\item[\textrm{(a)}] all vertices not in $C$ have degree at least three,
+\item[\textrm{(b)}] $G$ is $2$-connected,
+\item[\textrm{(c)}] every cycle of length at most $5$ in $G$ bounds a face, 
+\item[\textrm{(d)}] for every non-facial $6$-cycle $K$ in $G$, all faces of
+$G$ drawn in the open disk bounded by $K$ have length $4$, and
+\item[\textrm{(e)}] $G$ contains no $4$-cycles other than $C$.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+The claim (a) is obvious.  If $G$ is not $2$-connected, then $G=G_1\cup G_2$ for proper induced subgraphs $G_1$
+and $G_2$, where $C\subseteq G_1$, $G_2$ is $2$-connected, and $G_1$ intersects $G_2$ in at most one vertex $w$.
+By the minimality of $G$, the coloring $\psi$ extends to a $3$-coloring $\varphi_1$ of $G_1$.  Furthermore, since $G_2$ has
+no vertex other than $w$ of degree at most two, a standard argument based on Euler's formula shows that $G_2$ has
+a face of length at most $5$ bounded by a cycle $C_2$.  By the minimality of $G$, any $3$-coloring of $C_2$ extends
+to a $3$-coloring of $G_2$, and by permuting the colors, we can assume that this coloring gives $w$ the color $\varphi_1(w)$
+(if $w$ exists).  The combination of the colorings gives a $3$-coloring of $G$ that extends $\psi$, which is a contradiction.
+Hence, (b) holds.
+
+If $K$ is a cycle of length at most $5$ in $G$ that does not bound a face, then
+let $G_2$ be the subgraph of $G$ drawn in the closed disk bounded by $K$,
+and let $G_1=G-(V(G_1)\setminus V(K))$.  By the minimality of $G$, the coloring $\psi$ extends to a $3$-coloring $\varphi_1$ of $G_1$,
+and the coloring of $K$ given by $\varphi$ extends to a $3$-coloring of $G_2$, which is a contradiction.  Hence, (c) holds.
+The same argument proves (d). 
+
+Finally, consider a $4$-cycle $K\neq C$ in $G_2$.  By (c), $K$ bounds a face.  Let $K=v_1v_2v_3v_4$, where say $v_1\not\in V(C)$.
+If $G$ contained a path of length three between $v_1$ and $v_3$, then this path together with $v_1v_2v_3$ would give a $5$-cycle $K'\neq C$.
+By (c), $K'$ bounds a face, and thus the path $v_1v_2v_3$ is contained in boundaries of two faces and $\deg(v_2)=2$.
+By (a), this implies that $v_2\in V(C)$, but since $v_2$ has degree two, this would also imply $v_1\in V(C)$, which is a contradiction.
+Hence, $G$ contains no such path of length three.
+
+Let $G'$ be the graph obtained from $G$ by identifying $v_1$ with $v_3$ to a new vertex $v_{13}$ and suppressing
+the arising parallel edges.  Note that $G'$ is a plane
+triangle-free graph.  Clearly, $\psi$ does not extend to a $3$-coloring of $G'$,
+since such a coloring could be extended to $G$ by giving $v_1$ and $v_3$ the color of $v_{13}$.  By the minimality of $G$,
+we conclude that $G'$ is not safe, and in conjunction with (c) and (d), this implies that $|C|=6$ and
+all non-outer faces of $G'$ have length $4$.  But that implies that all non-outer faces of $G$ have length $4$, contradicting
+the assumption that $G$ is safe.  Hence, (e) holds.
+\end{proof}
+
+In fact, we can strengthen the constraints as follows.
+\begin{lemma}\label{lemma:grgimprop1}
+If $(G,C,\psi)$ is a minimum counterexample, then all non-outer faces of $G$ have length $5$ and $G$ contains no $6$-cycles distinct
+from $C$.
+\end{lemma}
+\begin{proof}
+The graph $G$ contains no non-facial $6$-cycles by Lemma~\ref{lemma:grgimprop}(c) and (d).
+Hence, it suffices to show that $G$ has no non-outer faces of length other than $5$.
+Suppose for a contradiction that $K=v_1\ldots v_k$ with $k\ge 6$ is a cycle of $G$ bounding a face and $K\neq C$,
+where say $v_2\not\in V(C)$.  The vertex $v_2$ cannot have two neighbors in $C$ by Lemma~\ref{lemma:grgimprop}(e), (c), and (a).
+Hence, we can assume that $v_1\not\in V(C)$.  By Lemma~\ref{lemma:grgimprop}(c) and (a), there exists no path of length two between
+$v_1$ and $v_4$.  Let $G'=G+v_1v_4$.  Note that $G'$ is a plane triangle-free graph.  Also, recall that in the definition
+of the minimality of a counterexample, we \emph{maximized} $|E(G)|$, and thus $(G',C,\psi)$ is not a counterexample.
+Clearly, $\psi$ does not extend to a $3$-coloring of $G'$, and thus $G'$ is not safe and $|C|=6$.  However, $C$ has no chord
+in $G$ (since $G$ is safe) and thus also no chord in $G'$ (since $v_1\not\in V(C)$, the edge $v_1v_4$ is not a chord).
+Since $G'$ is not safe, it follows that it has a subgraph with at least three $4$-faces, and one of them is not incident with
+the edge $v_1v_4$.  However, then $G$ contains a $4$-cycle, contradicting Lemma~\ref{lemma:grgimprop}(e).
+\end{proof}
+
+Finally, we will need one more reducible configuration.
+\begin{lemma}\label{lemma:grgim-redu}
+Let $(G,C,\psi)$ be a minimum counterexample and let $K=v_1v_2\ldots v_5$ be a cycle bounding a non-outer $5$-face of $G$.
+If $v_1,\ldots,v_4\not\in V(C)$ and $\deg(v_1)=\ldots=\deg(v_4)=3$, then at least one of $v_1$, \ldots, $v_4$ has a neighbor
+in $V(C)\setminus V(K)$.
+\end{lemma}
+\begin{proof}
+For $i\in\{1,\ldots,4\}$, let $x_i$ be the neighbor of $v_i$ not in $K$.  Suppose for a contradiction that $x_1,\ldots, x_4\not\in V(C)$.
+Let $G'$ be the graph obtained from $G-\{v_1,\ldots,v_4\}$ by identifying $x_2$ with $x_3$ to a new vertex $x$, suppressing
+the arising parallel edges, and by adding the edge $x_1x_4$.  Clearly, $G'$ is a plane graph.
+
+Firstly, we claim that every $3$-coloring $\varphi$ of $G'$ extends to a $3$-coloring of $G$.
+Indeed, if $\varphi(x_1)=\varphi(v_5)$, then we can extend the coloring greedily by coloring $v_4$, $v_3$, $v_2$, and $v_1$
+in order.  If $\varphi(x_4)=\varphi(v_5)$, then we can extend the coloring greedily by coloring $v_1$, $v_2$, $v_3$, and $v_4$
+in order.   Otherwise, color $v_1$ with $\varphi(x_4)$ and $v_4$ with $\varphi(x_1)$, and note that because of the edge $x_1x_4$
+of $G'$, these colors are distinct.  If $\varphi(x_4)=\varphi(x_2)$ or $\varphi(x_1)=\varphi(x_3)$, we can color $v_2$ and $v_3$
+greedily in some order; otherwise, since $\varphi(x_2)=\varphi(x_3)=\varphi(x)$, we can color $v_2$ with $\varphi(x_1)$
+and $v_3$ with $\varphi(x_4)$.
+
+Hence, $\psi$ does not extend to a $3$-coloring of $G'$.  By the minimality of $G$, we conclude that $G'$ is not a counterexample,
+and thus $G'$ cannot be safe.  Suppose that $G'$ contains a triangle $T$.  Such a triangle contains the edge $x_1x_4$ or the vertex
+$x$.  If $T$ did not contain $x_1x_4$, then the path of $G$ corresponding to $T$ together with the path $x_2v_2v_3x_3$
+would form a $6$-cycle contradicting Lemma~\ref{lemma:grgim-redu}.  If $T$ did not contain $x$, then replacing the edge
+$x_1x_4$ by the path $x_1v_1v_5v_4x_4$ in $T$ gives a $5$-cycle in $G$, and by Lemma~\ref{lemma:grgimprop}(c), this $5$-cycle
+bounds a face.  Hence, $\deg(v_5)=2$ and by Lemma~\ref{lemma:grgimprop}(a) we have $v_5\in V(C)$, which is a contradiction
+since its neighbors $v_1$ and $v_4$ do not belong to $C$.  Finally, if $T$ contained both the edge $x_1x_4$ and the vertex $x$,
+then $G$ contains an edge between $\{x_1,x_4\}$ and $\{x_2,x_3\}$, which contradicts Lemma~\ref{lemma:grgimprop}(c) or (e).
+
+Hence, $G'$ is triangle-free.  Since $G'$ is not safe, we conclude that $|C|=6$ and $G'$ contains a subgraph $H'$ including $C$
+such that the non-outer faces of $H'$ have length $4$.  Since $x_1,\ldots, x_4\not\in V(C)$ and $G$ is safe, the
+cycle $C$ in $G'$ has no chord, and thus $V(H')\setminus V(C)\neq\emptyset$.  If $x_1x_4\not\in E(H')$, then
+$x$ must be incident with all $4$-faces of $H'$ by Lemma~\ref{lemma:grgimprop}(e), and thus $V(H')\setminus V(C)=\{x\}$
+and $x$ has three neighbors in $C$.  But then $x_2$ or $x_3$ has two neighbors in $C$, which contradicts
+Lemma~\ref{lemma:grgimprop}(e), (c) or (a).  If $x_1x_4\in E(H')$, then $H'$ has at least four $4$-faces,
+at least two of them are not incident with $x_1x_4$, and they cannot both be incident with $x$, implying that $G$ contains
+a $4$-cycle contradicting Lemma~\ref{lemma:grgimprop}(e).
+\end{proof}
+
+We can now proceed with discharging.  Let us say that a vertex $v$ of a counterexample $(G,C,\psi)$ is \emph{light}
+if $v\not\in V(C)$ and $\deg(v)=3$.
+
+\begin{proof}[Proof of Theorem~\ref{thm:grotzsch-gimbel}]
+Suppose for a contradiction that there exists a counterexample, and thus there exists a minimum counterexample
+$(G,C,\psi)$.  Assign charge $\initch(v)=\deg(v)-4$ to each vertex $v\in V(G)$ and $\initch(f)=|f|-4$ to each
+face $f$ of $G$; the sum of these charges is $-8$ by Lemma~\ref{lemma:initch}.
+
+Let us redistribute the charge according to the following rules.
+\begin{itemize}
+\item[(R1)] If $f$ is a non-outer face and $v$ is an incident light vertex,
+then $f$ sends $1/3$ to $v$.
+\item[(R2)] If $f$ is a non-outer face and $v\in V(C)$ is an incident vertex of degree two,
+then $f$ sends $1/3$ to $v$.
+\item[(R3)] If $v\in V(C)$ has degree at least three, $uv\in E(G)\setminus E(C)$, $\deg(u)=3$,
+and $u$ is incident with a $5$-face $f$ whose boundary does not contain the edge $uv$, then $u$ sends $1/3$ to $f$.
+\end{itemize}
+Let $\finch$ denote the resulting final charge.  Consider a non-outer face $f$; by Lemma~\ref{lemma:grgimprop1},
+we have $|f|=5$, and thus $\initch(f)=1$.  Since $G$ is $2$-connected by Lemma~\ref{lemma:grgimprop}(b) and $G\neq C$,
+if $f$ sends charge by (R2), then $f$ is incident with at least two vertices of degree at least three belonging to $C$
+to that no charge is sent, giving $\finch(v)\ge \initch(v)-3\times 1/3=0$.  Hence, suppose that $f$ sends no charge by
+(R2).  Let $t$ denote the number of light vertices incident with $f$.  If $t\le 3$, then $\finch(v)\ge \initch(v)-t\times 1/3=0$
+By Lemma~\ref{lemma:grgim-redu}, if $t\ge 4$, then at least $t-3$ light vertices incident with $f$ have a neighbor in $C$ not
+incident with $f$, and thus by (R1) and (R3), $\finch(v)\ge \initch(v)-t\times 1/3+(t-3)\times1/3=0$.
+
+Hence, all non-outer faces of $G$ have non-negative final charge.  Consider now a vertex $v\in V(G)$.  When $v\not\in V(C)$, we have
+$\finch(v)=\initch(v)\ge 0$ if $\deg(v)\ge 4$ and $\finch(v)=\initch(v)+3\times1/3=0$ by (R1) when $\deg(v)=3$.  When
+$v\in V(C)$, we have $\finch(v)=\initch(v)+1/3=-5/3$ by (R2) if $\deg(v)=2$ and
+$\finch(v)\ge \initch(v)-(\deg(v)-2)\times 1/3=d-4-d/3+2/3=\frac{2\deg(v)-10}{3}\ge -4/3$ by (R3) if $\deg(v)\ge 3$.
+
+Also, for the outer face $f_0$, we have $\finch(f_0)=\initch(f_0)=|C|-4$.  Therefore, the sum of the charges
+is at least
+$$|C|-4-\frac{5}{3}|C|=4-\frac{2}{3}|C|\ge 0,$$
+which is a contradiction with the fact that the sum of initial charges is $-8$ and the redistribution does not affect
+the total amount of charge.
+\end{proof}
 
 \subsection{How to find reducible configurations}\label{ssec:howto-redu}
 
