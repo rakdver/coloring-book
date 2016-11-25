@@ -1076,7 +1076,7 @@ so that $v_2$ is the unique vertex of degree at least $4$ incident with $f$ and 
 $\finch(f)=\ge\initch(f)-9\times 3/2-1/2=0$.
 \end{proof}
 
-\section{Trick: A Precolored Face}
+\section{Trick: A Precolored Face}\label{sec:precolface}
 
 We would now like to improve Theorem~\ref{thm:no4to9} by allowing $9$-faces in the graph.
 With no further reducible configurations, the discharging phase of course fails for $9$-faces.
@@ -1201,21 +1201,18 @@ label("$y$", v[7],N);
 
 Next, we establish reducible configurations.  Let \emph{tetrad} denote a path of four vertices $v_1v_2v_3v_4$ of degree three
 contained in a boundary of a face, such that edges $v_1v_2$ and $v_3v_4$ are incident with $3$-faces; see Figure~\ref{fig:tetrad}.
-Among the reducible configurations, tetrads are the interesting ones, whose reducibility uses the precolored cycle trick.
+To reduce tetrads,we use the precolored cycle trick.
 
 \begin{lemma}\label{lemma:no4to8-redu}
 Let $G$ be a counterexample with $|V(G)|+|E(G)|$ the smallest possible, and let $C$ be the cycle bounding the outer face of $G$.
-Then $G$ contains none of the following.
-\begin{itemize}
-\item[\textrm{(a)}] A vertex of degree at most 2 not belonging to $C$.
-\item[\textrm{(b)}] A $10$-cycle of vertices of degree three, vertex-disjoint with $C$.
-\item[\textrm{(c)}] A tetrad vertex-disjoint with $C$.
+Then vertices of $G$ not belonging to $C$ have degree at least three, and $G$ contains no 
+tetrad vertex-disjoint from $C$.
 \end{itemize}
 \end{lemma}
 \begin{proof}
-The proof of reducibility of (a) is trivial, and the reducibility of (b) follows from Corollary~\ref{cor:gallai1}.
-Hence, we only need to consider the configuration (c).  Let $\psi$ be a $3$-coloring of $C$ that does not extend to a $3$-coloring of $G$.
-Let $v_0v_1v_2v_3v_4v_5$ be a path contained in a boundary of a face, such that $v_1v_2v_3v_4$ is a tetrad.
+Let $\psi$ be a $3$-coloring of $C$ that does not extend to a $3$-coloring of $G$.
+The minimality of $G$ clearly implies that $G$ contains no vertices of degree at most two not belonging to $C$.
+Hence, suppose for a contradiction that $v_0v_1v_2v_3v_4v_5$ is a path contained in a boundary of a face, such that $v_1v_2v_3v_4$ is a tetrad.
 Let $x$ be the common neighbor of $v_1$ and $v_2$, and let $y$ be the common neighbor of $v_3$ and $v_4$.
 
 Let $G'=G-\{v_1,v_2,v_3,v_4\}$.  If $G'$ contains a path $P$ of length at most $8$ between $v_0$ and $y$, then
@@ -1253,7 +1250,7 @@ For a contradiction, suppose this is not the case, and thus by Lemma~\ref{lemma:
 there exists a counterexample.  Let $G$ be a counterexample with $|V(G)|+|E(G)|$ the smallest possible.
 By Lemma~\ref{lemma:no4to8-prop}, $G$ is $2$-connected (hence every face of $G$ is bounded by a cycle of length
 either $3$ or at least $9$), and the outer face of $G$ is bounded by an induced cycle
-$C$ of length at most $12$.  By Lemma~\ref{lemma:no4to8-redu}(a), vertices of $G$ not belonging to $C$ have degree at least three.
+$C$ of length at most $12$.  By Lemma~\ref{lemma:no4to8-redu}, vertices of $G$ not belonging to $C$ have degree at least three.
 
 Let us now assign charge $\initch(v)=\deg(v)-6$ to each vertex $v\in V(G)$ and $\initch(f)=2|f|-6$ to each face $f\in F(G)$.
 By Lemma~\ref{lemma:initch}, the sum of these charges is negative, specifically $-12$.
@@ -1277,9 +1274,10 @@ proof of Theorem~\ref{thm:no4to9}, and thus $\finch(v)\ge 0$.
 Let us consider a face $f\in F(G)$.  If $|f|=3$, then $\finch(f)=\initch(f)=0$.  Hence, suppose that $|f|\ge 9$.
 Let $q$ denote the number of vertices of degree two
 incident with $f$ and let $t$ denote the number of light vertices incident with $f$.  Suppose first that $q=0$.
-If $|f|\ge 10$, then $\finch(f)\ge 0$ as in the proof of Theorem~\ref{thm:no4to9}.  If $|f|=9$, then note that $f$ is not incident
-with five consecutive light vertices, as otherwise four of them would form a tetrad, contradicting Lemma~\ref{lemma:no4to8-redu}(c).
-If $t\le 6$, then $\finch(f)\ge\initch(f)-6\times 3/2-3=0$.  If $t=7$, we can by symmetry and absence of tetrads disjoint from $C$
+Note that that $f$ is not incident with five consecutive light vertices, as otherwise four of them would form a tetrad, contradicting Lemma~\ref{lemma:no4to8-redu};
+hence, $t\le \frac{4}{5}|f|$.
+We have $\finch(f)\ge \initch(f)-|f|-t/2=|f|-t/2-6\ge \frac{3}{5}|f|-5$. Hence, if $|f|\ge 10$ or $|f|=9$ and $t\le 6$, then $\finch(f)\ge 0$.
+If $|f|=9$ and $t=7$, we can by symmetry and absence of tetrads disjoint from $C$
 label the vertices of the cycle bounding $f$ as $v_1v_2\ldots v_9$ so that $v_5$ and $v_9$ are not light and edges $v_9v_1$,
 $v_2v_3$, $v_4v_5$, $v_5v_6$, and $v_7v_8$ are shared with $3$-faces.  Since $v_8$ is light, edge $v_8v_9$ is not shared with a $3$-face.
 But then $f$ sends at most $1/2$ to $v_9$ by (R2), and $\finch(f)\ge\initch(f)-7\times 3/2-1-1/2=0$.
@@ -1314,7 +1312,7 @@ which should naturally follow from an attempt to discharge these faces).
 
 \subsection{The trick without precoloring}
 
-There is another largely equivalent way of dealing with the short separating cycles:
+There is another way of dealing with the short separating cycles:
 look for a reducible configuration inside the region bounded by a separating cycle $C$ whose
 interior is (in some sense) minimized; the reduction of such a configuration cannot
 be prevented by another separating cycle $C'$, since the interior of $C'$ (or another suitable
@@ -1326,75 +1324,93 @@ We say that the tetrad is \emph{clean} if the distance between $v_0$ and $y$ in 
 is greater than $8$.
 
 \begin{lemma}\label{lemma:no4to8-exred}
-Every $2$-connected plane graph $G$ without cycles of lengths $4$ to $8$ contains a vertex of degree at most two,
-or a $10$-cycle of vertices of degree three, or a clean tetrad.
+Every $2$-connected plane graph $G$ without cycles of lengths $4$ to $8$ contains a vertex of degree at most two
+or a clean tetrad.
 \end{lemma}
 \begin{proof}
-If $G$ did not contain a triangle, then Euler's formula easily implies that $G$ contains a vertex of degree at most two.
+If $G$ does not contain a triangle, then Euler's formula easily implies that $G$ contains a vertex of degree at most two.
 Hence, we can assume that $G$ is drawn so that the outer face of $G$ is bounded by a triangle.
 Also, we can assume that some vertices of $G$ are not incident with the outer face.
+Let $C$ be a cycle in $G$ of length at most $12$ such that the open disk $\Lambda$ bounded by $C$ is minimum.
+Let $G_C$ be the subgraph of $G$ drawn in the closure of $\Lambda$.
 
-Let $C_8$ be a triangle in $G$ such that the open disk $\Lambda_8$ bounded by $C_8$ contains a vertex of $G$,
-chosen among cycles with this property so that the number of vertices of $G$ drawn in $\Lambda_8$ is minimum,
-and let $G_8$ be the subgraph of $G$ drawn in the closure of $\Lambda_8$.
-For $\ell=9,\ldots,12$ in order, let $C_\ell$ be a cycle in $G_{\ell-1}$ of length at most $\ell$
-such that the open disk $\Lambda_\ell$ bounded by $C_\ell$ contains a vertex of $G$,
-chosen among cycles with this property so that the number of vertices of $G$ drawn in $\Lambda_\ell$ is minimum,
-and let $G_\ell$ be the subgraph of $G$ drawn in the closure of $\Lambda_\ell$.
+Clearly, $G_C$ is a $2$-connected graph and $C$ is an induced cycle in $G_C$.
+If $G_C$ contained neither a vertex of degree at most two not contained in $C$ nor
+a tetrad disjoint from $C$, then we would 
+assign charge to the vertices and faces of $G_C$, perform the discharging, and obtain a contradiction in the same way as in
+the proof of Theorem~\ref{thm:no4to8}.  Hence, $G_C$ contains one of these configurations.
+If $G_C$ contains a vertex of degree at most two not belonging to $C$, then this vertex has the same degree in $G$ as well.
 
-Clearly, $G_{12}$ is a $2$-connected graph and $C_{12}$ is an induced cycle in $G_{12}$.
-If $G_{12}$ did not contain any of the configurations (a), (b), and (c) from Lemma~\ref{lemma:no4to8-redu}, then we would 
-assign charge to the vertices and faces of $G_{12}$, perform the discharging, and obtain a contradiction in the same way as in
-the proof of Theorem~\ref{thm:no4to8}.  Hence, $G_{12}$ contains one of the three configurations.  Note that vertices of $G_{12}$
-not belonging to $C_{12}$ have the same degree in $G$ and in $G_{12}$, and thus if $G_{12}$ contains (a) or (b),
-then $G$ contains a vertex of degree at most two or a $10$-cycle of vertices of degree three.
+Therefore, we can assume that $G_C$ contains a tetrad $v_1v_2v_3v_4$ vertex-disjoint from $C$.
+Let $x$ be the common neighbor of $v_1$ and $v_2$, let $y$ be the common neighbor of $v_3$ and $v_4$,
+and let $v_0$ and $v_5$ be the neighbors of $v_1$ and $v_4$, respectively, not contained in $\{v_2,v_3,x,y\}$.
+Since $v_1,\ldots, v_4\not\in V(C)$, the path $v_1v_2v_3v_4$ is also a tetrad in $G$.  Suppose that the tetrad is not
+clean in $G$, i.e., there exists a path in $G$
+from $v_0$ to $y$ of length at most $8$, and thus the path $v_0v_1v_2v_3y$ is contained in a cycle $K'_1$ of length at most $12$.
+As in the proof of Lemma~\ref{lemma:no4to8-prop}, we argue that the open disk $\Lambda'_1$ bounded by any such cycle $K'_1$ contains either $x$ or $v_4$.
+If $\Lambda'_1\subseteq\Lambda$, then since both edges $v_2x$ and $v_3v_4$ are contained in $\Lambda$
+and exactly one of them is contained in $\Lambda'_1$, we have $\Lambda'_1\subsetneq\Lambda$; however, this contradicts the choice
+of $C$.  Hence,
+\begin{itemize}
+\item[($\star$)] \emph{if $K'_1$ is cycle is $G$ of length at most $12$ such that $v_0v_1v_2v_3y$ is a subpath of $K'_1$,
+then the open disk bounded by $K'_1$ is not a subset of $\Lambda$.}
+\end{itemize}
 
-Therefore, we can assume that $G_{12}$ contains the configuration (c), i.e., a tetrad $v_1v_2v_3v_4$ vertex-disjoint from $C_{12}$.
-Since $v_1,\ldots, v_4\not\in V(C_{12})$, the path $v_1v_2v_3v_4$ is also a tetrad in $G$.  Suppose that the tetrad is not
-clean in $G$, i.e., letting $v_0$ and $y$ be as in the definition of the clean tetrad, there exists a path in $G$
-from $v_0$ to $y$ of length at most $8$, and thus the path $v_0v_1v_2v_3y$ is contained in a cycle $K'$ of length at most $12$.
-As in the proof of Lemma~\ref{lemma:no4to8-prop}, we argue that the open disk bounded by any such cycle $K'$ contains either $x$ or $v_4$.
-Let $\Lambda'$ be the open disk bounded by $K'$.  If $\Lambda'\subseteq\Lambda_{|K'|}$, then since both edges $v_2x$ and $v_3v_4$ are contained in $\Lambda_\ell$
-and exactly one of them is contained in $\Lambda'$, we have $\Lambda'\subsetneq\Lambda_{|K'|}$; however, this contradicts the choice
-of $C_\ell$.  Hence, $\Lambda'\not\subseteq\Lambda_{|K'|}$.  Let $s(K')\in \{8,\ldots,|K'|\}$ be the minimum such that
-$\Lambda'\not\subseteq \Lambda_{s(K')}$.
+Let $K_1$ be the shortest cycle in $G$ containing the path $v_0v_1v_2v_3y$.
+Let $Q_1$ be the subpath of $K_1$ containing $v_0v_1v_2v_3y$ such that endvertices of $Q_1$ belong to $C$
+and the rest of $Q_1$ is contained in $\Lambda$.
+Let $F_1$ be the subgraph of $K_1\cup C$ drawn in the closure of $\Lambda$,
+and let $\FF_1$ denote the set of faces of $F_1$ contained in $\Lambda$.  
+No face of $\FF_1$ has length three,
+as otherwise either $K_1$ would have a chord or $C$ would have a chord drawn in $\Lambda$, contradicting the choice
+of $K_1$ or $C$.  Hence, all faces of $\FF_1$ have length at least $9$. 
+Furthermore, by ($\star$), the faces whose boundary contains $Q_1$
+have length at least $13$.  Hence, $\sum_{f\in \FF_1} |f|\ge 26+9(|\FF_1|-2)$.
+On the other hand, since $K_1$ has at least one edge not contained in
+of $\Lambda$ by ($\star$), we have $\sum_{f\in \FF_1} |f|\le |C|+2(|K_1|-1)\le 34$.
+Since $|C|,|K_1|\le 12$, we conclude that $|\FF_1|=2$, and thus $K_1$ intersects $\Lambda$ only in $Q_1$.
 
-Let $K$ be a cycle in $G$ containing the path $v_0v_1v_2v_3y$, chosen so that $\ell=|K|$ is minimum and
-subject to that $s=s(K)$ is maximum.  For $t\in\{s,s+1,\ldots,\ell\}$, let
-$Q_t$ be the subpath of $K$ containing $v_0v_1v_2v_3y$ such that endvertices of $Q_t$ belong to $C_t$
-and the rest of $Q_t$ is contained in $\Lambda_t$.
+Note that also $v_4v_3v_2v_1$ is a tetrad, and unless it is clean, letting $K_2$ be the shortest cycle in $G$
+(of length at most $12$) containing the path $v_5v_4v_3v_2x$, we by symmetry conclude that $K_2$ intersects
+$\Lambda$ only in a path $Q_2$ containing $v_5v_4v_3v_2x$.
 
-Let $F_t$ be the subgraph of $K\cup C_t$ drawn in the closure of $\Lambda_t$,
-and let $\FF_t$ denote the set of faces of $F_t$ contained in $\Lambda_t$.  
-No face of $\FF_t$ has length three,
-as otherwise either $K$ would have a chord or $C_t$ would have a chord drawn in $\Lambda_t$, contradicting the choice
-of $K$ or $C_t$, and thus these faces have length at least $9$. 
-Furthermore, by the choice of $K$, the faces whose boundary contains $Q_t$
-have length at least $\ell+1$.  Hence, $\sum_{f\in \FF_t} |f|\ge 2(\ell+1)+9(|\FF_t|-2)$.
-On the other hand, since $K$ has at least one edge not contained in the closure
-of $\Lambda_t$, we have $\sum_{f\in \FF} |f|\le |C_t|+2(\ell-1)$.
-Since $|C_t|\le 12$, we conclude that $|\FF_t|=2$, and thus $K$ intersects $\Lambda_t$ only in $Q_t$.
-
-Let $w_t$ and $z_t$ be the ends of $Q_t$ and let $P_t$ be the path in $K$
-distinct from $Q_t$ joining $w_t$ with $z_t$.
-Let $P'_t$ and $P''_t$ be the subpaths of $C_t$ joining $w_t$ with $z_t$, where $P'_t$ is contained in the closure
-of $\Lambda$.  The cycle $Q_t\cup P''_t$ has length at least $\ell+1$, and thus
-$P''_t$ is longer than $P_t$.  Let $W_t$ be the closed walk consisting of $P'_t$ and $P_t$.  Note that
-$W_t$ is obtained from $C_t$ by replacing $P''_t$ with $P_t$, and thus $|W_t|<|C_t|$.  In particular, $|C_s|>|W_s|\ge 3$,
-and thus $s\ge 9$.
-
-We claim that no vertex of $G$ is contained in $\Lambda\setminus\overline{\Lambda_\ell}$.
-In order to prove this, we show by induction for $t=s,\ldots,\ell$ that $\Lambda\setminus\overline{\Lambda_t}$
-contains no vertex of $S$.  By the induction hypothesis, all the vertices in $\Lambda\setminus\overline{\Lambda_t}$
-belong to $\overline{\Lambda_{t-1}}$ (for $t=s$, this holds since $\Lambda\subseteq\Lambda_{s-1}$ by the choice of $s$).
-...
-
-Consider any non-outer face $f$ of the graph consisting of the vertices and edges of $W$.  We have $|f|\le |W|<|C_s|$.
-By the choice of $s$, we have $\Lambda\subseteq \Lambda_{s-1}$, and thus $f\subseteq\Lambda_{s-1}$.  At least one vertex
-of $C_s$ is contained in the closure of $\Lambda_{s-1}$ but not in the closure of $f$, and by the minimality of $\Lambda_{s-1}$,
-we conclude that no vertex of $G$ is contained in $f$.
+Let $F$ be the graph consisting of $C$, $Q_1$, $Q_2$, and the edges $v_1x$ and $v_4y$.
+Let $\FF$ denote the set of faces of $F$ contained in $\Lambda$.  Let $t$ denote the number of $3$-faces of $\FF$
+distinct from $v_1v_2x$ and $v_3v_4y$.  Since $Q_1$ and $Q_2$ are induced paths
+and $C$ is an induced cycle in $F$, each such $3$-face must have
+an edge of $Q_1$, $Q_2$, and $C$ each, and thus $t\le 2$.
+Hence, $\sum_{f\in \FF} |f|\ge 6+3t+9(|\FF|-2-t)$.  On the other hand, $Q_1$ and $Q_2$ intersect in the edge $v_2v_3$,
+and thus denoting by $\ell_1$ and $\ell_2$ the lengths of $Q_1$ and $Q_2$, respectively, we have
+$\sum_{f\in \FF} |f|\le |C|+2(\ell_1+\ell_2+1)\le 58$.
 ...
 \end{proof}
+
+Theorem~\ref{thm:no4to8} now follows easily, observing that a hypothetical minimal counterexample is $2$-connected,
+has minimum degree at least three, and does not contain clean tetrads by the argument of Lemma~\ref{lemma:no4to8-redu}.
+Of course, the proof of Lemma~\ref{lemma:no4to8-exred} is a bit more complicated than the argument using a precolored cycle.
+Furthermore, note that we used the symmetry of tetrad in the proof, which we did not need before (and we do not know how
+to avoid this).
+
+Although many results can be proved using both variants of the method, it may be that in some particular cases,
+only one of them applies (and the precolored cycle trick is often easier).  Why might the ``minimum cycle'' argument be
+sometimes preferable?
+
+Firstly, note that Lemma~\ref{lemma:no4to8-exred} is independent on the kind of coloring we use.  Indeed, in Chapter~\ref{chap:corresp},
+we use this lemma to generalize Theorem~\ref{thm:no4to8} to list coloring, and a result like Lemma~\ref{lemma:no4to8-exred} might be
+of interest also in non-coloring contexts.
+
+Secondly, sometimes a precoloring extension result would be cumbersome to state or argue about.  For instance, suppose we consider
+the problem of finding an \emph{acyclic coloring} of a planar graph, where in addition to adjacent vertices having different colors,
+we forbid cycles colored by only two colors.  Then the precoloring would have to take into account not only the colors of the vertices
+of the cycle, but also whether pairs of vertices of the cycle are joined by a bichromatic path in the rest of the graph.
+Rather than definining a notion of precoloring that captures this information and then working with this generalized precoloring,
+it may be more convenient to find reducible configurations via a ``minimum cycle'' argument and then work out their reducibility
+in the context of the whole graph.
+
+Finally, it may be algorithmically easier and faster to just repeatedly reduce a configuration from a given list, rather
+than to intersperse the reductions with splittings of the graph along short separating cycles.
+As an example, Dvo\v{r}\'ak et al.~\cite{DvoKawTho} use this idea to obtain a linear-time algorithm to find
+a $3$-coloring of a triangle-free planar graph.
 
 \section{A Discharging Proof of Gr\"{o}tzsch' theorem}\label{sec:disch-grotzsch}
 
@@ -1407,6 +1423,11 @@ Let $G$ be a plane triangle-free graph with the outer face bounded by a cycle $C
 Suppose that there exists a $3$-coloring $\psi$ of $C$ that does not extend to a $3$-coloring of $G$.
 Then $|C|=6$ and $G$ has a subgraph $H$ containing $C$ such that all non-outer faces of $H$ have length $4$.
 \end{theorem}
+
+Note an additional idea with respect to the trick described in Section~\ref{sec:precolface}: in the case that $|C|=6$,
+we do not prove that a $3$-coloring of $C$ always extends to a $3$-coloring of $G$ (since this is not always the case).
+Instead, we give a description of ``exceptional'' graphs for that the $3$-coloring does not necessarily extend.
+This still enables us to eliminate separating $6$-cycles, unless their interiors contain such exceptional graphs.
 
 In this section, a plane triangle-free graph $G$ with the outer face bounded by a cycle $C$ of length at most $6$
 is \emph{safe} if either $|C|\le 5$, or $|C|=6$ and every subgraph of $G$ that includes $C$ has a non-outer face
@@ -1550,6 +1571,24 @@ $$|C|-4-\frac{5}{3}|C|=4-\frac{2}{3}|C|\ge 0,$$
 which is a contradiction with the fact that the sum of initial charges is $-8$ and the redistribution does not affect
 the total amount of charge.
 \end{proof}
+
+In the context of Theorem~\ref{thm:grotzsch-gimbel}, it is natural to ask when a $3$-coloring of a $6$-cycle $C$
+extends to a $3$-coloring of a plane graph $H$ with the outer face bounded by $C$ and all other faces of length $4$.
+Excluding the trivial case that this is prevented by a chord of $C$ and up to a permutation of colors, there is exactly
+one $3$-coloring that does not extend: the one that assigns vertices of $C$ colors $1,2,3,1,2,3$ in order.
+
+\begin{lemma}\label{lemma:extend6}
+Let $G$ be a plane triangle-free graph with the outer face bounded by an induced $6$-cycle $C=v_1\ldots v_6$ and all other
+faces of length $4$.  Let $\psi$ be a $3$-coloring of $C$.  The coloring $\psi$ extends to a $3$-coloring of $G$
+if and only if $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\psi(v_5)$ or $\psi(v_3)\psi(v_6)$.
+\end{lemma}
+\begin{proof}
+If $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\psi(v_5)$ or $\psi(v_3)\psi(v_6)$, then $C$ contains a $2$-colored subpath of
+three vertices; by symmetry, we can assume that $\psi(v_1)=\psi(v_3)=1$ and $\psi(v_2)=2$.
+...
+\end{proof}
+
+\subsection{Other discharging proofs of Gr\"otzsch' Theorem}.
 
 \subsection{How to find reducible configurations}\label{ssec:howto-redu}
 
@@ -1734,7 +1773,7 @@ sparse setting (cubic graphs, planar graphs -- Seymour's conjecture)?
 \section{List Coloring Conjecture for Bipartite Graphs (Galvin's Proof)}
 \section{List Coloring Conjecture: Outline of Kahn's Proof?}
 
-\chapter{Correspondence Coloring}
+\chapter{Correspondence Coloring}\label{chap:corresp}
 
 % LP
 
