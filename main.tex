@@ -100,7 +100,7 @@ $P_k$ denotes a path on $k$ vertices, its length is $k-1$.
 
 $C_k$ denotes a cycle on $k$ vertices, its length is $k$.  Length of a cycle $C$ is denoted by $|C|$.
 
-Girth (no special notation)?
+Girth (no special notation)? Odd girth.
 
 Graphs on surfaces: genus (Euler by default), representativity and edge-width, contractible and
 noncontractible curves (separating vs non-separating, one-sided vs two-sided).
@@ -1207,7 +1207,6 @@ To reduce tetrads,we use the precolored cycle trick.
 Let $G$ be a counterexample with $|V(G)|+|E(G)|$ the smallest possible, and let $C$ be the cycle bounding the outer face of $G$.
 Then vertices of $G$ not belonging to $C$ have degree at least three, and $G$ contains no 
 tetrad vertex-disjoint from $C$.
-\end{itemize}
 \end{lemma}
 \begin{proof}
 Let $\psi$ be a $3$-coloring of $C$ that does not extend to a $3$-coloring of $G$.
@@ -1310,7 +1309,7 @@ by Borodin et al.~\cite{bor47}.  The reader is invited to attempt to make the ne
 argument as an exercise (it is necessary to introduce two more reducible configurations at $8$-faces,
 which should naturally follow from an attempt to discharge these faces).
 
-\subsection{The trick without precoloring}
+\subsection{The trick without precoloring}\label{ssec:shortestinter}
 
 There is another way of dealing with the short separating cycles:
 look for a reducible configuration inside the region bounded by a separating cycle $C$ whose
@@ -1387,10 +1386,11 @@ $\sum_{f\in \FF} |f|\le |C|+2(\ell_1+\ell_2+1)\le 58$.
 
 Theorem~\ref{thm:no4to8} now follows easily, observing that a hypothetical minimal counterexample is $2$-connected,
 has minimum degree at least three, and does not contain clean tetrads by the argument of Lemma~\ref{lemma:no4to8-redu}.
+For another application of the method using a more involved choice of minimal separating cycle, see Lemma~\ref{lemma:exredu}.
+
 Of course, the proof of Lemma~\ref{lemma:no4to8-exred} is a bit more complicated than the argument using a precolored cycle.
 Furthermore, note that we used the symmetry of tetrad in the proof, which we did not need before (and we do not know how
 to avoid this).
-
 Although many results can be proved using both variants of the method, it may be that in some particular cases,
 only one of them applies (and the precolored cycle trick is often easier).  Why might the ``minimum cycle'' argument be
 sometimes preferable?
@@ -1574,23 +1574,157 @@ the total amount of charge.
 
 In the context of Theorem~\ref{thm:grotzsch-gimbel}, it is natural to ask when a $3$-coloring of a $6$-cycle $C$
 extends to a $3$-coloring of a plane graph $H$ with the outer face bounded by $C$ and all other faces of length $4$.
-Excluding the trivial case that this is prevented by a chord of $C$ and up to a permutation of colors, there is exactly
-one $3$-coloring that does not extend: the one that assigns vertices of $C$ colors $1,2,3,1,2,3$ in order.
-
-\begin{lemma}\label{lemma:extend6}
-Let $G$ be a plane triangle-free graph with the outer face bounded by an induced $6$-cycle $C=v_1\ldots v_6$ and all other
-faces of length $4$.  Let $\psi$ be a $3$-coloring of $C$.  The coloring $\psi$ extends to a $3$-coloring of $G$
-if and only if $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\psi(v_5)$ or $\psi(v_3)\psi(v_6)$.
-\end{lemma}
-\begin{proof}
-If $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\psi(v_5)$ or $\psi(v_3)\psi(v_6)$, then $C$ contains a $2$-colored subpath of
-three vertices; by symmetry, we can assume that $\psi(v_1)=\psi(v_3)=1$ and $\psi(v_2)=2$.
-...
-\end{proof}
+We will address this question in Chapter~\ref{chap:recolor}, Lemma~\ref{lemma:extend6}.
 
 \subsection{Other discharging proofs of Gr\"otzsch' Theorem}.
 
+There are a number of modifications that can be made to the discharging proof of Gr\"otzsch' Theorem.
+One minor one concerns the reduction in Lemma~\ref{lemma:grgim-redu}. The way we reduce a 5-face incident with
+four vertices of degree three comes from the original Gr\"otzsch' proof~\cite{grotzsch1959}, while
+elsewhere~\cite{thom-torus} a reduction by identifying $v_5$ with $x_2$ and $x_3$ with $x_4$ is used
+(we invite the reader to check that every $3$-coloring of the reduced graph extends to the coloring
+of the original graph and to work out what assumptions need to be made to ensure that no triangles are created).
+In some context one of the ways to reduce the configurations may be preferable; it does not matter much in our
+proof.
+
+It is not completely necessary to reduce faces of length at least 6; it is possible to
+alter the discharging so that they end up with non-negative charge, which is not much of a pain due to the
+fact that they start with quite large positive charge.  However, some extra care is required: the reduction
+from Lemma~\ref{lemma:grgim-redu} fails when the edge $v_2v_3$ is incident with a $6$-face, and some transfer of
+charge from $6$-faces to $5$-faces incident with at least four vertices of degree three is needed.
+Again, reader is invited to work out the details as an exercise.
+
+More importantly, there is another way to deal with faces of length other than 5.  In Lemma~\ref{lemma:grgimprop1}
+we handled them by adding chords.  They can be also eliminated by vertex identifications analogously to the way
+4-faces are collapsed in the proof of Lemma~\ref{lemma:grgimprop}(e).  In this context, the following
+important tool was found by Klostermeyer and Zhang~\cite{KloZhang}.  Let us recall that the \emph{odd girth}
+of a graph is the length of the shortest odd cycle (or $\infty$ if the graph is bipartite).
+\begin{lemma}[Folding Lemma]\label{lemma:folding}
+Let $g$ be an odd integer.  Let $G$ be a plane graph of odd girth at least $g$ and let $K$ be a cycle in $G$ bounding a face.
+If $|K|\neq g$, then there exists a subpath $xyz$ of $K$ such that $G$ contains no path of odd length less than $g$
+between $x$ and $z$.  Consequently, the graph obtained from $G$ by identifying $x$ with $z$ has odd girth at least $g$.
+\end{lemma}
+\begin{proof}
+The claim holds unless each two-edge subpath of $K$ is contained in a cycle of length exactly $g$;
+for a contradiction, assume that is the case.
+
+For a cycle $C$, a \emph{pace} of $C$ is a maximal subpath of $K\cap C$.
+Let $C_1$ be a $g$-cycle in $G$ with the longest pace $P_1$ and let $v_1$ and $v_3$ be the endvertices of $P_1$
+labelled so that $P_1$ is the clockwise arc of $C$ from $v_1$ to $v_3$.
+There exists a $g$-cycle $C_2$ whose pace $P_2$ contains both edges of $K$ incident with $v_3$.  Let $v_2$ and $v_4$ be the endvertices
+of $P_2$ labelled so that $P_2$ is the clockwise arc of $C$ from $v_2$ to $v_4$.
+By the maximality of the pace $P_1$, we have $v_2\in V(P_1)\setminus \{v_1,v_3\}$.
+For $i\in\{1,2\}$, let $Q_i$ be the subpath of $C_i$ edge-disjoint from $P_i$ such that $C_i=P_i\cup Q_i$,
+and let $P'_i$ be the subpath of $K$ edge-disjoint from $P_i$ such that $K=P_i\cup P'_i$.
+See Figure~\ref{fig:folding} for an illustration.
+
+\begin{figure}
+\begin{center}
+%\begin{asy}
+%TODO
+%\end{asy}
+\end{center}
+\caption{The cycles from the proof of Lemma~\ref{lemma:folding}.  Paths $Q_1$ and $Q_2$ may intersect
+in vertices other than $w$ and may share edges.}\label{fig:folding}
+\end{figure}
+
+Suppose first that $P_1\cup P_2=K$, i.e., $v_4\in V(P_1)$.  Then $|P_1|+|P_2|>|K|$ and $|P_1|>|K|/2$.
+If $|K|$ is even, then the walk consisting of $Q_1$ and the clockwise path in $K$ from $v_3$ to $v_1$
+has the same parity as $C_1$ and it is shorter, contradicting the assumption that $G$ has odd girth at least $g$.
+If $|K|$ is odd, then since $|K|\neq g$ and $G$ has odd girth at least $g$, we have $|K|>g$.  Also,
+$|P'_2|$ and $|Q_2|$ have the same parity, and since $|K|>g=|C_2|$, we have $|P'_2|>|Q_2|$.
+But then the closed walk obtained from $C_1$ by replacing $P'_2$ with $Q_2$ has odd length smaller than $|C_1|=g$,
+which is a contradiction.
+
+Hence, $P_1\cup P_2\neq K$, and $v_4$ is an interior vertex of $P'_1$.  By planarity, $C_1$ and $C_2$ intersect
+in a vertex $w\not\in V(P_1\cap P_3)$.  For $i\in \{1,3\}$, let $A_i$ be the subpath of $C_1$ from $v_i$ to $w$
+edge-disjoint from $P_1$, and let $A_{i+1}$ be the subpath of $C_2$ from $v_{i+1}$ to $w$
+edge-disjoint from $P_2$.  Let $W_0$ be the closed walk consisting of $A_1$, $A_4$, and the clockwise
+arc of $K$ from $v_1$ to $v_4$.  For $i\in\{1,2,3\}$, let $W_i$ be the closed walk consisting of $A_{i}$, $A_{i+1}$,
+and the clockwise arc of $K$ from $v_i$ to $v_{i+1}$.  Note that for $i\in \{1,2\}$, the odd cycle $C_i$ is
+the symmetric difference of $W_i$ and $W_{i+1}$, and thus $|W_2|$ has opposite parity from $|W_1|$ and $|W_3|$.
+
+If $|W_2|$ is even, then $|W_1|$ and $|W_3|$ are odd and by the odd girth assumption, $|W_1|,|W_3|\ge g$.
+Letting $s_2$ denote the length of the clockwise arc of $K$ from $v_2$ to $v_3$, observe that
+$2g=|C_1|+|C_2|=|W_1|+|W_2|+2s_2\ge 2g+2s_2$, and thus $s_2=0$.  However, this implies that $v_2=v_3$, which contradicts the choice of $C_2$.
+
+Hence, $|W_2|$ is odd.  Consequently, $|W_1|$ and $|W_3|$ are even and $|W_0|=|W_1|+|W_3|+2s_2-|W_2|$ is odd.
+Letting $s_3$ denote the length of the clockwise arc of $K$ from $v_3$ to $v_4$, we have
+$|A_2|+|A_3|+s_2=|W_2|\ge g=|C_2|=|A_2|+|A_4|+s_2+s_3$,
+and thus $|A_3|\ge |A_4|+s_3$ and
+$$g\le |W_0|=|C_1|+s_3+|A_4|-|A_3|\le |C_1|=g.$$
+Therefore, $|W_0|=g$, and if the closed walk $W_0$ were not a cycle, it would contain a subwalk of odd length smaller than $g$,
+contradicting the girth assumption.  Hence, $W_0$ is a $g$-cycle, and its pace contains $P_1\cup P_2$.  This contradicts the maximality
+of the pace of $C_1$.
+\end{proof}
+Folding Lemma is widely applicable not only for ordinary proper coloring, but
+also whenever we consider any kind of coloring where identifying two vertices
+(with a common neighbor) cannot decrease the number of colors needed, such as
+circular or fractional coloring.  In these circumstances, it implies that when we color
+plane graphs of odd girth at least $g$, we only need to consider graphs where all faces
+have length exactly $g$.  For example, Gr\"otzsch' Theorem deals with graphs of odd girth at least $5$,
+and thus Folding Lemma implies that a hypothetical minimal counterexample has all faces of length $5$.
+
+Let us remark that Folding Lemma often makes it possible to improve girth bounds in coloring results
+by one essentially for free: Supposing that by some discharging argument we can prove that a result
+holds for planar graphs of girth $g$ for \emph{odd} $g$, we can consider instead graphs of odd girth $g$.
+By Folding Lemma, we can assume that their faces have length $g$, and thus the discharging argument
+will go through unmodified (a care need to be taken to check that all reductions also work in the odd girth
+setting, though).  Since $g$ is odd, a graph of girth $g-1$ has odd girth at least $g$, and thus
+in this way a result holds for planar graphs of girth $g$ can be cheaply transformed into a result
+that holds for planar graphs of girth $g-1$.
+
+We cannot eliminate non-facial cycles of length less than $G$ by Folding Lemma,
+and we need to deal with those using one of the methods of Section~\ref{sec:precolface}.  Of course,
+when Folding Lemma is applied in a graph with a precolored face, one needs to discuss the possibility
+that the vertices being identified are precolored ones, which may make the identification impossible
+when they have different colors.
+
+Using Folding Lemma and the reduction from Lemma~\ref{lemma:grgim-redu}, Gr\"otzsch' Theorem follows easily
+from the following result proved using the idea of Subsection~\ref{ssec:shortestinter}.
+\begin{lemma}\label{lemma:exredu}
+Let $G$ be a $2$-connected plane triangle-free graph with all faces of length exactly $5$.
+If the minimum degree of $G$ is at least three, then $G$ contains a $5$-face bounded by a cycle $K=v_1\ldots v_5$
+such that $v_1$, \ldots, $v_4$ have degree three, the neighbors $x_1$ and $x_4$ of $v_1$ and $v_4$
+not in $K$ have no common neighbor, and the neighbors $x_2$ and $x_3$ of $v_2$ and $v_3$ not in $K$
+are not joined by a path of length three other than $x_2v_2v_3x_3$.
+\end{lemma}
+\begin{proof}
+Let $C_1$ be a $(\le\!5)$-cycle in $G$ such that the open disk $\Lambda_1$ bounded by $C_1$ contains a vertex
+of $G$ and subject to that $\Lambda_1$ is inclusionwise-minimal.  Let $G_1$ be the subgraph of $G$ drawn in
+the closure of $\Lambda_1$.  Let $C$ be a $(\le\!6)$-cycle in $G_1$ such that the open disk $\Lambda$ bounded by $C$ contains a vertex
+of $G$ and subject to that $\Lambda$ is inclusionwise-minimal.  Let $G'$ be the subgraph of $G$ drawn in the closure
+of $C$.
+
+We apply the discharging argument of Theorem~\ref{thm:grotzsch-gimbel} to $G'$ with the outer face bounded by the cycle $C$.
+This gives a contradiction unless $G$ contains a $5$-face bounded by a cycle $K=v_1\ldots v_5$
+such that $v_1$, \ldots, $v_4$ have degree three and neither these vertices nor their neighbors $x_1$, \ldots, $x_4$ outside of $K$
+belong to $C$.  If $x_1$ and $x_4$ had a common neighbor $y$ in $G$, then note that $y\in V(G')$ and the $6$-cycle $x_4yx_1v_1v_5v_4$
+would contradict the choice of $C$; hence, they do not have a common neighbor.
+
+Suppose that $G$ contains a path $x_2y_2y_3x_3$ distinct from $x_2v_2v_3x_3$, and let $C'$ be the $6$-cycle $x_2y_2y_3x_3v_3v_2$.
+If $C'\subseteq G'$, then $C'$ would contradict the choice of $C$.  Hence, $y_2,y_3\in V(C)$ and the edge $y_2y_3$ is drawn outside of $\Lambda$.
+Since $G$ is triangle-free and $y_2y_3$ is a chord of $C$, we conclude that $|C|=6$ and $C=y_2a_1a_2y_3b_1b_2$, where say the open disk
+bounded by $y_2y_3b_1b_2$ contains $\Lambda$.  Since $G$ is triangle-free and $|C_1|\le 5$, the edge $y_2y_3$ is not a chord of $C_1$,
+and thus $y_2y_3\in E(G_1)$.  By the minimality of $\Lambda_1$, we conclude that $C_1=y_2y_3b_1b_2$.  But then the $4$-cycle $y_2a_1a_2y_3$
+is contained in $G_1$ and contradicts the choice of $C_1$ (the open disk bounded by $y_2a_1a_2y_3$ must contain a vertex, since
+$G$ is triangle-free and all faces of $G$ have length $5$).
+\end{proof}
+
+Another possible choice in the proof of Gr\"otzsch' Theorem is to first reduce it to the girth 5 case by Folding Lemma and a precolored cycle
+argument, and then execute the proof in girth at least 5 setting, by essentially the same reducible configurations and discharging rules,
+but using a longer precolored cycle to eliminate further separating cycles and ensure that no $4$-cycles are created.
+This way, Thomassen~\cite{thom-torus} proved the following precoloring extension result which is occasionally useful.
+\begin{theorem}\label{thm:precol9}
+Let $G$ be a plane graph of girth at least $5$ with the outer face bounded by an induced cycle $C$ of length at most $9$.
+A $3$-coloring of $C$ extends to a $3$-coloring of $G$ unless $|C|=9$ and a vertex of $G$ has three neihbors in $C$
+colored with three different colors.
+\end{theorem}
+As a final exercise, the reader should work out the details of the proof of Theorem~\ref{thm:precol9}.
+
 \subsection{How to find reducible configurations}\label{ssec:howto-redu}
+
+...
 
 \chapter{List Coloring}
 
@@ -1615,9 +1749,23 @@ three vertices; by symmetry, we can assume that $\psi(v_1)=\psi(v_3)=1$ and $\ps
 
 using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size two
 
-\chapter{Recoloring?}
+\chapter{Recoloring?}\label{chap:recolor}
 
 % ZD
+
+Excluding the trivial case that this is prevented by a chord of $C$ and up to a permutation of colors, there is exactly
+one $3$-coloring that does not extend: the one that assigns vertices of $C$ colors $1,2,3,1,2,3$ in order.
+
+\begin{lemma}\label{lemma:extend6}
+Let $G$ be a plane triangle-free graph with the outer face bounded by an induced $6$-cycle $C=v_1\ldots v_6$ and all other
+faces of length $4$.  Let $\psi$ be a $3$-coloring of $C$.  The coloring $\psi$ extends to a $3$-coloring of $G$
+if and only if $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\psi(v_5)$ or $\psi(v_3)\psi(v_6)$.
+\end{lemma}
+\begin{proof}
+If $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\psi(v_5)$ or $\psi(v_3)\psi(v_6)$, then $C$ contains a $2$-colored subpath of
+three vertices; by symmetry, we can assume that $\psi(v_1)=\psi(v_3)=1$ and $\psi(v_2)=2$.
+...
+\end{proof}
 
 \section{Overview of the Method}
 
