@@ -1330,10 +1330,10 @@ or a clean tetrad.
 If $G$ does not contain a triangle, then Euler's formula easily implies that $G$ contains a vertex of degree at most two.
 Hence, we can assume that $G$ is drawn so that the outer face of $G$ is bounded by a triangle.
 Also, we can assume that some vertices of $G$ are not incident with the outer face.
-Let $C$ be a cycle in $G$ of length at most $12$ such that the open disk $\Lambda$ bounded by $C$ is minimum.
+Let $C$ be an induced cycle in $G$ of length at most $12$ such that the open disk $\Lambda$ bounded by $C$ is minimum.
 Let $G_C$ be the subgraph of $G$ drawn in the closure of $\Lambda$.
 
-Clearly, $G_C$ is a $2$-connected graph and $C$ is an induced cycle in $G_C$.
+Clearly, $G_C$ is a $2$-connected graph.
 If $G_C$ contained neither a vertex of degree at most two not contained in $C$ nor
 a tetrad disjoint from $C$, then we would 
 assign charge to the vertices and faces of $G_C$, perform the discharging, and obtain a contradiction in the same way as in
@@ -1345,42 +1345,45 @@ Let $x$ be the common neighbor of $v_1$ and $v_2$, let $y$ be the common neighbo
 and let $v_0$ and $v_5$ be the neighbors of $v_1$ and $v_4$, respectively, not contained in $\{v_2,v_3,x,y\}$.
 Since $v_1,\ldots, v_4\not\in V(C)$, the path $v_1v_2v_3v_4$ is also a tetrad in $G$.  Suppose that the tetrad is not
 clean in $G$, i.e., there exists a path in $G$
-from $v_0$ to $y$ of length at most $8$, and thus the path $v_0v_1v_2v_3y$ is contained in a cycle $K'_1$ of length at most $12$.
-As in the proof of Lemma~\ref{lemma:no4to8-prop}, we argue that the open disk $\Lambda'_1$ bounded by any such cycle $K'_1$ contains either $x$ or $v_4$.
-If $\Lambda'_1\subseteq\Lambda$, then since both edges $v_2x$ and $v_3v_4$ are contained in $\Lambda$
-and exactly one of them is contained in $\Lambda'_1$, we have $\Lambda'_1\subsetneq\Lambda$; however, this contradicts the choice
-of $C$.  Hence,
-\begin{itemize}
-\item[($\star$)] \emph{if $K'_1$ is cycle is $G$ of length at most $12$ such that $v_0v_1v_2v_3y$ is a subpath of $K'_1$,
-then the open disk bounded by $K'_1$ is not a subset of $\Lambda$.}
-\end{itemize}
+from $v_0$ to $y$ of length at most $8$, and thus the path $v_0v_1v_2v_3y$ is contained in a cycle of length at most $12$;
+let $K_1$ be shortest such cycle. As in the proof of Lemma~\ref{lemma:no4to8-prop}, we argue that $x,v_4\not\in V(K_1)$,
+and thus the open disk $\Lambda_1$ bounded by $K_1$ contains either $x$ or $v_4$.
+If $\Lambda_1\subseteq\Lambda$, then since both edges $v_2x$ and $v_3v_4$ are contained in $\Lambda$
+and exactly one of them is contained in $\Lambda_1$, we have $\Lambda_1\subsetneq\Lambda$; however, this contradicts the choice
+of $C$.  Hence, $K_1$ is not contained in the closure of $\Lambda$; and since $K_1$ is an induced cycle, we have $|C|\neq 3$,
+and thus $|C|\ge 9$.
 
-Let $K_1$ be the shortest cycle in $G$ containing the path $v_0v_1v_2v_3y$.
-Let $Q_1$ be the subpath of $K_1$ containing $v_0v_1v_2v_3y$ such that endvertices of $Q_1$ belong to $C$
-and the rest of $Q_1$ is contained in $\Lambda$.
+Let $Q'_1$ be the subpath of $K_1$ containing $v_0v_1v_2v_3y$ such that endvertices of $Q'_1$ belong to $C$
+and the rest of $Q'_1$ is contained in $\Lambda$.
 Let $F_1$ be the subgraph of $K_1\cup C$ drawn in the closure of $\Lambda$,
 and let $\FF_1$ denote the set of faces of $F_1$ contained in $\Lambda$.  
-No face of $\FF_1$ has length three,
-as otherwise either $K_1$ would have a chord or $C$ would have a chord drawn in $\Lambda$, contradicting the choice
-of $K_1$ or $C$.  Hence, all faces of $\FF_1$ have length at least $9$. 
-Furthermore, by ($\star$), the faces whose boundary contains $Q_1$
-have length at least $13$.  Hence, $\sum_{f\in \FF_1} |f|\ge 26+9(|\FF_1|-2)$.
-On the other hand, since $K_1$ has at least one edge not contained in
+No face of $\FF_1$ has length three, as otherwise either $K_1$ or $C$ would have a chord.
+Hence, all faces of $\FF_1$ have length at least $9$. 
+Consider a face $f\in \FF_1$ whose boundary contains $Q'_1$ and let $K$ be the cycle bounding $f$.
+If $|f|\le 12$, then note that either $x$ or $v_4$ is contained in $f$, and thus there exists
+an induced cycle $K'\subseteq G[V(K)]$ such that the open disk bounded by $K'$ contains $x$ or $v_4$.
+Since $C$ is an induced cycle, it follows that $K'$ is contained in the closure of $\Lambda$ and contradicts
+the choice of $C$.  This is a contradiction showing that both faces of $\FF_1$  whose boundary contains $Q'_1$
+have length at least $13$.
+Hence, $\sum_{f\in \FF_1} |f|\ge 26+9(|\FF_1|-2)$.
+On the other hand, since $K_1$ has at least one edge not contained in the closure
 of $\Lambda$ by ($\star$), we have $\sum_{f\in \FF_1} |f|\le |C|+2(|K_1|-1)\le 34$.
-Since $|C|,|K_1|\le 12$, we conclude that $|\FF_1|=2$, and thus $K_1$ intersects $\Lambda$ only in $Q_1$.
+Since $|C|,|K_1|\le 12$, we conclude that $|\FF_1|=2$, and thus $K_1$ intersects $\Lambda$ only in $Q'_1$.
 
-Note that also $v_4v_3v_2v_1$ is a tetrad, and unless it is clean, letting $K_2$ be the shortest cycle in $G$
-(of length at most $12$) containing the path $v_5v_4v_3v_2x$, we by symmetry conclude that $K_2$ intersects
-$\Lambda$ only in a path $Q_2$ containing $v_5v_4v_3v_2x$.
+Let $\ell'_1$ denote the length of $Q'_1$.
+Consider now the subgraph of $K_1\cup C$ drawn outside of $\Lambda$.  Since both $K_1$ and $C$ are induced cycles,
+this graph contains no triangles, and thus all its faces have length at least $9$.  It has at least two
+such faces, and thus $18\le |C|+2(|K_1|-\ell'_1)$, and $\ell'_1\le |K_1|-(9-|C|/2)\le 9$.
+Let $Q_1$ be a shortest path in the subgraph of $G$ drawn in the closure of $\Lambda$ that contains
+$v_0v_1v_2v_3y$ and the endpoints of $Q_1$ belong to $V(C)$, and let $\ell_1$ denote the length of $Q_1$;
+we have $\ell_1\le \ell'_1\le 9$.
 
-Let $F$ be the graph consisting of $C$, $Q_1$, $Q_2$, and the edges $v_1x$ and $v_4y$.
-Let $\FF$ denote the set of faces of $F$ contained in $\Lambda$.  Let $t$ denote the number of $3$-faces of $\FF$
-distinct from $v_1v_2x$ and $v_3v_4y$.  Since $Q_1$ and $Q_2$ are induced paths
-and $C$ is an induced cycle in $F$, each such $3$-face must have
-an edge of $Q_1$, $Q_2$, and $C$ each, and thus $t\le 2$.
-Hence, $\sum_{f\in \FF} |f|\ge 6+3t+9(|\FF|-2-t)$.  On the other hand, $Q_1$ and $Q_2$ intersect in the edge $v_2v_3$,
-and thus denoting by $\ell_1$ and $\ell_2$ the lengths of $Q_1$ and $Q_2$, respectively, we have
-$\sum_{f\in \FF} |f|\le |C|+2(\ell_1+\ell_2+1)\le 58$.
+Note that also $v_4v_3v_2v_1$ is a tetrad, and unless it is clean in $G$, we by symmetry conclude that
+a shortest path $Q_2$ in the subgraph of $G$ drawn in the closure of $\Lambda$ that contains
+$v_0v_1v_2v_3y$ and whose endpoints belong to $V(C)$ has length $\ell_2\le 9$.
+Clearly, we can assume that in addition to the edge $v_2v_3$, the paths $Q_1$ and $Q_2$ intersect
+at most in their segments ending in $C$, and thus the graph $F$ consisting of $C$, $Q_1$, $Q_2$, and the edges $v_1x$ and $v_4y$
+has exactly $7$ faces (one bounded by $C$, two by triangles $v_1v_2x$ and $v_3v_4y$, and four other faces of length at least $9$).
 ...
 \end{proof}
 
@@ -1598,7 +1601,8 @@ More importantly, there is another way to deal with faces of length other than 5
 we handled them by adding chords.  They can be also eliminated by vertex identifications analogously to the way
 4-faces are collapsed in the proof of Lemma~\ref{lemma:grgimprop}(e).  In this context, the following
 important tool was found by Klostermeyer and Zhang~\cite{KloZhang}.  Let us recall that the \emph{odd girth}
-of a graph is the length of the shortest odd cycle (or $\infty$ if the graph is bipartite).
+of a graph is the length of the shortest odd cycle (or $\infty$ if the graph is bipartite).  Observe that the odd girth
+also gives a lower bound for the length of odd closed walks.
 \begin{lemma}[Folding Lemma]\label{lemma:folding}
 Let $g$ be an odd integer.  Let $G$ be a plane graph of odd girth at least $g$ and let $K$ be a cycle in $G$ bounding a face.
 If $|K|\neq g$, then there exists a subpath $xyz$ of $K$ such that $G$ contains no path of odd length less than $g$
@@ -1620,23 +1624,94 @@ See Figure~\ref{fig:folding} for an illustration.
 
 \begin{figure}
 \begin{center}
-%\begin{asy}
-%TODO
-%\end{asy}
+\begin{asy}
+unitsize(9mm);
+v[1] = (0,0);
+v[3] = (6,0);
+v[2] = (4.5,0);
+v[4] = (1.5,0);
+
+draw(v[2]--v[3]{dir(-30)}.. (3,-3) .. {dir(30)} v[1] -- v[4], linewidth(1bp));
+draw(v[2]--v[4]);
+
+path q1 = (v[1]{dir(80)} .. {dir(-80)}v[3]);
+path q2 = (v[2]{dir(80)} .. {dir(-80)}v[4]);
+
+draw(q1);
+draw(q2, linewidth(1bp));
+
+label("$Q_1$", point(q1,1/3), NW);
+label("$Q_2$", point(q2,1/2), S);
+draw(brace(v[3],v[1], 0.9));
+label("$P_1$", (3,-0.9), S);
+label("$P'_1$", (3,-3), N);
+label("$P'_2$", interp(v[2],v[4],1/2), N);
+
+vertex(v[1], black);
+vertex(v[2], black);
+vertex(v[3], black);
+vertex(v[4], black);
+label("$v_1$", v[1], NW);
+label("$v_2$", v[2], S);
+label("$v_3$", v[3], NE);
+label("$v_4$", v[4], S);
+
+label("(a)", (2,-3.5));
+
+v[1] = (8,0);
+v[3] = v[1]+(4,0);
+v[2] = v[1]+(2,0);
+v[4] = v[1]+(6,0);
+
+draw(v[1]--v[4]{dir(-30)}.. (v[1]+(3,-3)) .. {dir(30)} v[1] -- v[4]);
+draw(v[2]--v[4]);
+
+q1 = (v[1]{dir(80)} .. {dir(-80)}v[3]);
+q2 = (v[2]{dir(80)} .. {dir(-80)}v[4]);
+v[5] = intersectionpoint(q1,q2);
+
+draw(q1);
+draw(q2);
+
+label("$A_1$", point(q1,1/3), NW);
+label("$A_2$", point(q2,3/16), W);
+label("$A_3$", point(q1,13/16), E);
+label("$A_4$", point(q2,2/3), NE);
+
+label("$W_1$", v[1] + (1,0.5));
+label("$W_2$", v[1] + (3,0.5));
+label("$W_3$", v[1] + (5,0.5));
+
+label("$s_2$", v[1] + (3,0), S);
+label("$s_3$", v[1] + (5,0), S);
+
+vertex(v[1], black);
+vertex(v[2], black);
+vertex(v[3], black);
+vertex(v[4], black);
+vertex(v[5], black);
+label("$v_1$", v[1], NW);
+label("$v_2$", v[2], S);
+label("$v_3$", v[3], S);
+label("$v_4$", v[4], NE);
+label("$w$", v[5], S);
+
+label("(b)", v[1] + (3,-3.5));
+\end{asy}
 \end{center}
 \caption{The cycles from the proof of Lemma~\ref{lemma:folding}.  Paths $Q_1$ and $Q_2$ may intersect
 in vertices other than $w$ and may share edges.}\label{fig:folding}
 \end{figure}
 
-Suppose first that $P_1\cup P_2=K$, i.e., $v_4\in V(P_1)$.  Then $|P_1|+|P_2|>|K|$ and $|P_1|>|K|/2$.
-If $|K|$ is even, then the walk consisting of $Q_1$ and the clockwise path in $K$ from $v_3$ to $v_1$
+Suppose first that $P_1\cup P_2=K$, i.e., $v_4\in V(P_1)$, as in Figure~\ref{fig:folding}(a).  Then $|P_1|+|P_2|>|K|$ and $|P_1|>|K|/2$.
+If $|K|$ is even, then the walk consisting of $Q_1$ and $P'_1$
 has the same parity as $C_1$ and it is shorter, contradicting the assumption that $G$ has odd girth at least $g$.
 If $|K|$ is odd, then since $|K|\neq g$ and $G$ has odd girth at least $g$, we have $|K|>g$.  Also,
 $|P'_2|$ and $|Q_2|$ have the same parity, and since $|K|>g=|C_2|$, we have $|P'_2|>|Q_2|$.
 But then the closed walk obtained from $C_1$ by replacing $P'_2$ with $Q_2$ has odd length smaller than $|C_1|=g$,
 which is a contradiction.
 
-Hence, $P_1\cup P_2\neq K$, and $v_4$ is an interior vertex of $P'_1$.  By planarity, $C_1$ and $C_2$ intersect
+Hence, $P_1\cup P_2\neq K$, and $v_4$ is an interior vertex of $P'_1$, as in Figure~\ref{fig:folding}(b).  By planarity, $C_1$ and $C_2$ intersect
 in a vertex $w\not\in V(P_1\cap P_3)$.  For $i\in \{1,3\}$, let $A_i$ be the subpath of $C_1$ from $v_i$ to $w$
 edge-disjoint from $P_1$, and let $A_{i+1}$ be the subpath of $C_2$ from $v_{i+1}$ to $w$
 edge-disjoint from $P_2$.  Let $W_0$ be the closed walk consisting of $A_1$, $A_4$, and the clockwise
@@ -1749,7 +1824,7 @@ As a final exercise, the reader should work out the details of the proof of Theo
 
 using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size two
 
-\chapter{Recoloring?}\label{chap:recolor}
+\chapter{Recoloring}\label{chap:recolor}
 
 % ZD
 
