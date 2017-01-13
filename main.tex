@@ -1412,7 +1412,8 @@ On the other hand, since $K_1$ has at least two edges not contained in the closu
 of $\Lambda$, we have $\sum_{f\in \FF_1} |f|\le |C|+2(|K_1|-2)\le 32$.
 We conclude that $|\FF_1|=2$, and thus $K_1$ intersects $\Lambda$ only in $Q_1$.
 
-Let $\ell_1$ denote the length of $Q_1$.
+Let $\ell_1$ denote the length of $Q_1$.  The argument of the previous paragraph implies $|C|+2\ell_1\ge 26$,
+and thus $\ell_1\ge 7$.
 Consider now the subgraph of $K_1\cup C$ drawn outside of $\Lambda$.  Since both $K_1$ and $C$ are induced cycles,
 this graph contains no triangles, and thus all its faces have length at least $9$.  It has at least two
 such faces, and thus $18\le |C|+2(|K_1|-\ell_1)$, and $\ell_1\le |K_1|-(9-|C|/2)\le 9$.
@@ -1436,15 +1437,67 @@ and the outer face.  We have
 \begin{equation}\label{eq:facesizes}
 |C|+42+s\le |C|+6+\sum_{i=1}^4|f_i|+s=2|E(F)|\le 2(|C|+\ell_1+\ell_2+1)\le 2|C|+34,
 \end{equation}
-and thus $s\le |C|-8\le 4$.  Consequently, $s\in\{0,3\}$.
+and thus $s\le |C|-8\le 4$.  Consequently, in addition to the outer face and the faces $f_1$, \ldots, $f_4$ and the 3-faces bounded by $T_1$
+and $T_2$, $F$ has at most one other face of length at most $3$.  Since $C$ is an induced cycle and $Q_1$ and $Q_2$
+are induced paths, this triangular face is incident with an edge of each of them.  We conclude that $Q_1\cap Q_2$ consists
+of the edge $v_2v_3$ and possibly at most two other disjoint paths ending either in $C$ or (when $s=3$) in a vertex of the triangle
+formed by an edge of each of $Q_1$, $Q_2$, and $C$.
 
-Suppose first that $\max(|f_1|,\ldots,|f_4|)\le 12$.  Then the choice of $C$ implies that $V(G_C)=V(F)$, i.e., $G_C$ is obtained from $F$ by
-possibly adding chords to its faces, and $G_C$ has exactly four non-outer faces of length at least 9 and all other non-outer faces of $G_C$
-are triangles. ...
+Suppose first that $\max(|f_1|,\ldots,|f_4|)\le 12$.  Then the minimality in the choice of $C$ implies that $V(G_C)=V(F)$, i.e., $G_C$ is obtained from $F$ by
+possibly adding chords to its faces.  Such a chord necessarily cuts off a triangular face.  Since $C$ is an induced cycle and $Q_1$ and $Q_2$
+are induced paths, this triangular face is incident with an edge of two of them.  Suppose that $z_1z_2u$ is such a face, where $z_1u$ is the chord
+and say $z_1z_2\in E(Q_1)$.  Then either $z_2\in V(C)$ or $uz_2\in E(Q_2)$, and in the latter case $z_1z_2\not\in E(Q_2)$ and by the previous paragraph
+the subpath of $Q_1-z_1z_2$ containing $z_2$ is shared with $Q_2$ except possibly for its last edge.  In particular, the edge $v_2v_3$ is not containe
+in the subpath of $Q_1-z_1z_2$ containing $z_2$.  We conclude that if $z_0z_1$ is a subpath of $Q_1$ with $z_0,z_1\not\in V(C\cup Q_2)$, then
+at most one of $z_0$ and $z_1$ is incident with a chord.  If $Q_1\cap Q_2\neq v_2v_3$, then $F$ contains a cycle $K$ consisting of subpaths of $Q_1$ and $Q_2$
+and possibly one of edges $v_1x$ and $v_4y$.  Since $|K|\ge 9$, $K$ contains at least three vertices not contained in $V(Q_1\cap Q_2)\cup\{v_1,x,v_4,y\}$,
+and by symmetry we can assume that two of them are consecutive vertices of $Q_1$ not belonging to $V(C\cup Q_2)$.  But then at most one of them is incident
+with a chord, and thus the other one has degree two in $G_C$, which is a contradiction. It follows that $Q_1\cap Q_2=v_2v_3$.  However, then there are
+at most 4 chords (at the ends of $Q_1$ and $Q_2$ in $C$), each incident with exactly one vertex of $V(Q_1\cup Q_2)\setminus V(C)$.  Let $q$ denote the number
+of such chords.  Note that $\sum_{i=1}^4|f_i|\ge 36+q$, and by (\ref{eq:facesizes}) we have $\ell_1+\ell_2\ge 14+q/2$.  However, $F$ has at least
+$(\ell_1-5)+(\ell_2-5)\ge 4+q/2>q$ vertices of degree two, and consequently at least one of them has degree two in $G_C$, which is a contradiction.
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+path c = scale(4,3) * unitcircle;
+for (i = 0; i < 12; ++i)
+  v[i] = point (c, i/3);
+
+v[12] = (-2,0);
+v[13] = (-2,-1);
+v[14] = (2,0);
+v[15] = (2,-1);
+v[16] = (-0.67,-0.5);
+v[17] = (0.67,-0.5);
+
+draw(c);
+draw(v[4]--v[12]--v[13]--v[7]);
+draw(v[2]--v[14]--v[15]--v[11]);
+draw(v[12]--v[16]--v[13]);
+draw(v[14]--v[17]--v[15]);
+draw(v[16]--v[17]);
+for (i = 0; i < 12; ++i)
+  vertex (v[i], black);
+for (i = 12; i < 18; ++i)
+  vertex (v[i], white);
+for (i = 0; i < 3; ++i)
+  {
+    vertex(interp(v[12],v[4],(i+1)/4), white);
+    vertex(interp(v[14],v[2],(i+1)/4), white);
+  }
+
+\end{asy}
+\end{center}
+\caption{The last case in the proof of Lemma~\ref{lemma:no4to8-redu}.}\label{fig:no4to8-lastcase}
+\end{figure}
 
 Hence, one of the faces $f_1$, \ldots, $f_4$ has length at least $13$.  By (\ref{eq:facesizes}), we conclude that exactly one of the faces has length $13$,
 the remaining three have length $9$, $|C|=12$, $\ell_1=\ell_2=8$, $s=0$, and $Q_1$ and $Q_2$ are edge-disjoint except for the edge $v_2v_3$.
-...
+By the minimality of $C$ and the fact that $9$-faces cannot have chords and that vertices of $G_C$ not in $C$ have degree at least three,
+we conclude that all vertices of $F$ of degree two are incident with the face of length $13$.  Also, by the minimality of $C$, observe that $F$ does
+not contain a path of length at most $4$ intersecting $C$ exactly in its endpoints.  It follows that $F$ is the graph depicted in Figure~\ref{fig:no4to8-lastcase}.
+However, then $|Q'_1|=|Q'_2|=4$ and these paths together with subpaths of $C$ form $9$-cycles contradicting Lemma~\ref{lemma:no4to8-laminar9}.
 \end{proof}
 
 Theorem~\ref{thm:no4to8} now follows easily, observing that a hypothetical minimal counterexample is $2$-connected,
@@ -1459,8 +1512,8 @@ only one of them applies; the precolored cycle one is often easier.  Why might t
 sometimes preferable?
 
 Firstly, note that Lemma~\ref{lemma:no4to8-exred} is independent on the chromatic properties of the graph.  Indeed, in Chapter~\ref{chap:corresp},
-we use this lemma to generalize Theorem~\ref{thm:no4to8} to list coloring, and a result like Lemma~\ref{lemma:no4to8-exred} might be
-of interest also in non-coloring contexts.
+we use this lemma to generalize Theorem~\ref{thm:no4to8} to list coloring; while we could also easily modify the proof of Theorem~\ref{thm:no4to8},
+using Lemma~\ref{lemma:no4to8-exred} is more convenient.  This lemma might also be of interest in non-coloring contexts.
 
 Secondly, sometimes a precoloring extension result could be cumbersome to state or argue about.  For instance, suppose we consider
 the problem of finding an \emph{acyclic coloring} of a planar graph, where in addition to adjacent vertices having different colors,
