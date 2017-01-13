@@ -126,8 +126,6 @@ If $G$ is $H$-critical,then $G\neq H$.
 
 $\initch$ for initial charge, $\finch$ for final charge.  Discharging to non-negative.
 
-(maximum) average degree/degeneracy/coloring number
-
 \section{Basic results on graph coloring}
 
 We assume throughout the book that the reader has a previous knowledge of some basic facts
@@ -147,7 +145,11 @@ Furthermore, it can be used to extend a precoloring of a part of the graph---if 
 a coloring, we can fix some ordering of $V(G)\setminus V(H)$ and assign colors in order, so that the colors are different
 from the colors of the adjacent vertices of $V(H)$ as well as preceding adjacent vertices of $V(G)\setminus V(H)$.
 
-Greedy coloring can naturally be applied to the ordering that defines degeneracy of a graph, giving the following result.
+A graph is \emph{$d$-degenerate} if every subgraph of $G$ contains a vertex of degree at most $d$.
+Equivalently, we can order vertices of $G$ so that each vertex has at most $d$ neighbors that precede it in the
+ordering---indeed, we can form such an ordering by repeatedly removing vertices of degree at most $d$ and
+arranging them in the opposite order of their removal.
+Greedy coloring can naturally be applied to this ordering, giving the following result.
 \begin{lemma}\label{lemma:degen}
 Every $d$-degenerate graph has choosability (as well as chromatic number) at most $d+1$; i.e., $\chi(G)\le\chi_l(G)\le \col(G)$.
 \end{lemma}
@@ -199,6 +201,39 @@ Every graph drawn in a surface $\Sigma$ of genus $g$ has chromatic number at mos
 $$\Bigl\lfloor\frac{7+\sqrt{24g+1}}{2}\Bigr\rfloor.$$
 \end{theorem}
 This bound is tight for all surfaces except for the Klein bottle, for which the tight upper bound is $6$.
+
+Heawood's formula is an easy consequence of the sparsity of embedded graphs (see Section~\ref{sec:heawood}
+for more details), which follows from the well-known relationship amnong the numbers of their vertices, edges and faces.
+
+\begin{theorem}[Euler's formula]\label{thm:eulerfla}
+If $G$ is a graph embedded in a surface of genus $g$, then
+$$|E(G)|\le |V(G)|+|F(G)|+g-2,$$
+with equality if and only if the embedding of $G$ is $2$-cell.
+\end{theorem}
+
+In particular, this has the following corollary.
+\begin{lemma}\label{lemma:numedges}
+Suppose that $G$ is a graph embedded in a surface of genus $g$ and $G$ contains no cycles of length less than $k$.
+If $g=0$, furthermore assume that $G$ is not a forest. Then
+$$|E(G)|\le \frac{k}{k-2}(|V(G)|+g-2).$$
+\end{lemma}
+\begin{proof}
+Without loss of generality, we can assume that $G$ is connected.  If $G$ is a tree, then by assumptions
+$g\ge 1$, and since $|E(G)|=|V(G)|-1$, the inequality holds.
+Hence, assume that $G$ is not a tree.  It follows that the boundary
+of every face of $G$ contains a cycle, and by the assumptions it has length at least $k$.
+Consequently,
+$$2|E(G)|=\sum_{f\in F(G)} |f|\ge k|F(G)|.$$
+Substituting $2|E(G)|/k$ for $|F(G)|$ in Euler's formula, we obtain the required inequality.
+\end{proof}
+
+This can be interpreted in the terms of average degree as follows.
+\begin{corollary}\label{cor:mad}
+If $G$ is a graph embedded in a surface of genus $g$ with no cycles of length less than $k$,
+then the average degree of $G$ is at most
+$$\frac{2k}{k-2}(1+(g-2)/|V(G)|),$$
+unless $g=0$ and $G$ is a forest.
+\end{corollary}
 
 \part{Standard Methods}
 
@@ -256,14 +291,7 @@ own, in the coloring context they are most commonly applied together, and so we 
 Let us now flesh out the ideas from the introduction a bit.  While discharging and reducible configurations
 are applicable in many contexts, they are at their best in the realm of graphs drawn on a fixed surface, and
 especially for planar graphs.  This is primarily due to the well-known relationship between the numbers
-of their vertices, edges, and faces.
-
-\begin{theorem}[Euler's formula]\label{thm:eulerfla}
-If $G$ is a graph embedded in a surface of genus $g$, then
-$$|E(G)|\le |V(G)|+|F(G)|+g-2,$$
-with equality if and only if the embedding of $G$ is $2$-cell.
-\end{theorem}
-
+of their vertices, edges, and faces, the Euler's formula~\ref{thm:eulerfla}.
 Let us start with a mandatory toy example: 5-colorability of planar graphs.
 
 \begin{theorem}\label{thm:planar5col}
@@ -1317,28 +1345,43 @@ interior is (in some sense) minimized; the reduction of such a configuration can
 be prevented by another separating cycle $C'$, since the interior of $C'$ (or another suitable
 cycle in $C\cup C'$ in case the cycles intersect) would contradict the minimality of $C$.
 
-Let us give an example.  Let $v_0v_1v_2v_3v_4$ be a subpath of a boundary of a face in a plane
+Let us give an example.  We will need the following observation.
+
+\begin{lemma}\label{lemma:no4to8-laminar9}
+Let $K_1$ and $K_2$ be $9$-cycles in a plane graph with no cycles of lengths $4$ to $8$,
+and let $\Lambda_1$ and $\Lambda_2$ be the open disks bounded by these cycles.  Then the
+disks $\Lambda_1$ and $\Lambda_2$ are either disjoint, or one is a subset of the other one.
+\end{lemma}
+\begin{proof}
+Otherwise, $K_1$ contains two edge-disjoint subpaths $P_1$ and $P'_1$ with endpoints in $V(K_2)$
+and otherwise disjoint from $K_2$.  Since $K_2\cup P_1$ contains no cycles of lengths $4$ to $8$,
+it follows that $P_1$ has length at least $5$.  But the same holds for $P'_1$, which is not possible
+since $|K_1|=9$.
+\end{proof}
+
+Let $v_0v_1v_2v_3v_4$ be a subpath of a boundary of a face in a plane
 graph such that $v_1v_2v_3v_4$ is a tetrad and let $y$ be the common neighbor of $v_3$ and $v_4$.
 We say that the tetrad is \emph{clean} if the distance between $v_0$ and $y$ in $G-\{v_1,v_2,v_3,v_4\}$
 is greater than $8$.
 
 \begin{lemma}\label{lemma:no4to8-exred}
-Every $2$-connected plane graph $G$ without cycles of lengths $4$ to $8$ contains a vertex of degree at most two
-or a clean tetrad.
+Every $2$-connected plane graph $G$ without cycles of lengths $4$ to $8$ and of minimum degree at least three
+contains a clean tetrad.
 \end{lemma}
 \begin{proof}
-If $G$ does not contain a triangle, then Euler's formula easily implies that $G$ contains a vertex of degree at most two.
+If $G$ did not contain a triangle, then Corollary~\ref{cor:mad} would imply that the average degree of $G$ is
+at most $18/7<3$, contradicting the assumptions.
 Hence, we can assume that $G$ is drawn so that the outer face of $G$ is bounded by a triangle.
 Also, we can assume that some vertices of $G$ are not incident with the outer face.
-Let $C$ be an induced cycle in $G$ of length at most $12$ such that the open disk $\Lambda$ bounded by $C$ is minimum.
-Let $G_C$ be the subgraph of $G$ drawn in the closure of $\Lambda$.
+Let $C_9$ be a $(\le\!9)$-cycle in $G$ such that the open disk $\Lambda_9$ bounded by $C_9$ contains a vertex of $G$,
+chosen so that $\Lambda_9$ is minimal.  Let $C$ be an induced $(\le\!12)$-cycle of $G$ drawn in the closure of $\Lambda_9$
+such that the open disk $\Lambda$ bounded by $C$ contains a vertex of $G$, chosen so that the number of vertices of $G$
+in $\Lambda$ is minimum.  Let $G_C$ be the subgraph of $G$ drawn in the closure of $\Lambda$.
 
-Clearly, $G_C$ is a $2$-connected graph.
-If $G_C$ contained neither a vertex of degree at most two not contained in $C$ nor
-a tetrad disjoint from $C$, then we would 
+Clearly, $G_C$ is a $2$-connected graph and all vertices of $G_C$ not belonging to $C$ have degree at least three.
+If $G_C$ did not contain a tetrad disjoint from $C$, then we would 
 assign charge to the vertices and faces of $G_C$, perform the discharging, and obtain a contradiction in the same way as in
-the proof of Theorem~\ref{thm:no4to8}.  Hence, $G_C$ contains one of these configurations.
-If $G_C$ contains a vertex of degree at most two not belonging to $C$, then this vertex has the same degree in $G$ as well.
+the proof of Theorem~\ref{thm:no4to8}.
 
 Therefore, we can assume that $G_C$ contains a tetrad $v_1v_2v_3v_4$ vertex-disjoint from $C$.
 Let $x$ be the common neighbor of $v_1$ and $v_2$, let $y$ be the common neighbor of $v_3$ and $v_4$,
@@ -1348,61 +1391,78 @@ clean in $G$, i.e., there exists a path in $G$
 from $v_0$ to $y$ of length at most $8$, and thus the path $v_0v_1v_2v_3y$ is contained in a cycle of length at most $12$;
 let $K_1$ be shortest such cycle. As in the proof of Lemma~\ref{lemma:no4to8-prop}, we argue that $x,v_4\not\in V(K_1)$,
 and thus the open disk $\Lambda_1$ bounded by $K_1$ contains either $x$ or $v_4$.
-If $\Lambda_1\subseteq\Lambda$, then since both edges $v_2x$ and $v_3v_4$ are contained in $\Lambda$
-and exactly one of them is contained in $\Lambda_1$, we have $\Lambda_1\subsetneq\Lambda$; however, this contradicts the choice
+If $\Lambda_1\subseteq\Lambda$, then we obtain a contradiction to the choice
 of $C$.  Hence, $K_1$ is not contained in the closure of $\Lambda$; and since $K_1$ is an induced cycle, we have $|C|\neq 3$,
 and thus $|C|\ge 9$.
 
-Let $Q'_1$ be the subpath of $K_1$ containing $v_0v_1v_2v_3y$ such that endvertices of $Q'_1$ belong to $C$
-and the rest of $Q'_1$ is contained in $\Lambda$.
+Let $Q_1$ be the subpath of $K_1$ containing $v_0v_1v_2v_3y$ such that endvertices of $Q_1$ belong to $C$
+and the rest of $Q_1$ is contained in $\Lambda$.
 Let $F_1$ be the subgraph of $K_1\cup C$ drawn in the closure of $\Lambda$,
 and let $\FF_1$ denote the set of faces of $F_1$ contained in $\Lambda$.  
 No face of $\FF_1$ has length three, as otherwise either $K_1$ or $C$ would have a chord.
 Hence, all faces of $\FF_1$ have length at least $9$. 
-Consider a face $f\in \FF_1$ whose boundary contains $Q'_1$ and let $K$ be the cycle bounding $f$.
+Consider a face $f\in \FF_1$ whose boundary contains $Q_1$ and let $K$ be the cycle bounding $f$.
 If $|f|\le 12$, then note that either $x$ or $v_4$ is contained in $f$, and thus there exists
 an induced cycle $K'\subseteq G[V(K)]$ such that the open disk bounded by $K'$ contains $x$ or $v_4$.
 Since $C$ is an induced cycle, it follows that $K'$ is contained in the closure of $\Lambda$ and contradicts
-the choice of $C$.  This is a contradiction showing that both faces of $\FF_1$  whose boundary contains $Q'_1$
+the choice of $C$.  This contradiction shows that both faces of $\FF_1$ whose boundary contains $Q_1$
 have length at least $13$.
 Hence, $\sum_{f\in \FF_1} |f|\ge 26+9(|\FF_1|-2)$.
-On the other hand, since $K_1$ has at least one edge not contained in the closure
-of $\Lambda$ by ($\star$), we have $\sum_{f\in \FF_1} |f|\le |C|+2(|K_1|-1)\le 34$.
-Since $|C|,|K_1|\le 12$, we conclude that $|\FF_1|=2$, and thus $K_1$ intersects $\Lambda$ only in $Q'_1$.
+On the other hand, since $K_1$ has at least two edges not contained in the closure
+of $\Lambda$, we have $\sum_{f\in \FF_1} |f|\le |C|+2(|K_1|-2)\le 32$.
+We conclude that $|\FF_1|=2$, and thus $K_1$ intersects $\Lambda$ only in $Q_1$.
 
-Let $\ell'_1$ denote the length of $Q'_1$.
+Let $\ell_1$ denote the length of $Q_1$.
 Consider now the subgraph of $K_1\cup C$ drawn outside of $\Lambda$.  Since both $K_1$ and $C$ are induced cycles,
 this graph contains no triangles, and thus all its faces have length at least $9$.  It has at least two
-such faces, and thus $18\le |C|+2(|K_1|-\ell'_1)$, and $\ell'_1\le |K_1|-(9-|C|/2)\le 9$.
-Let $Q_1$ be a shortest path in the subgraph of $G$ drawn in the closure of $\Lambda$ that contains
-$v_0v_1v_2v_3y$ and the endpoints of $Q_1$ belong to $V(C)$, and let $\ell_1$ denote the length of $Q_1$;
-we have $\ell_1\le \ell'_1\le 9$.
+such faces, and thus $18\le |C|+2(|K_1|-\ell_1)$, and $\ell_1\le |K_1|-(9-|C|/2)\le 9$.
+Furthermore, $\ell_1=9$ only if $|C|=|K_1|=12$ and $Q'_1=K_1-\Lambda$ is a path of length three disjoint
+from $C$ except for its endpoints.  Since $G$ contains no cycles of lengths $4$ to $8$, in that case $Q'_1$
+joins opposite vertices of $C$; let $L_1$ and $L'_1$ be the $9$-cycles of $C+Q'_1$ labelled so that $\Lambda$
+is a subset of the open disk bounded by $L'_1$ (which is then equal to $\Lambda\cup\Lambda_1$).
+By Lemma~\ref{lemma:no4to8-laminar9} and the choice of $C_9$,
+we conclude that $C_9=L'_1$.  Note that the open disk bounded by $L_1$ is contained inside $\Lambda_9$,
+and by the choice of $C_9$, we conclude that $L_1$ bounds a face.  However, then the open disk $\Lambda_1$ bounded
+by $K_1$ contains fewer vertices than $\Lambda$, contradicting the choice of $C$.
+We conclude that $\ell_1\le 8$.
 
-Note that also $v_4v_3v_2v_1$ is a tetrad, and unless it is clean in $G$, we by symmetry conclude that
-a shortest path $Q_2$ in the subgraph of $G$ drawn in the closure of $\Lambda$ that contains
-$v_0v_1v_2v_3y$ and whose endpoints belong to $V(C)$ has length $\ell_2\le 9$.
-Clearly, we can assume that in addition to the edge $v_2v_3$, the paths $Q_1$ and $Q_2$ intersect
-at most in their segments ending in $C$, and thus the graph $F$ consisting of $C$, $Q_1$, $Q_2$, and the edges $v_1x$ and $v_4y$
-has exactly $7$ faces (one bounded by $C$, two by triangles $v_1v_2x$ and $v_3v_4y$, and four other faces of length at least $9$).
+Note that also $v_4v_3v_2v_1$ is a tetrad, and unless it is clean in $G$, we can define $K_2$, $Q_2$, and $Q'_2$
+symmetrically and show that $Q_2$ has length $\ell_2\le 8$.  Let $F$ be the graph consisting of $C$, $Q_1$, $Q_2$, and the edges $v_1x$ and $v_4y$.
+Let $T_1=v_1v_2x$ and $T_2=v_3v_4y$.  Let $f_1$ and $f_2$ be the faces of $F$ incident with the edge $v_2v_3$, where the path $v_1v_2v_3v_4$
+is contained in the boundary of $f_1$.  Let $f_3$ and $f_4$ be the faces of $F$ incident with the edges $v_1x$ and $v_4y$, respectively,
+not bounded by $T_1$ and $T_2$.  Since the faces $f_1$, \ldots, $f_4$ share an edge with a triangle, they cannot have length $3$, and thus
+they must have length at least $9$.  Let $s$ denote the sum of the length of faces of $F$ other than $f_1$, \ldots, $f_4$, the faces bounded by $T_1$ and $T_2$,
+and the outer face.  We have
+\begin{equation}\label{eq:facesizes}
+|C|+42+s\le |C|+6+\sum_{i=1}^4|f_i|+s=2|E(F)|\le 2(|C|+\ell_1+\ell_2+1)\le 2|C|+34,
+\end{equation}
+and thus $s\le |C|-8\le 4$.  Consequently, $s\in\{0,3\}$.
+
+Suppose first that $\max(|f_1|,\ldots,|f_4|)\le 12$.  Then the choice of $C$ implies that $V(G_C)=V(F)$, i.e., $G_C$ is obtained from $F$ by
+possibly adding chords to its faces, and $G_C$ has exactly four non-outer faces of length at least 9 and all other non-outer faces of $G_C$
+are triangles. ...
+
+Hence, one of the faces $f_1$, \ldots, $f_4$ has length at least $13$.  By (\ref{eq:facesizes}), we conclude that exactly one of the faces has length $13$,
+the remaining three have length $9$, $|C|=12$, $\ell_1=\ell_2=8$, $s=0$, and $Q_1$ and $Q_2$ are edge-disjoint except for the edge $v_2v_3$.
 ...
 \end{proof}
 
 Theorem~\ref{thm:no4to8} now follows easily, observing that a hypothetical minimal counterexample is $2$-connected,
 has minimum degree at least three, and does not contain clean tetrads by the argument of Lemma~\ref{lemma:no4to8-redu}.
-For another application of the method using a more involved choice of minimal separating cycle, see Lemma~\ref{lemma:exredu}.
+For another application of the method, see Lemma~\ref{lemma:exredu}.
 
-Of course, the proof of Lemma~\ref{lemma:no4to8-exred} is a bit more complicated than the argument using a precolored cycle.
-Furthermore, note that we used the symmetry of tetrad in the proof, which we did not need before (and we do not know how
-to avoid this).
+Of course, the proof of Lemma~\ref{lemma:no4to8-exred} is rather more complicated than the argument using a precolored cycle.
+Furthermore, note that we used the symmetry of tetrad in the proof, which we did not need before, and we do not know how
+to avoid this.
 Although many results can be proved using both variants of the method, it may be that in some particular cases,
-only one of them applies (and the precolored cycle trick is often easier).  Why might the ``minimum cycle'' argument be
+only one of them applies; the precolored cycle one is often easier.  Why might the ``minimum cycle'' argument be
 sometimes preferable?
 
-Firstly, note that Lemma~\ref{lemma:no4to8-exred} is independent on the kind of coloring we use.  Indeed, in Chapter~\ref{chap:corresp},
+Firstly, note that Lemma~\ref{lemma:no4to8-exred} is independent on the chromatic properties of the graph.  Indeed, in Chapter~\ref{chap:corresp},
 we use this lemma to generalize Theorem~\ref{thm:no4to8} to list coloring, and a result like Lemma~\ref{lemma:no4to8-exred} might be
 of interest also in non-coloring contexts.
 
-Secondly, sometimes a precoloring extension result would be cumbersome to state or argue about.  For instance, suppose we consider
+Secondly, sometimes a precoloring extension result could be cumbersome to state or argue about.  For instance, suppose we consider
 the problem of finding an \emph{acyclic coloring} of a planar graph, where in addition to adjacent vertices having different colors,
 we forbid cycles colored by only two colors.  Then the precoloring would have to take into account not only the colors of the vertices
 of the cycle, but also whether pairs of vertices of the cycle are joined by a bichromatic path in the rest of the graph.
@@ -1454,8 +1514,8 @@ $G$ drawn in the open disk bounded by $K$ have length $4$, and
 The claim (a) is obvious.  If $G$ is not $2$-connected, then $G=G_1\cup G_2$ for proper induced subgraphs $G_1$
 and $G_2$, where $C\subseteq G_1$, $G_2$ is $2$-connected, and $G_1$ intersects $G_2$ in at most one vertex $w$.
 By the minimality of $G$, the coloring $\psi$ extends to a $3$-coloring $\varphi_1$ of $G_1$.  Furthermore, since $G_2$ has
-no vertex other than $w$ of degree at most two, a standard argument based on Euler's formula shows that $G_2$ has
-a face of length at most $5$ bounded by a cycle $C_2$.  By the minimality of $G$, any $3$-coloring of $C_2$ extends
+no vertex other than $w$ of degree at most two, Corollary~\ref{cor:mad} implies that $G_2$ has
+a face bounded by a cycle $C_2$ of length at most $5$.  By the minimality of $G$, any $3$-coloring of $C_2$ extends
 to a $3$-coloring of $G_2$, and by permuting the colors, we can assume that this coloring gives $w$ the color $\varphi_1(w)$
 (if $w$ exists).  The combination of the colorings gives a $3$-coloring of $G$ that extends $\psi$, which is a contradiction.
 Hence, (b) holds.
@@ -1861,7 +1921,7 @@ three vertices; by symmetry, we can assume that $\psi(v_1)=\psi(v_3)=1$ and $\ps
 
 % LP
 
-\section{Euler's formula for Surfaces and the Heawood bound}
+\section{Euler's formula for Surfaces and the Heawood bound}\label{sec:heawood}
 
 \section{The Modern View}
 
