@@ -1857,12 +1857,12 @@ Let us remark that Folding Lemma often makes it possible to improve girth bounds
 by one essentially for free: Supposing that by some discharging argument we can prove that a result
 holds for planar graphs of girth $g$ for \emph{odd} $g$, we can consider instead graphs of odd girth $g$.
 By Folding Lemma, we can assume that their faces have length $g$, and thus the discharging argument
-will go through unmodified (a care need to be taken to check that all reductions also work in the odd girth
+will go through unmodified (a care needs to be taken to check that all reductions also work in the odd girth
 setting, though).  Since $g$ is odd, a graph of girth $g-1$ has odd girth at least $g$, and thus
-in this way a result holds for planar graphs of girth $g$ can be cheaply transformed into a result
+in this way a result for planar graphs of girth $g$ can be cheaply transformed into a result
 that holds for planar graphs of girth $g-1$.
 
-We cannot eliminate non-facial cycles of length less than $G$ by Folding Lemma,
+We cannot eliminate non-facial cycles of length less than $g$ by Folding Lemma,
 and we need to deal with those using one of the methods of Section~\ref{sec:precolface}.  Of course,
 when Folding Lemma is applied in a graph with a precolored face, one needs to discuss the possibility
 that the vertices being identified are precolored ones, which may make the identification impossible
@@ -1910,9 +1910,177 @@ colored with three different colors.
 \end{theorem}
 As a final exercise, the reader should work out the details of the proof of Theorem~\ref{thm:precol9}.
 
-\subsection{How to find reducible configurations}\label{ssec:howto-redu}
+\section{How to find reducible configurations}\label{ssec:howto-redu}
 
-...
+Till now, we did not go into much details on how one can find suitable reducible configurations.
+Mainly, this is because reducibility is highly problem-specific;
+there are very few variations in the discharging part of the argument, but each problem
+requires different set of reducible configurations and often different ideas to show their
+reductions.  Hence, we will only be able to give some very general pointers on the topic.
+
+Of course, there is interaction between discharging and reducibility.  Suppose that our chosen rules
+do not completely discharge the graph, and we do not see how to fix this by changing the rules.
+It is then natural to look for reducible configurations among the kinds of subgraphs that may end up having
+negative charge; in Subsection~\ref{ssec:dischlp} we show how to narrow down the kinds of subgraphs
+to only without whose reducibility it is not possible to decrease the amount of leftover charge.
+What one should keep in mind is that only a part of such a subgraph may be necessarily for reducibility.
+Reducing as small configurations as possible keeps the number of reducible configurations small.
+Also, it is not always the case that it is as easy or easier to prove reducibility of a larger configuration.
+
+If we cannot find reducible configuration among the subgraphs with negative charge,
+it is commonly useful to consider the combinations of such subgraphs, or more precisely, to consider a combination
+of a negatively charged subgraph with all possible adjacent non-positively charged subgraphs.
+If all the configurations turn out to be reducible, this means that a subgraph with positive charge is adjacent,
+giving us a natural candidate for a new discharging rule.
+
+Conversely, sometimes we can spot common themes in the reducible configurations, such as specific subgraphs
+that appear in many of them and are helpful in the reducibility arguments. It is then convenient to introduce
+discharging rules that transfer charges from these subgraphs or their neighborhoods.  This then means that
+when charge becomes negative in some configuration due to these transfers, we know the configuration contains
+one of these useful subgraphs that make it more likely to be reducible.
+
+Let us now go over some ideas that often appear in the proofs of reducibility.  We focus on the cases of
+ordinary proper coloring and list coloring for concreteness.
+
+Reducible configurations often consist of vertices of small degree.  When we are using $k$ colors, vertices
+of degree less than $k$ are trivially reducible. By Corollary~\ref{cor:gallai1}, any $2$-connected subgraph
+consisting of vertices of degree exactly $k$ is reducible unless it is an odd cycle or a clique; see
+Subsection~\ref{ssec-gallai} for a more detailed analysis of reducibility of subgraphs whose vertices have degree exactly $k$.
+As a rule of thumb, vertices in a reducible configuration have at most $k-2$ neighbors outside of the configuration---if
+a vertex $v$ has $k-1$ neighbors outside the configuration, a precoloring of the neighbors can force uniquely the color
+of $v$, and so we can as well not include $v$ in the configuration and consider it precolored directly (of course,
+there are exceptions to this rule, especially in reductions that further modify the graph after removing the configuration, see
+Lemmas~\ref{fig:tetrad} and \ref{lemma:grgim-redu} for examples).
+When this rule of thumb is satisfied, we can often prove reducibility even if one or a few of the vertices have degree slightly larger than $k$,
+but there is no simple overarching result generalizing Corollary~\ref{cor:gallai1}.  The following examples are commonly useful, see Figure~\ref{fig-diamredu}.
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[0] = (0,0);
+v[1] = v[0] + (0,-2);
+path p1 = v[0]{dir(180)} .. {dir(0)} v[1];
+path p2 = v[0]{dir(0)} .. {dir(180)} v[1];
+
+draw(p1);
+draw(p2);
+draw(v[0]--v[1]);
+vertex (v[0]);
+vertex (v[1], black);
+label("$v$", v[0], N);
+label("$u$", v[1], S);
+label("$P_1$", point (p1, 0.5), W);
+label("$P_2$", point (p2, 0.5), E);
+
+label ("(a)", v[0] + (0,-3));
+
+v[0] = (4,0);
+v[1] = v[0] + (-0.5,-2);
+v[2] = v[0] + (0.5,-2);
+p1 = v[0]{dir(180)} .. {dir(0)} v[1];
+p2 = v[0]{dir(0)} .. {dir(180)} v[2];
+v[3] = point(p1,0.2);
+v[4] = point(p2,0.2);
+
+draw(p1);
+draw(p2);
+draw(v[0]--v[1]--v[2]--cycle);
+vertex (v[0]);
+vertex (v[1], black);
+vertex (v[2], black);
+vertex (v[3]);
+vertex (v[4]);
+label("$v$", v[0], N);
+label("$x$", v[1], S);
+label("$y$", v[2], S);
+label("$x'$", v[3], NW);
+label("$y'$", v[4], NE);
+label("$P_1$", point (p1, 0.5), W);
+label("$P_2$", point (p2, 0.5), E);
+
+label ("(b)", v[0] + (0,-3));
+\end{asy}
+\end{center}
+\caption{Reducible configurations from Lemma~\ref{lemma-diamredu}.  Vertices drawn by full circles have degree $k+1$, while other vertices have degree $k$.}\label{fig-diamredu}
+\end{figure}
+
+\begin{lemma}\label{lemma-diamredu}
+Let $L$ be an assignment of lists of size $k$ to vertices of a graph $G$.  Let $H$ be an induced subgraph of $G$ satisfying one of the following
+conditions:
+\begin{itemize}
+\item[\textrm{(a)}] $H$ consists of adjacent vertices $u$ and $v$ and two paths $P_1$ and $P_2$ from $u$ to $v$ intersecting only in their
+endpoints, such that all vertices of $H$ except for $u$ have degree $k$ in $G$ and $u$ has degree $k+1$ in $G$.
+\item[\textrm{(b)}] $H$ consists of a triangle $vxy$ and paths $P_1$ from $v$ to $x$ and $P_2$ from $v$ to $y$ intersecting only in their
+endpoints, such that all vertices of $H$ except for $x$ and $y$ have degree $k$ in $G$ and $x$ and $y$ have degree $k+1$ in $G$.
+\end{itemize}
+In the former case, let $G'=G-V(H)$; in the latter case, let $G'=G-xy$.  If $G'$ is $L$-colorable, then $G$ is $L$-colorable.
+\end{lemma}
+\begin{proof}
+Let $\varphi$ be any $L$-coloring of $G-V(H)$.  For $z\in V(H)$, let
+$$L'(z)=L(z)\setminus \{\varphi(w):w\in V(G)\setminus V(H), zw\in E(G)\}.$$
+Clearly, it suffices to argue that if $\varphi$ extends to an $L$-coloring of $G'$, then $H$ is $L'$-colorable.
+
+Let us first consider the case (a).  Let $P$ be the path $(P_1\cup P_2)-v$.  Note that $|L'(v)|\ge 3$ and $|L'(x)|\ge 2$ for all $x\in V(P)$.
+Without loss of generality, we can assume that $|L'(v)|=3$ and $|L'(x)|=2$ for all $x\in V(P)$, as otherwise
+we can remove extra colors from the lists of the vertices.  If all vertices of $P$ had the same list, then we can color $v$ by a color in $L'(v)$
+not belonging to the list and independently color $P$ from its list.  Hence, by symmetry and connectedness of $P$, we can assume that there
+exists $xy\in E(P)$ such that $L'(x)\neq L'(y)$ and $u$ is not contained in the component $P_0$ of $P-y$ containing $x$.  Then, we first
+$L'$-color the path $P-V(P_0)$ so that the color of $y$ does not belong to $L'(x)$ and then greedily color $v$ and $P_0$.
+
+Next, we consider the case (b).  Let $P$ be the path $(P_1\cup P_2)-v+xy$.  Without loss of generality, we can assume
+that $|L'(v)|=4$ and $|L'(z)|=2$ for all $z\in V(P)$.  Let $x'$ and $y'$ be the endpoints of $P$
+belonging to $P_1$ and $P_2$, respectively.  We say that an $L'$-coloring of $P$ is tough if $\{\psi(x'),\psi(x),\psi(y),\psi(y')\}=L(v)$,
+and in particular the vertices $x'$, $x$, $y$, and $y'$ have distinct colors.
+If not all vertices of $P_2-v$ have the same list, then there exist two $L'$-colorings of $P_2-v$ assigning the same color to $y$ and different colors to $y'$.
+We can extend both of them to $L'$-colorings of $P$ that match on $P_1-v$; observe that at least one of the colorings is not tough, and thus it extends to an $L'$-coloring
+of $H$.  Hence, we can assume that all vertices of $P_2-v$ have the same list $L_2$, and by symmetry, all the verticesin $P_1-v$ have the same list $L_1$.
+If either $P_1-v$ or $P_2-v$ has even length or $L'(v)\neq L_1\cup L_2$, then an $L'$-coloring of $P$ is not tough and extends to an $L'$-coloring of $H$.
+Otherwise, $H-xy$ has no $L'$-coloring, and thus $\varphi$ does not extend to an $L$-coloring of $G'$.
+\end{proof}
+
+The reductions so far only removed the reducible configuration or its part from the graph.  These kinds of reductions are the easiest
+to use (they cannot create loops or other subgraphs that may be forbidden by assumptions), but of course they do not suffice in many cases.
+After removing the configuration, it is often useful to add edges between edges in the neighborhood of the configuration, or to replace the
+configuration by a suitable subgraph, the idea of course being that this subgraph forbids the colorings of the rest of the graph that do not
+extend to the original configuration.  Again, let us point out common examples.
+\begin{lemma}\label{lemma-oddclredu}
+Let $H$ be either an odd cycle or a clique in a graph $G$.  Let $k=3$ in the former case and $k=|V(H)|$ in the latter case, so that $H$ is a $(k-1)$-regular graph.
+Suppose that all vertices of $H$ have degree exactly $k$ in $G$.  Let $u$ and $v$ be distinct vertices of $G$ with neighbors in $H$.
+If the graph $G'$ obtained from $G-V(H)$ by adding the edge $uv$ is $k$-colorable, then $G$ is $k$-colorable.
+\end{lemma}
+\begin{proof}
+Consider any $k$-coloring $\varphi$ of $G'$.  For $x\in V(H)$, let $L(x)$ be the list of $k-1$ colors distinct from the color of the neighbor of $x$ in $V(G)\setminus V(H)$.
+Because of the edge $uv$, not all these lists are the same, and since $H$ is connected, there exists $xy\in E(H)$ such that $L(x)\neq L(y)$.
+Color $x$ by a color in $L(x)\setminus L(y)$, and then color the remaining vertices of $H$ greedily, in order along the cycle if $H$ is an odd cycle
+and in an arbitrary order ending with $y$ if $H$ is a clique.
+\end{proof}
+
+\begin{lemma}\label{lemma-trian33}
+Let $uvx$ be a triangle in a graph $G$, where $u$ and $v$ have degree three and $u'$ and $v'$ are their neighbors not in $\{x,u,v\}$.
+If the graph $G'$ obtained from $G-\{u,v\}$ by adding the edge $u'v'$ is $3$-colorable, then $G$ is $3$-colorable.
+\end{lemma}
+\begin{proof}
+Consider any $3$-coloring $\varphi$ of $G'$.  If $\varphi(u')=\varphi(x)$, we can color $v$ and $u$ greedily in order.
+If $\varphi(v')=\varphi(x)$, we can color $u$ and $v$ greedily in order.  Otherwise, because of the edge $u'v'$,
+the colors $\varphi(u')$, $\varphi(v')$, and $\varphi(x)$ are pairwise distinct, and we can color $u$ by $\varphi(v')$
+and $v$ by $\varphi(u')$.
+\end{proof}
+
+Of course, when we add edges or other subgraphs, we may need to verify that we do not create loops or other forbidden subgraphs;
+ideas from Section~\ref{sec:precolface} may be useful.
+
+Further possiblity is to identify some vertices after the reduction in addition to the previously described transformations.
+Folding Lemma~\ref{lemma:folding} may simplify verification of the assumptions.  Vertex identification is a rather powerful
+tool, especially when dealing with configurations containing vertices whose degree exceeds number of colors; e.g., identifying
+neighbors of such vertices effectively reduces their degree.  A downside is that vertex identification is in general not
+applicable for list coloring, since it is not possible to identify vertices with different lists (but see Chapter~\ref{chap:corresp}
+for a possible workaround).
+
+Finally, we need to mention the method of Kempe chains, which suitably modifies the coloring of the rest of the graph
+before extending it to the reduced configuration (whose reduction may involve all other transformations described here).
+Unlike the methods mentioned so far, Kempe chains are non-local and may affect the coloring of the whole graph, which may be
+inconvenient when considering e.g. precoloring extension problems.  Furthermore, their applicability is restricted to ordinary
+proper coloring and a few of its variants.  Nevertheless, when applicable, Kempe chains make it possible to show reducibility
+of configurations widely beyond the reach of other methods.  We will discuss them in more detail in Chapter~\ref{chap:recolor}.
 
 \chapter{List Coloring}
 
