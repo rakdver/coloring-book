@@ -2096,14 +2096,105 @@ of configurations widely beyond the reach of other methods.  We will discuss the
 
 \section{Book Proof: $5$-choosability of planar graphs}
 
+\begin{theorem}\label{thm:5choosbook}
+Let $G$ be a plane graph, let $e$ be an edge incident with its outer face,
+and let $L$ be a list assignment such that vertices incident with $e$ have distinct
+lists of size $1$, all other vertices incident with the outer face have lists of size at least $3$
+and all vertices not incident with the outer face have lists of size at least $5$.  Then $G$ is $L$-colorable.
+\end{theorem}
+\begin{proof}
+We prove the claim by induction on $|V(G)|$, the basic case $|V(G)|=2$ being trivial.
+We can assume that $G$ is connected; isolated vertices can be colored, and any other component
+is $L$-colorable by induction hypothesis (selecting an edge incident with its outer face and decreasing
+the sizes of the lists of incident vertices arbitrarily).
+
+Furthermore, we can assume that $G$ is $2$-connected
+and the cycle $K$ bounding its outer face is induced: otherwise, there exist proper induced subgraphs $G_1$ and $G_2$
+of $G$ such that $G_1\cup G_2=G$, $e\in E(G_1)\setminus E(G_2)$, and $G_1\cap G_2$ is either a single vertex or a chord of $K$.
+In the latter case, let $e_2$ be the edge of $G_1\cap G_2$; in the former case, let $e_2$ be an edge of $G_2$ incident with the
+vertex of $G_1\cap G_2$ and the outer face of $G_2$.  Let $e_2=x_1x_2$.  By the induction hypothesis, there exists an $L$-coloring $\varphi_1$ of
+$G_1$.  Let $L_2$ be the list assignment for $G_2$ obtained from $L$ by removing colors from the lists of $x_1$ and $x_2$
+so that $L_2(x_1)$ and $L_2(x_2)$ are distinct lists of size $1$ and $L_2(x_i)=\{\varphi_1(x_i)\}$ for all $i\in\{1,2\}$
+such that $x_i\in V(G_1\cap G_2)$.  By the induction hypothesis, $G_2$ has an $L_2$-coloring $\varphi_2$.  By the choice
+of $L_2$, the colorings $\varphi_1$ and $\varphi_2$ match on $G_1\cap G_2$, and thus they give an $L_2$-coloring of $G$.
+
+Let $v_1v_2v_3v_4$ be part of the boundary walk of the outer face of $G$, where $e=v_1v_2$; note that possibly $v_4=v_1$
+if the outer face is bounded by a triangle.  Since $|L(v_3)|\ge 3$ and $|L(v_2)|=1$, there exists a set $S\subseteq L(v_3)\setminus L(v_2)$
+of size two.  Let $L'$ be the list assignment obtained from $L$ by removing $S$ from the lists of neighbors of $v_3$, except
+from the list of $v_4$ (and the list of $v_2$, which is disjoint from $S$).  Since the cycle bounding the outer
+face has no chords, colors are being removed only at vertices whose list has size 5, and all these vertices are incident
+with the outer face of $G-v$.  Hence, $G-v$ with the list assignment $L'$ satisfies the assumptions of the theorem, and
+by the induction hypothesis, there exists an $L'$-coloring $\varphi$ of $G-v$.  Note that $\varphi(x)\not\in S$ for
+each neighbor of $v$ except possibly for $x=v_4$.  Hence, we can extend the coloring to an $L$-coloring of $G$ by giving $v$
+a color in $S\setminus\{\varphi(v_4)\}$.
+\end{proof}
+
+Let us remark that there is another, slighlty different way of finishing the proof.  Let the set $S$ of two colors
+be again defined in the same way, and let $v_1v_2v_3\ldots v_k$ be the shortest subwalk of the boundary walk of the outer face
+of $G$ such that $S\not\subseteq L(v_k)$ (which happens at latest when $v_k=v_1$).  Let $P$ be the path $v_3\ldots v_{k-1}$
+and note that $S\subseteq L(x)$ for all $x\in V(P)$.  Let $\psi$ be a proper coloring of $P$ using the colors from $S$
+such that $\psi(v_{k-1})\not\in\psi(v_k)$.  Let $L'$ be the list assignment obtained from $L$ by removing from the list
+of each vertex the colors used by $\psi$ on its neighbors.  Since $\psi$ uses only two colors, the cycle bounding the outer
+face has no chords, and lists of $v_2$ and $v_k$ are unaffected, it follows that $G-V(P)$ with list assignment $L'$
+satisfies the assumptions of the theorem, and $G-V(P)$ can be $L'$-colored by the induction hypothesis.  Together with $\psi$,
+this gives an $L$-coloring of $G$.
+
+\subsection{Non-book proof}
+
+Both the formulation of Theorem~\ref{thm:5choosbook} and its proof are exceptionally elegant.
+However, they are something of an exception in the area, not the most typical examples of the method.
+Let us give another proof of $5$-choosability of planar graphs whose ideas translate directly to other
+contexts, such as the proof of Grotzsch's theorem we give in the next section.
+
+\begin{theorem}
+Let $G$ be a plane graph and let $P$ be a path of length at most two contained in the boundary of the
+outer face of $G$.  Let $L$ be a list assignment satisfying the following conditions:
 \begin{itemize}
-\item (What is the second proof?!)
-\item Comments on choice of the assumptions (if we can come up with something profound on the topic :-).
+\item[\textrm{(S)}] Vertices of $P$ have lists of size $1$, other vertices incident with the outer face have lists
+of size at least three, and vertices not incident with the outer face have lists of size at least $5$.
+\item[\textrm{(P)}] The lists of vertices of $P$ give a proper coloring of the subgraph of $G$ induced by $V(P)$,
+and if a vertex $v$ with list of size three has three neighbors in $P$, then $L(v)$ contains a color not appearing
+in the lists of vertices of $P$.
+\item[\textrm{(I)}] The vertices with list of size exactly three form an independent set in $G$.
 \end{itemize}
+Then $G$ is $L$-colorable.
+\end{theorem}
+\begin{proof}
+Suppose for a contradiction that $G$ with list assignment $L$ is a counterexample with $|V(G)|+|E(G)|$ minimum.
+It is easy to check that the theorem holds for graphs with at most $4$ vertices, and thus $|V(G)|\ge 5$.
+
+We claim that $G$ is $2$-connected: indeed, otherwise $G=G_1\cup G_2$ for proper induced subgraphs $G_1$ and $G_2$
+intersecting in at most one vertex.  We can assume that either $P\subseteq G_1$, or $P$ has length two and each of $G_1$
+and $G_2$ contains an edge of $P$.  By the minimality of $G$, there exists an $L$-coloring $\varphi_1$ of $G_1$.
+Let $L_2$ be the list assignment obtained from $L$ by changing the list of the vertex $x$ in the intersection of $G_1$ and $G_2$
+(if any) to $\{\varphi_1(x)\}$.  Again by the minimality of $G$, there exists an $L_2$-coloring $\varphi_2$ of $G_2$.
+The colorings $\varphi_1$ and $\varphi_2$ match on $G_1\cap G_2$, and thus they give an $L$-coloring of $G$, which is a contradiction.
+
+Let $K$ denote the cycle bounding the outer face of $G$.  The argument of the previous paragraph can also be used to show
+that $K$ has no chords, except possibly if $|V(P)|=3$ and the chord is incident with the middle vertex of $P$.
+Without loss of generality, we can assume that $|V(P)|=3$, since otherwise we can remove all but one color from the list of
+a vertex $x$ adjacent to $P$ (so that the resulting list is distinct from the lists of the vertices of $P$) and add it to the path;
+the condition (P) is satisfied by the choice of the list of $x$ and the restriction on the chords of $K$.
+
+We claim that for every $(\le\!4)$-cycle $C$ in $G$, the open disk $\Lambda$ bounded by $C$ contains no vertices of $G$.
+Otherwise, let $G_1$ be obtained from $G$ by removing vertices drawn in $\Lambda$ and let $G_2$ be the subgraph of $G$ drawn
+in the closure of $\Lambda$.  ...
+
+The only place where the argument differs is when $|V(P)|=3$
+and $K$ has a chord incident with the middle vertex of $P$, say $P=p_1p_2p_3$ and $p_2v$ is a chord of $K$.
+Then, let $G_1$ and $G_2$ be proper induced subgraphs of $G$ such that $G=G_1\cup G_2$ and $G_1\cap G_2$ is the chord $p_2v$,
+$p_1\in V(G_1)$ and $p_3\in V(G_2)$.  Choose the chord so that $G_2$ is minimal, and thus $p_2$ has no neihbors in $V(K\cap G_2)$
+other than $v$ and $p_3$.
+
+\end{proof}
 
 \section{The Short List-Coloring Proof of Grotzsch's theorem}
 
 using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size two
+
+...
+
+??? Comments on choice of the assumptions (if we can come up with something profound on the topic :-).
 
 \chapter{Recoloring}\label{chap:recolor}
 
