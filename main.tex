@@ -2142,11 +2142,11 @@ this gives an $L$-coloring of $G$.
 \subsection{Non-book proof}
 
 Both the formulation of Theorem~\ref{thm:5choosbook} and its proof are exceptionally elegant.
-However, they are something of an exception in the area, not the most typical examples of the method.
+However, they are something of an anomaly, not the most typical examples of the method.
 Let us give another proof of $5$-choosability of planar graphs whose ideas translate directly to other
 contexts, such as the proof of Grotzsch's theorem we give in the next section.
 
-\begin{theorem}
+\begin{theorem}\label{thm:5choos-nonbook}
 Let $G$ be a plane graph and let $P$ be a path of length at most two contained in the boundary of the
 outer face of $G$.  Let $L$ be a list assignment satisfying the following conditions:
 \begin{itemize}
@@ -2175,17 +2175,89 @@ that $K$ has no chords, except possibly if $|V(P)|=3$ and the chord is incident 
 Without loss of generality, we can assume that $|V(P)|=3$, since otherwise we can remove all but one color from the list of
 a vertex $x$ adjacent to $P$ (so that the resulting list is distinct from the lists of the vertices of $P$) and add it to the path;
 the condition (P) is satisfied by the choice of the list of $x$ and the restriction on the chords of $K$.
+Let $P=p_1p_2p_3$.
 
 We claim that for every $(\le\!4)$-cycle $C$ in $G$, the open disk $\Lambda$ bounded by $C$ contains no vertices of $G$.
 Otherwise, let $G_1$ be obtained from $G$ by removing vertices drawn in $\Lambda$ and let $G_2$ be the subgraph of $G$ drawn
-in the closure of $\Lambda$.  ...
+in the closure of $\Lambda$.  By the minimality of $G$, the graph $G_1$ has an $L$-coloring $\varphi_1$.
+Let $v$ be an arbitrary vertex of $C$.  Let $L_2$ be the list assignment for $G_2-v$ defined as follows:
+Each vertex $z\in V(C)\setminus \{v\}$ has list $L_2(z)=\{\varphi_1(z)\}$.  Each vertex $z\in V(G_2)\setminus V(C)$
+has list $L_2(z)=L(z)\setminus \{\varphi_1(v)\}$ if $z$ is adjacent to $v$ and $L_2(z)=L(z)$ otherwise.
+By the minimality of $G$, the graph $G_2-v$ is $L_2$-colorable, and combining its $L_2$-coloring with $\varphi_1$,
+we obtain an $L$-coloring of $G$; this is a contradiction.
 
-The only place where the argument differs is when $|V(P)|=3$
-and $K$ has a chord incident with the middle vertex of $P$, say $P=p_1p_2p_3$ and $p_2v$ is a chord of $K$.
-Then, let $G_1$ and $G_2$ be proper induced subgraphs of $G$ such that $G=G_1\cup G_2$ and $G_1\cap G_2$ is the chord $p_2v$,
-$p_1\in V(G_1)$ and $p_3\in V(G_2)$.  Choose the chord so that $G_2$ is minimal, and thus $p_2$ has no neihbors in $V(K\cap G_2)$
-other than $v$ and $p_3$.
+Suppose now that the cycle $K$ bounding the outer face of $G$ has a chord, necessarily incident with the middle vertex of $P$.
+Let $p_2v$ be such a chord and let $G_1$ and $G_2$ be proper induced subgraphs of $G$ such that $G=G_1\cup G_2$ and $G_1\cap G_2=p_2v$,
+with $p_1\in V(G_1)$ and $p_3\in V(G_2)$.  Choose the chord so that $G_2$ is minimal, and thus $p_2$ has no neihbors in $V(K\cap G_2)$
+other than $v$ and $p_3$.  If $vp_3\not\in E(G_2)$, we can $L$-color $G_1$ and extend the coloring to an $L$-coloring of $G_2$
+by the minimality of $G$, modifying the list of $v$ to a singleton matching the coloring of $G_1$ first---the assumption (P)
+for $G_2$ is satisfied by the choice of $G_2$.  This is a contradiction, and thus $vp_3\in E(G_2)$.  Since all chords of $K$
+are incident with $p_2$ and $3$-cycles in $G$ bound faces, we conclude that $G_2$ is equal to the triangle $p_2p_3v$.
+Since $|V(G)|\ge 5$, the same argument implies $vp_1\not\in E(G_1)$.  If $p_1$, $p_2$, and $v$ have a common neighbor $z$ with $L(z)=3$,
+then by (I) we have $|L(v)|\ge 4$, and thus we can choose a color $c\in L(v)\setminus (L(p_2)\cup L(p_3))$ such that $L(z)\neq L(p_2)\cup L(p_3)\cup \{c\}$.
+Otherwise, let $c$ be an arbitrary color in $L(v)\setminus (L(p_2)\cup L(p_3))$.  Let $L_1$ be the list assignment obtained from
+$L$ by setting $L_1(v)=\{c\}$.  By the minimality of $G$, we conclude that $G_1$ is $L_1$-colorable---the assumption (P) for $G_1$
+is satisfied by the choice of $c$.  This gives an $L$-coloring of $G$, which is a contradiction.
 
+Therefore, $K$ is an induced cycle.  Furthermore, an analogous argument shows the following.
+\begin{itemize}
+\item[(A)] Let $v_1v_2v_3$ be a path in $G$ such that $v_1,v_3\in V(K)\setminus\{p_2\}$ and $v_2\not\in V(K)$.
+Let $G_1$ and $G_2$ be proper subgraphs of $G$ such that $G=G_1\cup G_2$, $G_1\cap G_2=v_1v_2v_3$, and $P\subseteq G_1$.
+Then either $v_1v_3\in E(G)$ and $G_2$ is the triangle $v_1v_2v_3$, or $V(G_2)=\{v_1,v_2,v_3,z\}$ for a vertex $z$
+with $|L(z)|=3$ adjacent to $v_1$, $v_2$, and $v_3$.
+\end{itemize}
+In particular, if $p_1$, $p_2$, and $p_3$ had a common neighbor, then by (A) we would conclude that $K$ is a $4$-cycle;
+however, since the open disk bounded by a $4$-cycle in $G$ cannot contain any vertex, this would give a contradiction.
+Hence, $p_1$, $p_2$, and $p_3$ do not have a common neighbor.
+
+Consider the walk $p_1p_2p_3v_1v_2v_3v_4$ along the cycle $K$ (since the open disk bounded by a $(\le\!4)$-cycle contains no
+vertices and $|V(G)|\ge 5$, we have $v_1,v_2\not\in V(P)$, but $v_3$ or $v_4$ can be vertices of $P$).
+Note that $|L(v_1)|\le 4$ and either $|L(v_1)|=3$ or $|L(v_2)|=3$, as otherwise we can remove the color in $L(p_3)$ from the
+list of $v_1$ and remove the edge $p_3v_1$ to obtain a counterexample smaller than $G$.
+Let $X$ be a set of vertices of $G$ and let $\psi$ be an $L$-coloring of some vertices of $X$ defined as follows:
+\begin{itemize}
+\item If $|L(v_1)|=4$ (and thus $|L(v_2)|=3$ as we argued and $|L(v_3)|\neq 3$ by (I)):
+\begin{itemize}
+\item If $|L(v_3)|\neq 4$, or $|L(v_3)|=4$ and $|L(v_4)|\neq 3$, then $X=\{v_2\}$ and $\psi(v_2)$ is chosen
+from $L(v_2)\setminus L(p_1)$ arbitrarily.
+\item If $|L(v_3)|=4$ and $L(v_4)=3$:
+\begin{itemize}
+\item[($\star$)] If $v_1$, $v_2$, and $v_3$ do not have a common neighbor, then $X=\{v_2,v_3\}$, $\psi(v_3)$ is chosen from $L(v_3)\setminus L(v_4)$
+arbitrarily, and $\psi(v_2)$ is chosen from $L(v_2)\setminus \{\psi(v_3)\}$ arbitrarily.
+\item[($\star\star$)] If $v_1$, $v_2$, and $v_3$ have a common neighbor, then $X=\{v_1,v_2,v_3\}$, $\psi(v_3)$ is chosen from $L(v_3)\setminus L(v_4)$
+arbitrarily, $\psi(v_1)$ is chosen from $L(v_1)\setminus L(p_3)$ so that $|L(v_2)\setminus \{\psi(v_1),\psi(v_3)\}|\ge 2$,
+and $v_2$ is not colored by $\psi$.
+\end{itemize}
+\end{itemize}
+\item If $|L(v_1)|=3$ (and thus $|L(v_2)|\ge 4$ by (I)):
+\begin{itemize}
+\item If $|L(v_2)|\ge 5$ or $|L(v_2)|=4$ and $|L(v_3)|\neq 3$, then $X=\{v_1\}$ and $\psi(v_1)$ is chosen from $L(v_1)\setminus L(p_3)$ arbitrarily.
+\item If $|L(v_2)|=4$ and $|L(v_3)|=3$, then $X=\{v_1,v_2\}$, $\psi(v_2)$ is chosen from $L(v_2)\setminus L(v_3)$ arbitrarily,
+and $\psi(v_1)$ is chosen from $L(v_1)\setminus (L(p_3)\cup \{\psi(v_2)\})$ arbitarily.
+\end{itemize}
+\end{itemize}
+Let $L'$ be the list assigment for $G-X$ such that $$L'(z)=L(z)\setminus\{\psi(x):x\in\text{dom}(\psi), xz\in E(G)\}$$
+for each $z\in V(G)\setminus X$.  Note that the choice of $\psi$ together with the fact that $K$ is an induced cycle and
+that $|\text{dom}(\psi)|\le 2$ implies that $G-X$ with the list assignment $L'$ satisfies the condition (S).
+Since $p_1$, $p_2$, and $p_3$ have no common neighbor, it also satisfies the condition (P).
+
+Suppose that $G-X$ contains an edge $uv$ such that $|L'(u)|=|L'(v)|=3$.  Since $K$ is an induced cycle, the choice of $\psi$
+implies that $u$ and $v$ cannot both be vertices of $K$, and thus say $v\in V(G)\setminus V(K)$.  Hence $|L(v)|\ge 5$,
+and thus $|\text{dom}(\psi)|=2$ and $v$ is adjacent to both vertices of $\text{dom}(\psi)$.  If $u$ were also adjacent
+to both vertices of $\text{dom}(\psi)$, then $G$ would contain a $(\le\!4)$-cycle bounding an open disk containing a vertex,
+which is a contradiction.  Hence, $u$ has at most one neighbor in $\text{dom}(\psi)$, and since $|L'(u)|=3$,
+we conclude that $u\in V(K)$.  It follows that $v$ has three neighbors in $K-V(P)$, and by (A),
+these neighbors are consecutive in $K-V(P)$ and the middle one of them has list of size three.
+However, this is not possible by the choice of $X$ and $\psi$---the only problematic case is ($\star$), but
+there it is explicitly assumed that the three vertices do not have a common neighbor.
+
+Therefore, $G-X$ with the list assignment $L'$ satisfies the condition (I), and by the minimality of $G$, it
+follows that $G-X$ is $L'$-colorable.  However, an $L'$-coloring of $G-X$ can be extended to an $L$-coloring of $G$
+by combining it with $\psi$ and in the case ($\star\star$) by extending the coloring to $v_2$ by giving
+$v_2$ the color in $L(v_2)\setminus \{\psi(v_1),\psi(v_3)\}$ different from the color of the common neighbor
+of $v_1$, $v_2$, and $v_3$ (note that $v_2$ has no other neighbors by (A)).  This is a contradiction.
+
+Hence, there exists no counterexample to Theorem~\ref{thm:5choos-nonbook}.
 \end{proof}
 
 \section{The Short List-Coloring Proof of Grotzsch's theorem}
