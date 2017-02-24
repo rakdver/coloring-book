@@ -239,7 +239,7 @@ unless $g=0$ and $G$ is a forest.
 
 Overview of Standard Methods (with examples and comments on common tricks and pitfalls).
 
-\chapter{Reducible Configurations and Discharging}
+\chapter{Reducible Configurations and Discharging}\label{chap:redu}
 
 % ZD
 Suppose we want to show that graphs from some hereditary class $\GG$ are $k$-colorable.  Clearly, we can
@@ -2273,8 +2273,42 @@ using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size t
 \chapter{Recoloring}\label{chap:recolor}
 
 % ZD
-...
+Very often, we seek colorings of graphs satisfying some additional constraints.
+This may be inherent to the considered question; e.g., in the precoloring extension problem,
+a coloring of some vertices is fixed and we ask whether this coloring can be extended to the
+whole graph, or quivalently, whether there exists a coloring that matches the colors of the fixed
+vertices.  Or, it may be something needed to make another argument work; e.g., when showing that
+a particular configuration is reducible (as in Chapter~\ref{chap:redu}, we seek a coloring of the rest
+of the graph with the additional property that it extends to a coloring of the configuration in question.
 
+In either case, rather than directly finding a coloring satisfying the additional constraints,
+it may be easier to start with an arbitrary coloring and to modify it somehow to satisfy the constraints.
+There are two major ways how to achieve that.
+\begin{itemize}
+\item We may be able to perform local recoloring---change colors of the vertices to satisfy the constraints
+and then possibly alter the coloring of their bounded neighborhoods to fix any arising edges joining vertices of the same color.
+Typically, this involves starting with a coloring that uses fewer colors than the coloring we look for
+(e.g., to find a 4-coloring with additional properties, we start with a $3$-coloring which we modify to
+satisfy the properties, introducing the 4th color in the process)---the extra available color or colors give us the flexibility
+to absorb the changes within a bounded distance.
+\item Or, we may need to do global recoloring, where coloring of arbitrarily distant parts of the graph may change.
+The best known means of doing so are Kempe chain switches: a Kempe chain is a maximal bichromatic subgraph of the considered
+graph, and we can alter the coloring by switching the colors in the Kempe chain.  Of course, this would be pointless if
+the Kempe chain contained all the vertices of the two considered colors, as this would just rename the colors.  However,
+in some situations, the extent of Kempe chains is restricted.  In plane graphs (or more generally, in graphs embedded
+in a fixed surface), Kempe chains for disjoint pairs of colors are constrained by the embedding.  In the case of edge coloring,
+Kempe chains form paths and even cycles.  In these situations, switching on Kempe chains can dramatically alter the properties
+of the coloring, possibly making us able to satisfy the constraints.
+\end{itemize}
+It follows from the nature of the described transformations that if local recoloring is applied, many different constraints
+may be satisfiable independently, assuming they are far apart.  Conversely, global recoloring methods are generally only applicable
+to a single or a small number of localized constraints, since altering the coloring to satisfy one of the constraints may
+affect validity of other previously satisfied constraints.
+
+In addition to satisfying specific constraints, recoloring methods may also be used to show that a graph has many different
+colorings.  This is clear for the local recoloring methods: if we can independently alter the coloring at many disjoint locations,
+we obtain a large number of different colorings.  Somewhat surprisingly, global recoloring and in particular Kempe chains
+are also sometimes useful in this context, if we can show that the number of distinct Kempe chains for some pair of colors is large.
 
 \section{Local recoloring}
 
@@ -2319,16 +2353,38 @@ However, this proof of necessity is not the most instructive one; the reason why
 precoloring that is bad for all quadrangulations is much easier to see in the dual setting of flows, as we will
 discuss in Chapter~\ref{chap:flows}, Lemma~\ref{lemma:flow-quadr}.
 
-\begin{itemize}
-\item Example: 3-colorability of quadrangulations of torus that contain several disjoint even non-contactible cycles
-(cut, $2$-color the resulting bipartite graph, recolor near one of the faces created by cutting).
-\end{itemize}
+\section{Locally planar graphs}
+
+We say that an embedding of a graph in a given surface is locally planar if its representativity (or possibly edge-width) is large enough---larger
+than a specified constant, typically depending on the genus of the surface.  Many results for planar graphs extend to locally planar graphs (with notable
+exceptions---despite the Four Color Theorem, in any surface of positive genus, there exist non-$4$-colorable graphs embedded with arbitrarily large representativity).
+A commonly used technique to show such generalizations is to cut the graph along many disjoint homotopically equivalent cycles, color the resulting graph of smaller genus,
+and alter the coloring inside the cylinder formed by these cycles to obtain a proper coloring of the original graph.  This is best explained on an example.
+We will need the following easy fact about graphs embedded in the torus (which can be generalized to arbitrary surfaces).
+
+...
+
+We can now use recoloring argument to obtain the following result.
+
+\begin{theorem}\label{thm:torquadr}
+If $G$ is a quadrangulation of torus with representativity at least $...$, then $G$ is $3$-colorable.
+\end{theorem}
+\begin{proof}
+...
+\end{proof}
+
+Let us remark that Theorem~\ref{thm:torquadr} is far from best possible.  Indeed, Kr\'al' and Thomas~\cite{thomas2008coloring}
+proved that a quadrangulation of torus is $3$-colorable unless it contains the Cayley graph $C(\mathbf{Z}_{13}; 1,5)$ as a subgraph.
+The graph $C(\mathbf{Z}_{13}; 1,5)$ has a unique embedding in the torus whose edge-width is $5$, and thus the all quadrangulations
+of torus with representativity at least $6$ are $3$-colorable.
 
 \section{Kempe Chains: proof of $5$-color theorem}
 
 \subsection{On the $4$-color-theorem}
 
 \section{Proof of Vizing's theorem}
+
+\section{Recoloring and the number of colorings}
 
 \chapter{Flows and Orientations}\label{chap:flows}
 \section{Definitions and Motivation}
