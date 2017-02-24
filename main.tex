@@ -181,9 +181,9 @@ Of course, this corollary can be applied even for ordinary coloring, by giving a
 A large body of work in graph coloring theory is devoted to the chromatic properties of planar graphs.
 Since planar graphs are $5$-degenerate, they have chromatic number at most $6$ by Lemma~\ref{lemma:degen}.
 The bound can be fairly easily improved to $5$, but of course the most important result in this context is
-Four Color Theorem.
+the Four Color Theorem.
 
-\begin{theorem}[Four Color Theorem]
+\begin{theorem}[The Four Color Theorem]
 Every planar graph is $4$-colorable.
 \end{theorem}
 
@@ -191,7 +191,7 @@ A result of Gr\"{o}tzsch concerning triangle-free planar graphs has been also si
 \begin{theorem}[Gr\"{o}tzsch' Theorem]
 Every planar triangle-free graph is $3$-colorable.
 \end{theorem}
-Unlike Four Color Theorem, Gr\"{o}tzsch' Theorem has many proofs based on diverse ideas, all of them non-trivial but also
+Unlike the Four Color Theorem, Gr\"{o}tzsch' Theorem has many proofs based on diverse ideas, all of them non-trivial but also
 relatively simple and educational; we will use several of them to demonstrate various coloring methods.
 
 The wealth of results regarding planar graphs motivated the study of graphs drawn on other surfaces.
@@ -405,7 +405,7 @@ In other words, choosing a ``wrong'' charge may make the discharging rules more 
 Let us remark that some authors prefer to negate the charge assignments we suggest, so that the sum of charges is positive and
 after redistribution using the discharging rules, a reducible configuration
 is then found near the vertices or faces of positive charge.  This convention can be mostly found
-in older works, most notably in the proofs of Four Color Theorem~\cite{AppHak1,rsst}.  As this is purely a matter of taste
+in older works, most notably in the proofs of the Four Color Theorem~\cite{AppHak1,rsst}.  As this is purely a matter of taste
 and nowadays the choice of charge summing to negative is more popular, this will be the convention used in this book.
 
 \section{A more substantial example}
@@ -608,7 +608,7 @@ applies only if $\deg(v_5)=5$.  However, this is not possible by Lemma~\ref{lemm
 \end{proof}
 
 In the next section, we explain how we came up with the reducible configurations and arcane-looking rules (R1)--(R3).
-However, before that, let us comment on errors that often appear (even in some published) proofs using the method of reducible
+However, before that, let us comment on errors that often appear in proofs (even in some published ones) using the method of reducible
 configurations.
 
 \subsection{Common errors}\label{ssec:errors}
@@ -726,7 +726,7 @@ $x_3$, $x_2$, and $x_1$ greedily in order, and remove $c$ and the color of $x_1$
 easy to see that the $6$-cycle bounding $f_2$ can be colored from the resulting lists of size at least two.
 
 Hence, we can assume that there exists no such color, and thus $v_1$ and $v_2$ have the same list of size two, say $L(v_1)=L(v_2)=\{1,2\}$.
-Remove the colors $1$ and $2$ from the list of $v_3$ and note that we color the $10$-cycle $v_1x_3x_2x_1v_3y_1y_2y_3y_4v_2$ (ignoring the now
+Remove the colors $1$ and $2$ from the list of $v_3$ and note that we can color the $10$-cycle $v_1x_3x_2x_1v_3y_1y_2y_3y_4v_2$ (ignoring the now
 irrelevant edges $v_1v_3$ and $v_2v_3$) from the resulting lists of size at least two.
 \end{proof}
 Did you spot the error?  The problem is that it might be the case that $x_2=y_3$ and the lists $L$ obtained in the first paragraph
@@ -734,7 +734,7 @@ of the ``proof'' might be the ones depicted in Figure~\ref{fig:false-redu-flaw}-
 from these lists.  This kind of omissions is quite common in the literature.
 
 Let us remark that even if we assumed that $f_1$ and $f_2$ only share the vertex $v_3$, we would still need to additionally discuss
-possible edges between the incident vertices (e.g, there might be an edge joining $x_2$ and $y_2$), which also change the subgraph
+possible edges between the incident vertices (e.g, there might be an edge joining $x_2$ and $y_2$), which also changes the subgraph
 to that we extend the coloring $\varphi$.
 
 \section{How to find the rules?}\label{sec:rules}
@@ -1690,7 +1690,9 @@ the total amount of charge.
 
 In the context of Theorem~\ref{thm:grotzsch-gimbel}, it is natural to ask when a $3$-coloring of a $6$-cycle $C$
 extends to a $3$-coloring of a plane graph $H$ with the outer face bounded by $C$ and all other faces of length $4$.
-We will address this question in Chapter~\ref{chap:recolor}, Lemma~\ref{lemma:extend6}.
+We will address this question in Chapter~\ref{chap:recolor}, Lemma~\ref{lemma:extend6}, and in Chapter~\ref{chap:flows}, Lemma~\ref{lemma:flow-quadr}.
+Let us remark that if $G$ has such a subgraph $H$ and a $3$-coloring of $C$ extends to $H$, then it also extends
+to $G$, as can be seen by applying Theorem~\ref{thm:grotzsch-gimbel} to the subgraphs of $G$ drawn in the faces of $H$.
 
 \subsection{Other discharging proofs of Gr\"otzsch' Theorem}.
 
@@ -1716,7 +1718,7 @@ we handled them by adding chords.  They can be also eliminated by vertex identif
 important tool was found by Klostermeyer and Zhang~\cite{KloZhang}.  Let us recall that the \emph{odd girth}
 of a graph is the length of the shortest odd cycle (or $\infty$ if the graph is bipartite).  Observe that the odd girth
 also gives a lower bound for the length of odd closed walks.
-\begin{lemma}[Folding Lemma]\label{lemma:folding}
+\begin{lemma}[The Folding Lemma]\label{lemma:folding}
 Let $g$ be an odd integer.  Let $G$ be a plane graph of odd girth at least $g$ and let $K$ be a cycle in $G$ bounding a face.
 If $|K|\neq g$, then there exists a subpath $xyz$ of $K$ such that $G$ contains no path of odd length less than $g$
 between $x$ and $z$.  Consequently, the graph obtained from $G$ by identifying $x$ with $z$ has odd girth at least $g$.
@@ -1845,30 +1847,30 @@ Therefore, $|W_0|=g$, and if the closed walk $W_0$ were not a cycle, it would co
 contradicting the girth assumption.  Hence, $W_0$ is a $g$-cycle, and its pace contains $P_1\cup P_2$.  This contradicts the maximality
 of the pace of $C_1$.
 \end{proof}
-Folding Lemma is widely applicable not only for ordinary proper coloring, but
+The Folding Lemma is widely applicable not only for ordinary proper coloring, but
 also whenever we consider any kind of coloring where identifying two vertices
 (with a common neighbor) cannot decrease the number of colors needed, such as
 circular or fractional coloring.  In these circumstances, it implies that when we color
 plane graphs of odd girth at least $g$, we only need to consider graphs where all faces
 have length exactly $g$.  For example, Gr\"otzsch' Theorem deals with graphs of odd girth at least $5$,
-and thus Folding Lemma implies that a hypothetical minimal counterexample has all faces of length $5$.
+and thus the Folding Lemma implies that a hypothetical minimal counterexample has all faces of length $5$.
 
-Let us remark that Folding Lemma often makes it possible to improve girth bounds in coloring results
+Let us remark that the Folding Lemma often makes it possible to improve girth bounds in coloring results
 by one essentially for free: Supposing that by some discharging argument we can prove that a result
 holds for planar graphs of girth $g$ for \emph{odd} $g$, we can consider instead graphs of odd girth $g$.
-By Folding Lemma, we can assume that their faces have length $g$, and thus the discharging argument
+By the Folding Lemma, we can assume that their faces have length $g$, and thus the discharging argument
 will go through unmodified (a care needs to be taken to check that all reductions also work in the odd girth
 setting, though).  Since $g$ is odd, a graph of girth $g-1$ has odd girth at least $g$, and thus
 in this way a result for planar graphs of girth $g$ can be cheaply transformed into a result
 that holds for planar graphs of girth $g-1$.
 
-We cannot eliminate non-facial cycles of length less than $g$ by Folding Lemma,
+We cannot eliminate non-facial cycles of length less than $g$ by the Folding Lemma,
 and we need to deal with those using one of the methods of Section~\ref{sec:precolface}.  Of course,
-when Folding Lemma is applied in a graph with a precolored face, one needs to discuss the possibility
+when the Folding Lemma is applied in a graph with a precolored face, one needs to discuss the possibility
 that the vertices being identified are precolored ones, which may make the identification impossible
 when they have different colors.
 
-Using Folding Lemma and the reduction from Lemma~\ref{lemma:grgim-redu}, Gr\"otzsch' Theorem follows easily
+Using the Folding Lemma and the reduction from Lemma~\ref{lemma:grgim-redu}, Gr\"otzsch' Theorem follows easily
 from the following result proved using the idea of Subsection~\ref{ssec:shortestinter}.
 \begin{lemma}\label{lemma:exredu}
 Let $G$ be a $2$-connected plane triangle-free graph with all faces of length exactly $5$.
@@ -1899,7 +1901,7 @@ is contained in $G_1$ and contradicts the choice of $C_1$ (the open disk bounded
 $G$ is triangle-free and all faces of $G$ have length $5$).
 \end{proof}
 
-Another possible choice in the proof of Gr\"otzsch' Theorem is to first reduce it to the girth 5 case by Folding Lemma and a precolored cycle
+Another possible choice in the proof of Gr\"otzsch' Theorem is to first reduce it to the girth 5 case by the Folding Lemma and a precolored cycle
 argument, and then execute the proof in girth at least 5 setting, by essentially the same reducible configurations and discharging rules,
 but using a longer precolored cycle to eliminate further separating cycles and ensure that no $4$-cycles are created.
 This way, Thomassen~\cite{thom-torus} proved the following precoloring extension result which is occasionally useful.
@@ -2069,11 +2071,11 @@ Of course, when we add edges or other subgraphs, we may need to verify that we d
 ideas from Section~\ref{sec:precolface} may be useful.
 
 Further possiblity is to identify some vertices after the reduction in addition to the previously described transformations.
-Folding Lemma~\ref{lemma:folding} may simplify verification of the assumptions.  Vertex identification is a rather powerful
+the Folding Lemma~\ref{lemma:folding} may simplify verification of the assumptions.  Vertex identification is a rather powerful
 tool, especially when dealing with configurations containing vertices whose degree exceeds number of colors; e.g., identifying
 neighbors of such vertices effectively reduces their degree.  A downside is that vertex identification is in general not
 applicable for list coloring, since it is not possible to identify vertices with different lists (but see Chapter~\ref{chap:corresp}
-for a possible workaround).
+for a partial workaround).
 
 Finally, we need to mention the method of Kempe chains, which suitably modifies the coloring of the rest of the graph
 before extending it to the reduced configuration (whose reduction may involve all other transformations described here).
@@ -2139,7 +2141,7 @@ face has no chords, and lists of $v_2$ and $v_k$ are unaffected, it follows that
 satisfies the assumptions of the theorem, and $G-V(P)$ can be $L'$-colored by the induction hypothesis.  Together with $\psi$,
 this gives an $L$-coloring of $G$.
 
-\subsection{Non-book proof}
+\subsection{A non-book proof}
 
 Both the formulation of Theorem~\ref{thm:5choosbook} and its proof are exceptionally elegant.
 However, they are something of an anomaly, not the most typical examples of the method.
@@ -2271,22 +2273,51 @@ using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size t
 \chapter{Recoloring}\label{chap:recolor}
 
 % ZD
+...
 
-Excluding the trivial case that this is prevented by a chord of $C$ and up to a permutation of colors, there is exactly
-one $3$-coloring that does not extend: the one that assigns vertices of $C$ colors $1,2,3,1,2,3$ in order.
+
+\section{Local recoloring}
+
+
+In Theorem~\ref{thm:grotzsch-gimbel}, we considered a plane triangle-free graph $G$ with outer face bounded by a $6$-cycle $C$,
+and we showed that every precoloring of $C$ extends to a $3$-coloring of $G$, unless
+$G$ has a subgraph $H$ containing $C$ such that all non-outer faces of $H$ have length $4$.
+If $G$ contains such a subgraph, can we decide whether a precoloring of $C$ extends?
+Using a recoloring extension argument, it is easy to see that (excluding the trivial case that this is prevented by a chord of $C$),
+such a precoloring extends unless it assigns vertices of $C$ colors $1,2,3,1,2,3$ in order.
 
 \begin{lemma}\label{lemma:extend6}
-Let $G$ be a plane triangle-free graph with the outer face bounded by an induced $6$-cycle $C=v_1\ldots v_6$ and all other
-faces of length $4$.  Let $\psi$ be a $3$-coloring of $C$.  The coloring $\psi$ extends to a $3$-coloring of $G$
-if and only if $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\psi(v_5)$ or $\psi(v_3)\psi(v_6)$.
+Let $G$ be a plane triangle-free multigraph with the outer face bounded by a $6$-cycle $C=v_1\ldots v_6$ and all other
+faces of length $4$.  Let $\psi$ be a $3$-coloring of the subgraph of $G$ induced by $V(C)$.
+If $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\neq\psi(v_5)$ or $\psi(v_3)\neq\psi(v_6)$,
+then $\psi$ extends to a $3$-coloring of $G$.
 \end{lemma}
 \begin{proof}
-If $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\psi(v_5)$ or $\psi(v_3)\psi(v_6)$, then $C$ contains a $2$-colored subpath of
-three vertices; by symmetry, we can assume that $\psi(v_1)=\psi(v_3)=1$ and $\psi(v_2)=2$.
-...
-\end{proof}
+Since $\psi(v_1)\neq\psi(v_4)$ or $\psi(v_2)\neq\psi(v_5)$ or $\psi(v_3)\neq\psi(v_6)$, note that $C$ contains a $2$-colored subpath of
+three vertices; by symmetry, we can assume that $\psi(v_1)=\psi(v_3)=1$ and $\psi(v_2)=2$.  Since $G$ is a plane graph with
+all faces of even length, it is bipartite; let $\varphi_0$ be a $2$-coloring of $G$ such that $\varphi_0(v_1)=\varphi_0(v_3)=1$ and $\varphi_0(v_2)=2$.
 
-\section{Overview of the Method}
+If $\psi(v_5)=1$, then let $\varphi$ be obtained from $\varphi_0$ by changing colors of $v_4$ and $v_6$ to $\psi(v_4)$ and $\psi(v_6)$,
+respectively.  Note that for $i\in \{4,6\}$, we have either $\varphi(v_i)=\varphi_0(v_i)=2$, or $\varphi(v_i)=3$.  Since $v_4$ and $v_6$
+are non-adjacent, it follows that $\varphi$ is a proper $3$-coloring of $G$ that extends $\psi$.
+If $\psi(v_5)=3$, then note that $\psi(v_4)=\psi(v_6)=\varphi_0(v_4)=\varphi_0(v_6)=2$.  We let $\varphi$ be obtained from $\varphi_0$ by changing the color of $v_5$ to $3$,
+and again we conclude that $\varphi$ is a proper $3$-coloring of $G$ that extends $\psi$.
+
+Hence, suppose that $\psi(v_5)=2$, and thus $\psi(v_4)=\psi(v_6)=3$.  Let $\varphi_1$ be a proper coloring of $G$ using colors $1$ and $3$
+such that $\varphi_1(v_1)=\varphi_1(v_3)=1$ and $\varphi_1(v_4)=\varphi_1(v_6)=1$.  We let $\varphi$ be obtained from $\varphi_1$ by changing
+the color of $v_1$ and $v_4$ to $2$.  Since $\psi$ is a $3$-coloring of the subgraph of $G$ induced by $V(C)$ and $\psi(v_1)=\psi(v_4)=2$,
+it follows that $v_1$ is not adjacent to $v_4$, and thus $\varphi$ is a proper $3$-coloring of $G$ that extends $\psi$.
+\end{proof}
+Let us remark that the condition on $\psi$ in Lemma~\ref{lemma:extend6} is not only sufficient, but also necessary.
+This is easy to see by induction. For any $3$-coloring of $G$ and a $4$-face $f$ of $G$, note that two non-adjacent vertices incident with $f$
+have the same color.  Identifying the two vertices and suppresing the arising $2$-faces gives a smaller $3$-colored graph containing $C$
+with all non-outer faces of length $4$.  The condition on the restriction of the $3$-coloring to $C$ then follows by the induction hypothesis
+(of course, the proposed identification should not create a chord, but this is always possible to ensure by the choice of $f$ if $|V(G)|>7$;
+we invite the reader to work out the details).
+
+However, this proof of necessity is not the most instructive one; the reason why there is exactly one particular
+precoloring that is bad for all quadrangulations is much easier to see in the dual setting of flows, as we will
+discuss in Chapter~\ref{chap:flows}, Lemma~\ref{lemma:flow-quadr}.
 
 \begin{itemize}
 \item Example: 3-colorability of quadrangulations of torus that contain several disjoint even non-contactible cycles
@@ -2298,6 +2329,13 @@ three vertices; by symmetry, we can assume that $\psi(v_1)=\psi(v_3)=1$ and $\ps
 \subsection{On the $4$-color-theorem}
 
 \section{Proof of Vizing's theorem}
+
+\chapter{Flows and Orientations}\label{chap:flows}
+\section{Definitions and Motivation}
+\section{Flow-Coloring duality and Tutte's Flow Conjectures}
+\section{The Short Flow Proof of Grotzsch's Theorem}
+\section{Thomassen's proof of the weak $3$-flow conjecture}
+\section{Thomassen-inspired proof of $6$-flow?}
 
 \part{Coloring Graphs on Surfaces}
 
@@ -2403,13 +2441,6 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 \section{The Short Potential Proof of Grotzsch's Theorem}
 \section{Outline of general $k$?}
 \section{Survey of other results.}
-
-\chapter{Flows and Orientations}
-\section{Definitions and Motivation}
-\section{Flow-Coloring duality and Tutte's Flow Conjectures}
-\section{The Short Flow Proof of Grotzsch's Theorem}
-\section{Thomassen's proof of the weak $3$-flow conjecture}
-\section{Thomassen-inspired proof of $6$-flow?}
 
 \chapter{Probabilistic Methods}
 \section{Probabilistic Tools: Local Lemma and Concentration Inequalities}
