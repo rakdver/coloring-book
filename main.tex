@@ -2306,18 +2306,38 @@ to a single or a small number of localized constraints, since altering the color
 affect validity of other previously satisfied constraints.
 
 In addition to satisfying specific constraints, recoloring methods may also be used to show that a graph has many different
-colorings.  This is clear for the local recoloring methods: if we can independently alter the coloring at many disjoint locations,
+colorings.  This is clear for the local recoloring methods, at least in graphs with bounded maximum degree: if we can independently alter
+the coloring at many disjoint locations,
 we obtain a large number of different colorings.  Somewhat surprisingly, global recoloring and in particular Kempe chains
 are also sometimes useful in this context, if we can show that the number of distinct Kempe chains for some pair of colors is large.
 
-\section{Local recoloring}
+\section{Precoloring extension and local recoloring}
 
+Perhaps the most natural way of giving additional constraints on colorings is to prescribe colors of some vertices,
+leading to \emph{precoloring extension} problems.  In addition to being quite natural in itself, this concept is motivated
+by many applications. We have already seen examples in Sections~\ref{sec:precolface} and \ref{sec:disch-grotzsch}, where
+the fact that a precoloring of any short cycle in graphs from the considered class extends can be used to deal with short
+separating cycles throughout the argument.  As another example, suppose we are trying to show an upper bound on chromatic number
+of some class of graphs embedded on torus.  In such a graph, we can find a non-contractible cycle $C$ and cut the surface along this
+cycle.  In this way, we obtain a graph drawn in the plane with two facial cycles $C_1$ and $C_2$ corresponding to the original cycle $C$,
+and we need to color the graph in such a way that matching vertices of $C_1$ and $C_2$ have the same color. This we can try to do by
+fixing a single coloring of $C_1$ and $C_2$, thus turning the original problem for toroidal graphs into a precoloring extension problem
+in planar graphs.
 
+If we allow an arbitrary set of vertices to be precolored, we essentially turn the original coloring problem into a list coloring one (consider
+removing the precolored vertices and forbidding their colors at their neighbors).  Needless to say, this rarely if ever leads to a tractable
+problem.  However, if the set of precolored vertices is suitably restricted (e.g., its size is bounded, or all precolored vertices are
+required to be incident with a single face of the given embedded graph, or if a lower bound on the distance between the precolored vertices is given),
+we may obtain interesting results.  Many of the techniques we studied earlier in the book can be used to prove precoloring extension
+results, and indeed, we have already seen a number of theorems where some vertices were allowed to have their coloring prescribed for technical reasons.
+In this section, we will show several examples of the ways how precoloring constraints can be satisfied via local recoloring.
+
+Let us start with two precoloring extension results regarding plane graphs with vertices incident with one face precolored.
 In Theorem~\ref{thm:grotzsch-gimbel}, we considered a plane triangle-free graph $G$ with outer face bounded by a $6$-cycle $C$,
 and we showed that every precoloring of $C$ extends to a $3$-coloring of $G$, unless
 $G$ has a subgraph $H$ containing $C$ such that all non-outer faces of $H$ have length $4$.
 If $G$ contains such a subgraph, can we decide whether a precoloring of $C$ extends?
-Using a recoloring extension argument, it is easy to see that (excluding the trivial case that this is prevented by a chord of $C$),
+Using a recoloring argument, we will show that (excluding the trivial case that this is prevented by a chord of $C$),
 such a precoloring extends unless it assigns vertices of $C$ colors $1,2,3,1,2,3$ in order.
 
 \begin{lemma}\label{lemma:extend6}
@@ -2351,25 +2371,99 @@ we invite the reader to work out the details).
 
 However, this proof of necessity is not the most instructive one; the reason why there is exactly one particular
 precoloring that is bad for all quadrangulations is much easier to see in the dual setting of flows, as we will
-discuss in Chapter~\ref{chap:flows}, Lemma~\ref{lemma:flow-quadr}.
+discuss in much greater generality in Chapter~\ref{chap:flows}, Lemma~\ref{lemma:flow-quadr}.
+
+As another example, let us consider extendibility of $5$-coloring from a $4$-cycle in a planar graph.
+\begin{lemma}\label{lemma:extend54}
+Let $G$ be a plane graph with the outer face bounded by an induced cycle $C$ of length at most $4$.
+Then every $5$-coloring $\psi$ of $C$ extends to a $5$-coloring of $G$.
+\end{lemma}
+\begin{proof}
+Let $C=v_1v_2v_3v_4$.  If $\psi(v_1)=\psi(v_3)$ and $\psi(v_2)=\psi(v_4)$, then let $G'$ be the graph
+obtained from $G$ by adding a new vertex $w$ adjacent to $v_1$, $v_2$, $v_3$, and $v_4$.  Otherwise,
+we can by symmetry assume that $\psi(v_1)\neq\psi(v_3)$, and we let $G'$ be the graph obtained from $G$
+by adding the edge $v_1v_3$.  Without loss of generality, we can assume that $\psi$ uses only colors
+$\{1,\ldots,4\}$.  By the Four Color Theorem, $G'$ has a $4$-coloring; let us choose its $4$-coloring $\varphi$
+so that $\varphi(v_i)=\psi(v_i)$ for as many vertices $v_i\in V(C)$ as possible.
+
+We claim that the colorings $\varphi$ and $\psi$ differ on at most one vertex of $C$.  Indeed, if $\psi(v_1)=\psi(v_3)$ and $\psi(v_2)=\psi(v_4)$,
+then the choice of $G'$ implies that $\varphi$ uses only three colors on $C$, and thus either $\varphi(v_1)=\varphi(v_3)$ or $\varphi(v_2)=\varphi(v_4)$.
+By symmetry, we can assume the former, and permute the colors in $\varphi$ so that $\varphi(v_1)=\varphi(v_3)=\psi(v_1)$ and $\varphi(v_2)=\psi(v_2)$.
+If $\psi(v_1)\neq\psi(v_3)$, then the choice of $G'$ implies that $\varphi(v_1)\neq \varphi(v_3)$, and thus we can permute the colors so that $\varphi$
+matches $\psi$ on $v_1$, $v_2$, and $v_3$.
+
+If $\psi$ matches $\varphi$ on $C$, we are done.  Hence, we can assume that $\psi$ and $\varphi$ assign different colors to $v_4$.  Let $\varphi'$ be
+obtained from $\varphi$ by giving $v_4$ the color $\psi(v_4)$ and by giving each neigbor $x$ of $v_4$ such that $\varphi(x)=\psi(v_4)$ the color $5$.
+Then $\varphi'$ is a proper $5$-coloring of $G$ that extends $\psi$.
+\end{proof}
+Of course, it is possible to prove Lemma~\ref{lemma:extend54} directly, without using the Four Color Theorem, either via a simple reducible configurations arguments,
+or in the list coloring setting from Theorem~\ref{thm:5choosbook} or Theorem~\ref{thm:5choos-nonbook} (in fact, the argument is implicit in the proof of the
+latter result).  Nevertheless, the same idea enables us to prove the following result, for which no direct proof is known.
+
+\begin{theorem}[Albertson~\cite{Alb98}]\label{thm:extend-dist4}
+Let $G$ be a planar graph and let $S$ be a set of vertices of $G$ such that the distance between any two
+of them is at least $4$.  Then any $5$-coloring $\psi$ of $S$ extends to a $5$-coloring of $G$.
+\end{theorem}
+\begin{proof}
+Let $\varphi_0$ be a $4$-coloring of $G$, obtained by the Four Color Theorem.  Let $\varphi$ be the coloring obtained from $\varphi_0$
+by, for each $v\in S$, changing the color of $v$ to $\psi(v)$ and the color of each neighbor $x$ of $v$ with $\varphi_0(x)=\psi(v)$ to $5$.
+Note that such neighbors form an independent set, since they have the same color in $\varphi_0$.  Furthermore, neigbors of distinct
+vertices of $S$ are distinct and non-adjacent, since the distance between distinct vertices of $S$ is at least $4$.
+Hence, $\varphi$ is a proper $5$-coloring of $G$ that extends$\psi$.
+\end{proof}
+Let us remark that the distance constraint in Theorem~\ref{thm:extend-dist4} cannot be decreased to $3$---otherwise, we could attach a precolored
+leaf to each vertex of $G$, and thus effectively forbid one color at each vertex of $G$; and as Mirzakhani~\cite{mirzakhani1996small} showed,
+there are planar graphs that are not properly colorable from lists given as $4$-element subsets of $[5]$.
 
 \section{Locally planar graphs}
 
-We say that an embedding of a graph in a given surface is locally planar if its representativity (or possibly edge-width) is large enough---larger
+We say that an embedding of a graph in a given surface is locally planar if its representativity or edge-width is large enough---larger
 than a specified constant, typically depending on the genus of the surface.  Many results for planar graphs extend to locally planar graphs (with notable
 exceptions---despite the Four Color Theorem, in any surface of positive genus, there exist non-$4$-colorable graphs embedded with arbitrarily large representativity).
-A commonly used technique to show such generalizations is to cut the graph along many disjoint homotopically equivalent cycles, color the resulting graph of smaller genus,
-and alter the coloring inside the cylinder formed by these cycles to obtain a proper coloring of the original graph.  This is best explained on an example.
-We will need the following easy fact about graphs embedded in the torus (which can be generalized to arbitrary surfaces).
+A commonly used technique to show such generalizations is to cut the graph along a non-contractible cycle $C$, color the resulting graph of smaller genus,
+and alter the coloring near the cycles corresponding to $C$ to obtain a proper coloring of the original graph.  This is best explained on an example.
+We will need the following easy fact about graphs embedded in the torus.
 
-...
+\begin{lemma}\label{lemma:torus-cut-dist}
+Let $G$ be a graph embedded in the torus, and let $C$ be the shortest non-contractible cycle in $G$.
+Let $G'$ be obtained from $G$ by cutting the torus along the cycle $C$, and let $C_1$ and $C_2$ be the cycles
+in $G'$ created from $C$. Then the distance between $C_1$ and $C_2$ in $G'$ is at least $|C|/2$.
+\end{lemma}
+\begin{proof}
+Let $P'$ be a shortest path between $C_1$ and $C_2$ in $G'$, and let $P$ be the corresponding walk in $G$.
+Let $\ell$ denote the length of $P$.
+Let $K$ be a cycle in $G$ consisting of the path $P$ and a shortest path between its endpoints in $C$.
+We have $|K|\le \ell+|C|/2$.  Note that $K$ is non-contractible, and since $C$ is a shortest non-contractible
+cycle in $G$, we have $|K|\ge |C|$.  It follows that $\ell\ge |C|/2$.
+\end{proof}
 
 We can now use recoloring argument to obtain the following result.
 
 \begin{theorem}\label{thm:torquadr}
-If $G$ is a quadrangulation of torus with representativity at least $...$, then $G$ is $3$-colorable.
+If $G$ is a quadrangulation of torus with edge-width at least $5$, then $G$ is $3$-colorable.
 \end{theorem}
 \begin{proof}
+Let $C=v_1v_2\ldots v_k$ be the shortest non-contractible cycle in $G$; we have $k\ge 5$.
+Let $G'$ be obtained from $G$ by cutting the torus along the cycle $C$, and let $C_1$ and $C_2$ be the cycles
+in $G'$ created from $C$.  For $i\in\{1,2\}$, let $C_i=v_{1,i}v_{2,i}\ldots v_{k,i}$, where $v_{j,1}$ and $v_{j,2}$ are the
+vertices created by cutting $v_j$ for $j=1,\ldots,k$.  If $k$ is even, then $G'$ is bipartite; let $\varphi'$ be the $2$-coloring of $G'$
+such that $\varphi'(v_{1,1})=1$.  If $\varphi'(v_{1,2})=1$, this gives a $2$-coloring of $G$; hence, assume that $\varphi'(v_{1,2})=2$.
+Let $X=\{v_{j,2}:\text{$j\in\{1,\ldots, k\}$ is odd}\}$ and $Y=\{v_{j,1}:\text{$j\in\{1,\ldots, k\}$ is even}\}$
+Let $\varphi'_1$ be a $3$-coloring of $G'$ obtained from $\varphi'$ by giving color $1$ to vertices of $X$
+and color $3$ to all their neighbors and the vertices of $Y$.  Note that neighbors of vertices of $X$ had all the same color in $\varphi'$,
+and thus they form an independent set.  Furthermore, by Lemma~\ref{lemma:torus-cut-dist}, the distance between $C_1$ and $C_2$ in $G'$ is
+at least three, and thus they are not adjacent to vertices of $Y$.  Consequently, $\varphi'_1$ is a proper $3$-coloring of $G'$
+and $\varphi'_1(v_{j,1})=\varphi'_1(v_{j,2})$ for $j\in\{1,\ldots, k\}$.  Hence, this gives a proper $3$-coloring of $G$.
+
+Now consider the case that $k$ is odd.
+Let $P$ be a shortest path between $C_1$ and $C_2$ in $G'$;
+by relabelling the vertices of $C$ if necessary, we can assume that $v_{1,1}$ is an endpoint of $P$.
+Let $G''$ be the graph obtained from $G'$ by cutting along $P$; this splits $C_1$ into a path $C'_1=v'_{1,1}v_{2,1}\ldots v_{k,1}v''_{1,1}$,
+and $C_2$ into a path $C'_2=v'_{t,2}v_{t+1,2}\ldots v''_{t,2}$.
+
+Note that $G''$ is a plane graph, the boundary of its outer face consists of the paths $C'_1$, $C'_2$, and the two paths created from $P$
+by cutting, and all other faces of $G''$ have length $4$.  In particular, $G''$ is bipartite.  Let $\varphi''$ be the $2$-coloring
+of $G''$ such that $\varphi''(v'_1^1)=1$.  Let us remark that since $k$ is odd, we have $\varphi''(v''_1^1)=2$.
 ...
 \end{proof}
 
@@ -2381,6 +2475,8 @@ of torus with representativity at least $6$ are $3$-colorable.
 \section{Kempe Chains: proof of $5$-color theorem}
 
 \subsection{On the $4$-color-theorem}
+
+\section{Exponentially many colorings of planar graphs}
 
 \section{Proof of Vizing's theorem}
 
