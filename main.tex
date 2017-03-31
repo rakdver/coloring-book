@@ -2628,7 +2628,8 @@ Of course, one trivial case is that all vertices colored by $a$ or $b$ happen to
 in which case switching on their unique Kempe chain simply renames the colors $a$ and $b$ and does not substantially
 affect the properties of the coloring.  Thus, to be useful, we need some property of the graph $G$ that will ensure
 that at least some of the Kempe chains are nontrivial.  Let us explore on several examples two important reasonings
-for this: embedding restrictions and the simple structure of Kempe chains in edge colorings.
+for this: embedding restrictions and the restrictions that force simple structure of Kempe chains (in graphs of bounded
+maximum degree and in edge colorings).
 
 \subsection{Kempe chains in embedded graphs}
 
@@ -2719,13 +2720,37 @@ Although very simple, the proof of Theorem~\ref{thm:planar5col-kempe} illustrate
 of Kempe chain usage.  Namely, we used the fact that because of the planar embedding, the existence of a Kempe chain
 in colors $1$ and $3$ between $v_1$ and $v_3$, there cannot exist a Kempe chain in different colors $2$ and $4$ between
 $v_2$ and $v_4$.  The property that the sets of colors $\{1,3\}$ and $\{2,4\}$ are disjoint is crucial for this to go through;
-and consequently, this type of argument is rarely helpful in $3$-coloring problems.
+and consequently, this type of argument is rarely helpful in $3$-coloring problems in embedded graphs.
+
+We also see some limitations of the method.  The colors for which we take the Kempe chain must be interchangeable,
+which prevents its application in the cases where not all colors can be used at all vertices (list coloring) or
+where exchanging the values of two colors may lead to invalid coloring (e.g., in circular coloring).
+To take advantage of the embedding, it is also necessary that Kempe chains for disjoint pairs of colors
+cannot intersect; this makes the Kempe chain method less useful for fractional coloring where
+vertices are assigned sets of colors.
+
+\subsection{On the $4$-color-theorem}
 
 ...
 
+\subsection{Brook's theorem}
+
+Kempe chains are also extensively used in coloring problems in non-embedded graphs.
+Of course, we still need some argument preventing one of the Kempe chains from containing
+all the vertices of the two considered colors.  We now demonstate one based on the
+degree considerations, to prove the well-known Brooks' theorem.
+
+\begin{theorem}[Brooks' theorem]
+Let $\Delta\ge 3$ be an integer.
+If $G$ is a connected graph of maximum degree at most $\Delta$ and $G\neq K_{\Delta+1}$,
+then $G$ is $\Delta$-colorable.
+\end{theorem}
+\begin{proof}
+...
+\end{proof}
+
 \subsection{Vizing's theorem}
 
-\subsection{On the $4$-color-theorem}
 
 \section{Recoloring and the number of colorings}
 
