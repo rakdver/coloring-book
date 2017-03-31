@@ -2611,15 +2611,125 @@ proved that a quadrangulation of torus is $3$-colorable unless it contains the C
 The graph $C(\mathbf{Z}_{13}; 1,5)$ has a unique embedding in the torus whose edge-width is $5$, and thus in particular all quadrangulations
 of torus with edge-width at least $6$ are $3$-colorable.
 
-\section{Kempe Chains: proof of $5$-color theorem}
+\section{Kempe Chains}
+
+In the examples we have seen so far, we used local recoloring arguments, where the coloring is modified only in a small
+part of the graph.  More radical changes may be achieved using \emph{Kempe chain} technique, first devised by Kempe
+in his flawed attempt at proving the Four Color Theorem.
+
+Given a proper coloring $\varphi$ of a graph $G$ and distinct colors $a$ and $b$, a \emph{Kempe chain} in colors $a$ and $b$
+is a connected component $H$ of the subgraph $G[\varphi^{-1}(\{a,b\})]$ induced by vertices of color by $a$ or $b$
+(let us remark that it is possible for $H$ to only use one of the colors $a$ and $b$, in case that $H$ consists of a single
+vertex whose neighbors have colors distinct from $a$ and $b$).
+By \emph{switching} on the Kempe chain $H$ we mean exchanging the colors $a$ and $b$ on the vertices of $V(H)$ in the coloring $\varphi$.
+This clearly results in another proper coloring of $G$.
+
+Of course, one trivial case is that all vertices colored by $a$ or $b$ happen to form a single connected component,
+in which case switching on their unique Kempe chain simply renames the colors $a$ and $b$ and does not substantially
+affect the properties of the coloring.  Thus, to be useful, we need some property of the graph $G$ that will ensure
+that at least some of the Kempe chains are nontrivial.  Let us explore on several examples two important reasonings
+for this: embedding restrictions and the simple structure of Kempe chains in edge colorings.
+
+\subsection{Kempe chains in embedded graphs}
+
+Let us start the exposition with an almost mandatory example, showing that all planar graphs are $5$-colorable
+(which we already did using a different method in Theorem~\ref{thm:planar5col}).
+
+\begin{theorem}\label{thm:planar5col-kempe}
+Every planar graph $G$ is $5$-colorable.
+\end{theorem}
+\begin{proof}
+We prove the claim by induction on the number of vertices of $G$.  If $|V(G)|\le 5$, then the claim is trivial,
+hence assume that $|V(G)|\ge 6$.  By Corollary~\ref{cor:mad}, the average degree of $G$ is less than $6$, and
+thus $G$ has a vertex $v$ of degree at most $5$.  By the induction hypothesis, $G-v$ has a proper $5$-coloring $\varphi$.
+If $\deg(v)\le 4$ or if $\varphi$ assigns the same color to two neighbors of $v$, we can extend $\varphi$ to a proper $5$-coloring
+of $G$ greedily.
+
+Hence, suppose that $\deg(v)=5$ and $\varphi$ assigns different colors to the neighbors of $v$.  Let $v_1$, \ldots, $v_5$
+be the neighbors of $v$ in the cyclic order according to their drawing around $v$.  Without loss of generality, $\varphi(v_i)=i$
+for $i=1,\ldots, 5$.  Let $H_{1,3}$ be the Kempe chain in colors $1$ and $3$ containing the vertex $v_1$.
+If $v_3\not\in V(H_{1,3})$, then let $\varphi_1$ be the coloring obtained from $\varphi$ by switching on $H_{1,3}$.
+Then $\varphi_1(v_1)=\varphi_1(v_3)=3$ and $\varphi_1$ can be greedily extended to a proper $5$-coloring
+of $G$.
+
+Hence, suppose that $v_3\in V(H_{1,3})$, and thus $G-v$ contains a path $P\subseteq H_{1,3}$ between $v_1$ and $v_3$.
+Consider now the Kempe chain $H_{2,4}$ for $\varphi$ in colors $2$ and $4$ containing the vertex $v_2$.  Note that by planarity,
+the vertices $v_2$ and $v_4$ lie in different components of the graph $G-v-V(P)$, see Figure~\ref{fig:kempe5}.
+Since vertices of $P$ have colors different from $2$ and $4$, it follows that the subgraph of $G$ consisting of vertices colored $2$ or $4$
+does not contain a path from $v_2$ to $v_4$, and thus $v_4\not\in V(H_{2,4})$.  Hence, letting $\varphi_2$ denote the
+$5$-coloring of $G-v$ obtained from $\varphi$ by switching on $H_{2,4}$, we have $\varphi_2(v_2)=\varphi_2(v_4)=4$,
+and thus $\varphi_2$ can be greedily extended to a $5$-coloring of $G$.
+\end{proof}
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[0] = (0,0);
+for (i = 0; i < 5; ++i)
+  {
+    v[i+1] = v[0] + dir(72i);
+    draw(v[0]--v[i+1]);
+  }
+
+v[6] = v[1] + (0.5,1.5);
+v[9] = v[3] + (0,1);
+v[7] = v[6] + (-0.5,1);
+v[8] = v[9] + (0.5,1);
+v[10] = v[2] + (-0.5, 0.5);
+v[11] = v[2] + (0.5, 0.5);
+v[12] = v[2] + (0, 1);
+
+draw(v[1]--v[6]--v[7]--v[8]--v[9]--v[3]);
+draw(v[2]--v[11]--v[12]--v[10]--cycle);
+
+vertex(v[0],white);
+vertex(v[1], red);
+vertex(v[2], green);
+vertex(v[3], blue);
+vertex(v[4], magenta);
+vertex(v[5], black);
+vertex(v[6], blue);
+vertex(v[7], red);
+vertex(v[8], blue);
+vertex(v[9], red);
+vertex(v[10], magenta);
+vertex(v[11], magenta);
+vertex(v[12], green);
+
+label("$v$", v[0], W);
+label("$1$", v[1], E);
+label("$2$", v[2], E);
+label("$3$", v[3], NW);
+label("$4$", v[4], SW);
+label("$5$", v[5], SE);
+
+label("$3$", v[6], E);
+label("$1$", v[7], N);
+label("$3$", v[8], N);
+label("$1$", v[9], NW);
+label("$4$", v[10], E);
+label("$4$", v[11], W);
+label("$2$", v[12], N);
+\end{asy}
+\end{center}
+\caption{Kempe chains at a $5$-vertex.}\label{fig:kempe5}
+\end{figure}
+
+Although very simple, the proof of Theorem~\ref{thm:planar5col-kempe} illustrates well the main features
+of Kempe chain usage.  Namely, we used the fact that because of the planar embedding, the existence of a Kempe chain
+in colors $1$ and $3$ between $v_1$ and $v_3$, there cannot exist a Kempe chain in different colors $2$ and $4$ between
+$v_2$ and $v_4$.  The property that the sets of colors $\{1,3\}$ and $\{2,4\}$ are disjoint is crucial for this to go through;
+and consequently, this type of argument is rarely helpful in $3$-coloring problems.
+
+...
+
+\subsection{Vizing's theorem}
 
 \subsection{On the $4$-color-theorem}
 
-\section{Exponentially many colorings of planar graphs}
-
-\section{Proof of Vizing's theorem}
-
 \section{Recoloring and the number of colorings}
+
+% Exponentially many colorings of planar graphs
 
 \chapter{Flows and Orientations}\label{chap:flows}
 \section{Definitions and Motivation}
