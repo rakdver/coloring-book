@@ -168,15 +168,15 @@ Lemma~\ref{lemma:gallai1} is most often used to extend a precoloring of a part o
 Let $G$ be a graph with a list assignment $L$ and let $H$ be an induced subgraph of $G$ with an $L$-coloring $\psi$.
 Let $L'$ be an assignment of lists to vertices of $V(G)\setminus V(H)$ such that $L'(v)=L(v)\setminus \{\psi(u):u\in V(H),uv\in E(G)\}$,
 i.e., $L'(v)$ is obtained from $L(v)$ by removing the colors of its neighbors in $H$.  Clearly, $\psi$ extends to an $L$-coloring of $G$
-if and only if the subgraph $J$ of $G$ induced by $V(G)\setminus V(H)$ is $L'$-colorable.  Note that if $|L(v)|\ge \deg_G v$, then
-$|L'(v)|\ge \deg_J(G)$.  Hence, Lemma~\ref{lemma:gallai1} gives the following.
+if and only if the subgraph $J$ of $G$ induced by $V(G)\setminus V(H)$ is $L'$-colorable.  Note that if $|L(v)|\ge \deg_G(v)$, then
+$|L'(v)|\ge \deg_J(v)$.  Hence, Lemma~\ref{lemma:gallai1} gives the following.
 \begin{corollary}\label{cor:gallai1}
-Let $G$ be a graph and let $J$ be its $2$-connected induced subgraph.  Let $L$ be a list assignment for $G$ such that $|L(v)|\ge \deg_G v$ for all $v\in V(J)$.
+Let $G$ be a graph and let $J$ be its $2$-connected induced subgraph.  Let $L$ be a list assignment for $G$ such that $|L(v)|\ge \deg_G(v)$ for all $v\in V(J)$.
 If $J$ is neither an odd cycle nor a complete graph, then every precoloring of $G-V(J)$ extends to an $L$-coloring of $G$.
 \end{corollary}
 Of course, this corollary can be applied even for ordinary coloring, by giving all vertices the same list.
 
-\subsection{Planar graphs and graphs on surfaces}
+\subsection{Planar graphs, graphs on surfaces, and forbidden minors}
 
 A large body of work in graph coloring theory is devoted to the chromatic properties of planar graphs.
 Since planar graphs are $5$-degenerate, they have chromatic number at most $6$ by Lemma~\ref{lemma:degen}.
@@ -234,6 +234,18 @@ then the average degree of $G$ is at most
 $$\frac{2k}{k-2}(1+(g-2)/|V(G)|),$$
 unless $g=0$ and $G$ is a forest.
 \end{corollary}
+
+Graphs that can be drawn in a fixed surfaces give a natural example of a class of graphs closed under taking minors.
+Heawood's formula shows that for any fixed surface $\Sigma$, the maximum chromatic number of a graph that can be drawn in
+$\Sigma$ is at most the size of the largest clique that can be drawn in $\Sigma$.  Hadwiger conjectured the following
+substantial strengthening of this claim.
+
+\begin{conjecture}[Hadwiger's conjecture]
+For any integer $k\ge 1$, if a graph $G$ does not contain a clique $K_{k+1}$ as a minor, then $\chi(G)\le k$.
+\end{conjecture}
+
+For $k\le 3$, Hadwiger's conjecture is easy to prove.  For $k=4$, it implies (and can be seen to be equivalent to)
+the Four Color Theorem.  It is also known that Hadwiger's conjecture holds for $k=6$, via a rather complex argument~\cite{robertsonseymourthomas}.
 
 \part{Standard Methods}
 
@@ -2627,9 +2639,7 @@ This clearly results in another proper coloring of $G$.
 Of course, one trivial case is that all vertices colored by $a$ or $b$ happen to form a single connected component,
 in which case switching on their unique Kempe chain simply renames the colors $a$ and $b$ and does not substantially
 affect the properties of the coloring.  Thus, to be useful, we need some property of the graph $G$ that will ensure
-that at least some of the Kempe chains are nontrivial.  Let us explore on several examples two important reasonings
-for this: embedding restrictions and the restrictions that force simple structure of Kempe chains (in graphs of bounded
-maximum degree and in edge colorings).
+that at least some of the Kempe chains are nontrivial.  Let us explore several examples of reasonings that lead to such a conclusion.
 
 \subsection{Kempe chains in embedded graphs}
 
@@ -2718,27 +2728,124 @@ label("$2$", v[12], N);
 
 Although very simple, the proof of Theorem~\ref{thm:planar5col-kempe} illustrates well the main features
 of Kempe chain usage.  Namely, we used the fact that because of the planar embedding, the existence of a Kempe chain
-in colors $1$ and $3$ between $v_1$ and $v_3$, there cannot exist a Kempe chain in different colors $2$ and $4$ between
+in colors $1$ and $3$ between $v_1$ and $v_3$ prevents the existence of a Kempe chain in colors $2$ and $4$ between
 $v_2$ and $v_4$.  The property that the sets of colors $\{1,3\}$ and $\{2,4\}$ are disjoint is crucial for this to go through;
 and consequently, this type of argument is rarely helpful in $3$-coloring problems in embedded graphs.
 
 We also see some limitations of the method.  The colors for which we take the Kempe chain must be interchangeable,
 which prevents its application in the cases where not all colors can be used at all vertices (list coloring) or
-where exchanging the values of two colors may lead to invalid coloring (e.g., in circular coloring).
+where exchanging the values of two colors may lead to an invalid coloring (e.g., in circular coloring).
 To take advantage of the embedding, it is also necessary that Kempe chains for disjoint pairs of colors
 cannot intersect; this makes the Kempe chain method less useful for fractional coloring where
 vertices are assigned sets of colors.
 
-\subsection{On the $4$-color-theorem}
+Note that the argument of the proof of Theorem~\ref{thm:planar5col-kempe} would fail for any surface of positive genus,
+since in any such surface, it is possible to draw the two Kempe chains disjointly.  This does not necessarily mean that
+Kempe chain arguments are not applicable in other surfaces; however, they could only be only useful for larger configurations
+that admit so many Kempe chains that they cannot be disjointly drawn in the surface.
 
-...
+Compared with the proof of 5-colorability of planar graphs we presented in Theorem~\ref{thm:planar5col},
+the reduction used to deal with degree 5 vertices is simpler---we just remove these vertices, without
+identifying any of their neighbors.  These are not mutually exclusive; indeed, we will soon see examples
+where more involved reductions are combined with Kempe chain arguments.  Nevertheless, it is often the case
+that Kempe chain usage makes it possible to get away with just the trivial reductions, which is convenient
+in the cases where more involved reductions could result in graph not belonging to the considered class.
+In the following example, we could also reduce vertices of degree four by identifying some of their neighbors,
+but it would require more ideas along the lines of those explored in Section~\ref{sec:precolface} to deal
+with the possibility that this creates a $6$-cycle.
+
+\begin{theorem}\label{thm:forb6}
+Every planar graph without $6$-cycles is $4$-colorable.
+\end{theorem}
+\begin{proof}
+Suppose for a contradiction that $G$ is a counterexample with the smallest number of vertices.
+Clearly, $G$ has minimum degree at least four.
+
+Suppose that $G$ has a vertex $v$ of degree $4$, and let $v_1$, \ldots, $v_4$ 
+be the neighbors of $v$ in the cyclic order according to their drawing around $v$.
+By the minimality of $G$, the graph $G-v$ has a $4$-coloring $\varphi$, which cannot be extended to $G$.
+Without loss of generality, $\varphi(v_i)=i$
+for $i=1,\ldots, 4$.  Let $H_{1,3}$ be the Kempe chain in colors $1$ and $3$ containing the vertex $v_1$,
+and let $H_{2,4}$ be the Kempe chain in colors $2$ and $4$ containing the vertex $v_2$.
+By planarity, either $v_3\not\in V(H_{1,3})$ or $v_2\not\in V(H_{2,4})$.
+By symmetry, we can assume the former.  Hence, we can switch on $H_{1,3}$ and give $v$ the color $1$,
+obtaining a $4$-coloring of $G$.  This is a contradiction, and thus $G$ has minimum degree at least $5$.
+
+Note that each vertex of degree $5$ in $G$ is incident with at least two faces of length at least $4$;
+otherwise, if $v_1$, \ldots, $v_5$ are the neighbors of $v$ in the cyclic order according to their drawing around $v$
+and $v_iv_{i+1}v_5$ bounds a face of length three for $i=1, \ldots, 4$, then $v_1v_2v_3v_4v_5v$ is a $6$-cycle in $G$,
+contradicting the assumptions.
+
+We now obtain a contradiction by simple discharging: assign each vertex $v$ charge $\deg(v) - 6$ and each face $f$ charge $2|f|-6$.
+By Lemma~\ref{lemma:initch}, the sum of the charges is negative.  We let each face of length at least $4$ send $1/2$ to each incident
+vertex.  Then faces of length $3$ have zero charge, faces of length at least $4$ have charge $2|f|-6-|f|/2=(3|f|-12)/2\ge 0$,
+vertices of degree at least $6$ have nonnegative charge, and vertices of degree $5$ have charge at least $-1+2\times1/2=0$.
+Since the sum of the charges did not change, this is a contradiction.
+\end{proof}
+
+\subsection{Coloring graphs with forbidden minors}
+
+Presence of certain Kempe chains can give rise to certain graphs arising as minors (or topological minors) of currently
+considered graph.  This is of importance in problems related to Hadwiger's conjecture.  For example, Hadwiger's conjecture
+implies that every graph that does not contain $K_6$ as a minor is $6$-colorable.  This is known to be true, but the argument
+is quite complicated and long~\cite{robertsonseymourthomas}.  Here, we present a much simpler argument showing $6$-colorability
+of such graphs.
+
+\begin{theorem}
+Every graph not containing $K_6$ as a minor is $6$-colorable.
+\end{theorem}
+\begin{proof}
+Suppose for a contradiction that $G$ is a counterexample with the smallest number of vertices.
+Clearly, $G$ is connected and has minimum degree at least $6$.
+
+Suppose that $G$ contains a vertex $v$ of degree $6$.  Since $G$ does not contain $K_6$ as a minor,
+$v$ has neighbors $u_1$ and $u_2$ that are not adjacent.  The graph $G'$ obtained from $G$ by contracting
+the edges $vu_1$ and $vu_2$ does not contain $K_6$ as a minor, and thus it has a $6$-coloring by the minimality of $G$.
+Consequently, $G-v$ has a $6$-coloring in that $u_1$ and $u_2$ have the same color, and this $6$-coloring can be greedily extended to $v$.
+This is a contradiction.  Hence, $G$ has minimum degree at least $7$.
+
+On the other hand, Mader~\cite{mader1968homomorphiesatze} proved that every graph with $n\ge 6$
+vertices and at least $4n-9$ edges contains $K_6$ as a minor.  Hence, $G$ has at most $4|V(G)|-10$
+edges, and thus its average degree is less than $8$.  Consequently, $G$ contains a vertex $v$ of degree exactly $7$.
+Let $H$ be the subgraph of $G$ induced by the neighbors of $v$.  Since $G$ is $K_6$-minor-free, $H$ is not a clique.
+On the other hand, if $H$ contained an independent set of size three, then contracting the edges from $v$ to this independent
+set, $6$-coloring the resulting graph, and extending the coloring to $v$ would give a contradiction similarly to the previous paragraph.
+Hence, $\alpha(H)=2$.
+
+Suppose that $H$ contains a clique $K$ of size at least $4$.  Note that $|K|=4$, as otherwise $G$ would contain $K_6$ as a subgraph.
+Note that since $G$ has minimum degree at least $7$, each vertex of $\{v\}\cup K$ has a neighbor not in $\{v\}\cup K$.
+If the subgraph $G-(\{v\}\cup K)$ is connected, then contracting this subgraph yields $K_6$ as a minor.
+Otherwise, $G=G_1\cup G_2$ for two proper induced subgraphs $G_1$ and $G_2$ intersecting in the clique $\{v\}\cup K$,
+both $G_1$ and $G_2$ are $6$-colorable by the minimality of $G$, and we can permute the colors to make the $6$-colorings
+of $G_1$ and $G_2$ match on $\{v\}\cup K$, giving a $6$-coloring of $G$.  In either case, this is a contradiction.
+Therefore, $\omega(H)\le 3$.  For any $u\in V(H)$, since $\alpha(H)=2$, the non-neighbors of $u$ in $H$ form a clique,
+and thus $\deg_H(u)\ge 6-\omega(H)\ge 3$.
+
+We claim that there exists a vertex $y$ of $H$ such that $H-y$ contains $K_4$ as a minor.
+If $\delta(H)\ge 4$, then this is the case with $y$ chosen arbitrarily, since $H-y$ has minimum degree at least three and thus contains $K_4$ as a minor~\cite{dirac}.
+Otherwise, $H$ contains a vertex $x$ of degree three.  Let $y_1$, $y_2$, and $y$ be neighbors of $x$ in $H$.  Since $\omega(H)\le 3$, we can assume
+that $y_1y_2\not\in E(H)$, and since $\alpha(H)=2$, each vertex of $V(G)\setminus\{y_1,y_2\}$ is adjacent to $y_1$ or $y_2$.
+Furthermore, since $\alpha(H)=2$, the set $V(H)\setminus\{x,y,y_1,y_2\}$ induces a clique of size three.  Hence, contracting the edges $y_1x$ and $y_2x$ in $H-y$ gives
+a $K_4$ minor.  Let $G_{v,y}$ be the graph obtained from $G$ by removing all non-neighbors of $v$ and adding edges from $y$ to all other vertices of $V(H)$.
+We conclude that $G_{v,y}$ contains $K_6$ as a minor, and thus $G$ does not contain $G_{v,y}$ as a minor.
+
+Since $\delta(H)\ge 3$ and $\omega(H)\le 3$, the neighbors of $y$ in $H$ do not induce a clique.  Let $z_1$ and $z_2$ be non-adjacent neighbors of $y$ in $H$.
+Let $G'$ be the graph obtained from $G$ by contracting the edges $vz_1$ and $vz_2$.  By the minimality of $G$, the graph $G'$ is $6$-colorable,
+and thus there exists a $6$-coloring $\varphi$ of $G-v$ such that $\varphi(z_1)=\varphi(z_2)=6$ and $\varphi(y)=5$.  Let $V(H)\setminus\{y,z_1,z_2\}=\{u_1,\ldots,u_4\}$.
+If the vertices $u_1$, \ldots, $u_4$ do not have pairwise distinct colors or if one of them has color $5$ or $6$, then we can extend $\varphi$ greedily to $v$.
+Hence, we can without loss of generality assume that $\varphi(u_i)=i$ for $i=1, \ldots, 4$.  Let $H_{i5}$ be the Kempe chain in colors $i$ and $5$ containing $u_i$.
+If $H_{i5}$ does not contain $y$, then we can switch on $H_{i5}$ and give $v$ the color $i$.  Hence, this is not the case.
+The graph $H_5=H_{15}\cup\ldots\cup H_{45}$ is disjoint from $\{v,z_1,z_2\}$ and contains a path from $u_i$ to $y$ disjoint from $\{u_1,\ldots,u_4\}\setminus \{u_i\}$
+for $i=1, \ldots, 4$.  Hence, by contracting all the edges of $H_5$ not incident with $u_1, \ldots, u_4$, we conclude that $G$ contains $G_{v,y}$ as a minor,
+which is a contradiction.
+\end{proof}
 
 \subsection{Brook's theorem}
 
 Kempe chains are also extensively used in coloring problems in non-embedded graphs.
 Of course, we still need some argument preventing one of the Kempe chains from containing
 all the vertices of the two considered colors.  We now demonstate one based on the
-degree considerations, to prove the well-known Brooks' theorem.
+degree considerations and local recoloring arguments, to prove the well-known Brooks' theorem.
 
 \begin{theorem}[Brooks' theorem]
 Let $\Delta\ge 3$ be an integer.
@@ -2746,11 +2853,52 @@ If $G$ is a connected graph of maximum degree at most $\Delta$ and $G\neq K_{\De
 then $G$ is $\Delta$-colorable.
 \end{theorem}
 \begin{proof}
-...
+We prove the claim by induction on the number of vertices of $G$.  Clearly, the claim holds in $|V(G)|\le \Delta$.
+Hence, we can assume that $|V(G)|>\Delta$.  Let $v$ be a vertex such that $G-v$ is connected (we can choose $v$ as
+a leaf in a spanning tree of $G$).  By the induction hypothesis, there exists a $\Delta$-coloring $\varphi$ of $G-v$.
+If $\deg(v)<\Delta$, or if $\deg(v)=\Delta$ and two neighhbors of $v$ have the same color, then $\varphi$ extends to $v$ greedily.
+Hence, we can assume that $\deg(v)=\Delta$, and letting $v_1$, \ldots, $v_\Delta$ denote the neighbors of $v$, that
+$\varphi(v_i)=i$ for $i=1,\ldots,\Delta$.
+
+For $1\le i<j\le \Delta$, let $H_{ij}$ denote the Kempe chain in colors $i$ and $j$ containing $v_i$.  If $v_j\not\in V(H_{ij})$,
+then switching on $H_{ij}$ and giving $v$ color $i$ results in a $\Delta$-coloring of $G$.  Hence, we can assume that $H_{ij}$ contains
+a path $P_{ij}$ between $v_i$ and $v_j$ for all $i<j$.  We claim that $H_{ij}$ is actually equal to this path.  Otherwise,
+let $x$ be the first vertex of $P_{ij}$ as traversed from $v_i$ incident with an edge of $E(H_{ij})\setminus E(P_{ij})$, and let
+$Q$ be the subpath of $P_{ij}$ between $v_i$ and $x$.  Note that $x$ has at least three neighbors either equal to $v$ or of color $i$ or $j$,
+and since $\deg(x)\le\Delta$, there exists a color $k$ distinct from $i$ and $j$ that does not appear on any neighbor of $x$.
+Let us recolor $x$ to $k$.  Now, $Q-x$ is the Kempe chain in colors $i$ and $j$ in the resulting coloring and $v_j\not\in V(Q-x)$,
+and thus switching on $Q-x$ and giving $v$ color $i$ results in a $\Delta$-coloring of $G$.
+
+Suppose that the paths $P_{12}$ and $P_{13}$ intersect in a vertex other than $v_1$.  Let $x\neq v_1$ be
+the first vertex of $P_{12}$ as traversed from $v_i$ belonging to $P_{13}$.  Clearly $\varphi(x)=1$ and $x$ has two neighbors of color $2$
+and two neighbors of color $3$.  Since $\deg(x)\le \Delta$, there exists a color $k\not\in\{1,2,3\}$ that does not appear on the neighbors of $x$.
+Hence, we can recolor $x$ to $k$, switch the colors $1$ and $2$ on the part of $P_{12}$ between $v_1$ and $x$, and give $v$ the color $1$,
+obtaining a $\Delta$-coloring of $G$.
+Hence, we can assume that $P_{12}$ and $P_{13}$ intersect only in $v_1$.
+More generally, we can assume the following: ($\star$) If $\varphi'$ is a $\Delta$-coloring of $G-v$, $i$, $j$, and $k$ are distinct colors,
+and $Q_{ij}$ and $Q_{ik}$ are the Kempe chains in this coloring in colors $i$ and $j$, and $i$ and $k$, respectively, both containing
+a neighbor $v'_i$ of $v$ such that $\varphi'(v'_i)=i$, then $Q_{ij}$ and $Q_{ik}$ only intersect in $v'_i$.
+
+Since $G\neq K_{\Delta+1}$, the neighborhood of $v$ is not a clique, and we can by symmetry assume that $v_1$
+is not adjacent to $v_2$.  Since $v_1v_2\not\in E(G)$, the neighbor $u$ of $v_1$ in $P_{12}$
+is not adjacent to $v$.  Consider now the coloring $\varphi'$ obtained from $\varphi$ by
+switching on $P_{13}$.  Let $P'_{23}$ and $P'_{12}$ be the Kempe chains of $\varphi'$ in colors $2$ and $3$, and in colors $1$ and $2$,
+respectively, containing the vertex $v_1$.  Since $\varphi'(u)=\varphi(u)=2$ and $\varphi'(v_1)=3$, we have $u\in V(P'_{23})$.
+Since $P_{12}$ and $P_{13}$ intersect only in $v_1$, we have $P_{12}-v_1\subseteq P'_{12}$, and thus $u\in V(P'_{12})$.
+Consequently, $u$ is a common vertex of $P'_{12}$ and $P'_{23}$ distinct from their common endpoint $v_2$.  However, this contradicts ($\star$).
 \end{proof}
+
+Note that in addition to featuring a different way to restrict the Kempe chains, the presented proof of Brooks' theorem
+also illustrates the need to sometimes perform consecutive Kempe chain switches in different colorings.  Indeed, in the last step of the
+proof, we perform a Kempe chain swich to turn $\varphi$ into a coloring $\varphi'$ that violates the condition ($\star$).
+We then perform one more Kempe switch to transform $\varphi'$ into a coloring that can be extended to $G$, as described in the
+next to last paragraph of the proof.  We will use this possibility even more extensively in the following examples.
 
 \subsection{Vizing's theorem}
 
+\subsection{On the $4$-color-theorem}
+
+...
 
 \section{Recoloring and the number of colorings}
 
