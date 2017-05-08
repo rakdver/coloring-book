@@ -2894,7 +2894,93 @@ proof, we perform a Kempe chain swich to turn $\varphi$ into a coloring $\varphi
 We then perform one more Kempe switch to transform $\varphi'$ into a coloring that can be extended to $G$, as described in the
 next to last paragraph of the proof.  We will use this possibility even more extensively in the following examples.
 
-\subsection{Vizing's theorem}
+\subsection{Edge coloring and Vizing's Theorem}
+
+A proper \emph{edge coloring} of a (multi)graph $G$ is an assignment of colors to edges of $G$ such that any
+distinct edges incident with the same vertex have different colors.  The \emph{chromatic index} $\chi'(G)$
+is the minimum number of colors in a proper edge coloring of $G$.  Equivalently, edge coloring is a proper vertex coloring
+of the \emph{linegraph} $L(G)$ of $G$, i.e., the graph with the vertex set $E(G)$ and with distinct $e_1,e_2\in E(G)$
+adjacent if and only if $e_1$ and $e_2$ have a common endpoint.  Consequently, we can apply Kempe chain switches
+in this setting.
+
+Kempe chains for edge coloring have a particularly simple structure.  Consider an edge $e=uv$ in color $a$.
+By the definition of edge coloring, at most one edge of color $b\neq a$ is incident with each of $u$ and $v$.
+Consequently, a Kempe chain in colors $a$ and $b$ has maximum degree at most $2$, and thus it is either a path or a cycle.
+The simplicity of Kempe chains in edge coloring setting enables us to obtain comparatively strong results;
+in constrast, much less is known about the variants of edge coloring for which Kempe chains are not usable,
+such as for list edge coloring where edges are assigned possibly different lists of available colors.
+
+Here, we show just an elementary application of the Kempe chain technique to prove the most basic result
+on the topic, Vizing's bound in terms of maximum degree.  More in-depth treatment can be found in Chapter~\ref{chap:edgecol}.
+Consider a graph $G$ of maximum degree at most $\Delta$, let $e_0=u_0v$ be an edge of $G$ and let $\varphi$ be a proper edge coloring
+of $G-e_0$ by $c>\Delta$ colors.  We say that a color $a$ is \emph{$\varphi$-available} at a vertex $x\in V(G)$ if no edge incident
+with $x$ has color $a$ in the coloring $\varphi$.  Since the number of colors is greater than the maximum degree of $G$,
+there is at least one $\varphi$-available color at each vertex of $G$.  A \emph{Vizing fan} is a star in $G$ consisting of distinct edges
+$e_0$, $e_1$, \ldots, $e_k$ incident with $v$ for some integer $k\ge 0$, such that, letting $e_i=u_iv$ for $i=1,\ldots, k$,
+the color $\varphi(e_i)$ is $\varphi$-available at $u_{i-1}$.  The fan is \emph{reducible} if some color is
+$\varphi$-available at both $u_k$ and $v$.  We need the following observation.
+\begin{lemma}\label{lemma:redufan}
+Let $\Delta\ge 0$ be an integer, let $G$ be a graph of maximum degree at most $\Delta$, and let $e_0$ be an edge of $G$.
+Let $\varphi$ be a proper edge coloring of $G-e_0$ by $c>\Delta$ colors.  If there exists a reducible Vizing fan
+starting with $e_0$, then $G$ has a proper edge coloring by $c$ colors.
+\end{lemma}
+\begin{proof}
+Let $e_0$, \ldots, $e_k$ be a reducible Vizing fan in $G$, where $e_i=u_iv$ for $i=0,\ldots,k$.
+Let $a$ be a color that is $\varphi$-available at both $u_k$ and $v$.
+A proper edge coloring of $G$ using at most $c$ colors can be obtained from $\varphi$ by giving $e_{i-1}$
+the color $\varphi(e_i)$ for $i=1,\ldots,k$ and giving $e_k$ the color $a$.
+\end{proof}
+A Vizing fan is \emph{maximal} if each color that is $\varphi$-available at $u_k$
+appears on the edges of the fan.  Note that each Vizing fan can be extended to either a reducible or a closed one---if
+the fan is neither reducible nor closed, then there exists a color $a$ that is $\varphi$-available at $u_k$ and $\varphi(e')=a$ for
+some edge $e'$ incident with $v$ that does not yet belong to the fan, and we can add $e'$ to the fan as its last edge.
+\begin{theorem}[Vizing's Theorem]
+Let $\Delta\ge 0$ be an integer.  If $G$ is a graph of maximum degree at most $\Delta$, then $\chi'(G)\le\Delta+1$.
+\end{theorem}
+\begin{proof}
+We prove the claim by induction on the number of edges of $G$.  When $E(G)=\emptyset$, then $G$ is trivially $(\Delta+1)$-edge-colorable,
+hence assume that $E(G)\neq\emptyset$.  By the induction hypothesis, for every edge $e_0$ of $G$ there exists
+a proper edge coloring $\varphi$ of $G-e_0$ using at most $\Delta+1$ colors.  If there is a reducible Vizing fan in any such
+coloring starting with $e_0$, then $G$ has a proper edge coloring using at most $\Delta+1$ colors by Lemma~\ref{lemma:redufan}.
+Hence, assume that there is no reducible Vizing fan starting with $e_0$ in any such coloring.
+
+As we observed, this implies that for each such coloring, there exists a maximal Vizing fan starting with $e_0$.
+Choose an edge $e_0=u_0v$, an edge coloring $\varphi$ of $G-e_0$, and a maximal Vizing fan $e_0$, \ldots, $e_k$
+so that $k$ is minimized.  Let $e_i=u_iv$ for $i=1,\ldots,k$.  Since the fan is maximal, each color that is $\varphi$-available
+at $u_k$ appears on an edge of the fan, and in particular $k\ge 2$.
+If $\varphi(e_1)$ is not $\varphi$-available at $u_k$, then consider the coloring $\varphi'$ of $G-e_1$
+obtained from $\varphi$ by uncoloring the edge $e_1$ and giving $e_0$ the color $\varphi(e_1)$; this is possible, since
+$\varphi(e_1)$ is $\varphi$-available at $u_0$ by the definition of the Vizing fan.  Then $e_1$, \ldots, $e_k$
+is a maximal Vizing fan in $G-e_1$ with the coloring $\varphi'$, contradicting the minimality of $k$.
+
+Hence, $\varphi(e_1)$ is $\varphi$-available at $u_k$.  Let $a_1=\varphi(e_1)$ and let $a_2$ be a color that
+is $\varphi$-available at $v$.  Since the fan is not reducible, the color $a_2$ is not $\varphi$-available at $u_k$,
+i.e., there exists an edge $e$ incident with $v_k$ such that $\varphi(e)=a_2$.
+Let $H$ be the Kempe chain in colors $a_1$ and $a_2$ containing $e$.  Since $a_1$ is $\varphi$-available at $u_k$,
+the chain $H$ is a path.   Let $z$ be the endpoint of $H$ distinct from $u_k$.
+Let $\varphi'$ be the edge coloring of $G-e_0$ by $\Delta+1$ colors obtained from $\varphi$
+by switching on $H$.  Note that for each vertex $u\in V(G)\setminus\{u_k,z\}$ and a color $a$, the color $a$ is $\varphi'$-available
+at $v$ if and only if it is $\varphi$-available at $v$.  Note that $z\neq u_1$, since the edge $e_1$ has color $a_1$
+and the color $a_2$ is $\varphi$-available at $v$; i.e., if $u_1\in V(H)$, then $z=v$.
+
+If $z\neq u_0$ and $z\neq v$, then $e_0$, \ldots, $e_k$ is a Vizing fan in $\varphi'$ and $a_2$ is $\varphi'$-available
+both at $v$ and $u_k$, i.e., the fan is reducible, which is a contradiction.  If $z=u_0$, then $a_2$ is $\varphi'$-available
+both at $v$ and $u_0$ and we can give $e_0$ the color $a_2$ to obtain a proper edge coloring of $G$ by $\Delta+1$ colors.
+Finally, if $z=v$, then $a_1$ is $\varphi'$-available both at $v$ and $u_0$, and we can similarly
+give $e_0$ the color $a_1$ to obtain a proper edge coloring of $G$ by $\Delta+1$ colors.
+\end{proof}
+There are several similar proofs of Vizing's Theorem, all of them based on some variant of growing a tree in a partial edge coloring
+of the considered graph, and then using Kempe chain switches guided by this tree to extend the coloring to the original graph.
+Let us remark that in Vizing's Theorem, it is assumed that the graph $G$ has no parallel edges.  Without this
+assumption, the claim fails, as demonstrated by the triangle with each edge of multiplicity $\Delta/2$
+(we leave it as an exercise for the reader to work out where the presented proof fails for multigraphs).
+Chromatic index of multigraphs is the subject of Goldberg-Seymour Conjecture, which we explore in more detail
+in Section~\ref{sec:goseycon}.
+
+For any graph $G$, the edges incident with its vertex of maximum degree $\Delta$ form a clique in the linegraph of $G$,
+and thus $\chi'(G)\ge \Delta$.  Vizing's Theorem thus shows that there are only two possible values for the chromatic index,
+$\Delta$ or $\Delta+1$.  Somewhat surprisingly, it is NP-complete to decide which is the correct one, even for graphs of
+maximum degree three~\cite{edgenpc}.
 
 \subsection{On the $4$-color-theorem}
 
@@ -3039,7 +3125,7 @@ Maybe?
 \section{Orientations? Paintability?}
 \section{Ohba's?}
 
-\chapter{Edge Coloring}
+\chapter{Edge Coloring}\label{chap:edgecol}
 
 Maybe?
 
@@ -3047,7 +3133,7 @@ Do we want to have this chapter?  Or possibly we could refocus it on the
 sparse setting (cubic graphs, planar graphs -- Seymour's conjecture)?
 
 \section{Vizing Fans, Kierstead Paths}
-\section{Tashkinov Trees and the Goldberg-Seymour Conjecture}
+\section{Tashkinov Trees and the Goldberg-Seymour Conjecture}\label{sec:goseycon}
 \section{List Coloring Conjecture for Bipartite Graphs (Galvin's Proof)}
 \section{List Coloring Conjecture: Outline of Kahn's Proof?}
 
