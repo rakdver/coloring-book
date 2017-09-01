@@ -3008,7 +3008,7 @@ Instead, we focus on the former part, using the consistent set method to show re
 one of the configurations (all the others can be handled in the same way).
 More precisely, we show the following (a graph $G$ is \emph{cyclically $k$-edge-connected} if for every set $X\subseteq E(G)$ of size
 less than $k$, at most one component of $G-X$ contains a cycle).
-\begin{lemma}\label{lemma:kempediamond}
+\begin{lemma}\label{lemma:birkhoffdiamond}
 Let $G$ be a plane $3$-regular cyclically $5$-edge-connected graph such that every
 planar $3$-regular $2$-edge-connected graph with fewer than $|V(G)|$ vertices is
 $3$-edge-colorable.  If $G$ contains two adjacent vertices that are both incident only
@@ -3017,19 +3017,171 @@ with $5$-faces, then $G$ is $3$-edge-colorable.
 Already Birkhoff~\cite{birkhof1913} determined that a hypothetical smallest counterexample
 to Theorem~\ref{thm:planar3ec} is cyclically $5$-edge-connected (the argument to show this
 again uses Kempe chains; we leave it to the reader as an exercise).  Hence, it is not a problem
-that Lemma~\ref{lemma:kempediamond} has this stronger connectivity assumption.
+that Lemma~\ref{lemma:birkhoffdiamond} has this stronger connectivity assumption.
+Suppose for a contradiction that $G$ is not $3$-edge-colorable.
 
 Let $x$ and $y$ be adjacent vertices of $G$ incident only with $5$-faces, whose boundary walks
-are $xyv_3v_2v_1$, $yxv_8v_7v_6$, $v_8xv_1v_{10}v_9$, and $v_3yv_6v_5v_4$, see Figure~\ref{fig-kempediamond}.
+are $xyv_3v_2v_1$, $yxv_8v_7v_6$, $v_8xv_1v_{10}v_9$, and $v_3yv_6v_5v_4$, see Figure~\ref{fig:birkhoffdiamond}.
 Observe that the vertices $x$, $y$, and $v_1$, \ldots, $v_{10}$ are distinct and that there are no edges
 among $\{v_2,v_4,v_5,v_7,v_9,v_{10}\}$ other than $v_4v_5$ and $v_9v_{10}$, as otherwise $G$ would not
 be $5$-edge-connected.
 
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[0] = (0,0);
+v[11] = (1,0);
+v[1] = v[0] + dir(120);
+v[8] = v[0] + dir(-120);
+v[3] = v[11] + dir(60);
+v[6] = v[11] + dir(-60);
+v[2] = (0.5,1.5);
+v[7] = (0.5,-1.5);
+v[10] = (-1.5,0.5);
+v[9] = (-1.5,-0.5);
+v[4] = (2.5,0.5);
+v[5] = (2.5,-0.5);
+
+for (i = 0; i <= 9; ++i)
+  draw(v[i] -- v[i+1]);
+draw(v[1]--v[10]);
+draw(v[8]--v[0]--v[11]--v[3]);
+draw(v[11]--v[6]);
+path e[];
+e[1] = v[2] -- (v[2] + 0.7dir(90));
+e[2] = v[4] -- (v[4] + 0.7dir(30));
+e[3] = v[5] -- (v[5] + 0.7dir(-30));
+e[4] = v[7] -- (v[7] + 0.7dir(-90));
+e[5] = v[9] -- (v[9] + 0.7dir(210));
+e[6] = v[10] -- (v[10] + 0.7dir(150));
+for (i = 1; i <= 6; ++i)
+  draw(e[i]);
+
+for (i = 0; i <= 11; ++i)
+  vertex(v[i], white);
+
+label("$x$", v[0], NE);
+label("$v_1$", v[1], NW);
+label("$v_2$", v[2], S);
+label("$v_3$", v[3], NE);
+label("$v_4$", v[4], SW);
+label("$v_5$", v[5], NW);
+label("$v_6$", v[6], SE);
+label("$v_7$", v[7], N);
+label("$v_8$", v[8], SW);
+label("$v_9$", v[9], NE);
+label("$v_{10}$", v[10], SE);
+label("$y$", v[11], SW);
+
+label("$e_1$", e[1], W);
+label("$e_2$", e[2], N);
+label("$e_3$", e[3], S);
+label("$e_4$", e[4], E);
+label("$e_5$", e[5], S);
+label("$e_6$", e[6], N);
+\end{asy}
+\end{center}
+\caption{Dual of Birkhoff diamond (configuration from Lemma~\ref{lemma:birkhoffdiamond}).}\label{fig:birkhoffdiamond}
+\end{figure}
+
 Let $G_1=G[\{x,y,v_1,\ldots,v_{10}]$ and $G_2=G-V(G_1)$, and let $e_1, \ldots, e_6$ be the edges of $G$
 between $V(G_1)$ and $V(G_2)$ incident with $v_2$, $v_4$, $v_5$, $v_7$, $v_9$, and $v_{10}$ in order.
-Let $B=\{e_1,\ldots, e_6\}$.  Consider any assignment $\psi:B\to\{1,2,3\}$ of colors to edges of $B$.
-For $i\in\{1,2\}$, we say that \emph{$\psi$ extends to $G_i$} if there exists a proper $3$-edge-coloring $\varphi$
-of $G_i$ such that ...
+Let $B=\{e_1,\ldots, e_6\}$, and for $i\in\{1,2\}$, let $S_i$ be the set of colorings of edges of $B$
+by colors $\{1,2,3\}$ that extend to $3$-edge-colorings of $G_i$.
+
+Since we explicitly know the configuration $G_1$, we can determine $S_1$ exactly just by going over
+all possible colorings of $B$ and checking which extend; up to permutation of colors, $S_1$ consists
+exactly of colorings
+\begin{align*}
+&111212,111221,112112,112211,112222,112332,121121,121211,\\
+&121222,121233,122122,122133,122212,122221,122313,123321
+\end{align*}
+where the colors of edges $e_1$, \ldots, $e_6$ are listed in order.
+
+What can we say about $S_2$?
+Since $G$ is not $3$-edge-colorable, no coloring of $B$ can extend both to $G_1$ and $G_2$, and thus $S_1\cap S_2=\emptyset$.
+Furthermore, since $G$ is $3$-regular, $G_2$ has even number of vertices, and in any $3$-edge-coloring of
+$G_2+B$, each vertex of $G_2$ is incident with exactly one edge colored by any color $c\in\{1,2,3\}$.
+Consequently, in any such coloring, $c$ appears on even number of edges of $B$.  Hence, $S_2$ may
+(up to permutation of colors) contain only the following colorings.
+\begin{align*}
+&111111,111122,112121,112233,112323,121112,121323,121332\\
+&122111,122331,123123,123132,123213,123231,123312
+\end{align*}
+Let $S'_2$ denote the above set of colorings; so, we have $S_2\subseteq S'_2$.
+
+Now comes the key observation: the set $S_2$ is \emph{consistent} with respect to Kempe chains, in the following sense.
+For each $\psi\in S_2$, there exists at least one $3$-edge-coloring $\varphi$ of the planar graph $G+B$
+that matches $\psi$ on $B$.  For any pair of distinct colors $c_1,c_2\in \{1,2,3\}$, let $H$ be the union of Kempe chains
+in colors $c_1$ and $c_2$ that intersect $B$.  Then $H$ is a union of pairwise vertex-disjoint paths ending with edges of $B$,
+and by switching the colors on any subset of components of $H$, we obtain another $3$-edge-coloring of $G$, and its restriction to $B$ must belong to $S_2$.
+
+Let us formulate the consistency condition more precisely.  For $\psi\in S_2$ and distinct colors $c_1,c_2\in \{1,2,3\}$, a \emph{$(\psi,c_1,c_2)$-connector}
+is a union $H$ of paths with ending edges equal to the edges of $B$ to that $\psi$ gives color $c_1$ or $c_2$ such that $G_1+H$ is a planar graph.
+A \emph{subconnector} $H'$ of $H$ is any union of components of $H$.  Let $\psi_{H'}$ denote the coloring obtained from $\psi$ by exchanging colors $c_1$ and $c_2$
+on the edges of $B\cap E(H')$.  Let
+$$\psi\uparrow H=\{\psi_{H'}:\text{$H'$ is a subconnector of $H$}\}.$$
+We now have the following.  For every $\psi\in S_2$ and each pair of distinct colors $c_1,c_2\in \{1,2,3\}$, there exists a
+$(\psi,c_1,c_2)$-connector $H$ such that $\psi\uparrow H\subseteq S_2$.
+
+We can use this property to exclude membership of some colorings from $S_2$.
+For example, suppose that the coloring $\psi=111111$ belongs to $S_2$.  Due to planarity restriction, there are only five $(\psi,1,2)$-connectors;
+for each of them, we list just the ending edges of the paths:
+\begin{align*}
+H_1&: e_1e_2, e_3e_4, e_5e_6\\
+H_2&: e_1e_2, e_3e_6, e_4e_5\\
+H_3&: e_1e_4, e_2e_3, e_5e_6\\
+H_4&: e_1e_6, e_2e_3, e_4e_5\\
+H_5&: e_1e_6, e_2e_5, e_3e_4\\
+\end{align*}
+Switching on all possible subsets of their components, we conclude that the sets $\psi\uparrow H_i$ for $i\in\{1,\ldots, 5\}$ contain the following colorings, up to permutation of colors
+(let us remark that it suffices to try the switches involving at most half of the components, as switching on the complementary subconnector is equivalent to switching on the current
+subconnector and afterwards echanging the colors $1$ and $2$):
+\begin{align*}
+\psi\uparrow H_1&: 111111,112222,112211,111122\\
+\psi\uparrow H_2&: 111111,112222,111221,112112\\
+\psi\uparrow H_3&: 111111,122122,122111,111122\\
+\psi\uparrow H_4&: 111111,122221,122111,111221\\
+\psi\uparrow H_5&: 111111,122221,121121,112211
+\end{align*}
+However, each of these sets contains a coloring not belonging to $S'_2$ and thus also not belonging to $S_2$, which contradicts the consistency condition.
+Therefore, the coloring $111111$ does not belong to $S_2$.
+
+Similarly, we can go over all colorings in $S'_2$, and exclude from membership
+in $S_2$ all but the following ones; let their set be denoted by $S''_2$.
+$$112233,112323,121323,121332,122331,123123,123132,123213,123231,123312$$
+For example, the reason we could not show that $\psi=112233$ does not belong to $S_2$ is as follows.  By planarity, there are two possible $(\psi,1,2)$-connectors.
+\begin{align*}
+H_1&: e_1e_2, e_3e_4\\
+H_2&: e_1e_4, e_2e_3
+\end{align*}
+For these, we have
+\begin{align*}
+\psi\uparrow H_1&: 112233,111122\\
+\psi\uparrow H_2&: 112233,121233\\
+\end{align*}
+And while $\psi\uparrow H_2$ contains a coloring not belonging to $S'_2$, both colorings in $\psi\uparrow H_1$ belong to $S'_2$, and this suffices to satisfy the consistency condition.
+Similarly, Kempe chains in colors $1$ and $3$ and in colors $2$ and $3$ do not help, either.
+
+However, both $\psi\uparrow H_1$ and $\psi\uparrow H_2$ contain colorings not belonging to $S''_2$! Hence, they both contain a coloring not belonging to $S_2$, and by the consistency
+condition we conclude that the coloring $112233$ cannot belong to $S_2$.  Going over all colorings in $S''_2$, we similarly concude that all colorings in $S_2$ are among the following ones,
+up to permutation of colors.
+$$112323,121323,121332,123123,123132,123213,123231,123312$$
+Iterating the argument again reduces the set to
+$$121323,123123,123132,123213,$$
+the next iteration to just
+$$123123,$$
+and the final iteration shows that $S_2=\emptyset$.
+
+This means that no coloring of $B$ extends to a $3$-edge-coloring of $G_2$, and thus $G_2$ itself is not $3$-edge-colorable.  However, consider now the
+graph $G'$ obtained from $G_2$ by adding a $6$-cycle and adding in order edges between the vertices of this $6$-cycle
+and the vertices of $G_2$ incident with $B$ in $G$.  It is easy to see that $G'$ is planar, $3$-regular, and $3$-edge-connected,
+and by the assumptions of Lemma~\ref{lemma:birkhoffdiamond}, $G'$ is $3$-edge-colorable.  This is a contradiction, since $G_2$ is
+a subgraph of $G'$; and thus we conclude that $G$ is $3$-edge-colorable, as required.
+
+\subsubsection{Symmetries and reducents}
+
+\subsubsection{Block count reducibility}
 
 
 \section{Recoloring and the number of colorings}
