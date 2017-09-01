@@ -2785,9 +2785,9 @@ Since the sum of the charges did not change, this is a contradiction.
 
 \subsection{Coloring graphs with forbidden minors}
 
-Presence of certain Kempe chains can give rise to certain graphs arising as minors (or topological minors) of currently
+Presence of Kempe chains can make certain graphs arise as minors (or topological minors) of currently
 considered graph.  This is of importance in problems related to Hadwiger's conjecture.  For example, Hadwiger's conjecture
-implies that every graph that does not contain $K_6$ as a minor is $6$-colorable.  This is known to be true, but the argument
+implies that every graph that does not contain $K_6$ as a minor is $5$-colorable.  This is known to be true, but the argument
 is quite complicated and long~\cite{robertsonseymourthomas}.  Here, we present a much simpler argument showing $6$-colorability
 of such graphs.
 
@@ -2982,9 +2982,55 @@ and thus $\chi'(G)\ge \Delta$.  Vizing's Theorem thus shows that there are only 
 $\Delta$ or $\Delta+1$.  Somewhat surprisingly, it is NP-complete to decide which is the correct one, even for graphs of
 maximum degree three~\cite{edgenpc}.
 
-\subsection{On the $4$-color-theorem}
+\subsection{Consistent sets of colorings and the Four Color Theorem}
 
-...
+The reader might wonder how to come up with reducibilty arguments that involve
+multiple Kempe chain switches, other than trial-and-error or brute force enumeration
+of all possibilities.  It turns out that there is a more systematic method, at least
+for fixed configurations of bounded size---the consistent set method.
+This method is still usually only practical
+with computer assistance, but the time complexity is reasonable and the method
+is applicable even for quite large configurations.
+
+As a working example, we will use the best known application of the method: the proof
+of the Four Color Theorem.  It turns out to be convenient to prove the following
+claim, which was shown to be equivalent to the Four Color Theorem by Tait; we will
+establish the equivalence later in Chapter~\ref{chap:flows}.
+\begin{theorem}\label{thm:planar3ec}
+Every planar $3$-regular $2$-edge-connected graph is $3$-edge-colorable.
+\end{theorem}
+The proof consists of two parts: reducibility, demonstrating
+hundreds of configurations that cannot appear in a hypothetical smallest counterexample
+to Theorem~\ref{thm:planar3ec}, and discharging to show that every planar $3$-regular $2$-edge-connected
+graph contains one of these configurations.  We will ignore the latter part, since
+we have already discussed the discharging method in detail in Chapter~\ref{chap:redu}.
+Instead, we focus on the former part, using the consistent set method to show reducibility of
+one of the configurations (all the others can be handled in the same way).
+More precisely, we show the following (a graph $G$ is \emph{cyclically $k$-edge-connected} if for every set $X\subseteq E(G)$ of size
+less than $k$, at most one component of $G-X$ contains a cycle).
+\begin{lemma}\label{lemma:kempediamond}
+Let $G$ be a plane $3$-regular cyclically $5$-edge-connected graph such that every
+planar $3$-regular $2$-edge-connected graph with fewer than $|V(G)|$ vertices is
+$3$-edge-colorable.  If $G$ contains two adjacent vertices that are both incident only
+with $5$-faces, then $G$ is $3$-edge-colorable.
+\end{lemma}
+Already Birkhoff~\cite{birkhof1913} determined that a hypothetical smallest counterexample
+to Theorem~\ref{thm:planar3ec} is cyclically $5$-edge-connected (the argument to show this
+again uses Kempe chains; we leave it to the reader as an exercise).  Hence, it is not a problem
+that Lemma~\ref{lemma:kempediamond} has this stronger connectivity assumption.
+
+Let $x$ and $y$ be adjacent vertices of $G$ incident only with $5$-faces, whose boundary walks
+are $xyv_3v_2v_1$, $yxv_8v_7v_6$, $v_8xv_1v_{10}v_9$, and $v_3yv_6v_5v_4$, see Figure~\ref{fig-kempediamond}.
+Observe that the vertices $x$, $y$, and $v_1$, \ldots, $v_{10}$ are distinct and that there are no edges
+among $\{v_2,v_4,v_5,v_7,v_9,v_{10}\}$ other than $v_4v_5$ and $v_9v_{10}$, as otherwise $G$ would not
+be $5$-edge-connected.
+
+Let $G_1=G[\{x,y,v_1,\ldots,v_{10}]$ and $G_2=G-V(G_1)$, and let $e_1, \ldots, e_6$ be the edges of $G$
+between $V(G_1)$ and $V(G_2)$ incident with $v_2$, $v_4$, $v_5$, $v_7$, $v_9$, and $v_{10}$ in order.
+Let $B=\{e_1,\ldots, e_6\}$.  Consider any assignment $\psi:B\to\{1,2,3\}$ of colors to edges of $B$.
+For $i\in\{1,2\}$, we say that \emph{$\psi$ extends to $G_i$} if there exists a proper $3$-edge-coloring $\varphi$
+of $G_i$ such that ...
+
 
 \section{Recoloring and the number of colorings}
 
