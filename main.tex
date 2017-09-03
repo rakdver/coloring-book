@@ -756,7 +756,7 @@ including introduction of a reducible configuration that we did not use in the e
 in the discharging rules to match what we ended up describing in this section; but the cleaner version
 should hopefully be instructive enough.} of how we came up with the reducible configurations
 and rules from the proof of Theorem~\ref{thm:no4cproj}.  At this point, we will give relatively little attention to the
-issue of how to recognize a reducible configuration, as this will be discussed in more detail in Subsection~\ref{ssec:howto-redu}.
+issue of how to recognize a reducible configuration, as this will be discussed in more detail in Section~\ref{sec:howto-redu}.
 
 \begin{figure}
 \begin{center}
@@ -1924,7 +1924,7 @@ colored with three different colors.
 \end{theorem}
 As a final exercise, the reader should work out the details of the proof of Theorem~\ref{thm:precol9}.
 
-\section{How to find reducible configurations}\label{ssec:howto-redu}
+\section{How to find reducible configurations}\label{sec:howto-redu}
 
 Till now, we did not go into much details on how one can find suitable reducible configurations.
 Mainly, this is because reducibility is highly problem-specific;
@@ -3179,10 +3179,48 @@ and the vertices of $G_2$ incident with $B$ in $G$.  It is easy to see that $G'$
 and by the assumptions of Lemma~\ref{lemma:birkhoffdiamond}, $G'$ is $3$-edge-colorable.  This is a contradiction, since $G_2$ is
 a subgraph of $G'$; and thus we conclude that $G$ is $3$-edge-colorable, as required.
 
-\subsubsection{Symmetries and reducents}
+\subsubsection{Remarks}
+
+There are several modifications that can be made to the basic scheme of the consistent set method
+as outlined.  The configuration considered in Lemma~\ref{lemma:birkhoffdiamond} is symmetric along the horizontal and vertical axes,
+and it is easy to see that all the sets considered in its proof must also have these symmetries.
+For example, for every permutation $\pi\in\{(14)(23)(56),(26)(35),(14)(25)(36)\}$ (the two axial symmetries and their composition)
+and for every coloring $\psi\in S'_2$, the coloring $\pi\circ\psi$ also belongs to $S'_2$.  Hence, instead of considering the whole set $S'_2$,
+it suffices to only keep track of one representative of each such class of symmetric colorings.  So, instead of $S'_2$ as above, we only need to
+consider the colorings
+$$111111,111122,112121,112233,112323,121323,123123,123132,$$
+keeping in mind that say $112323$ also represents the symmetric colorings $121332$, $123231$, and $123312$.  The further iterations become
+\begin{align*}
+&112323,121323,123123,123132\\
+&121323,123123,123132\\
+&123123
+\end{align*}
+Reducing the number of colorings that need to be considered is of course useful when proving reducibility by hand.
+In computer-assisted proofs, eliminating symmetries can improve time complexity and potentially make it possible
+to deal with larger configurations; however, the usefulness is limited since very large configurations are unlikely
+to have non-trivial symmetries.
+
+It of course may happen that the process of elimination ends up with a non-empty set $S^\star_2$ which satisfies
+the consistency condition, and thus fails to directly obtain a contradiction.  In this case, the argument can still
+succeed if there exists a configuration $G'_1$ smaller than $G_1$ with the property that no coloring in $S^\star_2$
+extends to a coloring of $G'_1$.  In that case, the graph obtained from $G$ by replacing $G_1$ by $G'_1$ is not
+$3$-edge-colorable, and assuming we can show it satisfies the connectivity and planarity assumptions, this again
+gives the contradiction we seek.
+
+We performed the argument in the dual setting of $3$-regular planar graphs and their $3$-edge-coloring mostly for convenience
+of Kempe chains being just unions of paths and cycles. If preferred, essentially the same argument can be made directly
+in the terms of $4$-colorings of planar triangulations---there, the configuration described in Lemma~\ref{lemma:birkhoffdiamond} corresponds to two triangles
+sharing an edge and consisting only of vertices of degree $5$.  Let us note that in the proof of the Four Color Theorem, it is actually shown
+this configuration is reducible even if the two vertices of the shared edge have degree $6$ (although this requires using a particular reducent
+as discussed in the previous paragraph).  It is remarkable that these reductions are possible, especially compared to configurations
+we considered in Section~\ref{sec:howto-redu} which were only possible when the degrees of almost all considered vertices were equal
+to the number of colors.
 
 \subsubsection{Block count reducibility}
 
+Finally, let us describe a linear programming-based strengthening of the method of consistent sets,
+called \emph{block count reducibility}.
+...
 
 \section{Recoloring and the number of colorings}
 
