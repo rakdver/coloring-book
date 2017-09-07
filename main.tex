@@ -3100,9 +3100,9 @@ where the colors of edges $e_1$, \ldots, $e_6$ are listed in order.
 
 What can we say about $S_2$?
 Since $G$ is not $3$-edge-colorable, no coloring of $B$ can extend both to $G_1$ and $G_2$, and thus $S_1\cap S_2=\emptyset$.
-Furthermore, since $G$ is $3$-regular, $G_2$ has even number of vertices, and in any $3$-edge-coloring of
-$G_2+B$, each vertex of $G_2$ is incident with exactly one edge colored by any color $c\in\{1,2,3\}$.
-Consequently, in any such coloring, $c$ appears on even number of edges of $B$.  Hence, $S_2$ may
+Furthermore, since $G$ is $3$-regular and exactly $6$ edges leave $G_2$, we conclude that $G_2$ has even number of vertices.
+Since in any $3$-edge-coloring of $G_2+B$, each vertex of $G_2$ is incident with exactly one edge colored by any color $c\in\{1,2,3\}$,
+it follows that $c$ appears on even number of edges of $B$.  Hence, $S_2$ may
 (up to permutation of colors) contain only the following colorings.
 \begin{align*}
 &111111,111122,112121,112233,112323,121112,121323,121332\\
@@ -3116,55 +3116,59 @@ that matches $\psi$ on $B$.  For any pair of distinct colors $c_1,c_2\in \{1,2,3
 in colors $c_1$ and $c_2$ that intersect $B$.  Then $H$ is a union of pairwise vertex-disjoint paths ending with edges of $B$,
 and by switching the colors on any subset of components of $H$, we obtain another $3$-edge-coloring of $G$, and its restriction to $B$ must belong to $S_2$.
 
-Let us formulate the consistency condition more precisely.  For $\psi\in S_2$ and distinct colors $c_1,c_2\in \{1,2,3\}$, a \emph{$(\psi,c_1,c_2)$-connector}
-is a union $H$ of paths with ending edges equal to the edges of $B$ to that $\psi$ gives color $c_1$ or $c_2$ such that $G_1+H$ is a planar graph.
-A \emph{subconnector} $H'$ of $H$ is any union of components of $H$.  Let $\psi_{H'}$ denote the coloring obtained from $\psi$ by exchanging colors $c_1$ and $c_2$
-on the edges of $B\cap E(H')$.  Let
-$$\psi\uparrow H=\{\psi_{H'}:\text{$H'$ is a subconnector of $H$}\}.$$
-We now have the following.  For every $\psi\in S_2$ and each pair of distinct colors $c_1,c_2\in \{1,2,3\}$, there exists a
-$(\psi,c_1,c_2)$-connector $H$ such that $\psi\uparrow H\subseteq S_2$.
+Let us formulate the consistency condition more precisely.  Let $B_{\psi,c_1,c_2}$ be the set of edges of $B$ to that $\psi$ assigns colors $c_1$ or $c_2$.
+A \emph{$(\psi,c_1,c_2)$-matching} is a partition of $B_{\psi,c_1,c_2}$ into pairs.  The $(\psi,c_1,c_2)$-matching $M$ is \emph{plane} if
+the graph obtained from $G_2$ by, for each pair $e_ie_j\in M$, adding an edge between the ends of $e_i$ and $e_j$ in $G_2$, is plane.
+For $M'\subseteq M$, let $\psi_{M'}$ denote the coloring obtained from $\psi$ by exchanging colors $c_1$ and $c_2$
+on the edges of the pairs of $M'$.  Let
+$$\psi\uparrow M=\{\psi_{M'}:M'\subseteq M\}.$$
+We now have the following.
+\begin{equation}\label{eq:consistency}
+\text{\emph{For every $\psi\in S_2$ and each pair of distinct colors $c_1,c_2\in \{1,2,3\}$, there exists a
+plane $(\psi,c_1,c_2)$-matching $M$ such that $\psi\uparrow M\subseteq S_2$.}}
+\end{equation}
 
 We can use this property to exclude membership of some colorings from $S_2$.
-For example, suppose that the coloring $\psi=111111$ belongs to $S_2$.  Due to planarity restriction, there are only five $(\psi,1,2)$-connectors;
+For example, suppose that the coloring $\psi=111111$ belongs to $S_2$.  There are only five plane $(\psi,1,2)$-matchings;
 for each of them, we list just the ending edges of the paths:
 \begin{align*}
-H_1&: e_1e_2, e_3e_4, e_5e_6\\
-H_2&: e_1e_2, e_3e_6, e_4e_5\\
-H_3&: e_1e_4, e_2e_3, e_5e_6\\
-H_4&: e_1e_6, e_2e_3, e_4e_5\\
-H_5&: e_1e_6, e_2e_5, e_3e_4\\
+M_1&: e_1e_2, e_3e_4, e_5e_6\\
+M_2&: e_1e_2, e_3e_6, e_4e_5\\
+M_3&: e_1e_4, e_2e_3, e_5e_6\\
+M_4&: e_1e_6, e_2e_3, e_4e_5\\
+M_5&: e_1e_6, e_2e_5, e_3e_4\\
 \end{align*}
-Switching on all possible subsets of their components, we conclude that the sets $\psi\uparrow H_i$ for $i\in\{1,\ldots, 5\}$ contain the following colorings, up to permutation of colors
-(let us remark that it suffices to try the switches involving at most half of the components, as switching on the complementary subconnector is equivalent to switching on the current
-subconnector and afterwards echanging the colors $1$ and $2$):
+Switching on all possible subsets of their components, we conclude that the sets $\psi\uparrow M_i$ for $i\in\{1,\ldots, 5\}$ contain the following colorings, up to permutation of colors
+(let us remark that it suffices to try the switches involving at most half of the pairs, as switching on the complementary set of pairs is equivalent to switching on the current
+set of pairs and afterwards echanging the colors $1$ and $2$):
 \begin{align*}
-\psi\uparrow H_1&: 111111,112222,112211,111122\\
-\psi\uparrow H_2&: 111111,112222,111221,112112\\
-\psi\uparrow H_3&: 111111,122122,122111,111122\\
-\psi\uparrow H_4&: 111111,122221,122111,111221\\
-\psi\uparrow H_5&: 111111,122221,121121,112211
+\psi\uparrow M_1&: 111111,112222,112211,111122\\
+\psi\uparrow M_2&: 111111,112222,111221,112112\\
+\psi\uparrow M_3&: 111111,122122,122111,111122\\
+\psi\uparrow M_4&: 111111,122221,122111,111221\\
+\psi\uparrow M_5&: 111111,122221,121121,112211
 \end{align*}
-However, each of these sets contains a coloring not belonging to $S'_2$ and thus also not belonging to $S_2$, which contradicts the consistency condition.
+However, each of these sets contains a coloring not belonging to $S'_2$ and thus also not belonging to $S_2$, which contradicts the consistency condition (\ref{eq:consistency}).
 Therefore, the coloring $111111$ does not belong to $S_2$.
 
 Similarly, we can go over all colorings in $S'_2$, and exclude from membership
 in $S_2$ all but the following ones; let their set be denoted by $S''_2$.
 $$112233,112323,121323,121332,122331,123123,123132,123213,123231,123312$$
-For example, the reason we could not show that $\psi=112233$ does not belong to $S_2$ is as follows.  By planarity, there are two possible $(\psi,1,2)$-connectors.
+For example, the reason we could not show that $\psi=112233$ does not belong to $S_2$ is as follows.  There are two plane $(\psi,1,2)$-matchings.
 \begin{align*}
-H_1&: e_1e_2, e_3e_4\\
-H_2&: e_1e_4, e_2e_3
+M_1&: e_1e_2, e_3e_4\\
+M_2&: e_1e_4, e_2e_3
 \end{align*}
 For these, we have
 \begin{align*}
-\psi\uparrow H_1&: 112233,111122\\
-\psi\uparrow H_2&: 112233,121233\\
+\psi\uparrow M_1&: 112233,111122\\
+\psi\uparrow M_2&: 112233,121233\\
 \end{align*}
-And while $\psi\uparrow H_2$ contains a coloring not belonging to $S'_2$, both colorings in $\psi\uparrow H_1$ belong to $S'_2$, and this suffices to satisfy the consistency condition.
+And while $\psi\uparrow M_2$ contains a coloring not belonging to $S'_2$, both colorings in $\psi\uparrow M_1$ belong to $S'_2$, and this suffices to satisfy the consistency condition (\ref{eq:consistency}).
 Similarly, Kempe chains in colors $1$ and $3$ and in colors $2$ and $3$ do not help, either.
 
-However, both $\psi\uparrow H_1$ and $\psi\uparrow H_2$ contain colorings not belonging to $S''_2$! Hence, they both contain a coloring not belonging to $S_2$, and by the consistency
-condition we conclude that the coloring $112233$ cannot belong to $S_2$.  Going over all colorings in $S''_2$, we similarly concude that all colorings in $S_2$ are among the following ones,
+However, both $\psi\uparrow M_1$ and $\psi\uparrow M_2$ contain colorings not belonging to $S''_2$! Hence, they both contain a coloring not belonging to $S_2$, and by (\ref{eq:consistency})
+we conclude that the coloring $112233$ cannot belong to $S_2$.  Going over all colorings in $S''_2$, we similarly concude that all colorings in $S_2$ are among the following ones,
 up to permutation of colors.
 $$112323,121323,121332,123123,123132,123213,123231,123312$$
 Iterating the argument again reduces the set to
@@ -3200,6 +3204,12 @@ In computer-assisted proofs, eliminating symmetries can improve time complexity 
 to deal with larger configurations; however, the usefulness is limited since very large configurations are unlikely
 to have non-trivial symmetries.
 
+The consistency algorithm as outlined calls for going over all elements of $S_2$ to form the set $S'_2$, then
+over all elements of $S'_2$ to form the set $S''_2$, and so on.  This can be sped up: when a coloring $c$
+is removed from $S_2$ due to violation of the consistency condition (\ref{eq:consistency}), the consistency condition may only become violated
+for the colorings that can be obtained from $c$ by Kempe chain switches, and thus we can maintain a queue of
+the colorings that need to be re-checked.  Possibly even more efficient implementation will be discussed in Subsection~\ref{ssec:bcr}.
+
 It of course may happen that the process of elimination ends up with a non-empty set $S^\star_2$ which satisfies
 the consistency condition, and thus fails to directly obtain a contradiction.  In this case, the argument can still
 succeed if there exists a configuration $G'_1$ smaller than $G_1$ with the property that no coloring in $S^\star_2$
@@ -3216,11 +3226,99 @@ as discussed in the previous paragraph).  It is remarkable that these reductions
 we considered in Section~\ref{sec:howto-redu} which were only possible when the degrees of almost all considered vertices were equal
 to the number of colors.
 
-\subsubsection{Block count reducibility}
+\subsubsection{Block-count reducibility}\label{ssec:bcr}
 
-Finally, let us describe a linear programming-based strengthening of the method of consistent sets,
-called \emph{block count reducibility}.
-...
+Finally, let us describe a strengthening of the method of consistent sets based on counting the numbers of ways the precolorings
+of $B$ extend rather than just whether they do, called \emph{block-count reducibility}.
+
+Consider again the situation as discussed in the proof of Lemma~\ref{lemma:birkhoffdiamond}.  For a $3$-coloring $\psi$ of $B$
+(satisfying the constraint that each color appears even number of times on $B$), let $n(\psi)$ denote the number of ways
+$\psi$ extends to a $3$-edge-coloring of $G_2+B$.  Let $c_1,c_2\in \{1,2,3\}$ be distinct colors and let $M$ be a plane $(\psi,c_1,c_2)$-matching,
+and let $\varphi$ be a $3$-edge-coloring of $G_2+B$ that extends $\psi$.  We say that $M$ is the \emph{trace} of $\varphi$ in colors $c_1$ and $c_2$
+if the edges of $B_{\psi,c_1,c_2}$ are in the same Kempe chain of $\varphi$ in colors $c_1$ and $c_2$ if and only if they are matched in $M$.
+Let $n(\psi,c_1,c_2,M)$ denote the number of $3$-edge-colorings of $G_2+B$ whose restriction to $B$ is equal to $\psi$ and whose trace in colors $c_1$ and $c_2$ is $M$.
+Since each coloring has some trace, for each $\psi$, $c_1$, and $c_2$, we have the equality
+$$n(\psi)=\sum_M n(\psi,c_1,c_2, M),$$
+where the sum goes over all plane $(\psi,c_1,c_2)$-matchings $M$.  Suppose that $M'\subseteq M$ and recall that $\psi_{M'}$ is the coloring
+obtained from $\psi$ by switching colors $c_1$ and $c_2$ on edges belonging to the pairs of $M'$.  Now, observe that if $\varphi$ is
+a $3$-edge-coloring of $G_2+B$ extending $\psi$ with trace $M$ in colors $c_1$ and $c_2$, then by switching the colors on the Kempe chains joining the edges
+matched by $M'$, we obtain a $3$-edge-coloring of $G_2+B$ extending $\psi_{M'}$ which also has trace $M$ in colors $c_1$ and $c_2$, since the Kempe chains in colors $c_1$ and $c_2$
+are not affected by the switches.  This establishes a bijection showing that $n(\psi,c_1,c_2,M)=n(\psi_{M'},c_1,c_2,M)$.  I.e., this number is the same for all
+colorings that can be obtained from $\psi$ by switching on subsets of $M$.  Which colorings can be obtained in this way?  If $e_ie_j$ is a pair of $M$,
+switching on this pair cannot affect whether $e_i$ or $e_j$ have the same color or not, but this is the only constraint, motivating the following definition.
+
+A \emph{signed matching} is a pair $(M,\sigma)$, where $M$ is a partition of a subset of $B$ into pairs and $\sigma$ assigns each pair in $M$ one of the signs $=$ or $\neq$.
+If $M$ is a $(c_1,c_2,\psi)$-signed matching, we say that $\sigma$ is \emph{derived from $\psi$} if for $e_ie_j\in M$, $\sigma(e_ie_j)$ is $=$ if $\psi(e_i)=\psi(e_j)$
+and $\neq$ if $\psi(e_i)\neq\psi(e_j)$.  We define $n(M,\sigma)$ to be equal to $n(\psi,c_1,c_2,M)$ for any $3$-coloring $\psi$ of $B$ and distinct colors $c_1,c_2\in \{1,2,3\}$ such that
+$M$ is a $(c_1,c_2,\psi)$-matching and $\sigma$ is derived from $\psi$.  According to the previous paragraph, the value of $n(\sigma,c_1,c_2,M)$ does not depend on the choice of $\psi$
+(the choice of colors $c_1$ and $c_2$ is implied by $M$ and also does not affect the value, as the colors can be freely permuted in any $3$-edge-coloring of $G_2+B$).
+In particular, for each choice of distinct colors $c_1,c_2\in\{1,2,3\}$, we have
+$$n(\psi)=\sum_{(M,\sigma)} n(M,\sigma),$$
+where the sum goes over all plane $(c_1,c_2,\psi)$-matchings $M$, with $\sigma$ derived from $\psi$.
+The corresponding equations for the case considered in Lemma~\ref{lemma:birkhoffdiamond} are listed in Figure~\ref{fig:bceqs}
+(leaving out the $n(\cdot)$ around all the coloring and signed matching variables, denoting pairs $e_ie_j$ such that $\sigma(e_ie_j)$ is $=$ by $(ij)$ and those for that it is $\neq$ by $[ij]$,
+and ignoring equations where there is only one variable on the right-hand side and this variable does not appear anywhere else).
+
+\begin{figure}
+\small
+\begin{align*}
+111111 &= (01)(23)(45) + (01)(25)(34) + (03)(12)(45) + (05)(12)(34) + (05)(14)(23)\\
+111122 &= (01)(23) + (03)(12)\\
+111122 &= (01)(23)(45) + (01)[25][34] + (03)(12)(45) + [05](12)[34] + [05][14](23)\\
+111212 &= (01)(24) + (04)(12)\\
+111212 &= (01)[23][45] + (01)[25][34] + [03](12)[45] + [05](12)[34] + [05](14)[23]\\
+111221 &= (01)(25) + (05)(12)\\
+111221 &= (01)[23][45] + (01)(25)(34) + [03](12)[45] + (05)(12)(34) + (05)[14][23]\\
+112112 &= (01)(34) + (04)(13)\\
+112112 &= (01)[23][45] + (01)(25)(34) + (03)[12][45] + [05][12](34) + [05](14)[23]\\
+112121 &= (01)(35) + (05)(13)\\
+112121 &= (01)[23][45] + (01)[25][34] + (03)[12][45] + (05)[12][34] + (05)[14][23]\\
+112211 &= (01)(45) + (05)(14)\\
+112211 &= (01)(23)(45) + (01)[25][34] + [03][12](45) + (05)[12][34] + (05)(14)(23)\\
+112222 &= (23)(45) + (25)(34)\\
+112222 &= (01)(23)(45) + (01)(25)(34) + [03][12](45) + [05][12](34) + [05][14](23)\\
+112233 &= (23)(45) + [25][34] = (01)(45) + [05][14] = (01)(23) + [03][12]\\
+112323 &= [23][45] + [25][34] = (01)(35) + [05][13] = (01)(24) + [04][12]\\
+112332 &= [23][45] + (25)(34) = (01)(34) + [04][13] = (01)(25) + [05][12]\\
+121112 &= (02)(34) + (04)(23)\\
+121112 &= [01](23)[45] + [01][25](34) + (03)[12][45] + [05][12](34) + [05][14](23)\\
+121121 &= (02)(35) + (05)(23)\\
+121121 &= [01](23)[45] + [01](25)[34] + (03)[12][45] + (05)[12][34] + (05)(14)(23)\\
+121211 &= (02)(45) + (05)(24)\\
+121211 &= [01][23](45) + [01](25)[34] + [03][12](45) + (05)[12][34] + (05)[14][23]\\
+121222 &= (13)(45) + (15)(34)\\
+121222 &= [01][23](45) + [01][25](34) + [03][12](45) + [05][12](34) + [05](14)[23]\\
+121233 &= (13)(45) + [15][34] = (02)(45) + [05][24] = [01][23] + [03][12]\\
+121323 &= [13][45] + [15][34] = (02)(35) + [05][23] = [01][24] + [04][12]\\
+121332 &= [13][45] + (15)(34) = (02)(34) + [04][23] = [01][25] + [05][12]\\
+122111 &= (03)(45) + (05)(34)\\
+122111 &= [01][23](45) + [01][25](34) + (03)(12)(45) + (05)(12)(34) + (05)[14][23]\\
+122122 &= (12)(45) + (15)(24)\\
+122122 &= [01][23](45) + [01](25)[34] + (03)(12)(45) + [05](12)[34] + [05](14)[23]\\
+122133 &= (12)(45) + [15][24] = (03)(45) + [05][34] = [01][23] + (03)(12)\\
+122212 &= (12)(35) + (15)(23)\\
+122212 &= [01](23)[45] + [01](25)[34] + [03](12)[45] + [05](12)[34] + [05][14](23)\\
+122221 &= (12)(34) + (14)(23)\\
+122221 &= [01](23)[45] + [01][25](34) + [03](12)[45] + (05)(12)(34) + (05)(14)(23)\\
+122313 &= (12)(35) + [15][23] = [03][45] + [05][34] = [01][24] + (04)(12)\\
+122331 &= (12)(34) + [14][23] = [03][45] + (05)(34) = [01][25] + (05)(12)\\
+123123 &= [12][45] + [15][24] = [02][35] + [05][23] = [01][34] + [04][13]\\
+123132 &= [12][45] + (15)(24) = [02][34] + [04][23] = [01][35] + [05][13]\\
+123213 &= [12][35] + [15][23] = [02][45] + [05][24] = [01][34] + (04)(13)\\
+123231 &= [12][34] + [14][23] = [02][45] + (05)(24) = [01][35] + (05)(13)\\
+123312 &= [12][35] + (15)(23) = [02][34] + (04)(23) = [01][45] + [05][14]\\
+123321 &= [12][34] + (14)(23) = [02][35] + (05)(23) = [01][45] + (05)(14)
+\end{align*}
+\normalsize
+
+\caption{Block-count equations for $3$-edge-colorings and $6$ boundary edges.}\label{fig:bceqs}
+\end{figure}
+
+
+\begin{align*}
+&111111,111221,112233,112323,121233,121323,122111,\\
+&122221,122331,123123,123132,123213,123312,123321
+\end{align*}
 
 \section{Recoloring and the number of colorings}
 

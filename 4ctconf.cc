@@ -4,6 +4,7 @@
 #include <set>
 #include <map>
 #include <sstream>
+#include <cmath>
 #include "gurobi_c++.h"
 using namespace std;
 
@@ -448,8 +449,7 @@ is_consistent (const set<precoloring> &with, const precoloring &pc)
 static string
 chain_name (const precoloring &pc, const matching &m)
 {
-  string ret;
-  stringstream rets (ret);
+  stringstream rets;
   int n = m.ps.size ();
   for (int i = 0; i < n; i++)
     {
@@ -460,16 +460,16 @@ chain_name (const precoloring &pc, const matching &m)
       rets << b;
     }
 
-  return ret;
+  return rets.str ();
 }
 
 static map<string,GRBVar> vars;
 
 static GRBVar
-get_var (string name, bool create)
+get_var (string name)
 {
-  if (create)
-    vars[name] = pgm->addVar (0, GRB_INFINITY, 1, GRB_CONTINUOUS, name);
+  if (vars.count (name) == 0)
+    vars[name] = pgm->addVar (0, GRB_INFINITY, 0, GRB_CONTINUOUS, name);
 
   return vars[name];
 }
@@ -490,27 +490,28 @@ gen_equations_complcol (const set<precoloring> &with, const precoloring &pc, int
   gen_matchings (positions, ms);
   GRBLinExpr cstr;
 
+  stringstream consname;
+
   string col_name = precoloring_name (pc);
-  GRBVar col_var = get_var (col_name, create_vars);
-  if (create_vars)
-    printf ("%s = ", col_name.c_str ());
-  else
+  GRBVar col_var = get_var (col_name);
+  consname << col_name << " = ";
+  if (!create_vars)
     cstr += GRBLinExpr (col_var, -1);
   const char *sep = "";
   for (list<matching>::iterator m = ms.begin (); m != ms.end (); m++)
     if (all_swaps_in_set (with, pc, *m, nonc))
       {
 	string ch_name = chain_name (pc, *m);
-	GRBVar ch_var = get_var (ch_name, create_vars);
-	if (create_vars)
-	  printf ("%s%s", sep, ch_name.c_str ());
-	else
+	GRBVar ch_var = get_var (ch_name);
+	consname << sep << ch_name;
+	if (!create_vars)
 	  cstr += GRBLinExpr (ch_var, 1);
 	sep = " + ";
       }
-  if (!create_vars)
-    pgm->addConstr (cstr, GRB_EQUAL, 0);
-  printf ("\n");
+  if (create_vars)
+    printf ("%s\n", consname.str().c_str ());
+  else
+    pgm->addConstr (cstr, GRB_EQUAL, 0, consname.str ());
 }
 
 static void
@@ -527,6 +528,24 @@ prune_by_consistency (const set<precoloring> &old, set<precoloring> &nw)
   for (set<precoloring>::const_iterator pc = old.begin (); pc != old.end (); pc++)
     if (is_consistent (old, *pc))
       nw.insert (*pc);
+}
+
+static void
+dump_dual (void)
+{
+  GRBConstr *css = pgm->getConstrs ();
+  int n = pgm->get (GRB_IntAttr_NumConstrs);
+
+  for (int c = 0; c < n; c++)
+    {
+      double val = css[c].get (GRB_DoubleAttr_Pi);
+      if (abs (val) < 1e-6)
+	continue;
+
+      printf ("%.3f\t%s\n", val, css[c].get (GRB_StringAttr_ConstrName).c_str ());
+    }
+
+  delete css;
 }
 
 int main (void)
@@ -552,7 +571,31 @@ int main (void)
   for (set<precoloring>::iterator pc = act_nonext.begin (); pc != act_nonext.end (); pc++)
     gen_equations (act_nonext, *pc, false);
   pgm->set (GRB_IntAttr_ModelSense, GRB_MAXIMIZE);
-  pgm->optimize ();
+  set<precoloring> eliminated;
+  set<precoloring> kept;
+  int k = 0, s = act_nonext.size ();
+  for (set<precoloring>::iterator pc = act_nonext.begin (); pc != act_nonext.end (); pc++, k++)
+    {
+      GRBVar v = get_var (precoloring_name (*pc));
+      v.set (GRB_DoubleAttr_Obj, 1);
+      printf ("%d/%d\n", k, s);
+      pgm->optimize ();
+      if (precoloring_name (*pc) == "1233332331")
+	dump_dual ();
+      if (pgm->get (GRB_IntAttr_Status) == GRB_OPTIMAL)
+	eliminated.insert (*pc);
+      else
+	kept.insert (*pc);
+      v.set (GRB_DoubleAttr_Obj, 0);
+    }
+
+  printf ("Eliminated:\n");
+  for (set<precoloring>::iterator pc = eliminated.begin (); pc != eliminated.end (); pc++)
+    {
+      dump_precoloring (*pc);
+      printf ("\n");
+    }
+  printf ("Kept: %d\n", (int) kept.size ());
 
   delete pgm;
   return 0;
