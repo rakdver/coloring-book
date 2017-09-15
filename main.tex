@@ -3367,17 +3367,105 @@ one which is consistent, but not block-count consistent.
 123312 &= [23][46] = [13][45] = [12][56] + [16][25]\\
 123321 &= (25)(34) = [13][46] = [12][56]\\
 \end{align*}
-
 \caption{Equations for a consistent set that is not block-count consistent.}\label{fig:consnobc}
 \end{figure}
 
+To prove reducibility via block-count consistency, one forms linear program as in Figure~\ref{fig:bceqs} and
+adds equalities $n(\psi)=0$ for all colorings $\psi$ of $B$ that extend to the reduced configuration (expressing
+the fact that we are for contradiction assuming that the graph we consider is not colorable).
+Furthermore, one adds an inequality for the assumption that all smaller graphs are colorable, of form $\sum_{\psi} n(\psi)\ge 1$;
+when we are replacing the configuration by a specific smaller graph $G'_1$, the sum goes over all colorings $\psi$ of $B$ that extend to $G'_1$,
+otherwise the sum goes over all colorings of $B$.  If the polytope described by the resulting system is empty, this gives a contradiction,
+showing that the considered graph is colorable.
+
+One can even add constraints for several different graphs $G'_1$ by which the configuration can be replaced, if desired; this is useful
+when trying to decide which reducent to use or whether there exists one, however it does not add to the strength of the method
+(as an exercise, argue that if block-count consistency method succeeds using several reducents, it also succeeds using just one of them).
+
+One might be concerned about the reliability of the result of the testing of the emptiness.  Unless an exact LP solver is used,
+cannot the result be due to rounding errors?  This objection can be overcome via LP duality: the solver can also return the coefficients
+from Farkas' lemma proving the emptiness of the polytope.  These coefficients can be rounded to rational numbers and then (in exact arithmetic)
+used to verify that the inequalities are contradictory.
+
+Since block-count reduciblity is stronger than the basic consistency method, why is it not universaly used?
+One issue concerns its computational complexity.  LP solvers are of course much slower than the trivial propagation
+method used by the consistency method, and thus block-count reducibility is not applicable to as large configurations.
+
+A more principial problem arises when algorithmization is considered.  The consistency method gives a polynomial-time algorithm
+to find a coloring of the graph. Going back to the proof of Lemma~\ref{lemma:birkhoffdiamond}, let us say we obtained recursively
+a coloring of the reduced graph, and thus we have a $3$-edge-coloring of $G_2+B$.  Let $\psi$ be the restriction of this coloring to $B$,
+and say that $\psi$ belongs to $S''_2$ but not to the next set $S'''_2$ constructed by the method.  By the construction of $S'''_2$,
+we know that by switching on Kempe chains in some pair of colors, we can transform the coloring of $G_2+B$ to one whose restriction belongs to
+$(S'_2\setminus S''_2)\cup S_1$.  If we obtain a coloring with restriction in $S'_2\setminus S''_2$, by construction of $S''_2$ we can switch
+on Kempe chains in another pair of colors to obtain a coloring whose restriction to $B$ belongs to $S_1$.  This final coloring can be combined
+with a $3$-edge-coloring of $G_1$ to give a $3$-edge-coloring of $G$.
+
+For block-count consistency, similar efficient algorithm does not directly follow.  Firstly, in general it is not clear how the emptiness of the
+polytope translates to an algorithm to translate a coloring of $G_2+B$ to one whose restriction to $B$ belongs to $G_1$.  However, let us consider
+the simple example we discussed in this subsection, which at first gives us some hope.
+Suppose we found a coloring of $G_2+B$ whose restriction to $B$ is $123321$, and thus its Kempe chains match $(25)(34)$ and we can switch
+it to a coloring $\psi_1$ with restriction $122221$.  By the first equality, in another pair of colors the Kempe chains of $\psi_1$ match
+$(16)(23)(45)$, and going through colorings with restriction $122111$ and $122331$, we obtain another coloring $\psi_2$ with restriction $122221$
+(and Kempe chains matching $(23)(45)$).  We can repeat this process again to obtain from $\psi_2$ another coloring $\psi_3$ with restriction $122221$,
+and so on.  This cannot continue indefinitely, since $G_2+B$ has only finitely many colorings, and thus eventually we obtain a coloring whose restriction to $B$
+was eliminated in the consistency propagation part of the algorithm.  With this coloring, we can then proceed as in the previous paragraph.
+However, $G_2+B$ can have exponentially many colorings, and thus it is in principle possible that we will have to go over exponentially many colorings $\psi_1$, $\psi_2$, $\psi_3$, $\dots$;
+hence, the resulting algorithm might not be polynomial.
+
 \section{Recoloring and the number of colorings}
 
-% Exponentially many colorings of planar graphs
+The ability to transform a valid coloring into another one clearly has implications regarding the number of colorings
+of the graph.  This is especially clear for local recolorings:  if we can change the coloring of a graph $G$ locally on $m$ places
+that do not interfere with each other, then $G$ has at least $2^m$ different colorings.
+
+\begin{lemma}\label{lemma:planar5many}
+Every planar graph with $n$ vertices has at least $2^{n/4}$ different $5$-colorings.
+\end{lemma}
+\begin{proof}
+Let $G$ be a planar graph with $n$ vertices.  By the Four Color Theorem, $G$ has a $4$-coloring $\varphi$.
+A largest color class $C$ of this $4$-coloring has size at least $n/4$.  Now $C$ is an independent set, and
+thus we can change colors of vertices of any subset of $C$ to $5$ to obtain a proper $5$-coloring of $G$.
+Hence, $G$ has at least $2^{|C|}\ge 2^{n/4}$ different $5$-colorings.
+\end{proof}
+
+More complicated local recoloring arguments affect vertices at greater distances, and thus to use them to obtain
+many colorings guaranteed to be different, one would need many vertices that are pairwise far apart.  However,
+unless the maximum degree of the graph is bounded, there may not exist many distant vertices, somewhat limiting the potential
+of this idea.
+
+Perhaps a bit surprisingly, global recoloring arguments can be very useful in showing lower bounds on the numbers of
+colorings.  As an example, consider a coloring of some graph $G$, and suppose that the subgraph of $G$ induced by
+vertices of two colors $c_1$ and $c_2$ has $m$ components.  Then we can switch the colors $c_1$ and $c_2$ independently
+on each of the components, obtaining $2^m$ different colorings.  Of course, we need an argument to show that $m$ is large;
+one way to do so is demonstrated in the following example, giving an exponential bound on the number of $5$-colorings
+of planar graphs without using the Four Color Theorem.
+
+\begin{lemma}
+Every planar graph with $n$ vertices has at least $2^{n/10}$ different $5$-colorings.
+\end{lemma}
+\begin{proof}
+Let $G$ be a planar graph with $n$ vertices.  By Theorem~\ref{thm:planar5col}, $G$ has
+a $5$-coloring $\varphi$.  For $1\le i<j\le 5$, let $G_{ij}$ denote the subgraph of $G$
+induced by vertices of colors $i$ or $j$ in $\varphi$.  Let $n_{ij}$ and $m_{ij}$
+denote the number of vertices and edges of $G_{ij}$, respectively.
+Clearly, we have
+$$\sum_{1\le i<j\le 5} n_{ij}=4n.$$
+Furthermore, the graphs $G_{12}$, $G_{13}$, \ldots, $G_{45}$ are pairwise edge-disjoint
+and by Euler's formula, $G$ has at most $3n$ edges, and thus
+$$\sum_{1\le i<j\le 5} m_{ij}\le 3n.$$
+Let $q$ denote the maximum number of components of the graphs $G_{ij}$ for $1\le i<j\le 5$;
+we have $m_{ij}\ge n_{ij}-q$.  Hence, we have
+$$3n\ge \sum_{1\le i<j\le 5} m_{ij}\ge \sum_{1\le i<j\le 5} (n_{ij}-q)\ge 4n-10q,$$
+and thus $q\ge n/10$.  Hence, there exist $i$ and $j$ such that the graph $G_{ij}$
+has at least $n/10$ components, and by switching the colors $i$ and $j$ independently
+in subsets of these components, we can transform $\varphi$ into $2^q\ge 2^{n/10}$ different $5$-colorings of $G$.
+\end{proof}
 
 \chapter{Flows and Orientations}\label{chap:flows}
 \section{Definitions and Motivation}
 \section{Flow-Coloring duality and Tutte's Flow Conjectures}
+\subsection{Chromatic polynomial and flow polynomial}
+% Mention application of deletion/contraction formula in lower bounds on the numbers of colorings?
 \section{The Short Flow Proof of Grotzsch's Theorem}
 \section{$3$-colorability of near-quadrangulations}
 
