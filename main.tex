@@ -3123,10 +3123,10 @@ For $M'\subseteq M$, let $\psi_{M'}$ denote the coloring obtained from $\psi$ by
 on the edges of the pairs of $M'$.  Let
 $$\psi\uparrow M=\{\psi_{M'}:M'\subseteq M\}.$$
 We now have the following.
-\begin{equation}\label{eq:consistency}
-\text{\emph{For every $\psi\in S_2$ and each pair of distinct colors $c_1,c_2\in \{1,2,3\}$, there exists a
-plane $(\psi,c_1,c_2)$-matching $M$ such that $\psi\uparrow M\subseteq S_2$.}}
-\end{equation}
+\begin{itemize}
+\item[(A)] \emph{For every $\psi\in S_2$ and each pair of distinct colors $c_1,c_2\in \{1,2,3\}$,
+there exists a plane $(\psi,c_1,c_2)$-matching $M$ such that $\psi\uparrow M\subseteq S_2$.}
+\end{itemize}
 
 We can use this property to exclude membership of some colorings from $S_2$.
 For example, suppose that the coloring $\psi=111111$ belongs to $S_2$.  There are only five plane $(\psi,1,2)$-matchings;
@@ -3148,7 +3148,7 @@ set of pairs and afterwards echanging the colors $1$ and $2$):
 \psi\uparrow M_4&: 111111,122221,122111,111221\\
 \psi\uparrow M_5&: 111111,122221,121121,112211
 \end{align*}
-However, each of these sets contains a coloring not belonging to $S'_2$ and thus also not belonging to $S_2$, which contradicts the consistency condition (\ref{eq:consistency}).
+However, each of these sets contains a coloring not belonging to $S'_2$ and thus also not belonging to $S_2$, which contradicts the consistency condition (A).
 Therefore, the coloring $111111$ does not belong to $S_2$.
 
 Similarly, we can go over all colorings in $S'_2$, and exclude from membership
@@ -3164,10 +3164,10 @@ For these, we have
 \psi\uparrow M_1&: 112233,111122\\
 \psi\uparrow M_2&: 112233,121233\\
 \end{align*}
-And while $\psi\uparrow M_2$ contains a coloring not belonging to $S'_2$, both colorings in $\psi\uparrow M_1$ belong to $S'_2$, and this suffices to satisfy the consistency condition (\ref{eq:consistency}).
+And while $\psi\uparrow M_2$ contains a coloring not belonging to $S'_2$, both colorings in $\psi\uparrow M_1$ belong to $S'_2$, and this suffices to satisfy the consistency condition (A).
 Similarly, Kempe chains in colors $1$ and $3$ and in colors $2$ and $3$ do not help, either.
 
-However, both $\psi\uparrow M_1$ and $\psi\uparrow M_2$ contain colorings not belonging to $S''_2$! Hence, they both contain a coloring not belonging to $S_2$, and by (\ref{eq:consistency})
+However, both $\psi\uparrow M_1$ and $\psi\uparrow M_2$ contain colorings not belonging to $S''_2$! Hence, they both contain a coloring not belonging to $S_2$, and by (A)
 we conclude that the coloring $112233$ cannot belong to $S_2$.  Going over all colorings in $S''_2$, we similarly concude that all colorings in $S_2$ are among the following ones,
 up to permutation of colors.
 $$112323,121323,121332,123123,123132,123213,123231,123312$$
@@ -3206,7 +3206,7 @@ to have non-trivial symmetries.
 
 The consistency algorithm as outlined calls for going over all elements of $S_2$ to form the set $S'_2$, then
 over all elements of $S'_2$ to form the set $S''_2$, and so on.  This can be sped up: when a coloring $c$
-is removed from $S_2$ due to violation of the consistency condition (\ref{eq:consistency}), the consistency condition may only become violated
+is removed from $S_2$ due to violation of the consistency condition (A), the consistency condition may only become violated
 for the colorings that can be obtained from $c$ by Kempe chain switches, and thus we can maintain a queue of
 the colorings that need to be re-checked.  Possibly even more efficient implementation will be discussed in Subsection~\ref{ssec:bcr}.
 
@@ -3329,7 +3329,7 @@ to the equations in which they appear.  We keep removing vertices for variables 
 when a vertex $v\in Q$ becomes isolated (or if the coloring in the left-hand side of the corresponding equation
 belongs to $S_1$), we delete it together with other vertices for equations with the same left-hand side as well
 as all their neighbors in $P$.  In the end, the left-hand sides of the equations for the remaining vertices of $Q$
-form a set of colorings satisfying the consistency condition (\ref{eq:consistency}) and forming a superset of $S_2$.
+form a set of colorings satisfying the consistency condition (A) and forming a superset of $S_2$.
 
 More importantly, there may be variables that are forced to be $0$ even though this does not follow by the described
 trivial propagation algorithm.  Consider for example the following set of colorings, which is consistent.
