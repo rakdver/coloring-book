@@ -88,7 +88,7 @@ familiarity with graph theory and basic coloring results expected, otherwise sel
 
 Notation for number of vertices/edges/faces of a graph $G$:
 $|V(G)|$, $|E(G)|$, $|F(G)|$.  Use $n$ and $m$ for vertices and edges when repeated.
-Graphs have no loops or parallel edges by default, multigraphs may have parallel edges but still no loops.
+Graphs have no loops or parallel edges, multigraphs may have parallel edges and loops, unless specified otherwise.
 
 Colorings: $\varphi$, $\psi$, \ldots
 
@@ -3418,9 +3418,9 @@ The ability to transform a valid coloring into another one clearly has implicati
 of the graph.  This is especially clear for local recolorings:  if we can change the coloring of a graph $G$ locally on $m$ places
 that do not interfere with each other, then $G$ has at least $2^m$ different colorings.
 
-\begin{lemma}\label{lemma:planar5many}
+\begin{theorem}\label{lemma:planar5many}
 Every planar graph with $n$ vertices has at least $2^{n/4}$ different $5$-colorings.
-\end{lemma}
+\end{theorem}
 \begin{proof}
 Let $G$ be a planar graph with $n$ vertices.  By the Four Color Theorem, $G$ has a $4$-coloring $\varphi$.
 A largest color class $C$ of this $4$-coloring has size at least $n/4$.  Now $C$ is an independent set, and
@@ -3440,9 +3440,9 @@ on each of the components, obtaining $2^m$ different colorings.  Of course, we n
 one way to do so is demonstrated in the following example, giving an exponential bound on the number of $5$-colorings
 of planar graphs without using the Four Color Theorem.
 
-\begin{lemma}
+\begin{theorem}
 Every planar graph with $n$ vertices has at least $2^{n/10}$ different $5$-colorings.
-\end{lemma}
+\end{theorem}
 \begin{proof}
 Let $G$ be a planar graph with $n$ vertices.  By Theorem~\ref{thm:planar5col}, $G$ has
 a $5$-coloring $\varphi$.  For $1\le i<j\le 5$, let $G_{ij}$ denote the subgraph of $G$
@@ -3455,17 +3455,254 @@ and by Euler's formula, $G$ has at most $3n$ edges, and thus
 $$\sum_{1\le i<j\le 5} m_{ij}\le 3n.$$
 Let $q$ denote the maximum number of components of the graphs $G_{ij}$ for $1\le i<j\le 5$;
 we have $m_{ij}\ge n_{ij}-q$.  Hence, we have
-$$3n\ge \sum_{1\le i<j\le 5} m_{ij}\ge \sum_{1\le i<j\le 5} (n_{ij}-q)\ge 4n-10q,$$
+$$3n\ge \sum_{1\le i<j\le 5} m_{ij}\ge \sum_{1\le i<j\le 5} (n_{ij}-q)=4n-10q,$$
 and thus $q\ge n/10$.  Hence, there exist $i$ and $j$ such that the graph $G_{ij}$
 has at least $n/10$ components, and by switching the colors $i$ and $j$ independently
 in subsets of these components, we can transform $\varphi$ into $2^q\ge 2^{n/10}$ different $5$-colorings of $G$.
 \end{proof}
 
+Note that this argument can be generalized even to non-embedded graphs, since the only
+properties taken from planarity are the density of the graph and the fact that it has a coloring.
+Hence, we have the following stronger statement, whose proof we leave to the reader as an
+exercise.
+
+\begin{theorem}\label{thm:expmany}
+For every integer $c\ge 2$ and real number $\beta<2c-2$, there exists a real number $\gamma>1$ as follows.
+If $G$ is an $n$-vertex graph of average degree at most $\beta$ and $G$ is $c$-colorable,
+then $G$ has at least $\gamma^n$ different $c$-colorings.
+\end{theorem}
+
+In particular, planar graphs of girth at least five have exponentially many $3$-colorings.
+Furthermore, any sufficiently large graph embedded in a fixed surface has average degree at most $7$
+by Corollary~\ref{cor:mad}, and thus each such graph has either $0$ or exponentially many $5$-colorings.
+
+The situation is more interesting in cases where Theorem~\ref{thm:expmany} does not apply.
+Thomassen~\cite{thom-many} conjectured that triangle-free planar graphs have exponentially many $3$-colorings; the best currently known
+bound~\cite{submany} gives $\gamma^{\sqrt{n}}$ $3$-colorings for some $\gamma>0$.
+Planar graphs do not need to have many different $4$-colorings: consider any planar triangulation
+obtained from $K_3$ by repeatedly subdividing any face into three by adding a new vertex of degree three.
+Any $4$-coloring of $K_3$ extends in a unique way to a $4$-coloring of such a graph, and thus it has
+only one $4$-coloring up to permutation of colors.  As conjectured by Fiorini and Wilson, and independently by Fisk, and eventually
+proved by Fowler~\cite{fowler2000unique}, these are the only uniquely $4$-colorable planar graphs with at least three vertices.
+
 \chapter{Flows and Orientations}\label{chap:flows}
-\section{Definitions and Motivation}
-\section{Flow-Coloring duality and Tutte's Flow Conjectures}
-\subsection{Chromatic polynomial and flow polynomial}
+
+An important notion in the study of planar graphs is duality.  Recall the \emph{dual} $D$ of a plane graph $G$
+is the plane graph whose vertices correspond to the faces of $G$, with adjacencies in $D$ corresponding to
+the edges shared between the faces in $G$; see Figure~\ref{fig:dual} for an illustration.  A connection between
+a concept in a plane graph and its counterpart in the dual often makes it possible to use tools from two in general
+different areas---the basic example being the correspondence between edge cuts in the original graph and cycles in the dual.
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+unitsize(15mm);
+
+for (i = 0; i < 5; ++i)
+  v[i] = dir(72i);
+
+v[6] = (v[0]+v[1]+v[4])/3;
+v[7] = (v[1]+v[2]+v[4])/3;
+v[8] = (v[3]+v[2]+v[4])/3;
+v[9] = 1.5dir(108);
+v[10] = 1.8dir(-72);
+
+for (i = 0; i < 5; ++i)
+  draw(v[i] -- v[(i+1)%5]);
+draw(v[1] -- v[4] -- v[2]);
+draw(v[0]{dir(60)}..{dir(-30)}v[3]);
+for (i = 0; i < 5; ++i)
+  vertex (v[i], 0.05);
+
+draw(v[7]--v[8], red);
+draw(v[7]--v[6], red);
+draw(v[7]--v[9], red);
+draw(v[8]--v[10], red);
+draw(v[6]--v[10], red);
+draw(v[6]{dir(60)}..{dir(198)}v[9], red);
+draw(v[8]{dir(170)}..{dir(18)}v[9], red);
+draw(v[10]{dir(40)}..{dir(240)}v[9], red);
+for (i = 6; i <= 10; ++i)
+  vertex (v[i], red, 0.05);
+\end{asy}
+\end{center}
+\caption{A graph $G$ (in black) and its dual $D$ (in red).}\label{fig:dual}
+\end{figure}
+
+In similar vein, $k$-colorings in the original graph correspond to \emph{nowhere-zero $k$-flows} in the dual,
+where a nowhere-zero $k$-flow is a flow using only values $\pm 1$, $\pm 2$, \ldots, $\pm (k-1)$.
+This connection (first noticed by Tutte~\cite{tutteflow}) gives hope of attacking coloring problems using
+the well-developed theory of network flows.  An example arises in the theory of
+$3$-colorability of triangle-free embedded graphs.  This problem can be reduced to study of $3$-colorings of
+near-quadrangulations, and hence in the dual setting to nowhere-zero $3$-flows in near-Eulerian graphs, which have particularly nice
+properties.
+
+Furthermore, a natural idea is to consider the flows in a larger
+class including planar graphs and thus obtain more flexibility in inductive arguments.  This hope
+is supported by the fact that while chromatic number of a graph can be arbitrarily large,
+any $2$-edge-connected graph has a nowhere-zero $6$-flow.  Thus, it seems that even in full generality,
+studying nowhere-zero flows may be easier than studying graph coloring, and the results may still be relevant
+in the initial setting of planar graphs.
+
+Indeed, Tutte formulated several famous conjectures lifting 
+coloring results and (at the time) open problems in planar graphs to such more general setting.
+While none of these conjectures has been resolved yet, they motivated a number of partial results
+and lead to a development of theory of nowhere-zero flows which is interesting for its own sake,
+not just because of its connections to graph colorings.
+
+\section{Flow-Coloring duality}
+
+Let $\mathbf{A}$ be an abelian group, let $D$ be a multigraph and let $\vec{D}$ be its arbitrary orientation.  An \emph{$\mathbf{A}$-flow}
+is a function $f:E(\vec{D})\to\mathbf{A}$ satisfying the flow conservation law
+\begin{equation}\label{eq:conserve}
+\sum_{uv\in E(\vec{D})} f(uv)=\sum_{vu\in E(\vec{D})} f(uv)
+\end{equation}
+for every vertex $v\in V(D)$.
+The flow is \emph{nowhere-zero} if $f(e)\neq 0$ for every $e\in E(\vec{D})$.
+
+We would like to view the flow as the property of the undirected multigraph $D$, rather than its arbitrary orientation.
+Indeed, reversing the orientation of an edge of $\vec{D}$ and replacing the value assigned to it by its inverse in $\mathbf{A}$
+clearly gives a valid $\mathbf{A}$-flow with basically the same properties.  Thus, let us define $\bar{f}(uv)=f(uv)$ if $uv\in E(\vec{D})$
+and $\bar{f}(uv)=-f(vu)$ if $vu\in E(\vec{D})$; the function $\bar{f}$ is invariant with respect to reversals of edges.
+The flow conservation law (\ref{eq:conserve}) thus can be restated as
+$$\sum_{uv\in E(D)} \bar{f}(uv)=0$$
+for all $v\in V(D)$.
+
+Suppose $G$ is a connected plane multigraph and $\varphi:V(G)\to \mathbf{A}$ is a proper coloring of $G$,
+where elements of an abelian group $\mathbf{A}$ play the role of colors.
+Choose an arbitrary orientation $\vec{G}$ of $G$, and let $\vec{D}$ be an orientation of the dual of $G$
+such that for each edge $uv\in E(\vec{G})$, if $g_1$ is the face on the left of $uv$ and $g_2$ is the face
+on the right (from any point of $uv$ looking in its direction), then the corresponding edge of $\vec{D}$
+is oriented from $g_1$ to $g_2$.  In this case, let us define $f:E(\vec{D})\to \mathbf{A}$ by setting
+$f(g_1g_2)=\varphi(v)-\varphi(u)$.  See Figure~\ref{fig:dual-flow} for an illustration.
+Let $g$ be a face of $G$ with the facial walk $v_1v_2\ldots v_m$, and for $i=1,\ldots, m$, let $g_i$ be the
+other face incident with the edge $v_iv_{i+1}$ (where $v_{m+1}=v_1$).  We have
+$$\sum_{i=1}^m \bar{f}(gg_i)=\sum_{i=1}^m (\varphi(v_{i+1})-\varphi(v_i))=0,$$
+and thus $f$ is a $\mathbf{A}$-flow.
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+unitsize(15mm);
+
+for (i = 0; i < 5; ++i)
+  v[i] = dir(72i);
+
+v[6] = (v[0]+v[1]+v[4])/3;
+v[7] = (v[1]+v[2]+v[4])/3;
+v[8] = (v[3]+v[2]+v[4])/3;
+v[9] = 1.5dir(108);
+v[10] = 1.8dir(-72);
+
+for (i = 0; i < 5; ++i)
+  draw(v[i] -- v[(i+1)%5], MidArrow);
+draw(v[1] -- v[4], MidArrow);
+draw(v[4] -- v[2], MidArrow);
+draw(v[0]{dir(60)}..{dir(-30)}v[3], MidArrow);
+for (i = 0; i < 5; ++i)
+  vertex (v[i], 0.05);
+
+draw(v[8]--v[7], red, Arrow, L=scale(0.7)*Label("2"));
+draw(v[6]--v[7], red, Arrow, L=scale(0.7)*Label("2"));
+draw(v[7]--v[9], red, Arrow, L=scale(0.7)*Label("4"));
+draw(v[8]--v[10], red, Arrow, L=scale(0.7)*Label("1"));
+draw(v[6]--v[10], red, Arrow, L=scale(0.7)*Label("2"));
+draw(v[6]{dir(60)}..{dir(198)}v[9], red, Arrow, L=scale(0.7)*Label("1"));
+draw(v[8]{dir(170)}..{dir(18)}v[9], red, Arrow, L=scale(0.7)*Label("2"));
+draw(v[9]{dir(60)}..{dir(220)}v[10], red, Arrow, L=scale(0.7)*Label("2"));
+for (i = 6; i <= 10; ++i)
+  vertex (v[i], red, 0.05);
+
+label("$0$", v[0], E);
+label("$1$", v[1], N);
+label("$0$", v[2], NW);
+label("$2$", v[3], SW);
+label("$3$", v[4], SE);
+\end{asy}
+\end{center}
+\caption{A coloring $V(G)\to\mathbf{Z}_4$ and a nowhere-zero $\mathbf{Z}_4$-flow in its dual.}\label{fig:dual-flow}
+\end{figure}
+
+Furthermore, since $\varphi$ is a proper coloring, $f$ does not assign value $0$ to any edge.  Thus, every proper coloring $\varphi$
+of a connected plane multigraph using colors from $\mathbf{A}$ gives a nowhere-zero $\mathbf{A}$-flow in the dual;
+we say that this flow is \emph{derived} from the coloring $\varphi$.  Conversely, nowhere-zero $\mathbf{A}$-flows give rise
+to proper colorings.
+\begin{lemma}\label{lemma:flowtocolor}
+Let $G$ be a connected plane multigraph, let $D$ be the dual of $G$, and let $\mathbf{A}$ be a finite abelian group.
+For every nowhere-zero $\mathbf{A}$-flow $f$ in $D$, there exist precisely $|\mathbf{A}|$ proper colorings of $G$
+by elements of $\mathbf{A}$ whose derived $\mathbf{A}$-flow is $f$.
+\end{lemma}
+\begin{proof}
+For an edge $xy$ of $G$, if $g_1$ is the face on the left of $xy$ and $g_2$ is the face
+on the right (from any point of $xy$ looking in its direction), then let us define
+$\bar{\delta}(xy)=\bar{f}(g_1g_2)$.  For any walk $W=w_0w_1\ldots w_m$, let $\bar{\delta}(W)=\sum_{i=1}^m \bar{\delta}(w_{i-1}w_i)$.
+By the flow conservation law, if $W_g$ is the facial walk of a face $g$ of $G$, then $\bar{\delta}(W_g)=0$.
+If $C$ is a cycle in $G$, then denoting by $F_C$ the set of faces drawn inside $C$,
+observe that
+$$\bar{\delta}(C)=\sum_{g\in F_C} \bar{\delta}(W_g)=0.$$
+Since each closed walk can be decomposed into cycles (and walks of length two over one edge), we conclude
+that $\bar{\delta}(W)=0$ for every closed walk $W$ in $G$.
+
+Let $v$ be any vertex of $G$, and for each $x\in V(G)$, let us choose a path $P_x$ from $v$ to $x$ arbitrarily.
+For any element $a$ of $\mathbf{A}$ and $x\in V(G)$, let $\varphi_a(x)=a+\bar{\delta}(P_x)$.
+For any edge $xy$, let $W_{xy}$ be the closed walk consisting of $P_x$, the edge $xy$, and the reverse of the walk $P_y$.
+We have
+$$0=\bar{\delta}(W_{xy})=\varphi_a(x)+\bar{\delta}(xy)-\varphi_a(y),$$
+and thus $\bar{\delta}(xy)=\varphi_a(y)-\varphi_a(x)$.  We conclude that $\varphi_a$ is a proper coloring of $G$ by elements
+of $\mathbf{A}$ and $f$ is the nowhere-zero $\mathbf{A}$-flow derived from it.
+\end{proof}
+
+Hence, in planar graphs, instead of studying their colorings, we can as well consider their nowhere-zero flows.
+
+\subsection{Flow polynomial and deletion-contraction formula}
+
+Consider two abelian groups of the same size, say $\mathbf{Z}_4$ and $\mathbf{Z}_2^2$.  Nowhere-zero flows over these two groups
+are quite different. However, if $D$ is a connected plane multigraph, Lemma~\ref{lemma:flowtocolor} implies that the number of
+nowhere-zero $\mathbf{Z}_4$-flows in $D$ is the same as the number of nowhere-zero $\mathbf{Z}_2^2$-flows in $D$; both are equal
+to $\tfrac{1}{4}$ of the number of $4$-colorings of the dual of $D$.  This is not a coincidence; indeed, for a fixed
+(not necessarily planar) multigraph, the number of nowhere-zero $\mathbf{A}$-flows depends only on the size of the (finite abelian) group $\mathbf{A}$.
+
+For a multigraph $G$ and a finite abelian group $\mathbf{A}$, let $C^\star_G(\mathbf{A})$ denote the number of nowhere-zero $\mathbf{A}$-flows in $G$.
+Note that when $G$ has no edges, we have $C^\star_G(\mathbf{A})=1$.
+For a non-loop edge $e$ of $G$, let $G/e$ denote the graph obtained by contracting the edge $e$, destroying $e$ but keeping the parallel edges and loops
+that may arise.
+
+\begin{lemma}\label{lemma-count}
+Let $\mathbf{A}$ be a finite abelian group, let $G$ be a multigraph and let $e$ be an edge of $G$.
+\begin{itemize}
+\item If $e$ is a loop, then $C^\star_G(\mathbf{A})=(|\mathbf{A}|-1)C^\star_{G-e}(\mathbf{A})$.
+\item If $e$ is not a loop, then $C^\star_G(\mathbf{A})=C^\star_{G/e}(\mathbf{A})-C^\star_{G-e}(\mathbf{A})$.
+\end{itemize}
+Consequently, if $\mathbf{A}'$ is a finite abelian group and $|\mathbf{A}'|=|\mathbf{A}|$, then
+$C^\star_G(\mathbf{A}')=C^\star_G(\mathbf{A})$.
+\end{lemma}
+\begin{proof}
+If $e$ is a loop, then a nowhere-zero $\mathbf{A}$-flow in $G-e$ extends to a nowhere-zero $\mathbf{A}$-flow in $G$
+by setting its value on $e$ to an arbitrary non-zero element of $\mathbf{A}$, and conversely the restriction of
+a nowhere-zero $\mathbf{A}$-flow in $G$ to $E(G)\setminus\{e\}$ is a nowhere-zero $\mathbf{A}$-flow in $G-e$, justifying
+the first claim.
+
+If $e$ is not a loop, then note that any $\mathbf{A}$-flow $f'$ in $G/e$ extends to an $\mathbf{A}$-flow $f$ in $G$ in unique way
+by setting the value on $e$ so that the flow conservation law holds on both ends of $e$; and conversely, restriction of an $\mathbf{A}$-flow in $G$
+to $E(G)\setminus\{e\}$ is a $\mathbf{A}$-flow in $G/e$.  Furthermore, if $f'$ is nowhere-zero, then $f$ is nowhere-zero everywhere except possibly
+on $e$.  Finally, note that the $\mathbf{A}$-flows in $G$ whose value is $0$ exactly on $e$ are in 1-to-1 correspondence with nowhere-zero flows in $G-e$.
+Consequently, $C^\star_G(\mathbf{A})=C^\star_{G/e}(\mathbf{A})-C^\star_{G-e}(\mathbf{A})$.
+
+Since the formulas depend only on size of $\mathbf{A}$, the equality $C^\star_G(\mathbf{A}')=C^\star_G(\mathbf{A})$ follows
+easily by induction on the number of edges of $G$.
+\end{proof}
+
+...
+
+
 % Mention application of deletion/contraction formula in lower bounds on the numbers of colorings?
+
+\subsection{Integer flows}
+
+For a positive integer $k$, a \emph{$k$-flow} is a $\mathbf{Z}$-flow only having values $0$, $\pm 1$, \ldots, $\pm (k-1)$.
+
+\section{Tutte's Flow Conjectures}
+
 \section{The Short Flow Proof of Grotzsch's Theorem}
 \section{$3$-colorability of near-quadrangulations}
 
