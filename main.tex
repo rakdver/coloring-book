@@ -2014,10 +2014,10 @@ label("$P_2$", point (p2, 0.5), E);
 label ("(b)", v[0] + (0,-3));
 \end{asy}
 \end{center}
-\caption{Reducible configurations from Lemma~\ref{lemma-diamredu}.  Vertices drawn by full circles have degree $k+1$, while other vertices have degree $k$.}\label{fig:diamredu}
+\caption{Reducible configurations from Lemma~\ref{lemma:diamredu}.  Vertices drawn by full circles have degree $k+1$, while other vertices have degree $k$.}\label{fig:diamredu}
 \end{figure}
 
-\begin{lemma}\label{lemma-diamredu}
+\begin{lemma}\label{lemma:diamredu}
 Let $L$ be an assignment of lists of size $k$ to vertices of a graph $G$.  Let $H$ be an induced subgraph of $G$ satisfying one of the following
 conditions:
 \begin{itemize}
@@ -2056,7 +2056,7 @@ to use (they cannot create loops or other subgraphs that may be forbidden by ass
 After removing the configuration, it is often useful to add edges between edges in the neighborhood of the configuration, or to replace the
 configuration by a suitable subgraph, the idea of course being that this subgraph forbids the colorings of the rest of the graph that do not
 extend to the original configuration.  Again, let us point out common examples.
-\begin{lemma}\label{lemma-oddclredu}
+\begin{lemma}\label{lemma:oddclredu}
 Let $H$ be either an odd cycle or a clique in a graph $G$.  Let $k=3$ in the former case and $k=|V(H)|$ in the latter case, so that $H$ is a $(k-1)$-regular graph.
 Suppose that all vertices of $H$ have degree exactly $k$ in $G$.  Let $u$ and $v$ be distinct vertices of $G$ with neighbors in $H$.
 If the graph $G'$ obtained from $G-V(H)$ by adding the edge $uv$ is $k$-colorable, then $G$ is $k$-colorable.
@@ -2068,7 +2068,7 @@ Color $x$ by a color in $L(x)\setminus L(y)$, and then color the remaining verti
 and in an arbitrary order ending with $y$ if $H$ is a clique.
 \end{proof}
 
-\begin{lemma}\label{lemma-trian33}
+\begin{lemma}\label{lemma:trian33}
 Let $uvx$ be a triangle in a graph $G$, where $u$ and $v$ have degree three and $u'$ and $v'$ are their neighbors not in $\{x,u,v\}$.
 If the graph $G'$ obtained from $G-\{u,v\}$ by adding the edge $u'v'$ is $3$-colorable, then $G$ is $3$-colorable.
 \end{lemma}
@@ -2995,7 +2995,7 @@ is applicable even for quite large configurations.
 As a working example, we will use the best known application of the method: the proof
 of the Four Color Theorem.  It turns out to be convenient to prove the following
 claim, which was shown to be equivalent to the Four Color Theorem by Tait; we will
-establish the equivalence later in Chapter~\ref{chap:flows}.
+establish the equivalence later in Chapter~\ref{chap:flows}, see Lemma~\ref{lemma:4cec}.
 \begin{theorem}\label{thm:planar3ec}
 Every planar $3$-regular $2$-edge-connected graph is $3$-edge-colorable.
 \end{theorem}
@@ -3653,8 +3653,37 @@ of $\mathbf{A}$ and $f$ is the nowhere-zero $\mathbf{A}$-flow derived from it.
 \end{proof}
 
 Hence, in planar graphs, instead of studying their colorings, we can as well consider their nowhere-zero flows.
+As a simple application, let us establish equivalence between the Four Color Theorem and $3$-edge-colorability of bridgeless
+cubic planar graphs (Theorem~\ref{thm:planar3ec}).  Let us start with a quick observation.
+\begin{lemma}\label{lemma:z223col}
+A $3$-regular graph $G$ has a nowhere-zero $\mathbf{Z}_2^2$-flow if and only if $G$ is $3$-edge-colorable.
+\end{lemma}
+\begin{proof}
+Let $a$, $b$, and $c$ be any non-zero elements of $\mathbf{Z}_2^2$.  Observe that $a+b+c=0$ if and only if these
+elements are pairwise different, i.e., $\{a,b,c\}=\{(0,1),(1,0),(1,1)\}$.  Hence, a nowhere-zero $\mathbf{Z}_2^2$-flow
+in a $3$-regular graph is exactly its $3$-edge-coloring using colors $\mathbf{Z}_2^2\setminus\{(0,0)\}$.
+\end{proof}
 
-\subsection{Flow polynomial and deletion-contraction formula}
+\begin{lemma}\label{lemma:4cec}
+The following claims are equivalent.
+\begin{itemize}
+\item Every planar graph is $4$-colorable.
+\item Every planar $3$-regular $2$-edge-connected graph is $3$-edge-colorable.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+Suppose first that every planar $3$-regular $2$-edge-connected graph is $3$-edge-colorable.  Let $G$ be any planar graph,
+and let $G_1$ be a maximal planar supergraph of $G$ on the same vertex set; then $G_1$ is a plane triangulation.  Since $G_1$
+has no loops, $G_1^\star$ is $2$-edge-connected and $3$-regular, and thus $G_1^\star$ is $3$-edge-colorable.  By Lemma~\ref{lemma:z223col},
+$G_1^\star$ has a nowhere-zero $\mathbf{Z}_2^2$-flow, and by Lemma~\ref{lemma:flowtocolor}, $G_1$ has a proper coloring by elements of $\mathbf{Z}_2^2$.
+Consequently, $G_1$ as well as its subgraph $G$ are $4$-colorable.
+
+Conversely, dual of a planar $3$-regular $2$-edge-connected graph $H$ is a plane triangulation without loops, and a nowhere-zero
+$\mathbf{Z}_2^2$-flow (and thus also a $3$-edge-coloring by Lemma~\ref{lemma:z223col}) can be derived from a proper $4$-coloring
+of $H^\star$ by elements of $\mathbf{Z}_2^2$ as described at the beginning of this section.
+\end{proof}
+
+\subsection{Flow and chromatic polynomial}
 
 Consider two abelian groups of the same size, say $\mathbf{Z}_4$ and $\mathbf{Z}_2^2$.  Nowhere-zero flows over these two groups
 are quite different. However, if $D$ is a connected plane multigraph, Lemma~\ref{lemma:flowtocolor} implies that the number of
@@ -3667,7 +3696,7 @@ Note that when $G$ has no edges, we have $C^\star_G(\mathbf{A})=1$.
 For a non-loop edge $e$ of $G$, let $G/e$ denote the graph obtained by contracting the edge $e$, destroying $e$ but keeping the parallel edges and loops
 that may arise.
 
-\begin{lemma}\label{lemma-count}
+\begin{lemma}\label{lemma:count}
 Let $\mathbf{A}$ be a finite abelian group, let $G$ be a multigraph and let $e$ be an edge of $G$.
 \begin{itemize}
 \item If $e$ is a loop, then $C^\star_G(\mathbf{A})=(|\mathbf{A}|-1)C^\star_{G-e}(\mathbf{A})$.
@@ -3692,10 +3721,175 @@ Since the formulas depend only on size of $\mathbf{A}$, the equality $C^\star_G(
 easily by induction on the number of edges of $G$.
 \end{proof}
 
-...
+In view of Lemma~\ref{lemma:count}, let us for a multigraph $G$ and a positive integer $k$ define
+$C^\star_G(k)$ as the number of nowhere-zero $\mathbf{A}$-flows in $G$ for any abelian group $\mathbf{A}$ of size $k$.
+Note that if $G$ has no edges, then $C^\star_G(k)=1$, if $G$ has a loop $e$, then $C^\star_G(k)=(k-1)C^\star_{G-e}(k)$,
+and if $e\in E(G)$ is not a loop, then $C^\star_G(k)=C^\star_{G/e}(k)-C^\star_{G-e}(k)$.  By induction, it is easy to
+see that $C^\star_G$ is a polynomial in $k$, called the \emph{flow polynomial} of $G$.  The degree of $C^\star_G$
+is at most $|E(G)|$; and in particular, numbers of nowhere-zero $\mathbf{Z}_k$-flows in $G$ for $1\le k\le |E(G)|$
+determine the number of nowhere-zero $\mathbf{A}$-flows for any finite abelian group $\mathbf{A}$.
 
+Dual concept corresponding to (and pre-dating) the flow polynomial is the \emph{chromatic polynomial} $C_G(k)$,
+defined as the number of proper colorings of $G$ using colors $[k]$.  That $C_G$ is indeed a polynomial is clear by
+induction from the following deletion-contraction formula to determine $C_G(k)$.
+\begin{lemma}\label{lemma:delcon}
+Let $k$ be a positive integer and let $G$ be a graph.  If $G$ has no edges, then $C_G(k)=k^{|V(G)}$.
+If $e$ is a loop in $G$, then $C_G(k)=0$.  If $e$ is a non-loop edge of $G$, then
+$C_G(k)=C_{G-e}(k)-C_{G/e}(k)$.
+\end{lemma}
+\begin{proof}
+The first two claims are trivial.  For the last one, it suffices to note that proper $k$-colorings of $G$
+are exactly those of the proper $k$-colorings of $G-e$ in which the ends of $e$ have different colors,
+and that $C_{G/e}(k)$ counts the number of proper $k$-colorings of $G-e$ in which the ends of $e$ have the same color.
+\end{proof}
+Let us remark that since the polynomials $C_G$, $C_{G-e}$, and $C_{G/e}$ satisfy the deletion-contraction
+equality From Lemma~\ref{lemma:delcon} for all positive integers $k$, we have $C_G=C_{G-e}-C_{G/e}$ as an identity for
+the polynomials (and in particular, the identity also holds for all real numbers $k$).
+Both the flow polynomial and the chromatic polynomial are specializations of
+a more general Tutte polynomial, which encompasses all graph parameters defined via deletion-contraction formulas
+analogous to Lemmas~\ref{lemma:count} and \ref{lemma:flowtocolor}.
 
+Note that by Lemma~\ref{lemma:flowtocolor}, we have the following.
+\begin{corollary}
+If $G$ is a plane connected graph, then
+$$C_G(k)=kC^\star_{G^\star}(k).$$
+\end{corollary}
+
+Let us also note the following fact which often simplifies computation of the chromatic polynomial.
+\begin{lemma}\label{lemma:chrmult}
+If $G_1$ and $G_2$ are induced subgraphs of $G$ such that $G=G_1\cup G_2$
+and $G_1\cap G_2$ is a clique with $m$ vertices, then
+$$C_G(x)=\frac{C_{G_1}(x)C_{G_2}(x)}{x(x-1)\ldots (x-m+1)}.$$
+In particular, if $G_1$ is a connected component of $G$ and $G_2=G-V(G_1)$ (so that $m=0$), then $C_G=C_{G_1}C_{G_2}$.
+\end{lemma}
+\begin{proof}
+It suffices to prove the equality in the case $x$ is a positive integer; but then the equality just corresponds
+to the fact that any pair of colorings of $G_1$ and $G_2$ by $x$ colors which match on $V(G_1\cap G_2)$ gives a coloring of $G$ by $x$ colors,
+and vice versa.
+\end{proof}
+
+Chromatic polynomial was first suggested by Birkhoff as a means to prove the Four Color Theorem, conjecturing
+that for any planar graph $G$, all real roots of $C_G$ are smaller than $4$.  While this approach appears promising
+(it might enable one to use tools from the rich algebraic and analytic theory of polynomials),
+this conjecture is still open.  Nevertheless, chromatic polynomial motivated further developments in algebraic
+graph theory.  In particular, a number of intriguing results regarding the properties of the chromatic polynomial were found.  As a flavor,
+let us show an identity for the chromatic polynomial at $\phi+1$, where $\phi=\frac{1+\sqrt{5}}{2}$
+is the golden ratio.
+
+\begin{lemma}\label{lemma:tutte}
+Let $G$ be a plane multigraph and let $K=v_1v_2v_3v_4$ be a $4$-cycle in $G$ such that the open disk bounded by $K$
+contains only the edge $v_1v_3$.  Let $G'=G-v_1v_3+v_2v_4$.  Then
+$$C_G(\phi+1)+C_{G'}(\phi+1)=\phi^{-3}(C_{G/v_1v_3}(\phi+1)+C_{G'/v_2v_4}(\phi+1)).$$
+\end{lemma}
+\begin{proof}
+We prove the claim by induction on $|V(G)|+|E(G)|$.  Clearly, we can assume that $G$ has no loops, as then
+all the terms in the identity are $0$, and that $G$ has no isolated vertices, since removing them just multiplies all terms
+in the identity by $(\phi+1)^{-1}$.
+If $G$ has an edge $e$ with at most one end in $V(K)$, then the identity follows by the deletion-contraction formula, linearity,
+and the induction hypothesis applied to $G-e$ and $G/e$.  Hence, it suffices to establish the base case when $V(G)=V(K)$.
+Suppressing any parallel edges except for one edge parallel to $v_1v_3$ (if any) does not affect the values of the terms in the
+identity.  Hence, we only need to consider three cases: in addition to $K+v_1v_3$, $G$ has no further edges, an edge $v_2v_4$, or an edge parallel to $v_1v_3$.
+
+In the first case, $G$ and $G'$ are isomorphic and both $G/v_1v_3$ and $G'/v_2v_4$ are $3$-vertex paths with duplicated edges.
+Hence, it suffices to verify that in this case $C_G(\phi+1)=\phi^{-3}C_{G/v_1v_3}(\phi+1)$.  Indeed, $C_G(x)=x(x-1)(x-2)^2$ and
+$C_{G/v_1v_3}(x)=x(x-1)^2$, and thus
+$$\frac{C_{G/v_1v_3}(\phi+1)}{C_G(\phi+1)}=\frac{\phi}{(\phi-1)^2}=\phi^3,$$
+since $(\phi-1)^{-1}=\phi$.
+
+In the latter two cases, one of $G$ and $G'$ is $K_4$ and the other one is the $4$-cycle $K$ tohether with a double edge joining vertices opposite on $K$,
+and one of $G/v_1v_3$ and $G'/v_2v_4$ is a triangle with two double edges and the other one contains a loop.
+The chromatic polynomials of these four graphs are $x(x-1)(x-2)(x-3)$, $x(x-1)(x-2)^2$, $x(x-1)(x-2)$, and $0$, respectively.  Hence, the identity holds, since
+$$\frac{(C_{G/v_1v_3}(\phi+1)+C_{G'/v_2v_4}(\phi+1)}{C_G(\phi+1)+C_{G'}(\phi+1)}=\frac{1}{2\phi-3}=\phi^3.$$
+\end{proof}
+
+Note that the deletion-contraction formula in general implies
+\begin{equation}\label{eq:delconcon}
+C_G+C_{G/v_1v_3}=C_{G-v_1v_3}=C_{G'-v_2v_4}=C_{G'}+C_{G'/v_2v_4}.
+\end{equation}
+Combining these two identities
+and using the facts that $\frac{1}{2}(\phi^{-3}+1)=\phi^{-1}$ and $\frac{1}{2}(\phi^{-3}-1)=-\phi^{-2}$,
+we obtain a simpler formula for the value at $\phi+1$.
+
+\begin{corollary}\label{cor:tutte}
+Let $G$ be a plane multigraph and let $K=v_1v_2v_3v_4$ be a $4$-cycle in $G$ such that the open disk bounded by $K$
+contains only the edge $v_1v_3$.  Let $G'=G-v_1v_3+v_2v_4$.  Then
+$$C_G(\phi+1)=\phi^{-1}C_{G'/v_2v_4}(\phi+1)-\phi^{-2}C_{G/v_1v_3}(\phi+1).$$
+\end{corollary}
+
+Using this formula, we can inductively prove the amazing Golden Identity of Tutte.
+\begin{theorem}\label{thm:golden}
+Let $G$ be a multigraph triangulating the plane, with $n$ vertices.  Then
+$$C_G(\phi+2)=(\phi+2)\phi^{3n-10}C^2_G(\phi+1).$$
+\end{theorem}
+\begin{proof}
+Write $G_1\prec G_2$ if $G_1$ has fewer edges than $G_2$, or if both have the same number of edges and $G_1$ has larger
+maximum degree.  We prove the claim by induction, assuming as the induction hypothesis that the claim holds for
+all graphs $G_1$ such that $G_1\prec G$.
+
+If $G$ contains a loop, then both sides of the identity are $0$.  Suppose $G$ contains a parallel edge forming a $2$-cycle $Q$.
+Let $G_1$ and $G_2$ be obtained from the subgraphs drawn in the closed interior and exterior of $Q$ by suppressing their $2$-face bounded by $Q$.
+By Lemma~\ref{lemma:chrmult}, the induction hypothesis, and the fact that $\phi+1=\phi^2$, we have
+\begin{align*}
+C_G(\phi+2)&=\frac{C_{G_1}(\phi+2)C_{G_2}(\phi+2}{(\phi+2)(\phi+1)}\\
+&=\frac{(\phi+2)^2\phi^{3n-14}(C_{G_1}(\phi+1)C_{G_2}(\phi+1))^2}{(\phi+2)(\phi+1)}\\
+&=\frac{(\phi+2)\phi^{3n-14}((\phi+1)\phi C_G(\phi+1))^2}{\phi+1}\\
+&=(\phi+2)\phi^{3n-12}(\phi+1) C^2_G(\phi+1)\\
+&=(\phi+2)\phi^{3n-10}C^2_G(\phi+1),
+\end{align*}
+as required.
+
+Similarly, if $G$ contains a separating triangle $Q$, then letting $G_1$ and $G_2$ be the subgraphs
+drawn in the closed interior and exterior of $Q$,
+Lemma~\ref{lemma:chrmult} and the induction hypothesis, and the fact that $(\phi+1)(\phi-1)^2=1$ implies
+\begin{align*}
+C_G(\phi+2)&=\frac{C_{G_1}(\phi+2)C_{G_2}(\phi+2}{(\phi+2)(\phi+1)\phi}\\
+&=\frac{(\phi+2)^2\phi^{3n-11}(C_{G_1}(\phi+1)C_{G_2}(\phi+1))^2}{(\phi+2)(\phi+1)\phi}\\
+&=\frac{(\phi+2)\phi^{3n-12}((\phi+1)\phi(\phi-1) C_G(\phi+1))^2}{\phi+1}\\
+&=(\phi+2)\phi^{3n-10}(\phi+1)(\phi-1)^2 C^2_G(\phi+1)\\
+&=(\phi+2)\phi^{3n-10}C^2_G(\phi+1),
+\end{align*}
+as required.
+
+Hence, we can assume that $G$ is simple and contains no separating triangles.  If $|V(G)|\le 4$, then since $G$ is a triangulation,
+we have $G=K_3$ or $G=K_4$; it is easy to verify that the identity holds both for $K_3$ and $K_4$.  Hence, suppose that $V(G)\ge 5$.
+Let $v_2$ be the vertex of $G$ of maximum degree.
+By the absence of separating triangles, the neigbors of $v_2$ form an induced cycle $Q$.  Let $v_1v_3$ be an edge of this cycle.  Since $|V(G)|\ge 5$
+and $Q$ is an induced cycle, $v_1v_3$ is incident with a face $v_1v_4v_3$ such that $v_4\not\in \{v_2\}\cup V(Q)$.  Let $G'=G-v_1v_3+v_2v_4$.
+Note that $G'$ has greater maximum degree than $G$, and thus $G'\prec G$.  Hence, by (\ref{eq:delconcon}), the induction hypothesis,
+Corollary~\ref{cor:tutte} applied to $G'$, and one more application of Corollary~\ref{cor:tutte}, we have
+\begin{align*}
+\frac{C_G(\phi+2)}{(\phi+2)\phi^{3n-10}}&=\frac{C_{G'}(\phi+2)+C_{G'/v_2v_4}(\phi+2)-C_{G/v_1v_3}(\phi+2)}{(\phi+2)\phi^{3n-10}}\\
+&=C^2_{G'}(\phi+1)+\phi^{-3}C^2_{G'/v_2v_4}(\phi+1)-\phi^{-3}C^2_{G/v_1v_3}(\phi+1)\\
+&=(\phi^{-3}+\phi^{-4})C^2_{G'/v_2v_4}(\phi+1)+(\phi^{-2}-\phi^{-3})C^2_{G/v_1v_3}(\phi+1)-2\phi^{-3}C_{G'/v_2v_4}(\phi+1)C_{G/v_1v_3}(\phi+1)\\
+&=\phi^{-2}C^2_{G'/v_2v_4}(\phi+1)+\phi^{-4})C^2_{G/v_1v_3}(\phi+1)-2\phi^{-3}C_{G'/v_2v_4}(\phi+1)C_{G/v_1v_3}(\phi+1)\\
+&=(\phi^{-1}C_{G'/v_2v_4}(\phi+1)-\phi^{-2}C_{G/v_1v_3}(\phi+1))^2\\
+&=C^_G(\phi+1),
+\end{align*}
+as required.
+\end{proof}
+
+In addition to being quite surprising by itself, an interesting fact can be obtained from Theorem~\ref{thm:golden} using the following
+observation.
+\begin{lemma}\label{lemma:noroot}
+If $G$ is connected multigraph with $n$ vertices and no loops, then for any real number $x$ such that $0<x<1$
+we have $(-1)^{n-1}C_G(x)>0$.
+\end{lemma}
+\begin{proof}
+We prove the claim by induction on the number of edges of $G$.  Without loss of generality, $G$ does not contain parallel edges.
+If $G$ is a tree, then $C_G(x)=x(x-1)^{n-1}$, and $(-1)^{n-1}C_G(x)=x(1-x)^{n-1}>0$.  Hence, we can assume that
+$G$ has an edge $e$ whose removal does not disconnect $G$.  By the deletion-contraction formula and induction hypothesis,
+we have
+$$(-1)^{n-1}C_G(x)=(-1)^{n-1}(C_{G-e}(x)-C_{G/e}(x))=(-1)^{n-1}C_{G-e}(x)+(-1)^{n-2}C_{G/e}(x)>0,$$
+as required.
+\end{proof}
+In particular, $(3-\sqrt{5}}/2$ is not a root of any non-trivial chromatic polynomial.  Since chromatic polynomials have integer coefficients,
+its Galois conjugate $(3+\sqrt{5}}/2=\phi+1$ is not a root of any such polynomial, either.  Theorem~\ref{thm:golden} thus implies that
+$\phi+2\approx 3.62$ is not a root of the chromatic polynomial of any plane triangulation.  If one could somehow ``push up'' this claim to $4$,
+this would prove the Four Color Theorem!  Note however that there are plane triangulations with roots arbitrarily close to $4$.
+
+\subsection{Deletion-contraction formula and the number of colorings}
 % Mention application of deletion/contraction formula in lower bounds on the numbers of colorings?
+
 
 \subsection{Integer flows}
 
