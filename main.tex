@@ -3418,7 +3418,7 @@ The ability to transform a valid coloring into another one clearly has implicati
 of the graph.  This is especially clear for local recolorings:  if we can change the coloring of a graph $G$ locally on $m$ places
 that do not interfere with each other, then $G$ has at least $2^m$ different colorings.
 
-\begin{theorem}\label{lemma:planar5many}
+\begin{theorem}\label{theorem:planar5many}
 Every planar graph with $n$ vertices has at least $2^{n/4}$ different $5$-colorings.
 \end{theorem}
 \begin{proof}
@@ -3440,7 +3440,7 @@ on each of the components, obtaining $2^m$ different colorings.  Of course, we n
 one way to do so is demonstrated in the following example, giving an exponential bound on the number of $5$-colorings
 of planar graphs without using the Four Color Theorem.
 
-\begin{theorem}
+\begin{theorem}\label{thm:num5col}
 Every planar graph with $n$ vertices has at least $2^{n/10}$ different $5$-colorings.
 \end{theorem}
 \begin{proof}
@@ -3863,7 +3863,7 @@ Corollary~\ref{cor:tutte} applied to $G'$, and one more application of Corollary
 &=(\phi^{-3}+\phi^{-4})C^2_{G'/v_2v_4}(\phi+1)+(\phi^{-2}-\phi^{-3})C^2_{G/v_1v_3}(\phi+1)-2\phi^{-3}C_{G'/v_2v_4}(\phi+1)C_{G/v_1v_3}(\phi+1)\\
 &=\phi^{-2}C^2_{G'/v_2v_4}(\phi+1)+\phi^{-4})C^2_{G/v_1v_3}(\phi+1)-2\phi^{-3}C_{G'/v_2v_4}(\phi+1)C_{G/v_1v_3}(\phi+1)\\
 &=(\phi^{-1}C_{G'/v_2v_4}(\phi+1)-\phi^{-2}C_{G/v_1v_3}(\phi+1))^2\\
-&=C^_G(\phi+1),
+&=C^2_G(\phi+1),
 \end{align*}
 as required.
 \end{proof}
@@ -3882,14 +3882,102 @@ we have
 $$(-1)^{n-1}C_G(x)=(-1)^{n-1}(C_{G-e}(x)-C_{G/e}(x))=(-1)^{n-1}C_{G-e}(x)+(-1)^{n-2}C_{G/e}(x)>0,$$
 as required.
 \end{proof}
-In particular, $(3-\sqrt{5}}/2$ is not a root of any non-trivial chromatic polynomial.  Since chromatic polynomials have integer coefficients,
-its Galois conjugate $(3+\sqrt{5}}/2=\phi+1$ is not a root of any such polynomial, either.  Theorem~\ref{thm:golden} thus implies that
+In particular, $(3-\sqrt{5})/2$ is not a root of any non-trivial chromatic polynomial.  Since chromatic polynomials have integer coefficients,
+its Galois conjugate $(3+\sqrt{5})/2=\phi+1$ is not a root of any such polynomial, either.  Theorem~\ref{thm:golden} thus implies that
 $\phi+2\approx 3.62$ is not a root of the chromatic polynomial of any plane triangulation.  If one could somehow ``push up'' this claim to $4$,
-this would prove the Four Color Theorem!  Note however that there are plane triangulations with roots arbitrarily close to $4$.
+this would prove the Four Color Theorem!  Note however that there are plane triangulations whose chromatic polynomials have roots
+arbitrarily close to four~\cite{royle2008planar}.
 
-\subsection{Deletion-contraction formula and the number of colorings}
-% Mention application of deletion/contraction formula in lower bounds on the numbers of colorings?
+\subsection{Chromatic polynomial and the number of colorings}
 
+The deletion-contraction formula from Lemma~\ref{lemma:delcon} involves subtraction of two terms; as such, it
+is ill suited to give bounds on numbers of colorings.  Let us now give a formula that is more convenient from
+this point of view.
+
+\begin{lemma}\label{lemma:chrpos}
+Let $v$ be a vertex of degree $d$ in a graph $G$, and let $N$ be the set of edges incident with $v$,
+none of which is a loop.  For $X\subseteq N$,
+let $G/X$ denote the graph obtained from $G$ by contracting all edges in $X$.  Then
+$$C_G(k)=(k-d)C_{G-v}(k)+\sum_{\emptyset\neq X\subseteq N}^d (|X|-1)C_{G/X}(k).$$
+\end{lemma}
+\begin{proof}
+It suffices to prove this formula when $k$ is a positive integer.  Consider any $k$-coloring $\varphi$ of $G-v$,
+and let $A_1$, \ldots, $A_t$ be the partition of $N$ according to the colors of the endvertices of edges of $N$ in this coloring.
+For non-empty $X\subseteq N$, we say that $\varphi$ contributes to colorings of $G/X$ if $X$ is one of $A_1$, \ldots, $A_t$.
+Observe that $\varphi$ contributes to colorings of $G/X$ if and only if there exists a $k$-coloring $\psi$ $G/X$
+such that $\varphi$ is obtained from $\psi$ by giving all vertices incident with $X$ the color of the vertex resulting
+from the contraction of the edges of $X$.  Consequently, $C_{G/X}(k)$ is equal to the number of $k$-colorings of $G-v$
+that contribute to colorings of $G/X$.
+
+With the notation as in the previous paragraph, $\varphi$ contributes to colorings of $G/A_1$, \ldots, $G/A_t$,
+and thus it contributes $(k-d)+(|A_1|-1)+\ldots+(|A_t|-1)=(k-d)+(d-t)=k-t$ to the right-hand side of the identity
+from the statement of the lemma.  However, $\varphi$ also can be extended to a proper $k$-coloring of $G$ in exactly
+$k-t$ ways, by giving $v$ a color different from the colors of vertices incident with $A_1$, \ldots, $A_t$.
+Hence, $\varphi$ also contributes exactly $k-t$ to the left-hand side of the identity.
+\end{proof}
+
+The following consequence of Lemma~\ref{lemma:chrpos} can be easily proved by induction.
+\begin{corollary}\label{cor:nonnegdeg}
+If $G$ is a $d$-degenerate graph, then $C_G(k)\ge 0$ for all real numbers $k\ge d$.
+\end{corollary}
+
+Using the identity, we can also give the following lower bound on the chromatic polynomial of planar graphs,
+due to Birkhoff and Lewis~\cite{birkhoff1946chromatic}.
+\begin{theorem}\label{thm:birlew}
+If $G$ is a planar graph with $n$ vertices, then
+$$C_G(k)\ge k(k-1)(k-2)(k-3)^{n-3}$$
+for all real numbers $k\ge 5$.
+\end{theorem}
+\begin{proof}
+We prove the claim by induction on the number of vertices of $G$.  If $G$ contains a separating triangle,
+then let $G_1$ and $G_2$ be proper induced subgraphs of $G$ such that $G=G_1\cup G_2$ and $G_1$ intersects
+$G_2$ in a triangle.  By Lemma~\ref{lemma:chrmult} and the induction hypothesis, letting $n_1$ and $n_2$ denote
+the numbers of vertices of $G_1$ and $G_2$, we have
+\begin{align*}
+C_G(k)&=\frac{C_{G_1}(k)C_{G_2}(k)}{k(k-1)(k-2)}\\
+&\ge \frac{k(k-1)(k-2)(k-3)^{n_1-3}k(k-1)(k-2)(k-3)^{n_2-3}}{k(k-1)(k-2)}\\
+&=k(k-1)(k-2)(k-3)^{n_1+n_2-6}=k(k-1)(k-2)(k-3)^{n-3},
+\end{align*}
+as required.  Hence, we can assume $G$ contains no separating triangles.
+
+Since $G$ is planar, it contains a vertex $v$ of degree $d\in\{3,4,5\}$.  Let $e_1$, \ldots, $e_d$
+be the edges incident with $v$ according to their cyclic ordering around $v$ in a plane drawing of $G$,
+and let $v_1$, \ldots, $v_d$ be their endpoints different from $v$.
+If $d=3$,
+then by Lemma~\ref{lemma:chrpos} and the induction hypothesis, we have
+$$C_G(k)\ge (k-3)C_{G-v}(k)\ge (k-3)k(k-1)(k-2)(k-3)^{n-4}=k(k-1)(k-2)(k-3)^{n-3}.$$
+Suppose now that $d=4$, then since $G$ does not contain separating triangles, $v_i$ is not adjacent to $v_{i+2}$,
+for $i\in\{1,2\}$.  Hence, letting $X_i=\{e_i,e_{i+2}\}$, the graph $G/X_i$ is loopless, and thus we can
+apply induction hypothesis to it.  Also, by the deletion-contraction formula and the induction hypothesis,
+$C_{G-v}(k)=C_{G-v+v_1v_3}(k)+C_{G-v+v_1v_3/v_1v_3}(k)\ge k(k-1)(k-2)[(k-3)^{n-4}+(k-3)^{n-5}]$.
+By Lemma~\ref{lemma:chrpos}, we have
+\begin{align*}
+\frac{C_G(k)}{k(k-1)(k-2)}&\ge \frac{(k-4)C_{G-v}(k)+C_{G/X_1}(k)+C_{G/X_2}(k)}{k(k-1)(k-2)}\\
+&\ge (k-4)[(k-3)^{n-4}+(k-3)^{n-5}]+2(k-3)^{n-5}\\
+&=[(k-4)(k-3)+k-2](k-3)^{n-5}\\
+&=\frac{k^2-6k+10}{k^2-6k+9}(k-3)^{n-3}>(k-3)^{n-3}.
+\end{align*}
+Finally, suppose that $d=5$.  By the absence of separating triangles, $v_i$ is not adjacent to $v_{i+2}$
+for $i\in\{1,\ldots,5\}$, where $v_6=v_1$ and $v_7=v_2$.  Let $X_i=\{e_i,e_{i+2}$.
+Applying twice the deletion-contraction formula and using the induction hypothesis,
+we have
+\begin{align*}
+C_{G-v}(k)&=C_{G-v+v_1v_3}(k)+C_{G-v+v_1v_3/v_1v_3}(k)\\
+&=C_{G-v+v_1v_3+v_1v_4}(k)+C_{G-v+v_1v_3+v_1v_4/v_1v_4}(k)+C_{G-v+v_1v_3/v_1v_3}(k)\\
+&\ge k(k-1)(k-2)[(k-3)^{n-4}+2(k-3)^{n-5}].
+\end{align*}
+By Lemma~\ref{lemma:chrpos}, we have
+\begin{align*}
+\frac{C_G(k)}{k(k-1)(k-2)}&\ge \frac{(k-5)C_{G-v}(k)+\sum_{i=1}^5C_{G/X_i}(k)}{k(k-1)(k-2)}\\
+&\ge (k-5)[(k-3)^{n-4}+2(k-3)^{n-5}]+5(k-3)^{n-5}\\
+&=[(k-5)(k-3)+2k-5](k-3)^{n-5}\\
+&=\frac{k^2-6k+10}{k^2-6k+9}(k-3)^{n-3}>(k-3)^{n-3}.
+\end{align*}
+\end{proof}
+Birkhoff and Lewis conjectured that this inequality in fact holds for all $k\ge 4$, which would imply the Four Color Theorem.
+The bound is tight for planar triangulations obtained from $K_3$ by repeatedly subdividing any face into three by adding a new vertex
+of degree three.  For $k=5$, we obtain $60\cdot 2^{n-3}$ as a bound which significantly improves our previous bounds on
+the number of 5-colorings of planar graphs we obtained in Theorems~\ref{theorem:planar5many} and \ref{thm:num5col}.
 
 \subsection{Integer flows}
 
