@@ -3550,7 +3550,7 @@ While none of these conjectures has been resolved yet, they motivated a number o
 and lead to a development of theory of nowhere-zero flows which is interesting for its own sake,
 not just because of its connections to graph colorings.
 
-\section{Flow-Coloring duality}
+\section{Flow-Coloring duality}\label{sec:flow-coloring-duality}
 
 Let $\mathbf{A}$ be an abelian group, let $D$ be a multigraph and let $\vec{D}$ be its arbitrary orientation.  An \emph{$\mathbf{A}$-flow}
 is a function $f:E(\vec{D})\to\mathbf{A}$ satisfying the flow conservation law
@@ -3674,13 +3674,13 @@ The following claims are equivalent.
 \begin{proof}
 Suppose first that every planar $3$-regular $2$-edge-connected graph is $3$-edge-colorable.  Let $G$ be any planar graph,
 and let $G_1$ be a maximal planar supergraph of $G$ on the same vertex set; then $G_1$ is a plane triangulation.  Since $G_1$
-has no loops, $G_1^\star$ is $2$-edge-connected and $3$-regular, and thus $G_1^\star$ is $3$-edge-colorable.  By Lemma~\ref{lemma:z223col},
+has no loops, its dual $G_1^\star$ is $2$-edge-connected and $3$-regular, and thus $G_1^\star$ is $3$-edge-colorable.  By Lemma~\ref{lemma:z223col},
 $G_1^\star$ has a nowhere-zero $\mathbf{Z}_2^2$-flow, and by Lemma~\ref{lemma:flowtocolor}, $G_1$ has a proper coloring by elements of $\mathbf{Z}_2^2$.
 Consequently, $G_1$ as well as its subgraph $G$ are $4$-colorable.
 
 Conversely, dual of a planar $3$-regular $2$-edge-connected graph $H$ is a plane triangulation without loops, and a nowhere-zero
 $\mathbf{Z}_2^2$-flow (and thus also a $3$-edge-coloring by Lemma~\ref{lemma:z223col}) can be derived from a proper $4$-coloring
-of $H^\star$ by elements of $\mathbf{Z}_2^2$ as described at the beginning of this section.
+of its dual $H^\star$ by elements of $\mathbf{Z}_2^2$ as described at the beginning of this section.
 \end{proof}
 
 \subsection{Flow and chromatic polynomial}
@@ -3976,16 +3976,93 @@ By Lemma~\ref{lemma:chrpos}, we have
 \end{proof}
 Birkhoff and Lewis conjectured that this inequality in fact holds for all $k\ge 4$, which would imply the Four Color Theorem.
 The bound is tight for planar triangulations obtained from $K_3$ by repeatedly subdividing any face into three by adding a new vertex
-of degree three.  For $k=5$, we obtain $60\cdot 2^{n-3}$ as a bound which significantly improves our previous bounds on
-the number of 5-colorings of planar graphs we obtained in Theorems~\ref{theorem:planar5many} and \ref{thm:num5col}.
+of degree three.  For $k=5$, Theorem~\ref{thm:birlew} states that every planar graph has at least $60\cdot 2^{n-3}$ distinct $5$-colorings;
+this significantly improves our previous bounds from Theorems~\ref{theorem:planar5many} and \ref{thm:num5col}.
 
 \subsection{Integer flows}
 
-For a positive integer $k$, a \emph{$k$-flow} is a $\mathbf{Z}$-flow only having values $0$, $\pm 1$, \ldots, $\pm (k-1)$.
+So far, we mostly developed the theory of nowhere-zero flows over finite groups, and indeed, this is generally
+the most convenient setting.  Nevertheless, in some cases it is worthwhile to consider an alternative approach
+via integer flows with bounded range of values.  For a positive integer $k$, consider a proper $k$-coloring $\varphi:V(G)\to [k]$
+of a plane connected multigraph $G$, and let $f$ be the derived nowhere-zero $\mathbf{Z}$-flow in the dual of $G$.
+Then, all values of $f$ are $\pm 1$, \ldots, $\pm (k-1)$.
+
+Motivated by this observation, let us say that a $\mathbf{Z}$-flow is a \emph{$k$-flow} if all its values are at most $k-1$ in absolute value.
+If $f$ is a (nowhere) $k$-flow, we can interpret its values as elements of $\mathbf{Z}_k$, and thus $f$ can also be viewed as a (nowhere-zero)
+$\mathbf{Z}_k$-flow.  Together with Lemma~\ref{lemma:flowtocolor} and the argument from the previous paragraph,
+we have the following.
+\begin{observation}\label{obs:flowcol}
+For any positive integer $k$, a connected plane multigraph has a proper $k$-coloring if and only if its dual has a nowhere-zero $k$-flow.
+\end{observation}
+As a consequence, a planar graph has a nowhere-zero $k$-flow if and only if it has a nowhere-zero $\mathbf{Z}_k$-flow.
+A slightly more involved argument shows that this is true in general graphs as well.
+
+\begin{lemma}
+Let $G$ be a multigraph and let $k$ be a positive integer.  For every $\mathbf{Z}_k$-flow $f_0$ in $G$, there exists
+a $k$-flow $f_1$ in $G$ such that $\bar{f_1}(uv)\bmod k=\bar{f_0}(uv)$.  In particular, if $f_0$ is nowhere-zero,
+then $f_1$ is nowhere-zero as well.
+\end{lemma}
+\begin{proof}
+Let $\vec{G}$ be an arbitrary orientation of $G$, and for each directed edge $uv\in E(\vec{G})$, let
+$f'_1(uv)=\bar{f}_0(uv)$, where the values of $f_0$ are interpreted as integers from $\{0,1,\ldots, k-1\}$.
+For $v\in V(G)$, let us define
+$$r'(v)=\sum_{vw\in E(\vec{G})} f'_1(vw)-\sum_{uv\in E(\vec{G})} f'_1(uv),$$
+denoting the excess of the amount leaving $v$ over the one entering $v$.
+Note that $r'(v)$ is divisible by $k$, since $f_0$ is a $\mathbf{Z}_k$-flow.
+Let $r(v)=r'(v)/k$.
+
+Let $\vec{H}$ be the spanning subgraph of $\vec{G}$ with $E(\vec{H})=\{e\in E(\vec{G}): f_0(e)\neq 0\}$.
+Consider any set $S\subseteq V(\vec{H})$, and let $I(S)$ and $O(S)$ be the sets of edges of $\vec{H}$ entering
+and leaving $S$, respectively.  We have
+\begin{align*}
+\sum_{v\in S} r(S)&=\frac{1}{k}\sum_{v\in S}\left(\sum_{vw\in E(\vec{G})} f'_1(vw)-\sum_{uv\in E(\vec{G})} f'_1(uv)\right)
+&\frac{1}{k}\left(\sum_{e\in O(S)} f'_1(e)-\sum_{e\in I(S)} f'_1(e)\right),
+\end{align*}
+since the contributions of the edges between vertices of $S$ cancel out and the values on edges of $E(\vec{G})\setminus E(\vec{H})$
+leaving or entering $S$ are $0$.  Since $0<f'_1(e)<k$ for all $e\in E(\vec{H})$,
+we conclude that
+\begin{equation}\label{eq:bigcut}
+-|I(S)|\le \sum_{v\in S} r(S)\le |O(S)|.
+\end{equation}
+Let us give each edge of $\vec{H}$ capacity $1$ and each vertex $v$ of $\vec{H}$ demand $r(v)$.
+Since (\ref{eq:bigcut}) holds for all $V(\vec{H})$, we conclude from the max-flow min-cut theorem
+that there exists $f''_1:E(\vec{H})\to\{0,1\}$ such that
+$$\sum_{vw\in E(\vec{H})} f''_1(vw)-\sum_{uv\in E(\vec{H})} f''_1(uv)=r(v)$$
+for all $v\in V(\vec{H})$.  Let us extend $f''_1$ to $\vec{G}$ by setting $f''_1(e)=0$ for all $e\in E(\vec{G})\setminus E(\vec{H})$.
+
+Now, we can define $f_1(e)=f'_1(e)-kf''_1(e)$ for all $e\in E(\vec{G})$.  By the choice of $f''_1$, we conclude that $f_1$ is a $\mathbf{Z}$-flow
+in $G$, and clearly $f_1(e)\bmod k = f'_1(e)\bmod k=f_0(e)$ for all $e\in E(\vec{G})$.  Furthermore, since $f''_1(e)\in \{0,1\}$
+and $f''_1(e)$ can be non-zero only when $f'_1(e)\ge 1$, we conclude that $f_1(e)\ge -(k-1)$, and thus $f_1$ is a $k$-flow.
+\end{proof}
+
+Note that if $k'\le k$, then a $k'$-flow is also a $k$-flow.  Hence, we get the following consequence, which is not easy to see
+directly.
+\begin{corollary}
+If $\mathbf{A}'$ and $\mathbf{A}$ are two finite abelian groups, $|\mathbf{A}'|\le |\mathbf{A}|$, and
+a multigraph $G$ has a nowhere-zero $\mathbf{A}'$-flow, then $G$ also has a nowhere-zero $\mathbf{A}$-flow.
+\end{corollary}
 
 \section{Tutte's Flow Conjectures}
 
+The basic idea behing introduction of nowhere-zero flows is as follows: to prove that planar graphs
+satisfying certain properties are $k$-colorable, show that graphs from some superclass of their duals
+have a nowhere-zero $k$-flow.  One might hope the latter problem is easier to approach.
+Along these lines, Tutte formulated several conjectures lifting coloring results and (at the time) open problems
+in planar graphs to this more general setting.  While none of these conjectures has been resolved yet, there
+has been a number of interesting partial results and they are nowadays recognized as some of the most influential
+questions in graph theory.
+
+Let us start with the most general one of these conjectures.
+\begin{conjecture}[5-Flow Conjecture]
+Every bridgeless graph has a nowhere-zero $5$-flow.
+\end{conjecture}
+By Observation~\ref{obs:flowcol}, the 5-Flow Conjecture would strenthen the well-known fact that all planar graphs
+are $5$-colorable.  ...
+
 \section{The Short Flow Proof of Grotzsch's Theorem}
+
+???
+
 \section{$3$-colorability of near-quadrangulations}
 
 \begin{lemma}\label{lemma:flow-quadr}
