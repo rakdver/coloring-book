@@ -11,6 +11,7 @@
 
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}{Conjecture}[chapter]
 \newcommand{\col}{\text{col}}
@@ -3550,7 +3551,7 @@ While none of these conjectures has been resolved yet, they motivated a number o
 and lead to a development of theory of nowhere-zero flows which is interesting for its own sake,
 not just because of its connections to graph colorings.
 
-\section{Flow-Coloring duality}\label{sec:flow-coloring-duality}
+\section{Nowhere-zero Flows and Flow-Coloring duality}\label{sec:flow-coloring-duality}
 
 Let $\mathbf{A}$ be an abelian group, let $D$ be a multigraph and let $\vec{D}$ be its arbitrary orientation.  An \emph{$\mathbf{A}$-flow}
 is a function $f:E(\vec{D})\to\mathbf{A}$ satisfying the flow conservation law
@@ -3652,6 +3653,13 @@ and thus $\bar{\delta}(xy)=\varphi_a(y)-\varphi_a(x)$.  We conclude that $\varph
 of $\mathbf{A}$ and $f$ is the nowhere-zero $\mathbf{A}$-flow derived from it.
 \end{proof}
 
+In particular, we obtain the following relationship between numbers of colorings and nowhere-zero flows.
+\begin{corollary}\label{cor:numflowcol}
+For any finite abelian group $\mathbf{A}$,
+the number of proper $|\mathbf{A}|$-colorings of a connected plane multigraph $G$ is equal to $|\mathbf{A}|$ times the number
+of nowhere-zero $\mathbf{A}$-flows in the dual $D$ of $G$.
+\end{corollary}
+
 Hence, in planar graphs, instead of studying their colorings, we can as well consider their nowhere-zero flows.
 As a simple application, let us establish equivalence between the Four Color Theorem and $3$-edge-colorability of bridgeless
 cubic planar graphs (Theorem~\ref{thm:planar3ec}).  Let us start with a quick observation.
@@ -3683,10 +3691,10 @@ $\mathbf{Z}_2^2$-flow (and thus also a $3$-edge-coloring by Lemma~\ref{lemma:z22
 of its dual $H^\star$ by elements of $\mathbf{Z}_2^2$ as described at the beginning of this section.
 \end{proof}
 
-\subsection{Flow and chromatic polynomial}
+\section{Flow and chromatic polynomials}
 
 Consider two abelian groups of the same size, say $\mathbf{Z}_4$ and $\mathbf{Z}_2^2$.  Nowhere-zero flows over these two groups
-are quite different. However, if $D$ is a connected plane multigraph, Lemma~\ref{lemma:flowtocolor} implies that the number of
+are quite different. However, if $D$ is a connected plane multigraph, Corollary~\ref{cor:numflowcol} implies that the number of
 nowhere-zero $\mathbf{Z}_4$-flows in $D$ is the same as the number of nowhere-zero $\mathbf{Z}_2^2$-flows in $D$; both are equal
 to $\tfrac{1}{4}$ of the number of $4$-colorings of the dual of $D$.  This is not a coincidence; indeed, for a fixed
 (not necessarily planar) multigraph, the number of nowhere-zero $\mathbf{A}$-flows depends only on the size of the (finite abelian) group $\mathbf{A}$.
@@ -3979,7 +3987,7 @@ The bound is tight for planar triangulations obtained from $K_3$ by repeatedly s
 of degree three.  For $k=5$, Theorem~\ref{thm:birlew} states that every planar graph has at least $60\cdot 2^{n-3}$ distinct $5$-colorings;
 this significantly improves our previous bounds from Theorems~\ref{theorem:planar5many} and \ref{thm:num5col}.
 
-\subsection{Integer flows}
+\section{Integer flows}
 
 So far, we mostly developed the theory of nowhere-zero flows over finite groups, and indeed, this is generally
 the most convenient setting.  Nevertheless, in some cases it is worthwhile to consider an alternative approach
@@ -4037,10 +4045,134 @@ and $f''_1(e)$ can be non-zero only when $f'_1(e)\ge 1$, we conclude that $f_1(e
 
 Note that if $k'\le k$, then a $k'$-flow is also a $k$-flow.  Hence, we get the following consequence, which is not easy to see
 directly.
-\begin{corollary}
+\begin{corollary}\label{cor:sizeflow}
 If $\mathbf{A}'$ and $\mathbf{A}$ are two finite abelian groups, $|\mathbf{A}'|\le |\mathbf{A}|$, and
 a multigraph $G$ has a nowhere-zero $\mathbf{A}'$-flow, then $G$ also has a nowhere-zero $\mathbf{A}$-flow.
 \end{corollary}
+
+\section{Basic results on existence of nowhere-zero flows}\label{sec:basicflow}
+
+It is easy to decide whether a graph has a nowhere-zero $\mathbf{Z}_2$-flow, based on the following observation.
+\begin{observation}\label{obs:euler}
+If $G$ is an Eulerian graph, then $G$ has a nowhere-zero $\mathbf{A}$-flow for any non-trivial abelian group $\mathbf{A}$.
+Conversely, if $G$ has a nowhere-zero $\mathbf{Z}_2$-flow, then $G$ is Eulerian.
+\end{observation}
+\begin{proof}
+If $G$ is Eulerian, then each component of $G$ contains a closed walk that passes through each edge exactly once.
+Orienting the edges of $G$ along these walks and assigning to each of them the same non-zero element of $\mathbf{A}$
+gives a nowhere-zero $\mathbf{A}$-flow in $G$.
+
+A nowhere-zero $\mathbf{Z}_2$-flow necessarily assigns value $1$ to each edge of $G$, the flow conservation law
+thus implies that all vertices of $G$ have even degree, and thus $G$ is Eulerian.
+\end{proof}
+
+In general, it is hard to decide whether a given graph has a nowhere-zero $\mathbf{A}$-flow for a prescribed
+finite abelian group $\mathbf{A}\neq \mathbf{Z}_2$.  However, there are a number of results that are helpful in particular cases.
+Let us start with a basic observation about edge-cuts.  If $f$ is a flow in a multigraph $G$ and $S\subseteq V(G)$,
+let us define $$\bar{f}(S)=\sum_{e=uv\in E(G),u\in S,v\not\in S} \bar{f}(e).$$
+
+\begin{observation}\label{obs:flowoncut}
+Let $\mathbf{A}$ be an abelian group.  If $f$ is an $\mathbf{A}$-flow in a multigraph $G$, then $\bar{f}(S)=0$ for all $S\subseteq V(G)$.
+\end{observation}
+\begin{proof}
+Note that
+$$\bar{f}(S)=\sum_{u\in S}\sum_{e=uv\in E(G)} \bar{f}(e)=0,$$
+where the first equality holds since if an edge $uv$ has both ends in $S$, then the sum contains
+terms $\bar{f}(uv)$ and $\bar{f}(vu)=-\bar{f}(uv)$ which cancel each other, leaving only the terms
+from the sum in the definition of $\bar{f}(S)$.
+\end{proof}
+
+\begin{corollary}\label{cor:smallcutflow}
+Let $\mathbf{A}$ be an abelian group and let $G$ be a multigraph.  If $G$ has a nowhere-zero $\mathbf{A}$-flow $f$,
+then $G$ is bridgeless.  Furthermore, if $C=\{e_1,e_2\}$ is a $2$-edge-cut in $G$, where $e_1=u_1v_1$ and $e_2=u_2v_2$
+labelled so that $u_1$ and $u_2$ are in the same component of $G-C$, then $\bar{f}(e_1)=-\bar{f}(e_2)$.
+\end{corollary}
+\begin{proof}
+If $G$ had a bridge $e$, then there exists a set $S\subset V(G)$ such that $e$ is the only edge with one end in $S$ and
+the other end outside of $S$, and $\bar{f}(e)=\bar{f}(S)=0$ by Observation\ref{obs:flowoncut}, contradicting the assumption
+that $f$ is nowhere-zero.
+
+In the case of a $2$-edge-cut, let $S$ be the vertex set of the component of $G-C$ containing $u_1$ and $u_2$.
+We have $\bar{f}(e_1)+\bar{f}(e_2)=\bar{f}(S)=0$ by Observation\ref{obs:flowoncut}, which implies $\bar{f}(e_1)=-\bar{f}(e_2)$.
+\end{proof}
+
+Another consequence of the cut condition is that flows are preserved by vertex identification.
+\begin{corollary}\label{cor:contractflow}
+Let $\mathbf{A}$ be an abelian group and let $G$ be a multigraph.  Let $\mathcal{P}=\{P_1,\ldots, P_k\}$ be a partition
+of the vertex set of $G$, and let $G'$ be the multigraph obtained from $G$ by identifying the vertices in each part $P_i$ of $\mathcal{P}$
+to a single vertex $p_i$.  If $G$ has a nowhere-zero $\mathbf{A}$-flow, then $G'$ has a nowhere-zero $\mathbf{A}$-flow as well.
+\end{corollary}
+\begin{proof}
+Note that the edges of $G'$ are in one-to-one correspondence with the edges of $G$.  For a nowhere-zero flow $f$ in $G$
+and every $e'\in E(G')$, let us define $f'(e)=f(e)$, where $e$ is the edge of $G$ corresponding to $e'$.  Then
+$f'$ is a nowhere-zero $\mathbf{A}$-flow in $G'$, since Observation~\ref{obs:flowoncut} applied to $P_i$ for $i=1,\ldots, k$
+implies the flow conservation law at the vertex $p_i$ of $G'$.
+\end{proof}
+
+Corollary~\ref{cor:contractflow} is often used to eliminate vertices of large degree: given a graph $G'$, a vertex $p$ of $G'$
+can be replaced by an arbitrary subgraph with vertex set $P$, distributing the edges incident with $p$ among the vertices of $P$
+arbitrarily.  Corollary~\ref{cor:contractflow} then implies that it suffices to find a nowhere-zero $\mathbf{A}$-flow in the resulting
+graph.
+
+Converse oparation (contracting a set of vertices $S$ and deriving a nowhere-zero $\mathbf{A}$-flow in the original graph $G$ from the one
+in the contracted graph) is also sometimes used, but one needs to be more careful---if $G[S]$ is connected, then it is always possible
+to extend the flow so that the conservation law holds at vertices of $S$, but it may not necessarily be possible to do so in such a way
+that the resulting flow is nowhere-zero.  The following special case is often used to increase connectivity.
+\begin{lemma}\label{lemma:contr2ecflow}
+Let $\mathbf{A}$ be an abelian group and let $G$ be a multigraph.  Let $e$ be an edge of $G$ contained in a $2$-edge-cut.
+Then $G$ has a nowhere-zero $\mathbf{A}$-flow if and only if $G/e$ does.
+\end{lemma}
+\begin{proof}
+By Corollary~\ref{cor:contractflow}, if $G$ has a nowhere-zero $\mathbf{A}$-flow, then so does $G/e$.
+
+Conversely, suppose $f$ is a nowhere-zero $\mathbf{A}$-flow in $G/e$.  Let $e=uv$ and let $e'=u'v'$ be the other edge of a $2$-edge-cut
+containing $e$, labelled so that $u$ and $u'$ are in the same component $S$ of $G-\{e,e'\}$.  Let us extend $f$ to $G$
+by setting $\bar{f}(e)=-\bar{f}(e')$, so that $\bar{f}(V(S))=0$.
+Note that the flow conservation law holds at all vertices except possibly for $u$ and $v$.
+Furthermore, since $\bar{f}(V(S))=0$ and the flow conservation law holds at all vertices of $V(S)$ except possibly for $u$,
+we conclude analogously to Observation~\ref{obs:flowcol} that the flow conservation law holds also at $u$.  A symmetrical
+argument shows that the flow conservation law holds at $v$.  Hence, $f$ is a nowhere-zero $\mathbf{A}$-flow in $G$.
+\end{proof}
+
+For a flow $f$, the \emph{support} of $f$ is the set of edges on that it is non-zero.
+The following fact is very useful when constructing nowhere-zero flows over products of groups (which often can be assumed due to Corollary~\ref{cor:sizeflow}).
+\begin{observation}\label{obs:prodflow}
+Let $\mathbf{A}=\mathbf{A}_1\times \cdots\times \mathbf{A}_k$ be an abelian group.
+For $i=1,\ldots, k$, let $f_i$ be an $\mathbf{A}_i$-flow in a multigraph $G$.
+Let $f(e)=(f_1(e),\ldots,f_k(e))$ for each edge $e\in E(G)$.  Then $f$ is an $\mathbf{A}$-flow in $G$,
+and if the union of supports of $f_1$, \ldots, $f_k$ is $E(G)$, then $f$ is nowhere-zero.
+\end{observation}
+
+This observation is often used in conjuction with the following construction of flows with large support.
+
+\begin{lemma}\label{lemma:treecomplflow}
+Let $G$ be a connected multigraph and let $T$ be a spanning tree of $G$.  Let $\mathbf{A}$ be a non-trivial abelian group
+and let $f$ be an arbitrary function assigning elements of $\mathbf{A}$ to directed edges of $E(G)\setminus E(T)$.
+Then $f$ can be extended to a $\mathbf{A}$-flow in $G$.  In particular, $G$ has an $\mathbf{A}$-flow whose support
+contains all edges of $G$ not belonging to $T$.
+\end{lemma}
+\begin{proof}
+We prove the following stronger claim:  Let $T\subseteq G$ be a tree, and let $f$ be an arbitrary function assigning elements of
+$\mathbf{A}$ to directed edges of $E(G)\setminus E(T)$, such that the flow conservation law holds at all vertices of $V(G)\setminus V(T)$.
+Then $f$ can be extended to a $\mathbf{A}$-flow in $G$.
+
+The claim is proved by induction on the number of vertices of $T$.  If $T$ has only one vertex $v$, then $f$ is already defined
+on all edges of $G$ and satisfies the flow conservation law at all vertices of $G$ other than $v$ by the assumptions.
+However, then $f$ also satisfies the flow conservation law at $v$ (analogously to Observation~\ref{obs:flowoncut} applied to $S=V(G)\setminus\{v\}$,
+noting that $\bar{f}(S)$ is equal to $\bar{f}(\{v\})$).
+
+If $|V(T)|\ge 2$, then $T$ has a leaf $u$ incident with a unique edge $e_0=uw\in E(T)$.  Let us set
+$$f(e_0)=-\sum_{e=ux\in E(G), e\neq e_0} \bar{f}(e),$$
+so that the flow conservation law is satisfied at $u$.  The claim then follows by induction hypothesis applied to $T-u$.
+\end{proof}
+
+In particular, Observation~\ref{obs:prodflow} can be applied to construct a nowhere-zero flow from two flows obtained using
+Lemma~\ref{lemma:treecomplflow} for edge-disjoint spanning trees.  Existence of such trees is guaranteed by the following
+well-known connectivity condition, which is a corollary of a stronger theorem of Nash-Williams.
+
+\begin{theorem}\label{thm:disjspanning}
+For every integer $k\ge 1$, each $2k$-edge-connected graph has $k$ pairwise edge-disjoint spanning trees.
+\end{theorem}
 
 \section{Tutte's Flow Conjectures}
 
@@ -4054,12 +4186,131 @@ questions in graph theory.
 
 Let us start with the most general one of these conjectures.
 \begin{conjecture}[5-Flow Conjecture]
-Every bridgeless graph has a nowhere-zero $5$-flow.
+Every bridgeless multigraph has a nowhere-zero $5$-flow.
 \end{conjecture}
 By Observation~\ref{obs:flowcol}, the 5-Flow Conjecture would strenthen the well-known fact that all planar graphs
-are $5$-colorable.  ...
+are $5$-colorable.  The assumption that $G$ is bridgeless is of course necessary by Corollary~\ref{cor:smallcutflow}.
+Furthermore, by Lemma~\ref{lemma:z223col}, a cubic graph has a nowhere-zero $4$-flow only if it is $3$-edge-colorable.
+In particular, the Petersen graph does not have a nowhere-zero $4$-flow, even though it is $3$-edge-connected,
+and thus the bound in the 5-Flow Conjecture cannot be strengthened to $4$.
 
-\section{The Short Flow Proof of Grotzsch's Theorem}
+Nevertheless, Tutte also conjectured that increasing the edge connectivity to $4$ is sufficient to improve the bound.
+\begin{conjecture}[3-Flow Conjecture]
+Every $4$-edge-connected multigraph has a nowhere-zero $3$-flow.
+\end{conjecture}
+As argued above, the connectivity bound is tight.  Also, a plane connected graph is $4$-edge-connected if and only if
+its dual does not contain any cycles of length at most three.  Hence, by Observation~\ref{obs:flowcol} the 3-Flow Conjecture
+is a strengthening of Gr\"{o}tzsch' Theorem.
+
+Finally, a condition for existence of a nowhere-zero $4$-flow would obviously be of interest with respect to the Four Color Theorem.
+Tutte proposed the following conjecture.
+\begin{conjecture}[4-Flow Conjecture]
+Every bridgeless multigraph that does not contain the Petersen graph as a minor has a nowhere-zero $4$-flow.
+\end{conjecture}
+Since the Petersen graph is not planar, (duals of) plane graphs do not contain Petersen minors, and thus
+the 4-Flow Conjecture strengthens the 4-color theorem.  Using Corollary~\ref{cor:contractflow}, it is easy to see that it would suffice
+to prove the 5-Flow and the 3-Flow Conjecture for cubic graphs (see the proof of Theorem~\ref{thm:6flow} below for a more
+detailed argument).  This is not the case for the 4-Flow Conjecture: replacing or splitting off vertices of large degree can create
+a Petersen minor.  Nevertheless, the special case of cubic graphs is still interesting and strengthens the Four Color Theorem;
+a rather involved proof has been obtained recently~\cite{flow431,flow432,flow433}.
+To illustrate the difficulties in a possible full proof of the 4-Flow Conjecture, let us mention another special case,
+where the graph contains a vertex $v$ such that $G-v$ is planar and all vertices of $G$ other than $v$ have degree three.
+It is easy to see that such a graph $G$ cannot contain the Petersen graph as a minor, since the Petersen graph minus one vertex is still non-planar.
+Analogously to Lemma~\ref{lemma:z223col}, one can show that $G$ has a nowhere-zero $\mathbf{Z}_2^2$-flow if and only if $G-v$ is $3$-edge-colorable.
+Hence, this special case is equivalent to an old conjecture of Gr\"{o}tzsch which is also open.
+\begin{conjecture}[Gr\"{o}tzsch' Conjecture]
+A planar bridgeless graph $G$ of maximum degree at most three is $3$-edge-colorable if and only if no component of $G$ contains
+exactly one vertex of degree two.
+\end{conjecture}
+
+All of the Tutte's flow conjectures are open, but we can at least prove some interesting weakenings of these
+claims.  Let us start with a weakening of the 3-Flow and the 4-Flow conjecture which follows straightforwardly from
+the tools introduced in Section~\ref{sec:basicflow}.
+
+\begin{theorem}
+Every $4$-edge-connected multigraph has a nowhere-zero $4$-flow.
+\end{theorem}
+\begin{proof}
+Let $G$ be a $4$-edge-connected multigraph.  By Theorem~\ref{thm:disjspanning}, $G$ has two edge-disjoint spanning trees $T_1$ and $T_2$.
+By Lemma~\ref{lemma:treecomplflow}, for $i\in\{1,2\}$ there exists a $\mathbf{Z}_2$-flow $f_i$ in $G_i$ whose support includes the complement of $T_i$.
+Since $T_1$ and $T_2$ are edge-disjoint, the union of the supports of $f_1$ and $f_2$ is $E(G)$, and thus
+$G$ has a nowhere-zero $\mathbf{Z}_2^2$-flow by Observation~\ref{obs:prodflow}.
+\end{proof}
+
+A similar argument shows existence of nowhere-zero $8$-flows in general bridgeless graphs.
+\begin{theorem}\label{thm:8flow}
+Every bridgeless multigraph $G$ has a nowhere-zero $8$-flow.
+\end{theorem}
+\begin{proof}
+We prove by induction on the number of vertices of $G$ that $G$ has a nowhere-zero $\mathbf{Z}_2^3$-flow, the case $|V(G)|=1$ being trivial.
+Clearly we can assume that $G$ is connected, and since it is bridgeless, it is $2$-edge-connected.
+If $G$ is not $3$-edge-connected, then an edge $e$ of $G$ is contained in a $2$-edge-cut.
+By the induction hypothesis, $G/e$ has a nowhere-zero $\mathbf{Z}_2^3$-flow, and thus $G$ has a nowhere-zero $\mathbf{Z}_2^3$-flow by
+Lemma~\ref{lemma:contr2ecflow}.
+
+Hence, we can assume that $G$ is $3$-edge-connected.  Let $G'$ be the multigraph obtained from $G$ by doubling each edge;
+then $G'$ is $6$-edge-connected.  By Theorem~\ref{thm:disjspanning}, $G'$ has three pairwise edge-disjoint spanning trees,
+and thus $G$ contains spanning trees $T_1$, $T_2$, and $T_3$ such that each edge of $G$ belongs to at most two of the trees.
+By Lemma~\ref{lemma:treecomplflow}, for $i\in\{1,2,3\}$ there exists a $\mathbf{Z}_2$-flow $f_i$ in $G_i$ whose support includes the complement of $T_i$.
+Since no edge of $G$ belongs to all of the trees $T_1$, $T_2$, and $T_3$, the union of the supports of $f_1$, $f_2$, and $f_3$ is $E(G)$.
+Consequently, $G$ has a nowhere-zero $\mathbf{Z}_2^3$-flow by Observation~\ref{obs:prodflow}.
+\end{proof}
+
+However, Thomassen proved that the bound can be improved from $8$ to $6$.   To this end, he used
+the following decomposition of $3$-connected graphs.
+\begin{lemma}\label{lemma-descent}
+Let $G$ be a $3$-connected graph.  Then there
+exists a partition $V_1$, \ldots, $V_k$ of vertices of $G$ such that for $i=1, \ldots, k$,
+\begin{itemize}
+\item either $|V_i|=1$ or $G[V_i]$ has a Hamiltonian cycle, and
+\item if $i\ge 2$, then there exist at least two edges with one end in $V_i$ and the other end in $V_1\cup\ldots\cup V_{i-1}$.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+Choose a set $V_1$ consisting of an arbitrary vertex of $G$.  For $i\ge 2$, let $B$ be a leaf $2$-connected block of $G_i=G-(V_1\cup \ldots\cup V_{i-1})$.
+Since $G$ is $3$-connected and at most one vertex separates $B$ from the rest of $G_i$, there exist at least two edges $e_1$ and $e_2$ from $B$ to
+$V_1\cup \ldots\cup V_{i-1}$.  If $e_1$ and $e_2$ are incident with the same vertex $v$ of $B$, we set $V_i=\{v\}$.
+Otherwise, since $B$ is $2$-connected, there exists a cycle $C$ in $B$ containing the endpoints of these two edges,
+and we set $V_i=V(C)$.
+\end{proof}
+
+We can now prove a bound on existence of flows that is only by one worse than the one given by the 5-Flow Conjecture.
+
+\begin{theorem}\label{thm:6flow}
+Every bridgeless graph $G$ has a nowhere-zero $6$-flow.
+\end{theorem}
+\begin{proof}
+We will prove that $G$ has a nowhere-zero $\mathbf{Z}_2\times\mathbf{Z}_3$-flow.
+As in the proof of Theorem~\ref{thm:8flow}, we can assume that $G$ is $3$-edge-connected.  Furthermore, we can assume that $G$ has maximum degree at most
+three: a vertex $v$ with neighbors $v_1$, \ldots, $v_k$ can be replaced by a cycle $w_1w_2\ldots w_k$ and edges $w_iv_i$ for $1\le i\le k$,
+and a flow in the resulting graph can be transformed into a flow in $G$ by Corollary~\ref{cor:contractflow}.  Hence,
+$G$ is $3$-connected.  Let $V_1$, \ldots, $V_k$ be a partition of the vertex set of $G$ as in Lemma~\ref{lemma-descent}.
+For $m=1, \ldots, k$, let $K_m$ be the union of Hamiltonian cycles of graphs $G[V_i]$ such that $1\le i\le m$ and $|V_i|>1$.
+For $m=2, \ldots, k$, let $H_m$ be a subgraph of $G$ with vertex set $V_1\cup \ldots\cup V_m$ which for $2\le i\le m$ contains exactly two edges
+with one end in $V_i$ and the other end in $V_1\cup \ldots\cup V_{i-1}$.  Observe that $K_m\cup H_m$ is connected and there exists a cycle $C_m\subseteq H_m$
+containing both edges from $V_m$ to $V_1\cup\ldots\cup V_{m-1}$.
+
+Let $T$ be a spanning tree of $K_k\cup H_k$; note that $T$ is also a spanning tree of $G$.  By Lemma~\ref{lemma:treecomplflow}, $G$ has a $\mathbf{Z}_3$-flow $f_k$
+whose support contains $E(G)\setminus E(T)$, and thus $f_k$ can be $0$ only on edges of $K_k\cup H_k$.  Let us now transform $f_k$ into a $\mathbf{Z}_3$-flow $f_1$
+which can be zero only on $K_k$.  We define $Z_3$-flows $f_{k-1}$, \ldots, $f_1$, such that $f_i$ can only be zero
+on edges of $H_i\cup K_k$.  Assuming $f_{i+1}$ was already constructed, we consider the three flows obtained from $f_{i+1}$ by increasing the flow values
+along the cycle $C_{i+1}\subseteq H_{i+1}\cup K_k$ by $0$, $1$, and $2$.  Note that one of these three flows is non-zero on both edges of $H_{i+1}$ between $V_{i+1}$ and $V_1\cup\ldots\cup V_i$;
+we select this flow as $f_i$.  Since all the edges whose values differ in $f_{i+1}$ and $f_i$ belong to $H_{i+1}\cup K_k$, we conclude inductively that $f_i$ can only have zeros
+on edges of $H_i\cup K_k$.
+
+Consequently, the $\mathbf{Z}_3$-flow $f_1$ can only be zero on the edges of $K_k$.
+Let $f_0$ be the $\mathbf{Z}_2$-flow in $G$ whose value is $1$ on edges of $K_k$ and zero everywhere else.
+The union of the supports of $f_0$ and $f_1$ is $E(G)$, and thus $G$ has a nowhere-zero $\mathbf{Z}_2\times \mathbf{Z}_3$-flow by Observation~\ref{obs:prodflow}.
+\end{proof}
+
+\subsection{Weak $3$-flow conjecture}
+
+It is much more difficult to prove existence of a $3$-flow subject to some edge-connectivity assumption, partially because
+$\mathbf{Z}_3$ is not a product of non-trivial groups, which makes it impossible to use Observation~\ref{obs:prodflow}.
+Indeed, for quite a long time is has been open whether any edge-connectivity is sufficient to ensure the existence of a $3$-flow.
+...
+
+\subsection{A Flow Proof of Gr\"{o}tzsch' Theorem}
 
 ???
 
@@ -4069,7 +4320,6 @@ are $5$-colorable.  ...
 ...
 \end{lemma}
 
-\section{Thomassen's proof of the weak $3$-flow conjecture}
 \section{Thomassen-inspired proof of $6$-flow?}
 
 \part{Coloring Graphs on Surfaces}
