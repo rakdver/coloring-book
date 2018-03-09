@@ -4134,6 +4134,16 @@ we conclude analogously to Observation~\ref{obs:flowcol} that the flow conservat
 argument shows that the flow conservation law holds at $v$.  Hence, $f$ is a nowhere-zero $\mathbf{A}$-flow in $G$.
 \end{proof}
 
+Another operation which is often useful is \emph{lifting} edges incident with a vertex.  If $e_1=uv$ and $e_2=vw$ are distinct edges
+in a multigraph $G$ and $G'$ is obtained from $G-\{e_1,e_2\}$ by adding an edge joining $u$ and $w$, we say that $G'$ is obtained
+from $G$ by \emph{lifting the edges $e_1$ and $e_2$ at $v$}.  Clearly, if $G'$ contains a nowhere-zero $\mathbf{A}$-flow,
+then $G$ contains one as well, obtained by sending the flow of $e$ over edges $e_1$ and $e_2$ instead.
+The following result of Mader~\cite{mader} is of particular importance in this context.
+\begin{lemma}[Mader~\cite{mader}]\label{lemma:mader}
+Let $k\ge 3$ be an integer.  If $G$ is $k$-edge-connected multigraph and a vertex $v\in V(G)$ has
+degree at least $k+2$, then there exist edges incident with $v$ whose lifting results in a $k$-edge-connected graph.
+\end{lemma}
+
 For a flow $f$, the \emph{support} of $f$ is the set of edges on that it is non-zero.
 The following fact is very useful when constructing nowhere-zero flows over products of groups (which often can be assumed due to Corollary~\ref{cor:sizeflow}).
 \begin{observation}\label{obs:prodflow}
@@ -4200,7 +4210,8 @@ Every $4$-edge-connected multigraph has a nowhere-zero $3$-flow.
 \end{conjecture}
 As argued above, the connectivity bound is tight.  Also, a plane connected graph is $4$-edge-connected if and only if
 its dual does not contain any cycles of length at most three.  Hence, by Observation~\ref{obs:flowcol} the 3-Flow Conjecture
-is a strengthening of Gr\"{o}tzsch' Theorem.
+is a strengthening of Gr\"{o}tzsch' Theorem.  Note that by Lemma~\ref{lemma:mader}, it would suffice to prove the conjecture
+for graphs of maximum degree at most $5$.
 
 Finally, a condition for existence of a nowhere-zero $4$-flow would obviously be of interest with respect to the Four Color Theorem.
 Tutte proposed the following conjecture.
@@ -4209,13 +4220,16 @@ Every bridgeless multigraph that does not contain the Petersen graph as a minor 
 \end{conjecture}
 Since the Petersen graph is not planar, (duals of) plane graphs do not contain Petersen minors, and thus
 the 4-Flow Conjecture strengthens the 4-color theorem.  Using Corollary~\ref{cor:contractflow}, it is easy to see that it would suffice
-to prove the 5-Flow and the 3-Flow Conjecture for cubic graphs (see the proof of Theorem~\ref{thm:6flow} below for a more
+to prove the 5-Flow Conjecture cubic graphs (see the proof of Theorem~\ref{thm:6flow} below for a more
 detailed argument).  This is not the case for the 4-Flow Conjecture: replacing or splitting off vertices of large degree can create
 a Petersen minor.  Nevertheless, the special case of cubic graphs is still interesting and strengthens the Four Color Theorem;
 a rather involved proof has been obtained recently~\cite{flow431,flow432,flow433}.
+
 To illustrate the difficulties in a possible full proof of the 4-Flow Conjecture, let us mention another special case,
-where the graph contains a vertex $v$ such that $G-v$ is planar and all vertices of $G$ other than $v$ have degree three.
+where the graph contains a vertex $v$ such that $G-v$ is planar.  
 It is easy to see that such a graph $G$ cannot contain the Petersen graph as a minor, since the Petersen graph minus one vertex is still non-planar.
+Furthermore, vertices of $V(G)\setminus \{v\}$ of degree greater than three can be replaced by cycles of vertices of degree three while preserving the fact that $G-v$ is planar.
+Hence, we can without loss of generality assume that all vertices of $G$ other than $v$ have degree three.
 Analogously to Lemma~\ref{lemma:z223col}, one can show that $G$ has a nowhere-zero $\mathbf{Z}_2^2$-flow if and only if $G-v$ is $3$-edge-colorable.
 Hence, this special case is equivalent to an old conjecture of Gr\"{o}tzsch which is also open.
 \begin{conjecture}[Gr\"{o}tzsch' Conjecture]
@@ -4224,8 +4238,7 @@ exactly one vertex of degree two.
 \end{conjecture}
 
 All of the Tutte's flow conjectures are open, but we can at least prove some interesting weakenings of these
-claims.  Let us start with a weakening of the 3-Flow and the 4-Flow conjecture which follows straightforwardly from
-the tools introduced in Section~\ref{sec:basicflow}.
+claims.  Let us start with some easy consequences of the tools introduced in Section~\ref{sec:basicflow}.
 
 \begin{theorem}
 Every $4$-edge-connected multigraph has a nowhere-zero $4$-flow.
@@ -4256,7 +4269,7 @@ Since no edge of $G$ belongs to all of the trees $T_1$, $T_2$, and $T_3$, the un
 Consequently, $G$ has a nowhere-zero $\mathbf{Z}_2^3$-flow by Observation~\ref{obs:prodflow}.
 \end{proof}
 
-However, Thomassen proved that the bound can be improved from $8$ to $6$.   To this end, he used
+Thomassen improved Theorem~\ref{thm:8flow}, showing that all bridgeless graphs have nowhere-zero $6$-flows.   To this end, he used
 the following decomposition of $3$-connected graphs.
 \begin{lemma}\label{lemma-descent}
 Let $G$ be a $3$-connected graph.  Then there
@@ -4308,7 +4321,226 @@ The union of the supports of $f_0$ and $f_1$ is $E(G)$, and thus $G$ has a nowhe
 It is much more difficult to prove existence of a $3$-flow subject to some edge-connectivity assumption, partially because
 $\mathbf{Z}_3$ is not a product of non-trivial groups, which makes it impossible to use Observation~\ref{obs:prodflow}.
 Indeed, for quite a long time is has been open whether any edge-connectivity is sufficient to ensure the existence of a $3$-flow.
-...
+We now aim to show that 6-edge-connected multigraphs have nowhere-zero $3$-flows, based on an argument of Mikl\'os Lov\'asz et al.~\cite{weak63}
+(improving an older argument of Thomassen~\cite{weak83} for $8$-edge-connected graphs).
+Let us remark that to prove the $3$-Flow Conjecture, it would be enough to shou that 5-edge-connected multigraphs have nowhere-zero 3-flows~\cite{weak53eq}.
+
+Consider a nowhere-zero $\mathbf{Z}_3$ flow $f$ in a multigraph $G$. Clearly, we can select an orientation $\vec{G}$ of $G$
+so that $f(uv)=1$ for all $uv\in E(\vec{G})$.  Hence, $G$ has a nowhere-zero $3$-flow if and only if $G$ has an orientation
+such that each vertex of $G$ has the same in- and out-degree modulo $3$.  For the purposes of induction, we will consider
+a more general problem.  For a function $\beta:V(G)\to \{0,1,2\}$ and a set $X\subseteq V(G)$, let us define $\beta(X)=(\sum_{x\in X} \beta(x))\bmod 3$.
+The function $\beta$ is a \emph{boundary} if $\beta(V(G))=0$. An orientation of edges incident with a vertex $v$ of $G$ is \emph{consistent with $\beta$}
+if $\deg^+(v)-\deg^-(v)\equiv \beta(v)\pmod 3$.
+An orientation of $G$ is a \emph{$\beta$-orientation} it is consistent with $\beta$ at all vertices of $G$.  Hence, $G$ has a nowhere-zero $3$-flow if and only if it has a $\beta$-orientation
+for the identically zero function $\beta$.  For $X\subseteq V(G)$, let $\deg_G(X)$ (or just $\deg(X)$ when the multigraph $G$ is clear from the context)
+denote the number of edges of $G$ with exactly one end in $X$.  Let us define
+$$\beta'(X)=\begin{cases}
+\beta(X)&\text{if $\deg(X)$ and $\beta(X)$ have the same parity}\\
+3-\beta(X)&\text{if $\deg(X)$ and $\beta(X)$ have the opposite parity}
+\end{cases}.$$
+For a vertex $x\in V(G)$, let us write $\beta'(x)$ instead of $\beta'(\{x\})$.
+Note that $\beta'(X)$ and $\deg(X)$ have the same parity, and that
+\begin{equation}
+\text{if $\deg(X)\ge 6$, then $\deg(X)\ge \beta'(X)+4$.}\label{eq:lbbeta}
+\end{equation}
+Indeed, $\beta'(X)\le 3$, and if $\beta'(X)=3$, then $\deg(X)$ must be odd, implying $\deg(X)\ge 7=\beta'(X)+4$.
+Note also that
+\begin{equation}
+\beta'(X)=\beta'(V(G)\setminus X).\label{eq:compl}
+\end{equation}
+Indeed, $\deg(X)=\deg(V(G)\setminus X)$, and since $\beta$ is a boundary, we have either $\beta(X)=\beta(V(G)\setminus X)=0$,
+or $\{\beta(V(G)\setminus X),\beta(X)\}=\{1,2\}$.  In the former case, the claim is obvious; in the latter case,
+we have $\beta'(V(G)\setminus X)=\beta'(X)\in\{1,2\}$ depending on the parity of $\deg(X)$.
+
+We now aim to prove the following.
+\begin{theorem}\label{thm:6flowgen}
+Let $G$ be a multigraph with boundary $\beta$. Let $z_0$ be a vertex of $G$
+and let $\vec{D}$ be an orientation of edges incident with $z_0$ consistent with $\beta$.
+Let $V_0=\{v\in V(G)\setminus \{z_0\}: \beta'(v)=0\}$, and if $V_0$ is non-empty, then
+let $v_0$ be a vertex of $V_0$ of minimum degree.  If $\deg(z_0)\le \beta'(z_0)+4$ and $\deg(A)\ge \beta'(A)+4$ for every non-empty $A\subsetneq V(G)\setminus \{z_0\}$
+other than $\{v_0\}$, then $G$ has a $\beta$-orientation extending $\vec{D}$.
+\end{theorem}
+
+Before we prove this result, let us observe that it indeed implies that $6$-edge-connected graphs have nowhere-zero $3$-flows.
+Indeed, they have the following stronger property (called \emph{$\mathbf{Z}_3$-connectivity}).
+\begin{corollary}\label{cor:z3conn}
+A $6$-edge-connected multigraph $G$ has a $\beta$-orientation for any boundary $\beta$.
+\end{corollary}
+\begin{proof}
+Let $G'$ be the graph obtained from $G$ by adding an isolated vertex $z_0$ and setting $\beta(z_0)=0$.
+Note that if $A\subsetneq G$ is non-empty, then $\deg(A)\ge 6$, since $G$ is $6$-edge-connected, and thus
+$\deg(A)\ge \beta'(A)+4$ by (\ref{eq:lbbeta}).  Hence, Theorem~\ref{thm:6flowgen} implies that $G'$ (and thus also $G$)
+has a $\beta$-orientation.
+\end{proof}
+This has a nice consequence observed by Thomassen~\cite{weak83}: Consider a $6$-edge-connected graph $G$ such that $|E(G)|$ is
+divisible by $3$.  Then the function $\beta(v)=(-\deg v)\bmod 3$ for $v\in V(G)$ is a boundary for $G$, and a $\beta$-orientation $\vec{G}$
+which exist by Corollary~\ref{cor:z3conn} has the property that the outdegree of every vertex is divisible by $3$.
+Consequently, $G$ can be expressed as a union of edge-disjoint claws (copies of $K_{1,3}$.
+
+Let us now proceed with the proof of Theorem~\ref{thm:6flowgen}.  A \emph{counterexample} (to Theorem~\ref{thm:6flowgen}) is a quadruple $(G,\beta,z_0,\vec{D})$
+satisfying the assumptions of Theorem~\ref{thm:6flowgen} (for some choice of $v_0$) such that $G$ does not have a $\beta$-orientation extending $\vec{D}$.
+A counterexample is \emph{almost minimal} if $|V(G)|+|E(G-z_0)|$ is minimum among all counterexamples.
+A counterexample is \emph{minimal} if it is almost minimal and subject to that, $|E(G)|$ is minimum.
+Note that an almost minimal counterexample has no loops not incident with $z_0$, since if $e$ is a loop, then $(G-e,\beta,z_0, \vec{D})$ would be a counterexample
+contradicting almost minimality of $(G,\beta,z_0,\vec{D})$.
+Similarly, a minimal counterexample has no loops, as in that case removing the loops at $z_0$ would contradict the minimality.
+
+Let us now prove some properties of such (hypothetical) minimum counterexample.  Firstly, let us prove that the condition $\deg(A)\ge \beta'(A)+4$
+is not tight for any nontrivial subset $A$ of vertices of $G$.
+\begin{lemma}\label{lemma:6fl-nontight}
+Let $(G,\beta,z_0,\vec{D})$ be an almost minimal counterexample and let $X\subsetneq V(G)\setminus\{z_0\}$.  If $X\ge 2$,
+then $\deg(X)\ge \beta'(X)+6$.
+\end{lemma}
+\begin{proof}
+Suppose for a contradiction that $\deg(X)<\beta'(X)+6$.  Since $\deg(X)$ and $\beta'(X)$ have the same parity,
+we have $\deg(X)=\beta'(X)+4$. Let $G_1$ be the graph obtained from $G$ by contracting $X$ into a new vertex $x$,
+let $G_2$ be the graph obtained from $G$ by contracting $V(G)\setminus Z$ into a new vertex $y_0$, and let
+$\beta(x)=\beta(X)$ and $\beta(y_0)=\beta(V(G)\setminus X)$.
+
+Note that $(G_1,\beta,z_0,\vec{D})$ and $(G_2,\beta,y_0,\vec{D}_2)$ for any orientation $\vec{D}_2$ of edges incident with
+$y_0$ consistent with $\beta$ satisfy the assumptions of Theorem~\ref{thm:6flowgen}. For the former, one needs to consider the situation that $\beta'(x)=0$
+and $\deg(x)<\deg(v_0)$, in which case $x$ will play the role of $v_0$ in $(G_1,\beta,z_0,\vec{D})$, and thus we need to verify that
+$\deg(v_0)\ge \beta'(v_0)+4$; however, since $\beta'(v_0)=0$, the degree of $v_0$ is even, and since $\deg(v_0)>\deg(x)\ge 4$,
+we have $\deg(v_0)\ge 6$ and $\deg(v_0)\ge \beta'(v_0)+4$ by (\ref{eq:lbbeta}).  For the latter, we have
+$\deg(y_0)=\beta'(X)+4=\beta'(V(G)\setminus X)+4=\beta'(y_0)+4$ by (\ref{eq:compl}).
+
+By the almost minimality of $(G,\beta,z_0,\vec{D})$, we conclude that $G_1$ has a $\beta$-orientation exteding the given orientation $\vec{D}$
+of edges incident with $z_0$.  Let $\vec{D}_2$ be the induced orientation of edges incident with $x$, which we interpret
+as an orientation of the corresponding edges of $G_2$ incident with $y_0$.  Using again the almost minimality of $(G,\beta,z_0,\vec{D})$,
+there exists a $\beta$-orientation of $G_2$ exteding $\vec{D}_2$.  Combining these orientations gives a $\beta$-orientation of $G$ which extends $\vec{D}$,
+contradicting the assumption that $(G,\beta,z_0,\vec{D})$ is a counterexample.
+\end{proof}
+
+Thanks to the slack provided by Lemma~\ref{lemma:6fl-nontight}, we can lift pairs of edges at vertices of $G$.  This has the
+following consequence.
+
+\begin{lemma}\label{lemma:6fl-no0}
+If $(G,\beta,z_0,\vec{D})$ is an almost minimal counterexample, then $\beta'(v)\neq 0$ for all $v\in V(G)\setminus \{z_0\}$.
+\end{lemma}
+\begin{proof}
+Otherwise, there exists a vertex $v_0\in V(G)\setminus \{z_0\}$ with $\beta'(v_0)=0$ of minimum degree.
+Note that $\beta(v_0)=0$ and $v_0$ has an even degree.
+If $v_0$ is an isolated vertex, then $(G-v_0,\beta,z_0,\vec{D})$ is counterexample contradicting the almost minimality of $G$.
+Hence, we can assume that $\deg(v_0)\ge 2$.
+
+Suppose now that $z_0$ is the only neighbor of $v_0$.  If $|V(G)|=2$, then $\beta(z_0)=0$ since $\beta$ is a boundary; since $\vec{D}$ is consistent with $\beta$
+at $z_0$, it is also consistent with $\beta$ at $v_0$, and thus $\vec{D}$ is a $\beta$-orientation of $G$.  If $|V(G)|\ge 3$,
+then consider the set $A=V(G)\setminus\{v_0,z_0\}$.  We have
+$\deg(z_0)=\deg(A)+\deg(v_0)\ge \beta'(A)+6=\beta'(\{z_0,v_0\})+6=\beta'(z_0)+6$, where the last equality holds since $\beta(v_0)=0$ and $v_0$ has even degree,
+implying that $\deg(z_0)$ and $\deg(\{z_0,v_0\})$ have the same parity.  This contradicts the assumptions of Theorem~\ref{thm:6flowgen}.
+
+Let us now consider the case that $V(G)=\{z_0,v_0,x\}$ and $v_0$ is only adjacent to $x$.
+Then $\vec{D}$ together with an orientation of half of the edges at $v_0$ towards $v_0$ and half away from $v_0$ gives
+a $\beta$-orientation of $G$ (it is consistent at $x$ since $\beta$ is a boundary).
+
+Hence, we can assume that there exist edges $e_1$ and $e_2$ incident with $v_0$ with different ends such that $e_2$ is not incident with $z_0$,
+and thus it is not directed by $\vec{D}$.  We let $G'$ be obtained from $G$ by lifting $e_1$ and $e_2$ at $v_0$,
+treating the created edge as $e_1$ (in case $e_1$ belongs to $\vec{D}$).  We claim that $(G',\beta,z_0,\vec{D}$ satisfies the assumptions of
+Theorem~\ref{thm:6flowgen}.  Indeed, consider any set $A\subsetneq V(G')\setminus \{z_0\}$.  If $|A|\ge 2$, then
+$\deg_{G'}(A)\ge \deg_G(A)-2\ge \beta'(A)+4$ by Lemma~\ref{lemma:6fl-nontight}.  If $A=\{x\}$ for a vertex $x\neq v_0$,
+then $\deg_{G'}(A)=\deg_G(A)\ge \beta'(A)+4$ by the assumptions.  Hence, there exists a $\beta$-orientation of $G'$ extending $\vec{D}$
+by the almost minimality of $(G,\beta,z_0,\vec{D})$.  However, orienting $e_2$ at $v_0$ in the opposite direction from $e_1$ results
+in a $\beta$-orientation of $G$ extending $\vec{D}$, contradicting the assumption that $(G,\beta,z_0,\vec{D})$ is a counterexample.
+\end{proof}
+
+In particular, the set $V_0$ from the statement of Theorem~\ref{thm:6flowgen} is empty, and thus there exists no vertex $v_0$.
+Hence, if $(G,\beta,z_0,\vec{D})$ is a minimal counterexample, then $\deg(A)\ge \beta'(A)+4$ for every non-empty $A\subsetneq V(G)\setminus \{z_0\}$.
+If $G-z_0$ were disconnected, then let $V(G)\setminus \{z_0\}=A_1\cup A_2$ for non-empty sets $A_1$ and $A_2$ with no edges between them;
+hence, $\deg(z_0)=\deg(A_1)+\deg(A_2)\ge 8>4+\beta'(z_0)$, contradicting the assumptions.  We conclude that $G-z_0$ is connected.
+
+We now come to a key point in the proof.  We say that distinct vertices $x,y\in V(G)\setminus\{z_0\}$ are \emph{conflicting} if $\beta'(x)=3$ or $\beta'(y)=3$ or
+$\beta(x)+\deg(x)+\beta(y)+\deg(y)$ is odd.
+\begin{lemma}\label{lemma:6fl-noconfl}
+If $(G,\beta,z_0,\vec{D})$ is an almost minimal counterexample, then $V(G)\setminus\{z_0\}$ does not contain conflicting vertices.
+\end{lemma}
+\begin{proof}
+Suppose for a contradiction that distinct vertices $x,y\in V(G)\setminus\{z_0\}$ conflict.  Since $G-z_0$ is connected, we can
+assume that $x$ and $y$ are joined by an edge $e$.  Note that if $\beta'(v)=3$, then $\beta(v)=0$ and $v$ has odd degree; hence, we can by symmetry assume
+that $\beta(y)+\deg(y)$ is odd, and either $\beta(x)+\deg(x)$ is even or $\beta'(x)=\beta'(y)=3$.
+Let $\beta_1(x)=(\beta(x)-1)\bmod 3$, $\beta_1(y)=(\beta(y)+1)\bmod 3$, and $\beta_1(v)=\beta(v)$ for all $v\in V(G)\setminus \{x,y\}$.
+Clearly, $\beta_1$ is a boundary.  If $(G-e,\beta_1,z_0,\vec{D})$ satisfied the assumptions of Theorem~\ref{thm:6flowgen}, then by the almost minimality of $(G,\beta,z_0,\vec{D})$,
+$\vec{D}$ would extend to a $\beta_1$-orienation of $G-e$, and directing $e$ towards $y$ would give a $\beta$-orientation of $G$ extending $\vec{D}$,
+which contradicts the assumption that $(G,\beta,z_0,\vec{D})$ is a counterexample.
+
+Hence, there exists a nonempty set $A\subsetneq V(G)\setminus \{z_0\}$ such that $\deg_{G-e}(A)<\beta_1'(A)+4$.  Since $\deg_G(A)\ge\beta'(A)+4$,
+this is only possible if $|\{x,y\}\cap A|=1$.  Note that $\deg_{G-e}(A)=\deg_G(A)-1$, and thus $\beta_1'(A)\ge\beta'(A)$.
+A straightforward case analysis shows that this is only the case if $\beta'(A)\le 2$ and $\beta_1'(A)=\beta'(A)+1$.
+If $|A|\ge 2$, then $\deg_{G-e}(A)=\deg_G(A)-1\ge \beta'(A)+5=\beta_1'(A)+4$ by Lemma~\ref{lemma:6fl-nontight}.
+Observe also that $\beta'_1(y)=\beta'(y)-1$ since $\beta(y)+\deg(y)$ is odd.
+For $A=\{x\}$, since $\beta'(A)\le 2$, we conclude that $\beta'(x)\neq 3$, and thus $\beta(x)+\deg(x)$ is even.
+But then $\beta'_1(x)=\beta'(x)-1$, unless $\beta'(x)=0$; however, this contradicts Lemma~\ref{lemma:6fl-no0}.
+\end{proof}
+
+\begin{corollary}\label{cor:nobound}
+If $(G,\beta,z_0,\vec{D})$ is an almost minimal counterexample, then $\beta'(v)\in \{1,2\}$ for all $v\in V(G)\setminus \{z_0\}$.
+Furthermore, $\deg(v)+\beta(v)$ has the same parity for all $v\in V(G)\setminus \{z_0\}$.
+\end{corollary}
+
+If $\deg(z_0)\le 2$, then consider any edge $e=uv$ of $G-z_0$, and let $G_1=G-e+\{uz_0,vz_0\}$, and let $\vec{D}_1$ be obtained from $\vec{D}$
+by orienting $uz_0$ towards $z_0$ and $vz_0$ away from $z_0$.  Observe that $(G_1,\beta,z_0,\vec{D}_1)$ satisfies the assumptions of
+Theorem~\ref{thm:6flowgen}, and by the almost minimality of $(G,\beta,z_0,\vec{D})$, it follows that $\vec{D}_1$ extends to a $\beta$-orientation of $G_1$.
+However, orienting $e$ from $u$ to $v$ then results in a $\beta$-orientation of $G$ which extends $\vec{D}$, contradicting the assumption that $(G,\beta,z_0,\vec{D})$ is
+a counterexample.  We conclude that $z_0$ has degree at least $3$.
+
+We now show that in minimal counterexamples, all edges of $\vec{D}$ are oriented in the same direction.
+
+\begin{lemma}\label{lemma:fl6all}
+Let $(G,\beta,z_0,\vec{D})$ be a minimal counterexample such that $\deg(v)+\beta(v)$ is even for all $v\in V(G)\setminus \{z_0\}$.
+Then $\deg(z_0)=\beta(z_0)+3$ and all edges of $\vec{D}$ are directed away from $z_0$.
+\end{lemma}
+\begin{proof}
+Suppose first that there exists an edge $e=xz_0$ directed towards $z_0$.  Note that $\beta(x)=\beta'(x)\neq 0$ by Lemma~\ref{lemma:6fl-no0}.
+Let $\beta_1(x)=\beta(x)-1$, $\beta_1(z_0)=(\beta(z_0)+1)\bmod 3$, and $\beta_1(v)=\beta(v)$ for all $v\in V(G)\setminus \{x,z_0\}$.
+Clearly, $\beta_1$ is a boundary.  If $(G-e,\beta_1,z_0,\vec{D}-e)$ satisfied the assumptions of Theorem~\ref{thm:6flowgen}, then by the minimality of $(G,\beta,z_0,\vec{D})$,
+$\vec{D}-e$ would extend to a $\beta_1$-orienation of $G-e$, and directing $e$ towards $z_0$ would give a $\beta$-orientation of $G$ extending $\vec{D}$,
+which contradicts the assumption that $(G,\beta,z_0,\vec{D})$ is a counterexample.
+
+Hence, there exists a nonempty set $A\subsetneq V(G)\setminus \{z_0\}$ such that $\deg_{G-e}(A)<\beta_1'(A)+4$.  Since $\deg_G(A)\ge\beta'(A)+4$,
+this is only possible if $x\in A$.  As in the proof of Lemma~\ref{lemma:6fl-noconfl}, we must have $\beta_1'(A)=\beta'(A)+1$, and
+if $|A|\ge 2$, then $\deg_{G-e}(A)=\deg_G(A)-1\ge \beta'(A)+5=\beta_1'(A)+4$ by Lemma~\ref{lemma:6fl-nontight}.
+Furthermore, $\beta(x)+\deg_G(x)$ is even and $\beta(x)\neq 0$, and thus $\beta_1'(x)=\beta'(x)-1$.
+This is a contradiction, showing that all edges of $\vec{D}$ are directed away from $z_0$.
+
+In particular, $\beta(z_0)=\deg(z_0)\bmod 3$, and thus $\deg(z_0)=\beta(z_0)+3m$ for some integer $m$.
+Since $\deg(z_0)\ge 3$, we have $m\ge 1$.  On the other hand, $\deg(z_0)\le \beta'(z_0)+4\le 7$, and thus $m\le 2$.
+If $m=2$, then $\deg(z_0)=\beta(z_0)+6$, $\deg(z_0)$ and $\beta(z_0)$ have the same parity, and $\beta'(z_0)=\beta(z)$,
+and thus $\deg(z_0)\le \beta'(z_0)+4=\beta(z_0)+4$, which is a contradiction.  Consequently, $m=1$
+and $\deg(z_0)=\beta(z_0)+3$.
+\end{proof}
+
+We are now ready to prove the main result on $3$-flows.
+
+\begin{proof}[Proof of Theorem~\ref{thm:6flowgen}]
+Suppose for a contradiction that there exists a minimal counterexample $(G,\beta,z_0,\vec{D})$ to Theorem~\ref{thm:6flowgen}.
+Clearly, $G$ has at least three vertices, as otherwise $\vec{D}$ is a $\beta$-orientation of $G$.
+By Corollary~\ref{cor:nobound}, $\deg(v)+\beta(v)$ has the same parity for all $v\in V(G)\setminus \{z_0\}$.
+We can without loss of generality assume that $\deg(v)+\beta(v)$ is even for all $v\in V(G)\setminus \{z_0\}$:
+otherwise, we instead consider a counterexample $(G,\beta_1,z_0,\vec{D}_1)$, where $\beta_1(v)=(-\beta(v))\bmod 3$ for $v\in V(G)$
+and $\vec{D}_1$ is obtained from $\vec{D}$ by reversing orientations of all edges (note that a $\beta$-orientation extending $\vec{D}$
+can be obtained from a $\beta_1$-orientation extending $\vec{D}_1$ by reversing orientations).
+
+Let $e=z_0x$ be an edge of $G$, oriented away from $z_0$ by $\vec{D}$ due to Lemma~\ref{lemma:fl6all}.
+Let $G_2$ be the graph obtained from $G$ by replacing $e$ by $2$ parallel edges,
+and let $\vec{D_2}$ be obtained from $\vec{D}-e$ by directing the two new edges towards $z_0$.
+
+By Lemma~\ref{lemma:fl6all}, we have $\deg_{G_2}(z_0)=\deg_G(z_0)+1=\beta(z_0)+4$, and thus
+$\deg_{G_2}(z_0)$ and $\beta(z_0)$ have the same parity.  Consequently, $\beta'_{G_2}(z_0)=\beta(z_0)$,
+and $\deg_{G_2}(z_0)=\beta'_{G_2}(z_0)+4$.  Consider now a non-empty set $A\subsetneq V(G)\setminus\{z_0\}$.
+If $x\not\in A$, then $\deg_{G_2}(A)=\deg_G(A)\ge \beta'_G(A)+4=\beta'_{G_2}(A)+4$ by the assumptions.
+If $x\in A$ and $|A|\ge 2$, then $\deg_{G_2}(A)=\deg_G(A)+1\ge \beta'_G(A)+7\ge \beta'_{G_2}(A)+4$
+by Lemma~\ref{lemma:6fl-nontight}, since $\beta'_{G_2}(A)\le 3$.  By Corollary~\ref{cor:nobound} and
+the fact that $\deg_G(x)+\beta(x)$ is even, we have $\beta'_G(x)=\beta(x)\in \{1,2\}$.
+Note that $\deg_{G_2}(x)+\beta(x)$ is odd and $\beta'_{G_2}(x)=3-\beta(x)\le \beta'_G(x)+1$.
+Hence, $\deg_{G_2}(x)=\deg_G+1\ge \beta'_G(x)+5\ge \beta'_{G_2}(x)+4$.
+
+It follows that $(G_2,\beta,z_0,\vec{D}_2)$ satisfies the assumptions of Theorem~\ref{thm:6flowgen}.
+If $(G_2,\beta,z_0,\vec{D}_2)$ were a counterexample, then it would be almost minimal, since
+$|V(G_2)|+|E(G_2-z_0)|=|V(G)|+|E(G-z_0)|$.  But $\deg_{G_2}(x)+\beta(x)$ is odd and $\deg_{G_2}(y)+\beta(y)$ is even
+for any $y\in V(G)\setminus \{z_0,x\}$, contradicting Lemma~\ref{lemma:6fl-noconfl}.
+Hence, $(G_2,\beta,z_0,\vec{D}_2)$ is not a counterexample, and thus $G_2$ has a $\beta$-orientation which
+extends $\vec{D}_2$.  However, this corresponds to a $\beta$-orientation of $G$ which extends $\vec{D}$,
+contradicting the assumption that $(G,\beta,z_0,\vec{D})$ is a counterexample.
+\end{proof}
 
 \subsection{A Flow Proof of Gr\"{o}tzsch' Theorem}
 
