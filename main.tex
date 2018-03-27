@@ -3553,33 +3553,41 @@ not just because of its connections to graph colorings.
 
 \section{Nowhere-zero Flows and Flow-Coloring duality}\label{sec:flow-coloring-duality}
 
-Let $\mathbf{A}$ be an abelian group, let $D$ be a multigraph and let $\vec{D}$ be its arbitrary orientation.  An \emph{$\mathbf{A}$-flow}
+Let $\mathbf{A}$ be an abelian group, let $D$ be a multigraph and let $\vec{D}$ be its arbitrary orientation.  
+For a vertex $v\in V(G)$, let $E^-(v)$ and $E^+(v)$ denote the sets of edges of $\vec{D}$ entering and leaving $v$, respectively.
+An \emph{$\mathbf{A}$-flow}
 is a function $f:E(\vec{D})\to\mathbf{A}$ satisfying the flow conservation law
 \begin{equation}\label{eq:conserve}
-\sum_{uv\in E(\vec{D})} f(uv)=\sum_{vu\in E(\vec{D})} f(uv)
+\sum_{e\in E^-(v)} f(e)=\sum_{e\in E^+(v)} f(uv)
 \end{equation}
 for every vertex $v\in V(D)$.
 The flow is \emph{nowhere-zero} if $f(e)\neq 0$ for every $e\in E(\vec{D})$.
 
 We would like to view the flow as the property of the undirected multigraph $D$, rather than its arbitrary orientation.
 Indeed, reversing the orientation of an edge of $\vec{D}$ and replacing the value assigned to it by its inverse in $\mathbf{A}$
-clearly gives a valid $\mathbf{A}$-flow with basically the same properties.  Thus, let us define $\bar{f}(uv)=f(uv)$ if $uv\in E(\vec{D})$
-and $\bar{f}(uv)=-f(vu)$ if $vu\in E(\vec{D})$; the function $\bar{f}$ is invariant with respect to reversals of edges.
-The flow conservation law (\ref{eq:conserve}) thus can be restated as
-$$\sum_{uv\in E(D)} \bar{f}(uv)=0$$
-for all $v\in V(D)$.
+clearly gives a valid $\mathbf{A}$-flow with basically the same properties.  Thus, consider the symmetric orientation $\overleftrightarrow{D}$
+of $D$, where each edge $e$ is replaced by two oppositely directed edges $\overleftarrow{e}$ and $\overrightarrow{e}$.
+We can define an \emph{$\mathbf{A}$-flow} on $D$ as a function $f:E(\overleftrightarrow{D})\to\mathbf{A}$
+such that $f(\overleftarrow{e})+f(\overrightarrow{e})=0$ for every $e\in E(D)$,
+and the variant version
+\begin{equation}\label{eq:conserve-alt}
+\sum_{e\in E^-(v)} f(e)=sum_{e\in E^+(v)} f(e)=0
+\end{equation}
+holds for every vertex $v\in V(D)$.
 
 Suppose $G$ is a connected plane multigraph and $\varphi:V(G)\to \mathbf{A}$ is a proper coloring of $G$,
-where elements of an abelian group $\mathbf{A}$ play the role of colors.
-Choose an arbitrary orientation $\vec{G}$ of $G$, and let $\vec{D}$ be an orientation of the dual of $G$
-such that for each edge $uv\in E(\vec{G})$, if $g_1$ is the face on the left of $uv$ and $g_2$ is the face
-on the right (from any point of $uv$ looking in its direction), then the corresponding edge of $\vec{D}$
-is oriented from $g_1$ to $g_2$.  In this case, let us define $f:E(\vec{D})\to \mathbf{A}$ by setting
-$f(g_1g_2)=\varphi(v)-\varphi(u)$.  See Figure~\ref{fig:dual-flow} for an illustration.
+where elements of an abelian group $\mathbf{A}$ play the role of colors.  Let $D$ be the plane dual of $G$.
+For an edge $e\in E(\overleftrightarrow{G})$ from a vertex $u$ to a vertex $v$, let $g_1$ and $g_2$ be the face of $G$ on the left and right of $e$
+(from any point of $e$ looking in its direction), and let $e^\star$ denote the edge of $\overleftrightarrow{D}$
+corresponding to $e$ and directed from the vertex corresponding to $g_1$ to the vertex corresponding to $g_2$.
+In this case, let us define $f:E(\overleftrightarrow{D})\to \mathbf{A}$ by setting
+$f(e^\star)=\varphi(v)-\varphi(u)$.  See Figure~\ref{fig:dual-flow} for an illustration (showing just one edge of each pair of oppositely
+directed edges of $G$ and $D$).
 Let $g$ be a face of $G$ with the facial walk $v_1v_2\ldots v_m$, and for $i=1,\ldots, m$, let $g_i$ be the
-other face incident with the edge $v_iv_{i+1}$ (where $v_{m+1}=v_1$).  We have
-$$\sum_{i=1}^m \bar{f}(gg_i)=\sum_{i=1}^m (\varphi(v_{i+1})-\varphi(v_i))=0,$$
-and thus $f$ is a $\mathbf{A}$-flow.
+other face incident with the edge $v_iv_{i+1}$ (where $v_{m+1}=v_1$).  We can now verify that $f$ satisfies the condition (\ref{eq:conserve-alt}) at the vertex
+of $D$ corresponding to $G$:
+$$\sum_{i=1}^m f(gg_i)=\sum_{i=1}^m (\varphi(v_{i+1})-\varphi(v_i))=0;$$
+we conclude that $f$ is a $\mathbf{A}$-flow in $D$.
 
 \begin{figure}
 \begin{center}
@@ -3634,23 +3642,25 @@ For every nowhere-zero $\mathbf{A}$-flow $f$ in $D$, there exist precisely $|\ma
 by elements of $\mathbf{A}$ whose derived $\mathbf{A}$-flow is $f$.
 \end{lemma}
 \begin{proof}
-For an edge $xy$ of $G$, if $g_1$ is the face on the left of $xy$ and $g_2$ is the face
-on the right (from any point of $xy$ looking in its direction), then let us define
-$\bar{\delta}(xy)=\bar{f}(g_1g_2)$.  For any walk $W=w_0w_1\ldots w_m$, let $\bar{\delta}(W)=\sum_{i=1}^m \bar{\delta}(w_{i-1}w_i)$.
-By the flow conservation law, if $W_g$ is the facial walk of a face $g$ of $G$, then $\bar{\delta}(W_g)=0$.
+For an edge $e\in E(\overleftrightarrow{G})$, let us define $\delta(e)=f(e^\star)$.  For any walk $W=w_0w_1\ldots w_m$, let $\delta(W)=\sum_{i=1}^m \delta(w_{i-1}w_i)$.
+By the flow conservation law (\ref{eq:conserve-alt}), if $W_g$ is the facial walk of a face $g$ of $G$, then $\delta(W_g)=0$.
 If $C$ is a cycle in $G$, then denoting by $F_C$ the set of faces drawn inside $C$,
 observe that
-$$\bar{\delta}(C)=\sum_{g\in F_C} \bar{\delta}(W_g)=0.$$
+$$\delta(C)=\sum_{g\in F_C} \delta(W_g)=0.$$
 Since each closed walk can be decomposed into cycles (and walks of length two over one edge), we conclude
-that $\bar{\delta}(W)=0$ for every closed walk $W$ in $G$.
+that $\delta(W)=0$ for every closed walk $W$ in $G$.
 
 Let $v$ be any vertex of $G$, and for each $x\in V(G)$, let us choose a path $P_x$ from $v$ to $x$ arbitrarily.
-For any element $a$ of $\mathbf{A}$ and $x\in V(G)$, let $\varphi_a(x)=a+\bar{\delta}(P_x)$.
+For any element $a$ of $\mathbf{A}$ and $x\in V(G)$, let $\varphi_a(x)=a+\delta(P_x)$.
 For any edge $xy$, let $W_{xy}$ be the closed walk consisting of $P_x$, the edge $xy$, and the reverse of the walk $P_y$.
 We have
-$$0=\bar{\delta}(W_{xy})=\varphi_a(x)+\bar{\delta}(xy)-\varphi_a(y),$$
-and thus $\bar{\delta}(xy)=\varphi_a(y)-\varphi_a(x)$.  We conclude that $\varphi_a$ is a proper coloring of $G$ by elements
+$$0=\delta(W_{xy})=\varphi_a(x)+\delta(xy)-\varphi_a(y),$$
+and thus $\delta(xy)=\varphi_a(y)-\varphi_a(x)$.  We conclude that $\varphi_a$ is a proper coloring of $G$ by elements
 of $\mathbf{A}$ and $f$ is the nowhere-zero $\mathbf{A}$-flow derived from it.
+
+Hence, there exist $|\mathbf{A}|$ proper colorings $\varphi_a$ of $G$ for $a\in |\mathbf{A}|$ whose derived $\mathbf{A}$-flow is $f$.
+There are no other such colorings, since it is easy to see that a coloring whose whose derived $\mathbf{A}$-flow is $f$
+is uniquely determined by the color it assigns to $v$.
 \end{proof}
 
 In particular, we obtain the following relationship between numbers of colorings and nowhere-zero flows.
@@ -4007,35 +4017,35 @@ A slightly more involved argument shows that this is true in general graphs as w
 
 \begin{lemma}
 Let $G$ be a multigraph and let $k$ be a positive integer.  For every $\mathbf{Z}_k$-flow $f_0$ in $G$, there exists
-a $k$-flow $f_1$ in $G$ such that $\bar{f_1}(uv)\bmod k=\bar{f_0}(uv)$.  In particular, if $f_0$ is nowhere-zero,
+a $k$-flow $f_1$ in $G$ such that $f_1(e)\bmod k=f_0(e)$ for every $e\in E(\overleftrightarrow{G})$.  In particular, if $f_0$ is nowhere-zero,
 then $f_1$ is nowhere-zero as well.
 \end{lemma}
 \begin{proof}
-Let $\vec{G}$ be an arbitrary orientation of $G$, and for each directed edge $uv\in E(\vec{G})$, let
-$f'_1(uv)=\bar{f}_0(uv)$, where the values of $f_0$ are interpreted as integers from $\{0,1,\ldots, k-1\}$.
+Let $\vec{G}$ be an arbitrary orientation of $G$, and for each directed edge $e\in E(\vec{G})$, let
+$f'_1(e)=f_0(e)$, where the values of $f_0$ are interpreted as integers from $\{0,1,\ldots, k-1\}$.
 For $v\in V(G)$, let us define
-$$r'(v)=\sum_{vw\in E(\vec{G})} f'_1(vw)-\sum_{uv\in E(\vec{G})} f'_1(uv),$$
+$$r'(v)=\sum_{e\in E^+_{\vec{G}}(v)} f'_1(e)-\sum_{e\in E^-_{\vec{G}}(v)} f'_1(e),$$
 denoting the excess of the amount leaving $v$ over the one entering $v$.
 Note that $r'(v)$ is divisible by $k$, since $f_0$ is a $\mathbf{Z}_k$-flow.
 Let $r(v)=r'(v)/k$.
 
 Let $\vec{H}$ be the spanning subgraph of $\vec{G}$ with $E(\vec{H})=\{e\in E(\vec{G}): f_0(e)\neq 0\}$.
-Consider any set $S\subseteq V(\vec{H})$, and let $I(S)$ and $O(S)$ be the sets of edges of $\vec{H}$ entering
+Consider any set $S\subseteq V(\vec{H})$, and let $E^-(S)$ and $E^+(S)$ be the sets of edges of $\vec{H}$ entering
 and leaving $S$, respectively.  We have
 \begin{align*}
-\sum_{v\in S} r(S)&=\frac{1}{k}\sum_{v\in S}\left(\sum_{vw\in E(\vec{G})} f'_1(vw)-\sum_{uv\in E(\vec{G})} f'_1(uv)\right)
-&\frac{1}{k}\left(\sum_{e\in O(S)} f'_1(e)-\sum_{e\in I(S)} f'_1(e)\right),
+\sum_{v\in S} r(S)&=\frac{1}{k}\sum_{v\in S}\left(\sum_{e\in E^+_{\vec{G}}(v)} f'_1(e)-\sum_{e\in E^-_{\vec{G}}(v)} f'_1(e)\right)
+&=\frac{1}{k}\left(\sum_{e\in E^+(S)} f'_1(e)-\sum_{e\in E^-(S)} f'_1(e)\right),
 \end{align*}
 since the contributions of the edges between vertices of $S$ cancel out and the values on edges of $E(\vec{G})\setminus E(\vec{H})$
 leaving or entering $S$ are $0$.  Since $0<f'_1(e)<k$ for all $e\in E(\vec{H})$,
 we conclude that
 \begin{equation}\label{eq:bigcut}
--|I(S)|\le \sum_{v\in S} r(S)\le |O(S)|.
+-|E^-(S)|\le \sum_{v\in S} r(S)\le |E^+(S)|.
 \end{equation}
 Let us give each edge of $\vec{H}$ capacity $1$ and each vertex $v$ of $\vec{H}$ demand $r(v)$.
 Since (\ref{eq:bigcut}) holds for all $V(\vec{H})$, we conclude from the max-flow min-cut theorem
 that there exists $f''_1:E(\vec{H})\to\{0,1\}$ such that
-$$\sum_{vw\in E(\vec{H})} f''_1(vw)-\sum_{uv\in E(\vec{H})} f''_1(uv)=r(v)$$
+$$\sum_{e\in E^+_{\vec{H}}(v)} f''_1(e)-\sum_{e\in E^-_{\vec{H}}(v)} f''_1(e)=r(v)$$
 for all $v\in V(\vec{H})$.  Let us extend $f''_1$ to $\vec{G}$ by setting $f''_1(e)=0$ for all $e\in E(\vec{G})\setminus E(\vec{H})$.
 
 Now, we can define $f_1(e)=f'_1(e)-kf''_1(e)$ for all $e\in E(\vec{G})$.  By the choice of $f''_1$, we conclude that $f_1$ is a $\mathbf{Z}$-flow
@@ -4069,31 +4079,31 @@ thus implies that all vertices of $G$ have even degree, and thus $G$ is Eulerian
 In general, it is hard to decide whether a given graph has a nowhere-zero $\mathbf{A}$-flow for a prescribed
 finite abelian group $\mathbf{A}\neq \mathbf{Z}_2$.  However, there are a number of results that are helpful in particular cases.
 Let us start with a basic observation about edge-cuts.  If $f$ is a flow in a multigraph $G$ and $S\subseteq V(G)$,
-let us define $$\bar{f}(S)=\sum_{e=uv\in E(G),u\in S,v\not\in S} \bar{f}(e).$$
+let us define $$f(S)=\sum_{e=uv\in E(\overleftrightarrow{G}),u\in S,v\not\in S} f(e).$$
 
 \begin{observation}\label{obs:flowoncut}
-Let $\mathbf{A}$ be an abelian group.  If $f$ is an $\mathbf{A}$-flow in a multigraph $G$, then $\bar{f}(S)=0$ for all $S\subseteq V(G)$.
+Let $\mathbf{A}$ be an abelian group.  If $f$ is an $\mathbf{A}$-flow in a multigraph $G$, then $f(S)=0$ for all $S\subseteq V(G)$.
 \end{observation}
 \begin{proof}
 Note that
-$$\bar{f}(S)=\sum_{u\in S}\sum_{e=uv\in E(G)} \bar{f}(e)=0,$$
+$$f(S)=\sum_{u\in S}\sum_{e\in E^+(G)} f(e)=0,$$
 where the first equality holds since if an edge $uv$ has both ends in $S$, then the sum contains
-terms $\bar{f}(uv)$ and $\bar{f}(vu)=-\bar{f}(uv)$ which cancel each other, leaving only the terms
-from the sum in the definition of $\bar{f}(S)$.
+terms $f(uv)$ and $f(vu)=-f(uv)$ which cancel each other, leaving only the terms
+from the sum in the definition of $f(S)$.
 \end{proof}
 
 \begin{corollary}\label{cor:smallcutflow}
 Let $\mathbf{A}$ be an abelian group and let $G$ be a multigraph.  If $G$ has a nowhere-zero $\mathbf{A}$-flow $f$,
 then $G$ is bridgeless.  Furthermore, if $C=\{e_1,e_2\}$ is a $2$-edge-cut in $G$, where $e_1=u_1v_1$ and $e_2=u_2v_2$
-labelled so that $u_1$ and $u_2$ are in the same component of $G-C$, then $\bar{f}(e_1)=-\bar{f}(e_2)$.
+labelled so that $u_1$ and $u_2$ are in the same component of $G-C$, then $f(e_1)=-f(e_2)$.
 \end{corollary}
 \begin{proof}
-If $G$ had a bridge $e$, then there exists a set $S\subset V(G)$ such that $e$ is the only edge with one end in $S$ and
-the other end outside of $S$, and $\bar{f}(e)=\bar{f}(S)=0$ by Observation\ref{obs:flowoncut}, contradicting the assumption
+If $G$ had a bridge $e$, then there would exist a set $S\subset V(G)$ such that $e$ is the only edge with one end in $S$ and
+the other end outside of $S$, and $f(e)=f(S)=0$ by Observation\ref{obs:flowoncut}, contradicting the assumption
 that $f$ is nowhere-zero.
 
 In the case of a $2$-edge-cut, let $S$ be the vertex set of the component of $G-C$ containing $u_1$ and $u_2$.
-We have $\bar{f}(e_1)+\bar{f}(e_2)=\bar{f}(S)=0$ by Observation\ref{obs:flowoncut}, which implies $\bar{f}(e_1)=-\bar{f}(e_2)$.
+We have $f(e_1)+f(e_2)=f(S)=0$ by Observation\ref{obs:flowoncut}, which implies $f(e_1)=-f(e_2)$.
 \end{proof}
 
 Another consequence of the cut condition is that flows are preserved by vertex identification.
@@ -4127,9 +4137,9 @@ By Corollary~\ref{cor:contractflow}, if $G$ has a nowhere-zero $\mathbf{A}$-flow
 
 Conversely, suppose $f$ is a nowhere-zero $\mathbf{A}$-flow in $G/e$.  Let $e=uv$ and let $e'=u'v'$ be the other edge of a $2$-edge-cut
 containing $e$, labelled so that $u$ and $u'$ are in the same component $S$ of $G-\{e,e'\}$.  Let us extend $f$ to $G$
-by setting $\bar{f}(e)=-\bar{f}(e')$, so that $\bar{f}(V(S))=0$.
+by setting $f(e)=-f(e')$, so that $f(V(S))=0$.
 Note that the flow conservation law holds at all vertices except possibly for $u$ and $v$.
-Furthermore, since $\bar{f}(V(S))=0$ and the flow conservation law holds at all vertices of $V(S)$ except possibly for $u$,
+Furthermore, since $f(V(S))=0$ and the flow conservation law holds at all vertices of $V(S)$ except possibly for $u$,
 we conclude analogously to Observation~\ref{obs:flowcol} that the flow conservation law holds also at $u$.  A symmetrical
 argument shows that the flow conservation law holds at $v$.  Hence, $f$ is a nowhere-zero $\mathbf{A}$-flow in $G$.
 \end{proof}
@@ -4169,10 +4179,10 @@ Then $f$ can be extended to a $\mathbf{A}$-flow in $G$.
 The claim is proved by induction on the number of vertices of $T$.  If $T$ has only one vertex $v$, then $f$ is already defined
 on all edges of $G$ and satisfies the flow conservation law at all vertices of $G$ other than $v$ by the assumptions.
 However, then $f$ also satisfies the flow conservation law at $v$ (analogously to Observation~\ref{obs:flowoncut} applied to $S=V(G)\setminus\{v\}$,
-noting that $\bar{f}(S)$ is equal to $\bar{f}(\{v\})$).
+noting that $f(S)$ is equal to $f(\{v\})$).
 
 If $|V(T)|\ge 2$, then $T$ has a leaf $u$ incident with a unique edge $e_0=uw\in E(T)$.  Let us set
-$$f(e_0)=-\sum_{e=ux\in E(G), e\neq e_0} \bar{f}(e),$$
+$$f(e_0)=-\sum_{e=ux\in E(\overleftrightarrow{G}), e\neq e_0} f(e),$$
 so that the flow conservation law is satisfied at $u$.  The claim then follows by induction hypothesis applied to $T-u$.
 \end{proof}
 
@@ -4316,7 +4326,7 @@ Let $f_0$ be the $\mathbf{Z}_2$-flow in $G$ whose value is $1$ on edges of $K_k$
 The union of the supports of $f_0$ and $f_1$ is $E(G)$, and thus $G$ has a nowhere-zero $\mathbf{Z}_2\times \mathbf{Z}_3$-flow by Observation~\ref{obs:prodflow}.
 \end{proof}
 
-\subsection{Weak $3$-flow conjecture}
+\subsection{Weak $3$-flow conjecture}\label{ssec:weak3flow}
 
 It is much more difficult to prove existence of a $3$-flow subject to some edge-connectivity assumption, partially because
 $\mathbf{Z}_3$ is not a product of non-trivial groups, which makes it impossible to use Observation~\ref{obs:prodflow}.
@@ -4331,7 +4341,7 @@ such that each vertex of $G$ has the same in- and out-degree modulo $3$.  For th
 a more general problem.  For a function $\beta:V(G)\to \{0,1,2\}$ and a set $X\subseteq V(G)$, let us define $\beta(X)=(\sum_{x\in X} \beta(x))\bmod 3$.
 The function $\beta$ is a \emph{boundary} if $\beta(V(G))=0$. An orientation of edges incident with a vertex $v$ of $G$ is \emph{consistent with $\beta$}
 if $\deg^+(v)-\deg^-(v)\equiv \beta(v)\pmod 3$.
-An orientation of $G$ is a \emph{$\beta$-orientation} it is consistent with $\beta$ at all vertices of $G$.  Hence, $G$ has a nowhere-zero $3$-flow if and only if it has a $\beta$-orientation
+An orientation of $G$ is a \emph{$\beta$-orientation} if it is consistent with $\beta$ at all vertices of $G$.  Hence, $G$ has a nowhere-zero $3$-flow if and only if it has a $\beta$-orientation
 for the identically zero function $\beta$.  For $X\subseteq V(G)$, let $\deg_G(X)$ (or just $\deg(X)$ when the multigraph $G$ is clear from the context)
 denote the number of edges of $G$ with exactly one end in $X$.  Let us define
 $$\beta'(X)=\begin{cases}
@@ -4349,8 +4359,9 @@ Note also that
 \beta'(X)=\beta'(V(G)\setminus X).\label{eq:compl}
 \end{equation}
 Indeed, $\deg(X)=\deg(V(G)\setminus X)$, and since $\beta$ is a boundary, we have either $\beta(X)=\beta(V(G)\setminus X)=0$,
-or $\{\beta(V(G)\setminus X),\beta(X)\}=\{1,2\}$.  In the former case, the claim is obvious; in the latter case,
-we have $\beta'(V(G)\setminus X)=\beta'(X)\in\{1,2\}$ depending on the parity of $\deg(X)$.
+or $\{\beta(V(G)\setminus X),\beta(X)\}=\{1,2\}$.  In the former case, the claim is obvious. In the latter case,
+we can by symmetry assume that $\beta(X)=1$ and $\beta(V(G)\setminus X)=2$.  Hence, if $\deg(X)$ is even, then
+$\beta'(X)=\beta'(V(G)\setminus X)=2$, and if $\deg(X)$ is odd, then $\beta'(X)=\beta'(V(G)\setminus X)=1$.
 
 We now aim to prove the following.
 \begin{theorem}\label{thm:6flowgen}
@@ -4361,21 +4372,35 @@ let $v_0$ be a vertex of $V_0$ of minimum degree.  If $\deg(z_0)\le \beta'(z_0)+
 other than $\{v_0\}$, then $G$ has a $\beta$-orientation extending $\vec{D}$.
 \end{theorem}
 
-Before we prove this result, let us observe that it indeed implies that $6$-edge-connected graphs have nowhere-zero $3$-flows.
+To summarize, the bounds on the sizes of edge-cuts around sets $A$ with given boundary required by Theorem~\ref{thm:6flowgen} can be found in Table~\ref{tab:6flowgen}.
+Before we prove Theorem~\ref{thm:6flowgen}, let us observe that it indeed implies that $6$-edge-connected graphs have nowhere-zero $3$-flows.
 Indeed, they have the following stronger property (called \emph{$\mathbf{Z}_3$-connectivity}).
+\begin{table}
+\begin{center}
+\begin{tabular}{c|cc}
+$\beta(A)$&$\deg(A)$ even&$\deg(A)$ odd\\
+\hline
+$0$&4&7\\
+$1$&6&5\\
+$2$&6&5
+\end{tabular}
+\end{center}
+\caption{Lower bounds on cut sizes from Theorem~\ref{thm:6flowgen}.}\label{tab:6flowgen}
+\end{table}
+
 \begin{corollary}\label{cor:z3conn}
 A $6$-edge-connected multigraph $G$ has a $\beta$-orientation for any boundary $\beta$.
 \end{corollary}
 \begin{proof}
-Let $G'$ be the graph obtained from $G$ by adding an isolated vertex $z_0$ and setting $\beta(z_0)=0$.
-Note that if $A\subsetneq G$ is non-empty, then $\deg(A)\ge 6$, since $G$ is $6$-edge-connected, and thus
+Let $G'$ be the multigraph obtained from $G$ by adding an isolated vertex $z_0$ and setting $\beta(z_0)=0$.
+Note that if $A\subsetneq V(G)$ is non-empty, then $\deg(A)\ge 6$, since $G$ is $6$-edge-connected, and thus
 $\deg(A)\ge \beta'(A)+4$ by (\ref{eq:lbbeta}).  Hence, Theorem~\ref{thm:6flowgen} implies that $G'$ (and thus also $G$)
 has a $\beta$-orientation.
 \end{proof}
 This has a nice consequence observed by Thomassen~\cite{weak83}: Consider a $6$-edge-connected graph $G$ such that $|E(G)|$ is
 divisible by $3$.  Then the function $\beta(v)=(-\deg v)\bmod 3$ for $v\in V(G)$ is a boundary for $G$, and a $\beta$-orientation $\vec{G}$
 which exist by Corollary~\ref{cor:z3conn} has the property that the outdegree of every vertex is divisible by $3$.
-Consequently, $G$ can be expressed as a union of edge-disjoint claws (copies of $K_{1,3}$.
+Consequently, $G$ can be expressed as a union of edge-disjoint claws (copies of $K_{1,3}$).
 
 Let us now proceed with the proof of Theorem~\ref{thm:6flowgen}.  A \emph{counterexample} (to Theorem~\ref{thm:6flowgen}) is a quadruple $(G,\beta,z_0,\vec{D})$
 satisfying the assumptions of Theorem~\ref{thm:6flowgen} (for some choice of $v_0$) such that $G$ does not have a $\beta$-orientation extending $\vec{D}$.
@@ -4388,13 +4413,13 @@ Similarly, a minimal counterexample has no loops, as in that case removing the l
 Let us now prove some properties of such (hypothetical) minimum counterexample.  Firstly, let us prove that the condition $\deg(A)\ge \beta'(A)+4$
 is not tight for any nontrivial subset $A$ of vertices of $G$.
 \begin{lemma}\label{lemma:6fl-nontight}
-Let $(G,\beta,z_0,\vec{D})$ be an almost minimal counterexample and let $X\subsetneq V(G)\setminus\{z_0\}$.  If $X\ge 2$,
+Let $(G,\beta,z_0,\vec{D})$ be an almost minimal counterexample and let $X\subsetneq V(G)\setminus\{z_0\}$.  If $|X|\ge 2$,
 then $\deg(X)\ge \beta'(X)+6$.
 \end{lemma}
 \begin{proof}
 Suppose for a contradiction that $\deg(X)<\beta'(X)+6$.  Since $\deg(X)$ and $\beta'(X)$ have the same parity,
-we have $\deg(X)=\beta'(X)+4$. Let $G_1$ be the graph obtained from $G$ by contracting $X$ into a new vertex $x$,
-let $G_2$ be the graph obtained from $G$ by contracting $V(G)\setminus Z$ into a new vertex $y_0$, and let
+we have $\deg(X)=\beta'(X)+4$. Let $G_1$ be the multigraph obtained from $G$ by contracting $X$ into a new vertex $x$,
+let $G_2$ be the multigraph obtained from $G$ by contracting $V(G)\setminus Z$ into a new vertex $y_0$, and let
 $\beta(x)=\beta(X)$ and $\beta(y_0)=\beta(V(G)\setminus X)$.
 
 Note that $(G_1,\beta,z_0,\vec{D})$ and $(G_2,\beta,y_0,\vec{D}_2)$ for any orientation $\vec{D}_2$ of edges incident with
@@ -4455,7 +4480,8 @@ If $(G,\beta,z_0,\vec{D})$ is an almost minimal counterexample, then $V(G)\setmi
 \end{lemma}
 \begin{proof}
 Suppose for a contradiction that distinct vertices $x,y\in V(G)\setminus\{z_0\}$ conflict.  Since $G-z_0$ is connected, we can
-assume that $x$ and $y$ are joined by an edge $e$.  Note that if $\beta'(v)=3$, then $\beta(v)=0$ and $v$ has odd degree; hence, we can by symmetry assume
+assume that $x$ and $y$ are joined by an edge $e$ (otherwise, observe that any path between $x$ and $y$ in $G-z_0$ contains
+adjacent conflicting vertices, and consider these vertices, instead).  Note that if $\beta'(v)=3$, then $\beta(v)=0$ and $v$ has odd degree; hence, we can by symmetry assume
 that $\beta(y)+\deg(y)$ is odd, and either $\beta(x)+\deg(x)$ is even or $\beta'(x)=\beta'(y)=3$.
 Let $\beta_1(x)=(\beta(x)-1)\bmod 3$, $\beta_1(y)=(\beta(y)+1)\bmod 3$, and $\beta_1(v)=\beta(v)$ for all $v\in V(G)\setminus \{x,y\}$.
 Clearly, $\beta_1$ is a boundary.  If $(G-e,\beta_1,z_0,\vec{D})$ satisfied the assumptions of Theorem~\ref{thm:6flowgen}, then by the almost minimality of $(G,\beta,z_0,\vec{D})$,
@@ -4472,7 +4498,7 @@ But then $\beta'_1(x)=\beta'(x)-1$, unless $\beta'(x)=0$; however, this contradi
 \end{proof}
 
 \begin{corollary}\label{cor:nobound}
-If $(G,\beta,z_0,\vec{D})$ is an almost minimal counterexample, then $\beta'(v)\in \{1,2\}$ for all $v\in V(G)\setminus \{z_0\}$.
+If $(G,\beta,z_0,\vec{D})$ is an almost minimal counterexample, then $\beta(v)\in\{1,2\}$ and $\beta'(v)\in \{1,2\}$ for all $v\in V(G)\setminus \{z_0\}$.
 Furthermore, $\deg(v)+\beta(v)$ has the same parity for all $v\in V(G)\setminus \{z_0\}$.
 \end{corollary}
 
@@ -4520,7 +4546,7 @@ and $\vec{D}_1$ is obtained from $\vec{D}$ by reversing orientations of all edge
 can be obtained from a $\beta_1$-orientation extending $\vec{D}_1$ by reversing orientations).
 
 Let $e=z_0x$ be an edge of $G$, oriented away from $z_0$ by $\vec{D}$ due to Lemma~\ref{lemma:fl6all}.
-Let $G_2$ be the graph obtained from $G$ by replacing $e$ by $2$ parallel edges,
+Let $G_2$ be the multigraph obtained from $G$ by replacing $e$ by $2$ parallel edges,
 and let $\vec{D_2}$ be obtained from $\vec{D}-e$ by directing the two new edges towards $z_0$.
 
 By Lemma~\ref{lemma:fl6all}, we have $\deg_{G_2}(z_0)=\deg_G(z_0)+1=\beta(z_0)+4$, and thus
@@ -4542,17 +4568,56 @@ extends $\vec{D}_2$.  However, this corresponds to a $\beta$-orientation of $G$ 
 contradicting the assumption that $(G,\beta,z_0,\vec{D})$ is a counterexample.
 \end{proof}
 
+The reader is now perhaps left wondering how exactly one could come up with such an argument.
+The idea of splitting off even degree vertices (with $\beta(v_0)=0$) as in Lemma~\ref{lemma:6fl-no0} is natural
+and often appears in flow arguments.  Of course, after splitting off some of the edges incident with $v_0$,
+its degree becomes smaller than $6$, and thus we cannot enforce that the graph is $6$-edge-connected at that
+point---hence, we need the technical exception from the connectivity condition for $\deg(\{v_0\})$ in
+the statement of Theorem~\ref{thm:6flowgen}.
+
+More importantly, we need to ensure that splitting off the edges at $v_0$
+does not create non-trivial small edge-cuts---so, we need to be able to deal with the situation that the connectivity
+condition is tight for some set $X$.  To this end, we apply the argument of Lemma~\ref{lemma:6fl-nontight},
+which exploits the fact that we allow edges incident with the vertex $z_0$ to be pre-oriented.  Hence, we can
+use induction hypothesis for the graph obtained by contracting $X$, and then extend the orientation of edges
+leaving $X$ to the subgraph induced by $X$.  This pre-orientation argument is analogous to the usage
+of a precoloring extension argument to eliminate short separating cycles, which we studied in Section~\ref{sec:precolface}.
+In conclusion, both $v_0$ and $z_0$ in the statement of Theorem~\ref{thm:6flowgen} are just standard technicalities.
+
+On the other hand, the idea of considering $\beta$-orientations instead of just flows (with zero boundary) is crucial.
+This enables us to fix orientation of an edge $e$ and remove this edge, by adjusting the boundary values on its edge appropriately,
+which gives us Lemmas~\ref{lemma:6fl-noconfl} and \ref{lemma:fl6all} and enables us to finish the argument
+(assuming of course that this does not violate the connectivity assumptions---since non-trivial cuts are not tight due
+to Lemma~\ref{lemma:6fl-nontight}, this just needs to be verified for the ends of $e$).
+
+Of course, it is not at all obvious that these ideas need to succeed in any given case.  In particular,
+the success depends on a proper choice of the connectivity assumptions (Table~\ref{tab:6flowgen}),
+requiring a lot of careful trial-and-error; and we can say very little regarding this aspect of the method beyond that.
+
 \subsection{A Flow Proof of Gr\"{o}tzsch' Theorem}
 
 ???
 
 \section{$3$-colorability of near-quadrangulations}
 
-\begin{lemma}\label{lemma:flow-quadr}
+The connection between coloring and nowhere-zero flows turns out to be especially useful in the case of $3$-coloring of
+plane graphs with almost all faces of length exactly $4$; the reason being that nowhere-zero $\mathbf{Z}_3$-flows
+in $4$-regular graphs (their duals) degenerate into ordinary integer flows (bounded by $1$ on each edge), as stated more precisely
+in the following lemma.  For generality, we state the result in terms of boundaries and consistent orientations,
+which we introduced in Subsection~\ref{ssec:weak3flow}.  For an undirected multigraph $G$, a \emph{demand function} is any function $d:V(G)\to\mathbf{Z}$
+such that $d(V(G))=0$, where $d(X)=\sum_{x\in X} d(x)$ for any set $X\subseteq V(G)$.  A \emph{$\mathbf{Z}$-flow (with unit capacities) satisfying demands $d$}
+is a function $f:E(\overleftrightarrow(G))\to \{-1,0,1\}$ such that $f(\overleftarrow{e})+f(\overrightarrow{e})=0$ for the opposite orientations
+$\overleftarrow{e}$ and $\overrightarrow{e}$ of each edge $e\in E(G)$, and such that
+$$\sum_{e\in E^+(v)} f(e)=d(v)$$
+for all $v\in V(G)$.
+
+\begin{lemma}\label{lemma:z3ord}
 ...
 \end{lemma}
 
-\section{Thomassen-inspired proof of $6$-flow?}
+\begin{lemma}\label{lemma:flow-quadr}
+...
+\end{lemma}
 
 \part{Coloring Graphs on Surfaces}
 
