@@ -20,6 +20,30 @@
 \newcommand{\GG}{\mathcal{G}}
 \newcommand{\FF}{\mathcal{F}}
 
+\makeatletter
+\newcommand{\ovlr}{\mathpalette{\overarrowsmall@\leftrightarrowfill@}}
+\newcommand{\ovr}{\mathpalette{\overarrowsmall@\rightarrowfill@}}
+\newcommand{\ovl}{\mathpalette{\overarrowsmall@\leftarrowfill@}}
+\newcommand{\overarrowsmall@}[3]{%
+  \vbox{%
+    \ialign{%
+      ##\crcr
+      #1{\smaller@style{#2}}\crcr
+      \noalign{\nointerlineskip}%
+      $\m@th\hfil#2#3\hfil$\crcr
+    }%
+  }%
+}
+\def\smaller@style#1{%
+  \ifx#1\displaystyle\scriptstyle\else
+    \ifx#1\textstyle\scriptstyle\else
+      \scriptscriptstyle
+    \fi
+  \fi
+}
+\makeatother
+
+
 \begin{asydef}
 unitsize(10mm);
 
@@ -88,7 +112,8 @@ familiarity with graph theory and basic coloring results expected, otherwise sel
 % numbered definitions only for important concepts
 
 Notation for number of vertices/edges/faces of a graph $G$:
-$|V(G)|$, $|E(G)|$, $|F(G)|$.  Use $n$ and $m$ for vertices and edges when repeated.
+$|V(G)|$, $|E(G)|$, $|F(G)|$.
+Use $n$ and $m$ for vertices and edges when repeated.
 Graphs have no loops or parallel edges, multigraphs may have parallel edges and loops, unless specified otherwise.
 
 Colorings: $\varphi$, $\psi$, \ldots
@@ -246,7 +271,7 @@ For any integer $k\ge 1$, if a graph $G$ does not contain a clique $K_{k+1}$ as 
 \end{conjecture}
 
 For $k\le 3$, Hadwiger's conjecture is easy to prove.  For $k=4$, it implies (and can be seen to be equivalent to)
-the Four Color Theorem.  It is also known that Hadwiger's conjecture holds for $k=6$, via a rather complex argument~\cite{robertsonseymourthomas}.
+the Four Color Theorem.  It is also known that Hadwiger's conjecture holds for $k=5$, via a rather complex argument~\cite{robertsonseymourthomas}.
 
 \part{Standard Methods}
 
@@ -1703,7 +1728,7 @@ the total amount of charge.
 
 In the context of Theorem~\ref{thm:grotzsch-gimbel}, it is natural to ask when a $3$-coloring of a $6$-cycle $C$
 extends to a $3$-coloring of a plane graph $H$ with the outer face bounded by $C$ and all other faces of length $4$.
-We will address this question in Chapter~\ref{chap:recolor}, Lemma~\ref{lemma:extend6}, and in Chapter~\ref{chap:flows}, Lemma~\ref{lemma:flow-quadr}.
+We will address this question in Chapter~\ref{chap:recolor}, Lemma~\ref{lemma:extend6}, and in Chapter~\ref{chap:flows}, Corollary~\ref{cor:flow-quadr}.
 Let us remark that if $G$ has such a subgraph $H$ and a $3$-coloring of $C$ extends to $H$, then it also extends
 to $G$, as can be seen by applying Theorem~\ref{thm:grotzsch-gimbel} to the subgraphs of $G$ drawn in the faces of $H$.
 
@@ -2283,6 +2308,11 @@ using $|P|\le 6$ and $|P|\le 4$ if allowing one adjacent pair of lists of size t
 
 ??? Comments on choice of the assumptions (if we can come up with something profound on the topic :-).
 
+\section{Generalizations}
+
+??? Distant precolored vertices
+??? Distant cycles with reduced lists
+
 \chapter{Recoloring}\label{chap:recolor}
 
 % ZD
@@ -2385,7 +2415,7 @@ possible to ensure by the choice of $f$ if $|V(G)|>7$; we invite the reader to w
 
 However, this proof of necessity is not the most instructive one; the reason why there is exactly one particular
 precoloring that is bad for all quadrangulations is much easier to see in the dual setting of flows, as we will
-discuss in much greater generality in Chapter~\ref{chap:flows}, Lemma~\ref{lemma:flow-quadr}.
+discuss in much greater generality in Chapter~\ref{chap:flows}, Corollary~\ref{cor:flow-quadr}.
 
 As another example, let us consider extendibility of $5$-coloring from a $4$-cycle in a planar graph.
 \begin{lemma}\label{lemma:extend54}
@@ -2620,8 +2650,8 @@ transforms $\varphi'$ into a proper $3$-coloring of $G$.
 Analogous argument can be used to prove the same result for an arbitrary orientable surface~\cite{locplanq};
 the situation for non-orientable surfaces is more complicated~\cite{MohSey,NakNegOta}.
 Let us remark that Theorem~\ref{thm:torquadr} is far from best possible.  Indeed, Kr\'al' and Thomas~\cite{thomas2008coloring}
-proved that a quadrangulation of torus is $3$-colorable unless it contains the Cayley graph $C(\mathbf{Z}_{13}; 1,5)$ as a subgraph.
-The graph $C(\mathbf{Z}_{13}; 1,5)$ has a unique embedding in the torus whose edge-width is $5$, and thus in particular all quadrangulations
+proved that a quadrangulation of torus is $3$-colorable unless it contains the Cayley graph $C(\mathbb{Z}_{13}; 1,5)$ as a subgraph.
+The graph $C(\mathbb{Z}_{13}; 1,5)$ has a unique embedding in the torus whose edge-width is $5$, and thus in particular all quadrangulations
 of torus with edge-width at least $6$ are $3$-colorable.
 
 \section{Kempe Chains}
@@ -3553,10 +3583,10 @@ not just because of its connections to graph colorings.
 
 \section{Nowhere-zero Flows and Flow-Coloring duality}\label{sec:flow-coloring-duality}
 
-Let $\mathbf{A}$ be an abelian group, let $D$ be a multigraph and let $\vec{D}$ be its arbitrary orientation.  
+Let $\mathbb{A}$ be an abelian group, let $D$ be a multigraph and let $\vec{D}$ be its arbitrary orientation.  
 For a vertex $v\in V(G)$, let $E^-(v)$ and $E^+(v)$ denote the sets of edges of $\vec{D}$ entering and leaving $v$, respectively.
-An \emph{$\mathbf{A}$-flow}
-is a function $f:E(\vec{D})\to\mathbf{A}$ satisfying the flow conservation law
+An \emph{$\mathbb{A}$-flow}
+is a function $f:E(\vec{D})\to\mathbb{A}$ satisfying the flow conservation law
 \begin{equation}\label{eq:conserve}
 \sum_{e\in E^-(v)} f(e)=\sum_{e\in E^+(v)} f(uv)
 \end{equation}
@@ -3564,30 +3594,30 @@ for every vertex $v\in V(D)$.
 The flow is \emph{nowhere-zero} if $f(e)\neq 0$ for every $e\in E(\vec{D})$.
 
 We would like to view the flow as the property of the undirected multigraph $D$, rather than its arbitrary orientation.
-Indeed, reversing the orientation of an edge of $\vec{D}$ and replacing the value assigned to it by its inverse in $\mathbf{A}$
-clearly gives a valid $\mathbf{A}$-flow with basically the same properties.  Thus, consider the symmetric orientation $\overleftrightarrow{D}$
-of $D$, where each edge $e$ is replaced by two oppositely directed edges $\overleftarrow{e}$ and $\overrightarrow{e}$.
-We can define an \emph{$\mathbf{A}$-flow} on $D$ as a function $f:E(\overleftrightarrow{D})\to\mathbf{A}$
-such that $f(\overleftarrow{e})+f(\overrightarrow{e})=0$ for every $e\in E(D)$,
-and the variant version
+Indeed, reversing the orientation of an edge of $\vec{D}$ and replacing the value assigned to it by its inverse in $\mathbb{A}$
+clearly gives a valid $\mathbb{A}$-flow with basically the same properties.  Thus, consider the symmetric orientation $\ovlr{D}$
+of $D$, where each edge $e$ is replaced by two oppositely directed edges $\ovl{e}$ and $\ovr{e}$.
+We can define an \emph{$\mathbb{A}$-flow} on $D$ as a function $f:E(\ovlr{D})\to\mathbb{A}$
+such that $f(\ovl{e})+f(\ovr{e})=0$ for every $e\in E(D)$,
+and the variant version of (\ref{eq:conserve})
 \begin{equation}\label{eq:conserve-alt}
-\sum_{e\in E^-(v)} f(e)=sum_{e\in E^+(v)} f(e)=0
+\sum_{e\in E^-(v)} f(e)=\sum_{e\in E^+(v)} f(e)=0
 \end{equation}
 holds for every vertex $v\in V(D)$.
 
-Suppose $G$ is a connected plane multigraph and $\varphi:V(G)\to \mathbf{A}$ is a proper coloring of $G$,
-where elements of an abelian group $\mathbf{A}$ play the role of colors.  Let $D$ be the plane dual of $G$.
-For an edge $e\in E(\overleftrightarrow{G})$ from a vertex $u$ to a vertex $v$, let $g_1$ and $g_2$ be the face of $G$ on the left and right of $e$
-(from any point of $e$ looking in its direction), and let $e^\star$ denote the edge of $\overleftrightarrow{D}$
+Suppose $G$ is a connected plane multigraph and $\varphi:V(G)\to \mathbb{A}$ is a proper coloring of $G$,
+where elements of an abelian group $\mathbb{A}$ play the role of colors.  Let $D$ be the plane dual of $G$.
+For an edge $e\in E(\ovlr{G})$ from a vertex $u$ to a vertex $v$, let $g_1$ and $g_2$ be the face of $G$ on the left and right of $e$
+(as seen in the direction of $e$), and let $e^\star$ denote the edge of $\ovlr{D}$
 corresponding to $e$ and directed from the vertex corresponding to $g_1$ to the vertex corresponding to $g_2$.
-In this case, let us define $f:E(\overleftrightarrow{D})\to \mathbf{A}$ by setting
+In this case, let us define $f:E(\ovlr{D})\to \mathbb{A}$ by setting
 $f(e^\star)=\varphi(v)-\varphi(u)$.  See Figure~\ref{fig:dual-flow} for an illustration (showing just one edge of each pair of oppositely
 directed edges of $G$ and $D$).
 Let $g$ be a face of $G$ with the facial walk $v_1v_2\ldots v_m$, and for $i=1,\ldots, m$, let $g_i$ be the
 other face incident with the edge $v_iv_{i+1}$ (where $v_{m+1}=v_1$).  We can now verify that $f$ satisfies the condition (\ref{eq:conserve-alt}) at the vertex
 of $D$ corresponding to $G$:
 $$\sum_{i=1}^m f(gg_i)=\sum_{i=1}^m (\varphi(v_{i+1})-\varphi(v_i))=0;$$
-we conclude that $f$ is a $\mathbf{A}$-flow in $D$.
+we conclude that $f$ is an $\mathbb{A}$-flow in $D$.
 
 \begin{figure}
 \begin{center}
@@ -3629,20 +3659,20 @@ label("$2$", v[3], SW);
 label("$3$", v[4], SE);
 \end{asy}
 \end{center}
-\caption{A coloring $V(G)\to\mathbf{Z}_4$ and a nowhere-zero $\mathbf{Z}_4$-flow in its dual.}\label{fig:dual-flow}
+\caption{A coloring $V(G)\to\mathbb{Z}_4$ and a nowhere-zero $\mathbb{Z}_4$-flow in its dual.}\label{fig:dual-flow}
 \end{figure}
 
 Furthermore, since $\varphi$ is a proper coloring, $f$ does not assign value $0$ to any edge.  Thus, every proper coloring $\varphi$
-of a connected plane multigraph using colors from $\mathbf{A}$ gives a nowhere-zero $\mathbf{A}$-flow in the dual;
-we say that this flow is \emph{derived} from the coloring $\varphi$.  Conversely, nowhere-zero $\mathbf{A}$-flows give rise
+of a connected plane multigraph using colors from $\mathbb{A}$ gives a nowhere-zero $\mathbb{A}$-flow in the dual;
+we say that this flow is \emph{derived} from the coloring $\varphi$.  Conversely, nowhere-zero $\mathbb{A}$-flows give rise
 to proper colorings.
 \begin{lemma}\label{lemma:flowtocolor}
-Let $G$ be a connected plane multigraph, let $D$ be the dual of $G$, and let $\mathbf{A}$ be a finite abelian group.
-For every nowhere-zero $\mathbf{A}$-flow $f$ in $D$, there exist precisely $|\mathbf{A}|$ proper colorings of $G$
-by elements of $\mathbf{A}$ whose derived $\mathbf{A}$-flow is $f$.
+Let $G$ be a connected plane multigraph, let $D$ be the dual of $G$, and let $\mathbb{A}$ be a finite abelian group.
+For every nowhere-zero $\mathbb{A}$-flow $f$ in $D$, there exist precisely $|\mathbb{A}|$ proper colorings of $G$
+by elements of $\mathbb{A}$ whose derived $\mathbb{A}$-flow is $f$.
 \end{lemma}
 \begin{proof}
-For an edge $e\in E(\overleftrightarrow{G})$, let us define $\delta(e)=f(e^\star)$.  For any walk $W=w_0w_1\ldots w_m$, let $\delta(W)=\sum_{i=1}^m \delta(w_{i-1}w_i)$.
+For an edge $e\in E(\ovlr{G})$, let us define $\delta(e)=f(e^\star)$.  For any walk $W=w_0w_1\ldots w_m$, let $\delta(W)=\sum_{i=1}^m \delta(w_{i-1}w_i)$.
 By the flow conservation law (\ref{eq:conserve-alt}), if $W_g$ is the facial walk of a face $g$ of $G$, then $\delta(W_g)=0$.
 If $C$ is a cycle in $G$, then denoting by $F_C$ the set of faces drawn inside $C$,
 observe that
@@ -3651,35 +3681,35 @@ Since each closed walk can be decomposed into cycles (and walks of length two ov
 that $\delta(W)=0$ for every closed walk $W$ in $G$.
 
 Let $v$ be any vertex of $G$, and for each $x\in V(G)$, let us choose a path $P_x$ from $v$ to $x$ arbitrarily.
-For any element $a$ of $\mathbf{A}$ and $x\in V(G)$, let $\varphi_a(x)=a+\delta(P_x)$.
+For any element $a$ of $\mathbb{A}$ and $x\in V(G)$, let $\varphi_a(x)=a+\delta(P_x)$.
 For any edge $xy$, let $W_{xy}$ be the closed walk consisting of $P_x$, the edge $xy$, and the reverse of the walk $P_y$.
 We have
 $$0=\delta(W_{xy})=\varphi_a(x)+\delta(xy)-\varphi_a(y),$$
 and thus $\delta(xy)=\varphi_a(y)-\varphi_a(x)$.  We conclude that $\varphi_a$ is a proper coloring of $G$ by elements
-of $\mathbf{A}$ and $f$ is the nowhere-zero $\mathbf{A}$-flow derived from it.
+of $\mathbb{A}$ and $f$ is the nowhere-zero $\mathbb{A}$-flow derived from it.
 
-Hence, there exist $|\mathbf{A}|$ proper colorings $\varphi_a$ of $G$ for $a\in |\mathbf{A}|$ whose derived $\mathbf{A}$-flow is $f$.
-There are no other such colorings, since it is easy to see that a coloring whose whose derived $\mathbf{A}$-flow is $f$
+Hence, there exist $|\mathbb{A}|$ proper colorings $\varphi_a$ of $G$ for $a\in |\mathbb{A}|$ whose derived $\mathbb{A}$-flow is $f$.
+There are no other such colorings, since it is easy to see that a coloring whose whose derived $\mathbb{A}$-flow is $f$
 is uniquely determined by the color it assigns to $v$.
 \end{proof}
 
 In particular, we obtain the following relationship between numbers of colorings and nowhere-zero flows.
 \begin{corollary}\label{cor:numflowcol}
-For any finite abelian group $\mathbf{A}$,
-the number of proper $|\mathbf{A}|$-colorings of a connected plane multigraph $G$ is equal to $|\mathbf{A}|$ times the number
-of nowhere-zero $\mathbf{A}$-flows in the dual $D$ of $G$.
+For any finite abelian group $\mathbb{A}$,
+the number of proper $|\mathbb{A}|$-colorings of a connected plane multigraph $G$ is equal to $|\mathbb{A}|$ times the number
+of nowhere-zero $\mathbb{A}$-flows in the dual $D$ of $G$.
 \end{corollary}
 
 Hence, in planar graphs, instead of studying their colorings, we can as well consider their nowhere-zero flows.
 As a simple application, let us establish equivalence between the Four Color Theorem and $3$-edge-colorability of bridgeless
 cubic planar graphs (Theorem~\ref{thm:planar3ec}).  Let us start with a quick observation.
 \begin{lemma}\label{lemma:z223col}
-A $3$-regular graph $G$ has a nowhere-zero $\mathbf{Z}_2^2$-flow if and only if $G$ is $3$-edge-colorable.
+A $3$-regular graph $G$ has a nowhere-zero $\mathbb{Z}_2^2$-flow if and only if $G$ is $3$-edge-colorable.
 \end{lemma}
 \begin{proof}
-Let $a$, $b$, and $c$ be any non-zero elements of $\mathbf{Z}_2^2$.  Observe that $a+b+c=0$ if and only if these
-elements are pairwise different, i.e., $\{a,b,c\}=\{(0,1),(1,0),(1,1)\}$.  Hence, a nowhere-zero $\mathbf{Z}_2^2$-flow
-in a $3$-regular graph is exactly its $3$-edge-coloring using colors $\mathbf{Z}_2^2\setminus\{(0,0)\}$.
+Let $a$, $b$, and $c$ be any non-zero elements of $\mathbb{Z}_2^2$.  Observe that $a+b+c=0$ if and only if these
+elements are pairwise different, i.e., $\{a,b,c\}=\{(0,1),(1,0),(1,1)\}$.  Hence, a nowhere-zero $\mathbb{Z}_2^2$-flow
+in a $3$-regular graph is exactly its $3$-edge-coloring using colors $\mathbb{Z}_2^2\setminus\{(0,0)\}$.
 \end{proof}
 
 \begin{lemma}\label{lemma:4cec}
@@ -3693,61 +3723,61 @@ The following claims are equivalent.
 Suppose first that every planar $3$-regular $2$-edge-connected graph is $3$-edge-colorable.  Let $G$ be any planar graph,
 and let $G_1$ be a maximal planar supergraph of $G$ on the same vertex set; then $G_1$ is a plane triangulation.  Since $G_1$
 has no loops, its dual $G_1^\star$ is $2$-edge-connected and $3$-regular, and thus $G_1^\star$ is $3$-edge-colorable.  By Lemma~\ref{lemma:z223col},
-$G_1^\star$ has a nowhere-zero $\mathbf{Z}_2^2$-flow, and by Lemma~\ref{lemma:flowtocolor}, $G_1$ has a proper coloring by elements of $\mathbf{Z}_2^2$.
+$G_1^\star$ has a nowhere-zero $\mathbb{Z}_2^2$-flow, and by Lemma~\ref{lemma:flowtocolor}, $G_1$ has a proper coloring by elements of $\mathbb{Z}_2^2$.
 Consequently, $G_1$ as well as its subgraph $G$ are $4$-colorable.
 
-Conversely, dual of a planar $3$-regular $2$-edge-connected graph $H$ is a plane triangulation without loops, and a nowhere-zero
-$\mathbf{Z}_2^2$-flow (and thus also a $3$-edge-coloring by Lemma~\ref{lemma:z223col}) can be derived from a proper $4$-coloring
-of its dual $H^\star$ by elements of $\mathbf{Z}_2^2$ as described at the beginning of this section.
+Conversely, the dual of a planar $3$-regular $2$-edge-connected graph $H$ is a plane triangulation without loops, and a nowhere-zero
+$\mathbb{Z}_2^2$-flow (and thus also a $3$-edge-coloring by Lemma~\ref{lemma:z223col}) can be derived from a proper $4$-coloring
+of its dual $H^\star$ by elements of $\mathbb{Z}_2^2$ as described at the beginning of this section.
 \end{proof}
 
 \section{Flow and chromatic polynomials}
 
-Consider two abelian groups of the same size, say $\mathbf{Z}_4$ and $\mathbf{Z}_2^2$.  Nowhere-zero flows over these two groups
+Consider two abelian groups of the same size, say $\mathbb{Z}_4$ and $\mathbb{Z}_2^2$.  Nowhere-zero flows over these two groups
 are quite different. However, if $D$ is a connected plane multigraph, Corollary~\ref{cor:numflowcol} implies that the number of
-nowhere-zero $\mathbf{Z}_4$-flows in $D$ is the same as the number of nowhere-zero $\mathbf{Z}_2^2$-flows in $D$; both are equal
+nowhere-zero $\mathbb{Z}_4$-flows in $D$ is the same as the number of nowhere-zero $\mathbb{Z}_2^2$-flows in $D$; both are equal
 to $\tfrac{1}{4}$ of the number of $4$-colorings of the dual of $D$.  This is not a coincidence; indeed, for a fixed
-(not necessarily planar) multigraph, the number of nowhere-zero $\mathbf{A}$-flows depends only on the size of the (finite abelian) group $\mathbf{A}$.
+(not necessarily planar) multigraph, the number of nowhere-zero $\mathbb{A}$-flows depends only on the size of the (finite abelian) group $\mathbb{A}$.
 
-For a multigraph $G$ and a finite abelian group $\mathbf{A}$, let $C^\star_G(\mathbf{A})$ denote the number of nowhere-zero $\mathbf{A}$-flows in $G$.
-Note that when $G$ has no edges, we have $C^\star_G(\mathbf{A})=1$.
+For a multigraph $G$ and a finite abelian group $\mathbb{A}$, let $C^\star_G(\mathbb{A})$ denote the number of nowhere-zero $\mathbb{A}$-flows in $G$.
+Note that when $G$ has no edges, we have $C^\star_G(\mathbb{A})=1$.
 For a non-loop edge $e$ of $G$, let $G/e$ denote the graph obtained by contracting the edge $e$, destroying $e$ but keeping the parallel edges and loops
 that may arise.
 
 \begin{lemma}\label{lemma:count}
-Let $\mathbf{A}$ be a finite abelian group, let $G$ be a multigraph and let $e$ be an edge of $G$.
+Let $\mathbb{A}$ be a finite abelian group, let $G$ be a multigraph and let $e$ be an edge of $G$.
 \begin{itemize}
-\item If $e$ is a loop, then $C^\star_G(\mathbf{A})=(|\mathbf{A}|-1)C^\star_{G-e}(\mathbf{A})$.
-\item If $e$ is not a loop, then $C^\star_G(\mathbf{A})=C^\star_{G/e}(\mathbf{A})-C^\star_{G-e}(\mathbf{A})$.
+\item If $e$ is a loop, then $C^\star_G(\mathbb{A})=(|\mathbb{A}|-1)C^\star_{G-e}(\mathbb{A})$.
+\item If $e$ is not a loop, then $C^\star_G(\mathbb{A})=C^\star_{G/e}(\mathbb{A})-C^\star_{G-e}(\mathbb{A})$.
 \end{itemize}
-Consequently, if $\mathbf{A}'$ is a finite abelian group and $|\mathbf{A}'|=|\mathbf{A}|$, then
-$C^\star_G(\mathbf{A}')=C^\star_G(\mathbf{A})$.
+Consequently, if $\mathbb{A}'$ is a finite abelian group and $|\mathbb{A}'|=|\mathbb{A}|$, then
+$C^\star_G(\mathbb{A}')=C^\star_G(\mathbb{A})$.
 \end{lemma}
 \begin{proof}
-If $e$ is a loop, then a nowhere-zero $\mathbf{A}$-flow in $G-e$ extends to a nowhere-zero $\mathbf{A}$-flow in $G$
-by setting its value on $e$ to an arbitrary non-zero element of $\mathbf{A}$, and conversely the restriction of
-a nowhere-zero $\mathbf{A}$-flow in $G$ to $E(G)\setminus\{e\}$ is a nowhere-zero $\mathbf{A}$-flow in $G-e$, justifying
+If $e$ is a loop, then a nowhere-zero $\mathbb{A}$-flow in $G-e$ extends to a nowhere-zero $\mathbb{A}$-flow in $G$
+by setting its value on $e$ to an arbitrary non-zero element of $\mathbb{A}$, and conversely the restriction of
+a nowhere-zero $\mathbb{A}$-flow in $G$ to $E(G)\setminus\{e\}$ is a nowhere-zero $\mathbb{A}$-flow in $G-e$, justifying
 the first claim.
 
-If $e$ is not a loop, then note that any $\mathbf{A}$-flow $f'$ in $G/e$ extends to an $\mathbf{A}$-flow $f$ in $G$ in unique way
-by setting the value on $e$ so that the flow conservation law holds on both ends of $e$; and conversely, restriction of an $\mathbf{A}$-flow in $G$
-to $E(G)\setminus\{e\}$ is a $\mathbf{A}$-flow in $G/e$.  Furthermore, if $f'$ is nowhere-zero, then $f$ is nowhere-zero everywhere except possibly
-on $e$.  Finally, note that the $\mathbf{A}$-flows in $G$ whose value is $0$ exactly on $e$ are in 1-to-1 correspondence with nowhere-zero flows in $G-e$.
-Consequently, $C^\star_G(\mathbf{A})=C^\star_{G/e}(\mathbf{A})-C^\star_{G-e}(\mathbf{A})$.
+If $e$ is not a loop, then note that any $\mathbb{A}$-flow $f'$ in $G/e$ extends to an $\mathbb{A}$-flow $f$ in $G$ in unique way
+by setting the value on $e$ so that the flow conservation law holds on both ends of $e$; and conversely, the restriction of an $\mathbb{A}$-flow in $G$
+to $E(G)\setminus\{e\}$ is an $\mathbb{A}$-flow in $G/e$.  Furthermore, if $f'$ is nowhere-zero, then $f$ is nowhere-zero everywhere except possibly
+on $e$.  Finally, note that the $\mathbb{A}$-flows in $G$ whose value is $0$ exactly on $e$ are in 1-to-1 correspondence with nowhere-zero flows in $G-e$.
+Consequently, $C^\star_G(\mathbb{A})=C^\star_{G/e}(\mathbb{A})-C^\star_{G-e}(\mathbb{A})$.
 
-Since the formulas depend only on size of $\mathbf{A}$, the equality $C^\star_G(\mathbf{A}')=C^\star_G(\mathbf{A})$ follows
+Since the formulas depend only on size of $\mathbb{A}$, the equality $C^\star_G(\mathbb{A}')=C^\star_G(\mathbb{A})$ whenever $|\mathbb{A}'|=|\mathbb{A}|$ follows
 easily by induction on the number of edges of $G$.
 \end{proof}
 
 In view of Lemma~\ref{lemma:count}, let us for a multigraph $G$ and a positive integer $k$ define
-$C^\star_G(k)$ as the number of nowhere-zero $\mathbf{A}$-flows in $G$ for any abelian group $\mathbf{A}$ of size $k$.
+$C^\star_G(k)$ as the number of nowhere-zero $\mathbb{A}$-flows in $G$ for any abelian group $\mathbb{A}$ of size $k$.
 Note that if $G$ has no edges, then $C^\star_G(k)=1$, if $G$ has a loop $e$, then $C^\star_G(k)=(k-1)C^\star_{G-e}(k)$,
 and if $e\in E(G)$ is not a loop, then $C^\star_G(k)=C^\star_{G/e}(k)-C^\star_{G-e}(k)$.  By induction, it is easy to
 see that $C^\star_G$ is a polynomial in $k$, called the \emph{flow polynomial} of $G$.  The degree of $C^\star_G$
-is at most $|E(G)|$; and in particular, numbers of nowhere-zero $\mathbf{Z}_k$-flows in $G$ for $1\le k\le |E(G)|$
-determine the number of nowhere-zero $\mathbf{A}$-flows for any finite abelian group $\mathbf{A}$.
+is at most $|E(G)|$; and in particular, numbers of nowhere-zero $\mathbb{Z}_k$-flows in $G$ for $1\le k\le |E(G)|$
+determine the number of nowhere-zero $\mathbb{A}$-flows for any finite abelian group $\mathbb{A}$.
 
-Dual concept corresponding to (and pre-dating) the flow polynomial is the \emph{chromatic polynomial} $C_G(k)$,
+The dual concept corresponding to (and pre-dating) the flow polynomial is the \emph{chromatic polynomial} $C_G(k)$,
 defined as the number of proper colorings of $G$ using colors $[k]$.  That $C_G$ is indeed a polynomial is clear by
 induction from the following deletion-contraction formula to determine $C_G(k)$.
 \begin{lemma}\label{lemma:delcon}
@@ -3761,10 +3791,10 @@ are exactly those of the proper $k$-colorings of $G-e$ in which the ends of $e$ 
 and that $C_{G/e}(k)$ counts the number of proper $k$-colorings of $G-e$ in which the ends of $e$ have the same color.
 \end{proof}
 Let us remark that since the polynomials $C_G$, $C_{G-e}$, and $C_{G/e}$ satisfy the deletion-contraction
-equality From Lemma~\ref{lemma:delcon} for all positive integers $k$, we have $C_G=C_{G-e}-C_{G/e}$ as an identity for
+equality from Lemma~\ref{lemma:delcon} for all positive integers $k$, we have $C_G=C_{G-e}-C_{G/e}$ as an identity for
 the polynomials (and in particular, the identity also holds for all real numbers $k$).
 Both the flow polynomial and the chromatic polynomial are specializations of
-a more general Tutte polynomial, which encompasses all graph parameters defined via deletion-contraction formulas
+a more general Tutte polynomial~\cite{tutteflow}, which encompasses all graph parameters defined via deletion-contraction formulas
 analogous to Lemmas~\ref{lemma:count} and \ref{lemma:flowtocolor}.
 
 Note that by Lemma~\ref{lemma:flowtocolor}, we have the following.
@@ -4002,22 +4032,22 @@ this significantly improves our previous bounds from Theorems~\ref{theorem:plana
 So far, we mostly developed the theory of nowhere-zero flows over finite groups, and indeed, this is generally
 the most convenient setting.  Nevertheless, in some cases it is worthwhile to consider an alternative approach
 via integer flows with bounded range of values.  For a positive integer $k$, consider a proper $k$-coloring $\varphi:V(G)\to [k]$
-of a plane connected multigraph $G$, and let $f$ be the derived nowhere-zero $\mathbf{Z}$-flow in the dual of $G$.
+of a plane connected multigraph $G$, and let $f$ be the derived nowhere-zero $\mathbb{Z}$-flow in the dual of $G$.
 Then, all values of $f$ are $\pm 1$, \ldots, $\pm (k-1)$.
 
-Motivated by this observation, let us say that a $\mathbf{Z}$-flow is a \emph{$k$-flow} if all its values are at most $k-1$ in absolute value.
-If $f$ is a (nowhere) $k$-flow, we can interpret its values as elements of $\mathbf{Z}_k$, and thus $f$ can also be viewed as a (nowhere-zero)
-$\mathbf{Z}_k$-flow.  Together with Lemma~\ref{lemma:flowtocolor} and the argument from the previous paragraph,
+Motivated by this observation, let us say that a $\mathbb{Z}$-flow is a \emph{$k$-flow} if all its values are at most $k-1$ in absolute value.
+If $f$ is a (nowhere-zero) $k$-flow, we can interpret its values as elements of $\mathbb{Z}_k$, and thus $f$ can also be viewed as a (nowhere-zero)
+$\mathbb{Z}_k$-flow.  Together with Lemma~\ref{lemma:flowtocolor} and the argument from the previous paragraph,
 we have the following.
 \begin{observation}\label{obs:flowcol}
 For any positive integer $k$, a connected plane multigraph has a proper $k$-coloring if and only if its dual has a nowhere-zero $k$-flow.
 \end{observation}
-As a consequence, a planar graph has a nowhere-zero $k$-flow if and only if it has a nowhere-zero $\mathbf{Z}_k$-flow.
+As a consequence, a planar graph has a nowhere-zero $k$-flow if and only if it has a nowhere-zero $\mathbb{Z}_k$-flow.
 A slightly more involved argument shows that this is true in general graphs as well.
 
 \begin{lemma}
-Let $G$ be a multigraph and let $k$ be a positive integer.  For every $\mathbf{Z}_k$-flow $f_0$ in $G$, there exists
-a $k$-flow $f_1$ in $G$ such that $f_1(e)\bmod k=f_0(e)$ for every $e\in E(\overleftrightarrow{G})$.  In particular, if $f_0$ is nowhere-zero,
+Let $G$ be a multigraph and let $k$ be a positive integer.  For every $\mathbb{Z}_k$-flow $f_0$ in $G$, there exists
+a $k$-flow $f_1$ in $G$ such that $f_1(e)\bmod k=f_0(e)$ for every $e\in E(\ovlr{G})$.  In particular, if $f_0$ is nowhere-zero,
 then $f_1$ is nowhere-zero as well.
 \end{lemma}
 \begin{proof}
@@ -4026,7 +4056,7 @@ $f'_1(e)=f_0(e)$, where the values of $f_0$ are interpreted as integers from $\{
 For $v\in V(G)$, let us define
 $$r'(v)=\sum_{e\in E^+_{\vec{G}}(v)} f'_1(e)-\sum_{e\in E^-_{\vec{G}}(v)} f'_1(e),$$
 denoting the excess of the amount leaving $v$ over the one entering $v$.
-Note that $r'(v)$ is divisible by $k$, since $f_0$ is a $\mathbf{Z}_k$-flow.
+Note that $r'(v)$ is divisible by $k$, since $f_0$ is a $\mathbb{Z}_k$-flow.
 Let $r(v)=r'(v)/k$.
 
 Let $\vec{H}$ be the spanning subgraph of $\vec{G}$ with $E(\vec{H})=\{e\in E(\vec{G}): f_0(e)\neq 0\}$.
@@ -4043,12 +4073,12 @@ we conclude that
 -|E^-(S)|\le \sum_{v\in S} r(S)\le |E^+(S)|.
 \end{equation}
 Let us give each edge of $\vec{H}$ capacity $1$ and each vertex $v$ of $\vec{H}$ demand $r(v)$.
-Since (\ref{eq:bigcut}) holds for all $V(\vec{H})$, we conclude from the max-flow min-cut theorem
-that there exists $f''_1:E(\vec{H})\to\{0,1\}$ such that
+Since (\ref{eq:bigcut}) holds for all sets $S\subseteq V(\vec{H})$, we conclude from the max-flow min-cut theorem
+that there exists an integral flow in $\vec{H}$ satisfying all the demands: a function $f''_1:E(\vec{H})\to\{0,1\}$ such that
 $$\sum_{e\in E^+_{\vec{H}}(v)} f''_1(e)-\sum_{e\in E^-_{\vec{H}}(v)} f''_1(e)=r(v)$$
 for all $v\in V(\vec{H})$.  Let us extend $f''_1$ to $\vec{G}$ by setting $f''_1(e)=0$ for all $e\in E(\vec{G})\setminus E(\vec{H})$.
 
-Now, we can define $f_1(e)=f'_1(e)-kf''_1(e)$ for all $e\in E(\vec{G})$.  By the choice of $f''_1$, we conclude that $f_1$ is a $\mathbf{Z}$-flow
+Now, we can define $f_1(e)=f'_1(e)-kf''_1(e)$ for all $e\in E(\vec{G})$.  By the choice of $f''_1$, we conclude that $f_1$ is a $\mathbb{Z}$-flow
 in $G$, and clearly $f_1(e)\bmod k = f'_1(e)\bmod k=f_0(e)$ for all $e\in E(\vec{G})$.  Furthermore, since $f''_1(e)\in \{0,1\}$
 and $f''_1(e)$ can be non-zero only when $f'_1(e)\ge 1$, we conclude that $f_1(e)\ge -(k-1)$, and thus $f_1$ is a $k$-flow.
 \end{proof}
@@ -4056,44 +4086,46 @@ and $f''_1(e)$ can be non-zero only when $f'_1(e)\ge 1$, we conclude that $f_1(e
 Note that if $k'\le k$, then a $k'$-flow is also a $k$-flow.  Hence, we get the following consequence, which is not easy to see
 directly.
 \begin{corollary}\label{cor:sizeflow}
-If $\mathbf{A}'$ and $\mathbf{A}$ are two finite abelian groups, $|\mathbf{A}'|\le |\mathbf{A}|$, and
-a multigraph $G$ has a nowhere-zero $\mathbf{A}'$-flow, then $G$ also has a nowhere-zero $\mathbf{A}$-flow.
+If $\mathbb{A}'$ and $\mathbb{A}$ are two finite abelian groups, $|\mathbb{A}'|\le |\mathbb{A}|$, and
+a multigraph $G$ has a nowhere-zero $\mathbb{A}'$-flow, then $G$ also has a nowhere-zero $\mathbb{A}$-flow.
 \end{corollary}
 
 \section{Basic results on existence of nowhere-zero flows}\label{sec:basicflow}
 
-It is easy to decide whether a graph has a nowhere-zero $\mathbf{Z}_2$-flow, based on the following observation.
+It is easy to decide whether a graph has a nowhere-zero $\mathbb{Z}_2$-flow, based on the following observation.
 \begin{observation}\label{obs:euler}
-If $G$ is an Eulerian graph, then $G$ has a nowhere-zero $\mathbf{A}$-flow for any non-trivial abelian group $\mathbf{A}$.
-Conversely, if $G$ has a nowhere-zero $\mathbf{Z}_2$-flow, then $G$ is Eulerian.
+If $G$ is an Eulerian graph and $a$ is any element of an abelian group $\mathbb{A}$, then $G$ has a $\mathbb{A}$-flow
+using only values $a$ and $-a$.  Conversely, if $G$ has a nowhere-zero $\mathbb{Z}_2$-flow, then $G$ is Eulerian.
 \end{observation}
 \begin{proof}
 If $G$ is Eulerian, then each component of $G$ contains a closed walk that passes through each edge exactly once.
-Orienting the edges of $G$ along these walks and assigning to each of them the same non-zero element of $\mathbf{A}$
-gives a nowhere-zero $\mathbf{A}$-flow in $G$.
+Orienting the edges of $G$ along these walks and assigning to each of them the value $a$
+gives a $\mathbb{A}$-flow in $G$.
 
-A nowhere-zero $\mathbf{Z}_2$-flow necessarily assigns value $1$ to each edge of $G$, the flow conservation law
+A nowhere-zero $\mathbb{Z}_2$-flow necessarily assigns value $1$ to each edge of $G$, the flow conservation law
 thus implies that all vertices of $G$ have even degree, and thus $G$ is Eulerian.
 \end{proof}
 
-In general, it is hard to decide whether a given graph has a nowhere-zero $\mathbf{A}$-flow for a prescribed
-finite abelian group $\mathbf{A}\neq \mathbf{Z}_2$.  However, there are a number of results that are helpful in particular cases.
+In general, it is hard to decide whether a given graph has a nowhere-zero $\mathbb{A}$-flow for a fixed
+non-trivial finite abelian group $\mathbb{A}\neq \mathbb{Z}_2$.  However, there are a number of results that are helpful in particular cases.
 Let us start with a basic observation about edge-cuts.  If $f$ is a flow in a multigraph $G$ and $S\subseteq V(G)$,
-let us define $$f(S)=\sum_{e=uv\in E(\overleftrightarrow{G}),u\in S,v\not\in S} f(e).$$
+let us define $$f(S)=\sum_{e=uv\in E(\ovlr{G}),u\in S,v\not\in S} f(e).$$
 
 \begin{observation}\label{obs:flowoncut}
-Let $\mathbf{A}$ be an abelian group.  If $f$ is an $\mathbf{A}$-flow in a multigraph $G$, then $f(S)=0$ for all $S\subseteq V(G)$.
+Let $\mathbb{A}$ be an abelian group, $G$ a multigraph, and $S\subseteq V(G)$ a set of its vertices.  For any function
+$f:E(\ovlr{G})\to\mathbb{A}$ such that $f(\ovl{e})+f(\ovr{e})=0$ for all $e\in E(G)$,
+if the conservation law (\ref{eq:conserve-alt}) is satisfied for all $v\in S$, then $f(S)=0$.
 \end{observation}
 \begin{proof}
 Note that
-$$f(S)=\sum_{u\in S}\sum_{e\in E^+(G)} f(e)=0,$$
+$$f(S)=\sum_{u\in S}\sum_{e\in E^+(u)} f(e)=0,$$
 where the first equality holds since if an edge $uv$ has both ends in $S$, then the sum contains
 terms $f(uv)$ and $f(vu)=-f(uv)$ which cancel each other, leaving only the terms
 from the sum in the definition of $f(S)$.
 \end{proof}
 
 \begin{corollary}\label{cor:smallcutflow}
-Let $\mathbf{A}$ be an abelian group and let $G$ be a multigraph.  If $G$ has a nowhere-zero $\mathbf{A}$-flow $f$,
+Let $\mathbb{A}$ be an abelian group and let $G$ be a multigraph.  If $G$ has a nowhere-zero $\mathbb{A}$-flow $f$,
 then $G$ is bridgeless.  Furthermore, if $C=\{e_1,e_2\}$ is a $2$-edge-cut in $G$, where $e_1=u_1v_1$ and $e_2=u_2v_2$
 labelled so that $u_1$ and $u_2$ are in the same component of $G-C$, then $f(e_1)=-f(e_2)$.
 \end{corollary}
@@ -4108,45 +4140,45 @@ We have $f(e_1)+f(e_2)=f(S)=0$ by Observation\ref{obs:flowoncut}, which implies 
 
 Another consequence of the cut condition is that flows are preserved by vertex identification.
 \begin{corollary}\label{cor:contractflow}
-Let $\mathbf{A}$ be an abelian group and let $G$ be a multigraph.  Let $\mathcal{P}=\{P_1,\ldots, P_k\}$ be a partition
+Let $\mathbb{A}$ be an abelian group and let $G$ be a multigraph.  Let $\mathcal{P}=\{P_1,\ldots, P_k\}$ be a partition
 of the vertex set of $G$, and let $G'$ be the multigraph obtained from $G$ by identifying the vertices in each part $P_i$ of $\mathcal{P}$
-to a single vertex $p_i$.  If $G$ has a nowhere-zero $\mathbf{A}$-flow, then $G'$ has a nowhere-zero $\mathbf{A}$-flow as well.
+to a single vertex $p_i$.  If $G$ has a nowhere-zero $\mathbb{A}$-flow, then $G'$ has a nowhere-zero $\mathbb{A}$-flow as well.
 \end{corollary}
 \begin{proof}
 Note that the edges of $G'$ are in one-to-one correspondence with the edges of $G$.  For a nowhere-zero flow $f$ in $G$
 and every $e'\in E(G')$, let us define $f'(e)=f(e)$, where $e$ is the edge of $G$ corresponding to $e'$.  Then
-$f'$ is a nowhere-zero $\mathbf{A}$-flow in $G'$, since Observation~\ref{obs:flowoncut} applied to $P_i$ for $i=1,\ldots, k$
+$f'$ is a nowhere-zero $\mathbb{A}$-flow in $G'$, since Observation~\ref{obs:flowoncut} applied to $P_i$ for $i=1,\ldots, k$
 implies the flow conservation law at the vertex $p_i$ of $G'$.
 \end{proof}
 
 Corollary~\ref{cor:contractflow} is often used to eliminate vertices of large degree: given a graph $G'$, a vertex $p$ of $G'$
 can be replaced by an arbitrary subgraph with vertex set $P$, distributing the edges incident with $p$ among the vertices of $P$
-arbitrarily.  Corollary~\ref{cor:contractflow} then implies that it suffices to find a nowhere-zero $\mathbf{A}$-flow in the resulting
+arbitrarily.  Corollary~\ref{cor:contractflow} then implies that it suffices to find a nowhere-zero $\mathbb{A}$-flow in the resulting
 graph.
 
-Converse oparation (contracting a set of vertices $S$ and deriving a nowhere-zero $\mathbf{A}$-flow in the original graph $G$ from the one
+Converse oparation (contracting a set of vertices $S$ and deriving a nowhere-zero $\mathbb{A}$-flow in the original graph $G$ from the one
 in the contracted graph) is also sometimes used, but one needs to be more careful---if $G[S]$ is connected, then it is always possible
 to extend the flow so that the conservation law holds at vertices of $S$, but it may not necessarily be possible to do so in such a way
 that the resulting flow is nowhere-zero.  The following special case is often used to increase connectivity.
 \begin{lemma}\label{lemma:contr2ecflow}
-Let $\mathbf{A}$ be an abelian group and let $G$ be a multigraph.  Let $e$ be an edge of $G$ contained in a $2$-edge-cut.
-Then $G$ has a nowhere-zero $\mathbf{A}$-flow if and only if $G/e$ does.
+Let $\mathbb{A}$ be an abelian group and let $G$ be a multigraph.  Let $e$ be an edge of $G$ contained in a $2$-edge-cut.
+Then $G$ has a nowhere-zero $\mathbb{A}$-flow if and only if $G/e$ does.
 \end{lemma}
 \begin{proof}
-By Corollary~\ref{cor:contractflow}, if $G$ has a nowhere-zero $\mathbf{A}$-flow, then so does $G/e$.
+By Corollary~\ref{cor:contractflow}, if $G$ has a nowhere-zero $\mathbb{A}$-flow, then so does $G/e$.
 
-Conversely, suppose $f$ is a nowhere-zero $\mathbf{A}$-flow in $G/e$.  Let $e=uv$ and let $e'=u'v'$ be the other edge of a $2$-edge-cut
+Conversely, suppose $f$ is a nowhere-zero $\mathbb{A}$-flow in $G/e$.  Let $e=uv$ and let $e'=u'v'$ be the other edge of a $2$-edge-cut
 containing $e$, labelled so that $u$ and $u'$ are in the same component $S$ of $G-\{e,e'\}$.  Let us extend $f$ to $G$
 by setting $f(e)=-f(e')$, so that $f(V(S))=0$.
 Note that the flow conservation law holds at all vertices except possibly for $u$ and $v$.
 Furthermore, since $f(V(S))=0$ and the flow conservation law holds at all vertices of $V(S)$ except possibly for $u$,
-we conclude analogously to Observation~\ref{obs:flowcol} that the flow conservation law holds also at $u$.  A symmetrical
-argument shows that the flow conservation law holds at $v$.  Hence, $f$ is a nowhere-zero $\mathbf{A}$-flow in $G$.
+we conclude analogously to Observation~\ref{obs:flowoncut} that the flow conservation law holds also at $u$.  A symmetrical
+argument shows that the flow conservation law holds at $v$.  Hence, $f$ is a nowhere-zero $\mathbb{A}$-flow in $G$.
 \end{proof}
 
 Another operation which is often useful is \emph{lifting} edges incident with a vertex.  If $e_1=uv$ and $e_2=vw$ are distinct edges
 in a multigraph $G$ and $G'$ is obtained from $G-\{e_1,e_2\}$ by adding an edge joining $u$ and $w$, we say that $G'$ is obtained
-from $G$ by \emph{lifting the edges $e_1$ and $e_2$ at $v$}.  Clearly, if $G'$ contains a nowhere-zero $\mathbf{A}$-flow,
+from $G$ by \emph{lifting the edges $e_1$ and $e_2$ at $v$}.  Clearly, if $G'$ contains a nowhere-zero $\mathbb{A}$-flow,
 then $G$ contains one as well, obtained by sending the flow of $e$ over edges $e_1$ and $e_2$ instead.
 The following result of Mader~\cite{mader} is of particular importance in this context.
 \begin{lemma}[Mader~\cite{mader}]\label{lemma:mader}
@@ -4157,38 +4189,38 @@ degree at least $k+2$, then there exist edges incident with $v$ whose lifting re
 For a flow $f$, the \emph{support} of $f$ is the set of edges on that it is non-zero.
 The following fact is very useful when constructing nowhere-zero flows over products of groups (which often can be assumed due to Corollary~\ref{cor:sizeflow}).
 \begin{observation}\label{obs:prodflow}
-Let $\mathbf{A}=\mathbf{A}_1\times \cdots\times \mathbf{A}_k$ be an abelian group.
-For $i=1,\ldots, k$, let $f_i$ be an $\mathbf{A}_i$-flow in a multigraph $G$.
-Let $f(e)=(f_1(e),\ldots,f_k(e))$ for each edge $e\in E(G)$.  Then $f$ is an $\mathbf{A}$-flow in $G$,
+Let $\mathbb{A}=\mathbb{A}_1\times \cdots\times \mathbb{A}_k$ be an abelian group.
+For $i=1,\ldots, k$, let $f_i$ be an $\mathbb{A}_i$-flow in a multigraph $G$.
+Let $f(e)=(f_1(e),\ldots,f_k(e))$ for each edge $e\in E(G)$.  Then $f$ is an $\mathbb{A}$-flow in $G$,
 and if the union of supports of $f_1$, \ldots, $f_k$ is $E(G)$, then $f$ is nowhere-zero.
 \end{observation}
 
 This observation is often used in conjuction with the following construction of flows with large support.
 
 \begin{lemma}\label{lemma:treecomplflow}
-Let $G$ be a connected multigraph and let $T$ be a spanning tree of $G$.  Let $\mathbf{A}$ be a non-trivial abelian group
-and let $f$ be an arbitrary function assigning elements of $\mathbf{A}$ to directed edges of $E(G)\setminus E(T)$.
-Then $f$ can be extended to a $\mathbf{A}$-flow in $G$.  In particular, $G$ has an $\mathbf{A}$-flow whose support
+Let $G$ be a connected multigraph and let $T$ be a spanning tree of $G$.  Let $\mathbb{A}$ be a non-trivial abelian group
+and let $f$ be an arbitrary function assigning elements of $\mathbb{A}$ to directed edges of $E(G)\setminus E(T)$.
+Then $f$ can be extended to an $\mathbb{A}$-flow in $G$.  In particular, $G$ has an $\mathbb{A}$-flow whose support
 contains all edges of $G$ not belonging to $T$.
 \end{lemma}
 \begin{proof}
 We prove the following stronger claim:  Let $T\subseteq G$ be a tree, and let $f$ be an arbitrary function assigning elements of
-$\mathbf{A}$ to directed edges of $E(G)\setminus E(T)$, such that the flow conservation law holds at all vertices of $V(G)\setminus V(T)$.
-Then $f$ can be extended to a $\mathbf{A}$-flow in $G$.
+$\mathbb{A}$ to directed edges of $E(G)\setminus E(T)$, such that the flow conservation law holds at all vertices of $V(G)\setminus V(T)$.
+Then $f$ can be extended to an $\mathbb{A}$-flow in $G$.
 
 The claim is proved by induction on the number of vertices of $T$.  If $T$ has only one vertex $v$, then $f$ is already defined
 on all edges of $G$ and satisfies the flow conservation law at all vertices of $G$ other than $v$ by the assumptions.
-However, then $f$ also satisfies the flow conservation law at $v$ (analogously to Observation~\ref{obs:flowoncut} applied to $S=V(G)\setminus\{v\}$,
-noting that $f(S)$ is equal to $f(\{v\})$).
+However, then $f$ also satisfies the flow conservation law at $v$ (by Observation~\ref{obs:flowoncut} applied to $S=V(G)\setminus\{v\}$,
+noting that $f(\{v\})$ is equal to $-f(S)$).
 
 If $|V(T)|\ge 2$, then $T$ has a leaf $u$ incident with a unique edge $e_0=uw\in E(T)$.  Let us set
-$$f(e_0)=-\sum_{e=ux\in E(\overleftrightarrow{G}), e\neq e_0} f(e),$$
-so that the flow conservation law is satisfied at $u$.  The claim then follows by induction hypothesis applied to $T-u$.
+$$f(e_0)=-\sum_{e\in E^+_{\ovlr{G}}(u), e\neq e_0} f(e),$$
+so that the flow conservation law is satisfied at $u$.  The claim then follows by the induction hypothesis applied to $T-u$.
 \end{proof}
 
 In particular, Observation~\ref{obs:prodflow} can be applied to construct a nowhere-zero flow from two flows obtained using
 Lemma~\ref{lemma:treecomplflow} for edge-disjoint spanning trees.  Existence of such trees is guaranteed by the following
-well-known connectivity condition, which is a corollary of a stronger theorem of Nash-Williams.
+well-known connectivity condition, which is a corollary of a stronger theorem of Nash-Williams~\cite{nashwil}.
 
 \begin{theorem}\label{thm:disjspanning}
 For every integer $k\ge 1$, each $2k$-edge-connected graph has $k$ pairwise edge-disjoint spanning trees.
@@ -4230,7 +4262,7 @@ Every bridgeless multigraph that does not contain the Petersen graph as a minor 
 \end{conjecture}
 Since the Petersen graph is not planar, (duals of) plane graphs do not contain Petersen minors, and thus
 the 4-Flow Conjecture strengthens the 4-color theorem.  Using Corollary~\ref{cor:contractflow}, it is easy to see that it would suffice
-to prove the 5-Flow Conjecture cubic graphs (see the proof of Theorem~\ref{thm:6flow} below for a more
+to prove the 5-Flow Conjecture for cubic graphs (see the proof of Theorem~\ref{thm:6flow} below for a more
 detailed argument).  This is not the case for the 4-Flow Conjecture: replacing or splitting off vertices of large degree can create
 a Petersen minor.  Nevertheless, the special case of cubic graphs is still interesting and strengthens the Four Color Theorem;
 a rather involved proof has been obtained recently~\cite{flow431,flow432,flow433}.
@@ -4240,7 +4272,7 @@ where the graph contains a vertex $v$ such that $G-v$ is planar.
 It is easy to see that such a graph $G$ cannot contain the Petersen graph as a minor, since the Petersen graph minus one vertex is still non-planar.
 Furthermore, vertices of $V(G)\setminus \{v\}$ of degree greater than three can be replaced by cycles of vertices of degree three while preserving the fact that $G-v$ is planar.
 Hence, we can without loss of generality assume that all vertices of $G$ other than $v$ have degree three.
-Analogously to Lemma~\ref{lemma:z223col}, one can show that $G$ has a nowhere-zero $\mathbf{Z}_2^2$-flow if and only if $G-v$ is $3$-edge-colorable.
+Analogously to Lemma~\ref{lemma:z223col}, one can show that $G$ has a nowhere-zero $\mathbb{Z}_2^2$-flow if and only if $G-v$ is $3$-edge-colorable.
 Hence, this special case is equivalent to an old conjecture of Gr\"{o}tzsch which is also open.
 \begin{conjecture}[Gr\"{o}tzsch' Conjecture]
 A planar bridgeless graph $G$ of maximum degree at most three is $3$-edge-colorable if and only if no component of $G$ contains
@@ -4255,9 +4287,9 @@ Every $4$-edge-connected multigraph has a nowhere-zero $4$-flow.
 \end{theorem}
 \begin{proof}
 Let $G$ be a $4$-edge-connected multigraph.  By Theorem~\ref{thm:disjspanning}, $G$ has two edge-disjoint spanning trees $T_1$ and $T_2$.
-By Lemma~\ref{lemma:treecomplflow}, for $i\in\{1,2\}$ there exists a $\mathbf{Z}_2$-flow $f_i$ in $G_i$ whose support includes the complement of $T_i$.
+By Lemma~\ref{lemma:treecomplflow}, for $i\in\{1,2\}$ there exists a $\mathbb{Z}_2$-flow $f_i$ in $G_i$ whose support includes the complement of $T_i$.
 Since $T_1$ and $T_2$ are edge-disjoint, the union of the supports of $f_1$ and $f_2$ is $E(G)$, and thus
-$G$ has a nowhere-zero $\mathbf{Z}_2^2$-flow by Observation~\ref{obs:prodflow}.
+$G$ has a nowhere-zero $\mathbb{Z}_2^2$-flow by Observation~\ref{obs:prodflow}.
 \end{proof}
 
 A similar argument shows existence of nowhere-zero $8$-flows in general bridgeless graphs.
@@ -4265,18 +4297,18 @@ A similar argument shows existence of nowhere-zero $8$-flows in general bridgele
 Every bridgeless multigraph $G$ has a nowhere-zero $8$-flow.
 \end{theorem}
 \begin{proof}
-We prove by induction on the number of vertices of $G$ that $G$ has a nowhere-zero $\mathbf{Z}_2^3$-flow, the case $|V(G)|=1$ being trivial.
+We prove by induction on the number of vertices of $G$ that $G$ has a nowhere-zero $\mathbb{Z}_2^3$-flow, the case $|V(G)|=1$ being trivial.
 Clearly we can assume that $G$ is connected, and since it is bridgeless, it is $2$-edge-connected.
 If $G$ is not $3$-edge-connected, then an edge $e$ of $G$ is contained in a $2$-edge-cut.
-By the induction hypothesis, $G/e$ has a nowhere-zero $\mathbf{Z}_2^3$-flow, and thus $G$ has a nowhere-zero $\mathbf{Z}_2^3$-flow by
+By the induction hypothesis, $G/e$ has a nowhere-zero $\mathbb{Z}_2^3$-flow, and thus $G$ has a nowhere-zero $\mathbb{Z}_2^3$-flow by
 Lemma~\ref{lemma:contr2ecflow}.
 
 Hence, we can assume that $G$ is $3$-edge-connected.  Let $G'$ be the multigraph obtained from $G$ by doubling each edge;
 then $G'$ is $6$-edge-connected.  By Theorem~\ref{thm:disjspanning}, $G'$ has three pairwise edge-disjoint spanning trees,
 and thus $G$ contains spanning trees $T_1$, $T_2$, and $T_3$ such that each edge of $G$ belongs to at most two of the trees.
-By Lemma~\ref{lemma:treecomplflow}, for $i\in\{1,2,3\}$ there exists a $\mathbf{Z}_2$-flow $f_i$ in $G_i$ whose support includes the complement of $T_i$.
+By Lemma~\ref{lemma:treecomplflow}, for $i\in\{1,2,3\}$ there exists a $\mathbb{Z}_2$-flow $f_i$ in $G_i$ whose support includes the complement of $T_i$.
 Since no edge of $G$ belongs to all of the trees $T_1$, $T_2$, and $T_3$, the union of the supports of $f_1$, $f_2$, and $f_3$ is $E(G)$.
-Consequently, $G$ has a nowhere-zero $\mathbf{Z}_2^3$-flow by Observation~\ref{obs:prodflow}.
+Consequently, $G$ has a nowhere-zero $\mathbb{Z}_2^3$-flow by Observation~\ref{obs:prodflow}.
 \end{proof}
 
 Thomassen improved Theorem~\ref{thm:8flow}, showing that all bridgeless graphs have nowhere-zero $6$-flows.   To this end, he used
@@ -4303,7 +4335,7 @@ We can now prove a bound on existence of flows that is only by one worse than th
 Every bridgeless graph $G$ has a nowhere-zero $6$-flow.
 \end{theorem}
 \begin{proof}
-We will prove that $G$ has a nowhere-zero $\mathbf{Z}_2\times\mathbf{Z}_3$-flow.
+We will prove that $G$ has a nowhere-zero $\mathbb{Z}_2\times\mathbb{Z}_3$-flow.
 As in the proof of Theorem~\ref{thm:8flow}, we can assume that $G$ is $3$-edge-connected.  Furthermore, we can assume that $G$ has maximum degree at most
 three: a vertex $v$ with neighbors $v_1$, \ldots, $v_k$ can be replaced by a cycle $w_1w_2\ldots w_k$ and edges $w_iv_i$ for $1\le i\le k$,
 and a flow in the resulting graph can be transformed into a flow in $G$ by Corollary~\ref{cor:contractflow}.  Hence,
@@ -4313,29 +4345,29 @@ For $m=2, \ldots, k$, let $H_m$ be a subgraph of $G$ with vertex set $V_1\cup \l
 with one end in $V_i$ and the other end in $V_1\cup \ldots\cup V_{i-1}$.  Observe that $K_m\cup H_m$ is connected and there exists a cycle $C_m\subseteq H_m$
 containing both edges from $V_m$ to $V_1\cup\ldots\cup V_{m-1}$.
 
-Let $T$ be a spanning tree of $K_k\cup H_k$; note that $T$ is also a spanning tree of $G$.  By Lemma~\ref{lemma:treecomplflow}, $G$ has a $\mathbf{Z}_3$-flow $f_k$
-whose support contains $E(G)\setminus E(T)$, and thus $f_k$ can be $0$ only on edges of $K_k\cup H_k$.  Let us now transform $f_k$ into a $\mathbf{Z}_3$-flow $f_1$
+Let $T$ be a spanning tree of $K_k\cup H_k$; note that $T$ is also a spanning tree of $G$.  By Lemma~\ref{lemma:treecomplflow}, $G$ has a $\mathbb{Z}_3$-flow $f_k$
+whose support contains $E(G)\setminus E(T)$, and thus $f_k$ can be $0$ only on edges of $K_k\cup H_k$.  Let us now transform $f_k$ into a $\mathbb{Z}_3$-flow $f_1$
 which can be zero only on $K_k$.  We define $Z_3$-flows $f_{k-1}$, \ldots, $f_1$, such that $f_i$ can only be zero
 on edges of $H_i\cup K_k$.  Assuming $f_{i+1}$ was already constructed, we consider the three flows obtained from $f_{i+1}$ by increasing the flow values
 along the cycle $C_{i+1}\subseteq H_{i+1}\cup K_k$ by $0$, $1$, and $2$.  Note that one of these three flows is non-zero on both edges of $H_{i+1}$ between $V_{i+1}$ and $V_1\cup\ldots\cup V_i$;
 we select this flow as $f_i$.  Since all the edges whose values differ in $f_{i+1}$ and $f_i$ belong to $H_{i+1}\cup K_k$, we conclude inductively that $f_i$ can only have zeros
 on edges of $H_i\cup K_k$.
 
-Consequently, the $\mathbf{Z}_3$-flow $f_1$ can only be zero on the edges of $K_k$.
-Let $f_0$ be the $\mathbf{Z}_2$-flow in $G$ whose value is $1$ on edges of $K_k$ and zero everywhere else.
-The union of the supports of $f_0$ and $f_1$ is $E(G)$, and thus $G$ has a nowhere-zero $\mathbf{Z}_2\times \mathbf{Z}_3$-flow by Observation~\ref{obs:prodflow}.
+Consequently, the $\mathbb{Z}_3$-flow $f_1$ can only be zero on the edges of $K_k$.
+Let $f_0$ be the $\mathbb{Z}_2$-flow in $G$ whose value is $1$ on edges of $K_k$ and zero everywhere else.
+The union of the supports of $f_0$ and $f_1$ is $E(G)$, and thus $G$ has a nowhere-zero $\mathbb{Z}_2\times \mathbb{Z}_3$-flow by Observation~\ref{obs:prodflow}.
 \end{proof}
 
 \subsection{Weak $3$-flow conjecture}\label{ssec:weak3flow}
 
 It is much more difficult to prove existence of a $3$-flow subject to some edge-connectivity assumption, partially because
-$\mathbf{Z}_3$ is not a product of non-trivial groups, which makes it impossible to use Observation~\ref{obs:prodflow}.
+$\mathbb{Z}_3$ is not a product of non-trivial groups, which makes it impossible to use Observation~\ref{obs:prodflow}.
 Indeed, for quite a long time is has been open whether any edge-connectivity is sufficient to ensure the existence of a $3$-flow.
 We now aim to show that 6-edge-connected multigraphs have nowhere-zero $3$-flows, based on an argument of Mikl\'os Lov\'asz et al.~\cite{weak63}
 (improving an older argument of Thomassen~\cite{weak83} for $8$-edge-connected graphs).
-Let us remark that to prove the $3$-Flow Conjecture, it would be enough to shou that 5-edge-connected multigraphs have nowhere-zero 3-flows~\cite{weak53eq}.
+Let us remark that to prove the $3$-Flow Conjecture, it would be enough to show that 5-edge-connected multigraphs have nowhere-zero 3-flows~\cite{weak53eq}.
 
-Consider a nowhere-zero $\mathbf{Z}_3$ flow $f$ in a multigraph $G$. Clearly, we can select an orientation $\vec{G}$ of $G$
+Consider a nowhere-zero $\mathbb{Z}_3$ flow $f$ in a multigraph $G$. Clearly, we can select an orientation $\vec{G}$ of $G$
 so that $f(uv)=1$ for all $uv\in E(\vec{G})$.  Hence, $G$ has a nowhere-zero $3$-flow if and only if $G$ has an orientation
 such that each vertex of $G$ has the same in- and out-degree modulo $3$.  For the purposes of induction, we will consider
 a more general problem.  For a function $\beta:V(G)\to \{0,1,2\}$ and a set $X\subseteq V(G)$, let us define $\beta(X)=(\sum_{x\in X} \beta(x))\bmod 3$.
@@ -4374,7 +4406,7 @@ other than $\{v_0\}$, then $G$ has a $\beta$-orientation extending $\vec{D}$.
 
 To summarize, the bounds on the sizes of edge-cuts around sets $A$ with given boundary required by Theorem~\ref{thm:6flowgen} can be found in Table~\ref{tab:6flowgen}.
 Before we prove Theorem~\ref{thm:6flowgen}, let us observe that it indeed implies that $6$-edge-connected graphs have nowhere-zero $3$-flows.
-Indeed, they have the following stronger property (called \emph{$\mathbf{Z}_3$-connectivity}).
+Indeed, they have the following stronger property (called \emph{$\mathbb{Z}_3$-connectivity}).
 \begin{table}
 \begin{center}
 \begin{tabular}{c|cc}
@@ -4601,23 +4633,144 @@ requiring a lot of careful trial-and-error; and we can say very little regarding
 \section{$3$-colorability of near-quadrangulations}
 
 The connection between coloring and nowhere-zero flows turns out to be especially useful in the case of $3$-coloring of
-plane graphs with almost all faces of length exactly $4$; the reason being that nowhere-zero $\mathbf{Z}_3$-flows
-in $4$-regular graphs (their duals) degenerate into ordinary integer flows (bounded by $1$ on each edge), as stated more precisely
-in the following lemma.  For generality, we state the result in terms of boundaries and consistent orientations,
-which we introduced in Subsection~\ref{ssec:weak3flow}.  For an undirected multigraph $G$, a \emph{demand function} is any function $d:V(G)\to\mathbf{Z}$
-such that $d(V(G))=0$, where $d(X)=\sum_{x\in X} d(x)$ for any set $X\subseteq V(G)$.  A \emph{$\mathbf{Z}$-flow (with unit capacities) satisfying demands $d$}
-is a function $f:E(\overleftrightarrow(G))\to \{-1,0,1\}$ such that $f(\overleftarrow{e})+f(\overrightarrow{e})=0$ for the opposite orientations
-$\overleftarrow{e}$ and $\overrightarrow{e}$ of each edge $e\in E(G)$, and such that
+plane graphs with almost all faces of length exactly $4$; the reason being that nowhere-zero $\mathbb{Z}_3$-flows
+in $4$-regular graphs (their duals) degenerate into ordinary integer flows (bounded by $1$ on each edge).
+Let us state this observation in a more general form in the language of boundaries and consistent orientations we
+introduced in Subsection~\ref{ssec:weak3flow}.
+
+For an undirected multigraph $G$, a \emph{demand function} is any function $d:V(G)\to\mathbb{Z}$
+such that
+\begin{itemize}
+\item $d(V(G))=0$, where $d(X)=\sum_{x\in X} d(x)$ for any set $X\subseteq V(G)$, and
+\item for every $v\in V(G)$, $|d(v)|\le \deg(v)$ and $d(v)$ has the same parity as $\deg(v)$.
+\end{itemize}
+The demand function \emph{refines} a boundary $\beta$ if $\beta(v)=d(v)\bmod 3$ for each $v\in V(G)$.
+Note that if $\beta(v)=0$ and $\deg(v)=4$, if a demand function $d$ refines $\beta$, then $d(v)=0$
+(while in other cases, there are up to $\lceil (2\deg(v)+1)/6\rceil$ possible values of $d(v)$).
+
+A \emph{$\mathbb{Z}$-flow (with unit capacities) satisfying demands $d$}
+is a function $f:E(\ovlr{G})\to \{-1,0,1\}$ such that $f(\ovl{e})+f(\ovr{e})=0$ for the opposite orientations
+$\ovl{e}$ and $\ovr{e}$ of each edge $e\in E(G)$, and such that
 $$\sum_{e\in E^+(v)} f(e)=d(v)$$
-for all $v\in V(G)$.
+for all $v\in V(G)$.  If $\vec{D}$ is an orientation of a subgraph $G$ of $G$, we say that the $\mathbb{Z}$-flow $f$
+\emph{extends} $\vec{D}$ if $f(e)=1$ for each $e\in E(\vec{D})$.  A set $S\subseteq V(G)$ is a \emph{$(d,\vec{D})$-blocking cut}
+if $d(S)>|E_{\ovlr(G)}^+(S)|-|E_{\vec{D}}^+(S)|$.
 
 \begin{lemma}\label{lemma:z3ord}
-...
+Let $G$ be a multigraph with boundary $\beta$, and let $\vec{D}$ be an orientation of a subgraph of $G$.  The following
+claims are equivalent:
+\begin{itemize}
+\item[(a)] $G$ has a $\beta$-orientation extending $\vec{D}$.
+\item[(b)] There exists a demand function $d$ refining $\beta$ and a $\mathbb{Z}$-flow satisfying demands $d$
+and extending $\vec{D}$.
+\item[(c)] There exists a demand function $d$ refining $\beta$ with no $(d,\vec{D})$-blocking cuts.
+\end{itemize}
 \end{lemma}
+\begin{proof}
+If $\vec{G}$ is a $\beta$-orientation extending $\vec{D}$, we can define $f(e)=1$ for every $e\in E(\vec{G})$,
+$f(\ovl{e})=-f(\ovr{e})$ for every $e\in E(G)$ such that $\ovr{e}\in E(\vec{G})$, and
+and $d(v)=\sum_{e\in E_{\ovlr{G}}^+(v)} f(e)$ for each vertex $v\in V(G)$.  This gives a demand function $d$ refining $\beta$,
+and $f$ is a $\mathbb{Z}$-flow satisfying demands $d$ and extending $\vec{D}$.  Hence, (a) implies (b).
+
+Suppose $d$ is a demand function refining $\beta$ and $f$ is a $\mathbb{Z}$-flow satisfying demands $d$
+and extending $\vec{D}$.  Let $G'$ be the spanning subgraph of $G$ consisting of edges to which $f$ assigns zero flow.
+Since $d(v)$ has the same parity as $\deg(v)$ and $f$ satisfies the demands $d$, we conclude that every vertex of $G'$
+has even degree.  By Observation~\ref{obs:euler}, $G'$ has a $\mathbb{Z}$-flow $f'$ using only values $-1$ and $1$.
+Then $f+f'$ is a $\mathbb{Z}$-flow satisfying demands $d$ and extending $\vec{D}$ using only values $-1$ and $1$.
+The orientation $\vec{G}$ of $G$ consisting of the edges $e\in E(\ovlr{G})$ such that $f(e)=1$ extends $\vec{D}$,
+and since $d$ refines $\beta$, $\vec{G}$ is a $\beta$-orientation.  Hence, (b) implies (a).
+
+The equivalence of (b) and (c) follows from the max-flow min-cut theorem.
+\end{proof}
+
+Using the duality between colorings and flows in plane graphs, we obtain a characterization
+for precoloring extension in plane near-quadrangulations.
+Let $\psi$ be a $3$-coloring of a cycle $C$ in a plane graph $G$.  We define $\vec{C}^\star_\psi$
+as the orientation of the corresponding edges in the dual $G^\star$ of $G$, containing the edges $e^\star$
+for each edge $e=uv\in\ovlr{C}$ such that $\psi(v)-\psi(u)\equiv 1\pmod 3$.
+A demand function $d$ is \emph{normal} if it refines the zero boundary, that is, $d(v)$ is divisible by $3$
+for every vertex $v$.
 
 \begin{lemma}\label{lemma:flow-quadr}
-...
+Let $G$ be a connected plane graph with the outer face bounded by a cycle $C$, and let $\psi$ be a $3$-coloring of $C$.
+The following claims are equivalent:
+\begin{itemize}
+\item[(a)] $G$ has a proper $3$-coloring extending $\psi$.
+\item[(b)] In the dual $G^\star$ of $G$, there exists a normal demand function $d$ and a $\mathbb{Z}$-flow satisfying demands $d$
+and extending $\vec{C}^\star_\psi$.
+\item[(c)] In the dual $G^\star$ of $G$, there exists a normal demand function $d$ with no $(d,\vec{C}^\star_\psi)$-blocking cuts.
+\end{itemize}
 \end{lemma}
+\begin{proof}
+Suppose first $G$ has a proper $\mathbb{Z}_3$-coloring $\varphi$ extending $\psi$.  Let $f$ be the nowhere-zero $\mathbb{Z}_3$-flow
+in the dual $G^\star$ derived from $\varphi$.  Since $\varphi$ extends $\psi$, for each edge $e=uv\in\ovlr{C}$ we have
+$$f(e^\star)=\varphi(v)-\varphi(u)=\psi(v)-\psi(u),$$
+and thus $f(e')=1$ for every $e'\in E(\vec{C}^\star_\psi)$.  Hence, the orientation $\vec{G}^\star$ of $G^\star$ consisting of edges $e'\in E(\ovlr{G}^\star)$
+such that $f(e')=1$ extends $\vec{C}^\star_\psi$.  Since $f$ is a $\mathbb{Z}_3$-flow, $\vec{G}^\star$ is a $\beta$-orientation for the zero boundary $\beta$.
+By Lemma~\ref{lemma:z3ord}, it follows that there exists a normal demand function $d$ in $G^\star$ and a $\mathbb{Z}$-flow satisfying demands $d$
+and extending $\vec{C}^\star_\psi$.  Hence, (a) implies (b).
+
+Conversely, suppose that $d$ is a normal demand function $d$ and $f$ is a $\mathbb{Z}$-flow satisfying demands $d$
+and extending $\vec{C}^\star_\psi$.  By Lemma~\ref{lemma:z3ord}, there exists a $\beta$-orientaion $\vec{G}^\star$ of $G^\star$ extending
+$\vec{C}^\star_\psi$ for the zero demand function $\beta$.  Consequently, there exists a nowhere-zero $\mathbb{Z}_3$-flow $f$ in
+$G^\star$ such that $f(e')=1$ for every $e'\in E(\vec{C}^\star_\psi)$.  Let $v$ be a vertex of $C$.
+Proceeding as in the proof of Lemma~\ref{lemma:flowtocolor}, we construct a $\mathbb{Z}_3$-coloring $\varphi$ of $G$ whose derived
+$\mathbb{Z}_3$-flow is $f$ such that $\varphi(v)=\psi(v)$.  Since $f(e')=1$ for every $e'\in E(\vec{C}^\star_\psi)$ and
+$f$ is derived from $\varphi$, we conclude that $\varphi(u)=\psi(u)$ for every $u\in V(C)$.  Hence, $\varphi$ extends $\psi$.
+Therefore, (b) implies (a).
+
+The equivalence of (b) and (c) follows from Lemma~\ref{lemma:z3ord}.
+\end{proof}
+
+Note that in the situation of Lemma~\ref{lemma:flow-quadr}, the precoloring $\psi$ determines uniquely the value of
+the demand function $d$ on the vertex $v^\star$ corresponding to the outer face of $G$:
+$$d(v^\star)=\deg^+_{\vec{C}^\star_\psi}(v^\star)-\deg^-_{\vec{C}^\star_\psi}(v^\star).$$
+If $G$ has only a bounded number of faces distinct from the outer one of length other than $4$ and the lengths of these faces
+are bounded, then there is only a bounded number of normal demand functions to be inspected in (b), and for each possible demand
+function, we can verify whether there exists a $\mathbb{Z}$-flow satisfying demands $d$ and extending $\vec{C}^\star_\psi$
+in polynomial time using any efficient maximum flow algorithm.  Hence, in this situation, we can in polynomial time determine
+whether $\psi$ extends to a proper $3$-coloring of $G$.
+
+In theoretical applications, it is more convenient to work directly in the graph rather than in its dual.
+Let $\psi$ be a $3$-coloring of vertices of a walk $W=v_1v_2\ldots v_k$.
+We define $$\omega_\psi(W)=\sum_{i=1}^{k-1}((\psi(v_{i+1})-\psi(v_i))\bmod 3),$$
+where $-1\bmod 3=2$ and $-2\bmod 3=1$.  For a cycle $C$, note that $\omega_\psi(C)$ is divisible by $3$;
+the \emph{winding number} of $\psi$ on $C$ is defined as $\omega_\psi(C)/3$, and if we see $\psi$ as
+a homomorphism of $C$ to a triangle, we can interpret it as the number of times the image of $C$ goes around the triangle.
+
+Let $G$ be a plane graph with the outer face bounded by $C$, and let $F^{(i)}$ be the set of non-outer faces of $G$.
+A \emph{primal demand function} with respect to $\psi$ is a function $d:F^{(i)}\to\mathbb{Z}$ such that
+\begin{itemize}
+\item $d(F^{(i)})=-\omega_\psi(C)$, and
+\item for every non-outer face $f$, we have $|d(f)|\le |f|$ and $d(f)$ has the same parity as $|f|$.
+\end{itemize}
+For a cycle $K$ in $G$, let $d(K)$ denote the sum of $d(f)$ over the faces $f$ drawn inside $K$.
+
+\begin{lemma}\label{lemma:flow-quadr-better}
+Let $G$ be a connected plane graph with the outer face bounded by a cycle $C$, and let $\psi$ be a $3$-coloring of $C$.
+The precoloring $\psi$ extends to a proper $3$-coloring of $G$ if and only if there exists a primal demand function $d$
+with respect to $\psi$ satisfying the following conditions.
+\begin{itemize}
+\item Every cycle $K$ intersecting $C$ in at most one vertex satisfies $|d(K)|\le |K|$.
+\item Every path $P$ intersecting $C$ in exactly two vertices $v_1$ and $v_2$ and both subpaths $Q$ with
+endpoints $v_1$ and $v_2$ satisfy $|\omega_\psi(Q)+d(P\cup Q)|\le |P|$.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+% TODO: zkontrolovat zneni, opravit znamenko/orientaci v \omega_\psi(Q)+d(P\cup Q)
+\end{proof}
+
+\begin{corollary}\label{cor:facesum}
+...
+\end{corollary}
+
+In particular, in the case all faces except for the outer one have length $4$,
+the winding number of $\psi$ must necessarily be $0$, and
+we obtain the following nice characterization.
+
+\begin{corollary}\label{cor:flow-quadr}
+...
+\end{corollary}
 
 \part{Coloring Graphs on Surfaces}
 
