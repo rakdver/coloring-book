@@ -4644,8 +4644,8 @@ such that
 \item $d(V(G))=0$, where $d(X)=\sum_{x\in X} d(x)$ for any set $X\subseteq V(G)$, and
 \item for every $v\in V(G)$, $|d(v)|\le \deg(v)$ and $d(v)$ has the same parity as $\deg(v)$.
 \end{itemize}
-The demand function \emph{refines} a boundary $\beta$ if $\beta(v)=d(v)\bmod 3$ for each $v\in V(G)$.
-Note that if $\beta(v)=0$ and $\deg(v)=4$, if a demand function $d$ refines $\beta$, then $d(v)=0$
+The demand function \emph{refines} a boundary $\beta$ if $\beta(v)\equiv d(v)\bmod 3$ for each $v\in V(G)$.
+Note that when $\beta(v)=0$ and $\deg(v)=4$, if a demand function $d$ refines $\beta$, then $d(v)=0$
 (while in other cases, there are up to $\lceil (2\deg(v)+1)/6\rceil$ possible values of $d(v)$).
 
 A \emph{$\mathbb{Z}$-flow (with unit capacities) satisfying demands $d$}
@@ -4654,7 +4654,9 @@ $\ovl{e}$ and $\ovr{e}$ of each edge $e\in E(G)$, and such that
 $$\sum_{e\in E^+(v)} f(e)=d(v)$$
 for all $v\in V(G)$.  If $\vec{D}$ is an orientation of a subgraph $G$ of $G$, we say that the $\mathbb{Z}$-flow $f$
 \emph{extends} $\vec{D}$ if $f(e)=1$ for each $e\in E(\vec{D})$.  A set $S\subseteq V(G)$ is a \emph{$(d,\vec{D})$-blocking cut}
-if $d(S)>|E_{\ovlr(G)}^+(S)|-|E_{\vec{D}}^+(S)|$.
+if $d(S)>|E_{\ovlr{G}}^+(S)|-2|E_{\vec{D}}^-(S)|$.  Let us remark that in a $\mathbb{Z}$-flow satisfying demands $d$,
+$d(S)$ is the amount of flow leaving $S$, while $|E_{\ovlr{G}}^+(S)|-2|E_{\vec{D}}^-(S)|$ is an upper bound on the amount
+of flow that can leave $S$ in any $\mathbb{Z}$-flow extending $\vec{D}$.
 
 \begin{lemma}\label{lemma:z3ord}
 Let $G$ be a multigraph with boundary $\beta$, and let $\vec{D}$ be an orientation of a subgraph of $G$.  The following
@@ -4668,7 +4670,7 @@ and extending $\vec{D}$.
 \end{lemma}
 \begin{proof}
 If $\vec{G}$ is a $\beta$-orientation extending $\vec{D}$, we can define $f(e)=1$ for every $e\in E(\vec{G})$,
-$f(\ovl{e})=-f(\ovr{e})$ for every $e\in E(G)$ such that $\ovr{e}\in E(\vec{G})$, and
+$f(\ovl{e})=-f(\ovr{e})$ for every $e\in E(\ovlr{G})$ such that $\ovr{e}\in E(\vec{G})$,
 and $d(v)=\sum_{e\in E_{\ovlr{G}}^+(v)} f(e)$ for each vertex $v\in V(G)$.  This gives a demand function $d$ refining $\beta$,
 and $f$ is a $\mathbb{Z}$-flow satisfying demands $d$ and extending $\vec{D}$.  Hence, (a) implies (b).
 
@@ -4680,7 +4682,13 @@ Then $f+f'$ is a $\mathbb{Z}$-flow satisfying demands $d$ and extending $\vec{D}
 The orientation $\vec{G}$ of $G$ consisting of the edges $e\in E(\ovlr{G})$ such that $f(e)=1$ extends $\vec{D}$,
 and since $d$ refines $\beta$, $\vec{G}$ is a $\beta$-orientation.  Hence, (b) implies (a).
 
-The equivalence of (b) and (c) follows from the max-flow min-cut theorem.
+Furthermore, for any set $S\subseteq V(G)$, we have
+\begin{align*}
+d(S)&=\sum_{v\in S}\sum_{e\in E^+(v)} f(e)=f(S)=|E^+(S)|-2|\{e\in E^+(S): f(e)=-1\}|\\
+&\le |E^+(S)|-2|E_{\vec{D}}^-(S)|,
+\end{align*}
+implying that $S$ is not a $(d,\vec{D})$-blocking cut.  Hence, (b) also implies (c).
+The converse follows from the max-flow min-cut theorem.
 \end{proof}
 
 Using the duality between colorings and flows in plane graphs, we obtain a characterization
@@ -4702,7 +4710,7 @@ and extending $\vec{C}^\star_\psi$.
 \end{itemize}
 \end{lemma}
 \begin{proof}
-Suppose first $G$ has a proper $\mathbb{Z}_3$-coloring $\varphi$ extending $\psi$.  Let $f$ be the nowhere-zero $\mathbb{Z}_3$-flow
+Suppose first $G$ has a proper $3$-coloring $\varphi$ extending $\psi$.  Let $f$ be the nowhere-zero $\mathbb{Z}_3$-flow
 in the dual $G^\star$ derived from $\varphi$.  Since $\varphi$ extends $\psi$, for each edge $e=uv\in\ovlr{C}$ we have
 $$f(e^\star)=\varphi(v)-\varphi(u)=\psi(v)-\psi(u),$$
 and thus $f(e')=1$ for every $e'\in E(\vec{C}^\star_\psi)$.  Hence, the orientation $\vec{G}^\star$ of $G^\star$ consisting of edges $e'\in E(\ovlr{G}^\star)$
@@ -4711,7 +4719,7 @@ By Lemma~\ref{lemma:z3ord}, it follows that there exists a normal demand functio
 and extending $\vec{C}^\star_\psi$.  Hence, (a) implies (b).
 
 Conversely, suppose that $d$ is a normal demand function $d$ and $f$ is a $\mathbb{Z}$-flow satisfying demands $d$
-and extending $\vec{C}^\star_\psi$.  By Lemma~\ref{lemma:z3ord}, there exists a $\beta$-orientaion $\vec{G}^\star$ of $G^\star$ extending
+and extending $\vec{C}^\star_\psi$.  By Lemma~\ref{lemma:z3ord}, there exists a $\beta$-orientation $\vec{G}^\star$ of $G^\star$ extending
 $\vec{C}^\star_\psi$ for the zero demand function $\beta$.  Consequently, there exists a nowhere-zero $\mathbb{Z}_3$-flow $f$ in
 $G^\star$ such that $f(e')=1$ for every $e'\in E(\vec{C}^\star_\psi)$.  Let $v$ be a vertex of $C$.
 Proceeding as in the proof of Lemma~\ref{lemma:flowtocolor}, we construct a $\mathbb{Z}_3$-coloring $\varphi$ of $G$ whose derived
@@ -4738,39 +4746,126 @@ where $-1\bmod 3=2$ and $-2\bmod 3=1$.  For a cycle $C$, note that $\omega_\psi(
 the \emph{winding number} of $\psi$ on $C$ is defined as $\omega_\psi(C)/3$, and if we see $\psi$ as
 a homomorphism of $C$ to a triangle, we can interpret it as the number of times the image of $C$ goes around the triangle.
 
-Let $G$ be a plane graph with the outer face bounded by $C$, and let $F^{(i)}$ be the set of non-outer faces of $G$.
+Let $G$ be a plane graph with the outer face bounded by a cycle $C$, and let $F^{(i)}$ be the set of non-outer faces of $G$.
 A \emph{primal demand function} with respect to $\psi$ is a function $d:F^{(i)}\to\mathbb{Z}$ such that
 \begin{itemize}
-\item $d(F^{(i)})=-\omega_\psi(C)$, and
+\item $d(F^{(i)})=-\omega_\psi(C)$, 
 \item for every non-outer face $f$, we have $|d(f)|\le |f|$ and $d(f)$ has the same parity as $|f|$.
 \end{itemize}
 For a cycle $K$ in $G$, let $d(K)$ denote the sum of $d(f)$ over the faces $f$ drawn inside $K$.
+For distinct vertices $u$ and $v$ of $C$, let $uCv$ denote the subpath of $C$ starting in $u$ and ending in $v$
+such that the outer face of $G$ is to the left from this subpath.
 
 \begin{lemma}\label{lemma:flow-quadr-better}
 Let $G$ be a connected plane graph with the outer face bounded by a cycle $C$, and let $\psi$ be a $3$-coloring of $C$.
 The precoloring $\psi$ extends to a proper $3$-coloring of $G$ if and only if there exists a primal demand function $d$
-with respect to $\psi$ satisfying the following conditions.
+with respect to $\psi$ such that
 \begin{itemize}
-\item Every cycle $K$ intersecting $C$ in at most one vertex satisfies $|d(K)|\le |K|$.
-\item Every path $P$ intersecting $C$ in exactly two vertices $v_1$ and $v_2$ and both subpaths $Q$ with
-endpoints $v_1$ and $v_2$ satisfy $|\omega_\psi(Q)+d(P\cup Q)|\le |P|$.
+\item[(i)] every cycle $K$ intersecting $C$ in at most one vertex satisfies $|d(K)|\le |K|$, and
+\item[(ii)] every path $P$ starting in a vertex $v_1\in V(C)$, ending in a vertex $v_2\in V(C)$,
+and otherwise disjoint from $C$, satisfies $|\omega_\psi(v_2Cv_1)+d(P\cup v_2Cv_1)|\le |E(P)|$.
 \end{itemize}
 \end{lemma}
 \begin{proof}
-% TODO: zkontrolovat zneni, opravit znamenko/orientaci v \omega_\psi(Q)+d(P\cup Q)
+By Lemma~\ref{lemma:flow-quadr}, if $\psi$ extends to a $3$-coloring of $G$, then
+there exists a normal demand function $d$ with no $(d,\vec{C}^\star_\psi)$-blocking cuts in the dual $G^\star$ of $G$.
+We can naturally interpret $d$ as a primal demand function with respect to $\psi$.
+
+Consider a cycle $K$ which is edge-disjoint from $C$ and let $S_K$ denote the set of vertices of $G^\star$
+corresponding to the faces of $G$ drawn inside $K$.  We have $E_{\vec{C}^\star_\psi}^-(S_K)=\emptyset$ and $|E_{\ovlr{G^\star}}^+(S_K)|=|K|$.
+Since $S_K$ is not a $(d,\vec{C}^\star_\psi)$-blocking cut in $G^\star$, this gives $d(K)=d(S_K)\le |K|$;
+and since $V(G^\star)\setminus S_K$ is not a $(d,\vec{C}^\star_\psi)$-blocking cut in $G^\star$, we have $-d(K)=d(V(G^\star)\setminus S_K)\le |K|$.
+Hence, $|d(K)|\le |K|$ for every cycle $K$ in $G$ edge-disjoint from $C$, and in particular for any cycle $K$ intersecting $C$ in at most one vertex.
+
+Consider now a path $P$ starting in a vertex $v_1\in V(C)$, ending in a vertex $v_2\in V(C)$, and otherwise disjoint from $C$;
+let $Q=v_2Cv_1$ and let $S_P$ denote the set of vertices of $G^\star$ corresponding to the faces of $G$ drawn inside the cycle $K_P=P\cup Q$.
+We have $|E_{\vec{C}^\star_\psi}^-(S_P)|=(\omega_\psi(Q)+|E(Q)|)/2$, $|E_{\vec{C}^\star_\psi}^+(S_P)|=(-\omega_\psi(Q)+|E(Q)|)/2$, and
+$|E_{\ovlr{G^\star}}^+(S_P)|=|E(P)|+|E(Q)|$.
+Since $S_P$ is not a $(d,\vec{C}^\star_\psi)$-blocking cut in $G^\star$, this gives
+$d(P\cup Q)=d(S_P)\le |E_{\ovlr{G^\star}}^+(S_P)|-2|E_{\vec{C}^\star_\psi}^-(S_P)|=|E(P)|-\omega_\psi(Q)$.
+Furthermore, since $V(G^\star)\setminus S_P$ is not a $(d,\vec{C}^\star_\psi)$-blocking cut in $G^\star$, we have
+$d(P\cup Q)=-d(V(G^\star)\setminus S_P)\ge 2|E_{\vec{C}^\star_\psi}^+(S_P)|-|E_{\ovlr{G^\star}}^+(S_P)|=-|E(P)|-\omega_\psi(Q)$.
+Hence, (i) and (ii) holds.
+
+Conversely, suppose that there exists a primal demand function $d$ with respect to $\psi$ such that
+(i) and (ii) hold. We naturally interpret $d$ as a normal demand function in $G^\star$, and claim
+that as such it has no $(d,\vec{C}^\star_\psi)$-blocking cuts; this implies that $\psi$ extends to a $3$-coloring of $G$
+by Lemma~\ref{lemma:flow-quadr}.  Let $f^\star$ denote the vertex of $G^\star$ corresponding to the outer face of $G$.
+For $S\subseteq V(G^\star)$, let us define $\delta(S)=d(S)+2|E_{\vec{C}^\star_\psi}^-(S)|-|E_{\ovlr{G^\star}}^+(S)|$.
+Suppose for a contradiction that $S$ is a $(d,\vec{C}^\star_\psi)$-blocking cut in $G^\star$, i.e., that $\delta(S)>0$.
+Without loss of generality, we can assume that $f^\star\not\in S$ (otherwise, flip the drawing of $G$, replace $d$ by $-d$, and
+consider $V(G^\star)\setminus S$ instead of $S$).  Choose a set $S$ with $f^\star\not\in S$ and $\delta(S)>0$ such that $|E_{\ovlr{G^\star}}^+(S)|$ is minimum.
+If $G^\star[S]$ were not connected, then there would exist non-empty disjoint sets $S_1,S_2\subset S$
+such that $G^\star[S]=G^\star[S_1]\cup G^\star[S_2]$.  Note that $\delta(S)=\delta(S_1)+\delta(S_2)$, and by symmetry we could assume $\delta(S_1)>0$.
+Furthermore, $|E_{\ovlr{G^\star}}^+(S_1)|=|E_{\ovlr{G^\star}}^+(S)|-|E_{\ovlr{G^\star}}^+(S_2)|<|E_{\ovlr{G^\star}}^+(S)|$, which would contradict
+the choice of $S$.  Hence, $G^\star[S]$ is connected.
+
+If $G^\star-S$ were not connected, and there would exist disjoint non-empty sets $A_1,A_2\subset V(G^\star-S)$
+such that $G^\star-S=G^\star[A_1]\cup G^\star[A_2]$.  Note that
+\begin{align*}
+\delta(S\cup A_1)&= \delta(S)+d(A_1)-2|E_{\vec{C}^\star_\psi}^+(A_1)|+|E_{\ovlr{G^\star}}^+(A_1)|\\
+&=\delta(S)-d(S\cup A_2)-2|E_{\vec{C}^\star_\psi}^-(S_\cup A_2)|+|E_{\ovlr{G^\star}}^+(S\cup A_2)|\\
+&=\delta(S)-\delta(S\cup A_2);
+\end{align*}
+hence, by symmetry, we could assume $\delta(S\cup A_1)>0$, which contradicts the choice of $S$ since $|E_{\ovlr{G^\star}}^+(S\cup A_1)|<|E_{\ovlr{G^\star}}^+(S)|$.
+Therefore, $G^\star-S$ is connected.
+
+Let $K$ be the subgraph of $G$ formed by edges $e$ such that $e^\star$ has exactly one end in $S$, and by the incident vertices.  Clearly, $K$
+has no bridges.  Since both $G^\star[S]$ and $G^\star-S$ are connected, $K$ has exactly two faces, and thus $K$ is a cycle in $G$ (with $S$
+corresponding to the faces drawn inside $K$).  Since $\delta(S)>0$, (i) implies that $K$ shares at least two vertices with $C$.
+Let $P_1$, \ldots, $P_m$ be maximal subpaths of $K$ starting and ending in different vertices of $C$ and otherwise disjoint from $C$.
+For $i=1,\ldots,m$, let $Q_i$ be the subpath of $C$ with the same endpoints as $P_i$ such that the interior of the cycle
+$P_i\cup Q_i$ is disjoint from the interior of $K$; by (ii), we have $-(\omega_\psi(Q_i)+d(P_i\cup Q_i))\le |E(P_i)|$.
+Note that
+\begin{align*}
+|E_{\ovlr{G^\star}}^+(S)|&=|E_{\vec{C}^\star_\psi}^-(S)|+|E_{\vec{C}^\star_\psi}^+(S)|+\sum_{i=1}^m |E(P_m)|\\
+&\ge |E_{\vec{C}^\star_\psi}^-(S)|+|E_{\vec{C}^\star_\psi}^+(S)|-\sum_{i=1}^m (\omega_\psi(Q_i)+d(P_i\cup Q_i))\\
+&=-\omega_\psi(C)+2|E_{\vec{C}^\star_\psi}^-(S)|-d(V(G^\star)\setminus S)+d(f^\star)=2|E_{\vec{C}^\star_\psi}^-(S)|+d(S),
+\end{align*}
+and thus $\delta(S)\le 0$, which is a contradiction.  Hence, there is no $(d,\vec{C}^\star_\psi)$-blocking cut.
 \end{proof}
 
-\begin{corollary}\label{cor:facesum}
-...
-\end{corollary}
-
-In particular, in the case all faces except for the outer one have length $4$,
-the winding number of $\psi$ must necessarily be $0$, and
-we obtain the following nice characterization.
+As the first application, let us consider the particularly nice case of near-quadrangulations,
+where all faces except for the outer one have length four.  Here, the primal demand function must be
+identically $0$, making the condition (i) trivial and simplifying the condition (ii).  Hence, we obtain the following characterization,
+which is a far-reaching generalization of Lemma~\ref{lemma:extend6}.
 
 \begin{corollary}\label{cor:flow-quadr}
-...
+Let $G$ be a connected plane graph with the outer face bounded by a cycle $C$ and all other faces having length four,
+and let $\psi$ be a $3$-coloring of $C$.
+The precoloring $\psi$ extends to a proper $3$-coloring of $G$ if and only if $\omega_\psi(C)=0$
+and every path $P$ starting in a vertex $v_1\in V(C)$, ending in a vertex $v_2\in V(C)$,
+and otherwise disjoint from $C$, satisfies $|\omega_\psi(v_2Cv_1)|\le |E(P)|$.
 \end{corollary}
+
+In particular, if the outer face of $G$ has no shortcuts (paths $P$ as in the statement of Corollary~\ref{cor:flow-quadr}
+with $|E(P)|<|E(v_2Cv_1)|$, then $\psi$ extends to a $3$-coloring of $G$ if and only if $\omega_\psi(C)=0$.
+The situation remains almost as simple in the case where $G$ has exactly one non-outer face $f$ of length other than four.
+Here, the value of the primal demand function on $f$ is forced to be $-\omega_\psi(C)$.
+Furthermore, note that in the condition (ii), we can restrict our attention only to the paths $P$ such that
+$f$ is not contained in the interior of the cycle $P\cup v_2Cv_1$, since
+\begin{align*}
+\omega_\psi(v_2Cv_1)+d(P\cup v_2Cv_1)&=(\omega_\psi(C)-\omega_\psi(v_1Cv_2))+(-\omega_\psi(C)-d(P\cup v_1Cv_2))\\
+&=-(\omega_\psi(v_1Cv_2)+d(P\cup v_1Cv_2)).
+\end{align*}
+Hence, in this case we can simplify Lemma~\ref{lemma:flow-quadr-better} as follows.
+\begin{corollary}\label{cor:flow-oneface}
+Let $G$ be a connected plane graph with the outer face bounded by a cycle $C$ and with exactly one non-outer face $f$ of length other than four,
+and let $\psi$ be a $3$-coloring of $C$.
+The precoloring $\psi$ extends to a proper $3$-coloring of $G$ if and only if 
+\begin{itemize}
+\item[(i)] every cycle $K$ whose interior contains $f$ satisfies $|\omega_\psi(C)|\le |K|$, and
+\item[(ii)] every path $P$ starting in a vertex $v_1\in V(C)$, ending in a vertex $v_2\in V(C)$,
+otherwise disjoint from $C$, and such that $f$ is not contained in the interior of the cycle $P\cup v_2Cv_1$,
+satisfies $|\omega_\psi(v_2Cv_1)|\le |E(P)|$.
+\end{itemize}
+\end{corollary}
+
+In case that more than one non-outer face has length other than four, there are typically several primal demand functions
+to consider.  The interaction of the paths arising from the condition (ii) for different primal demand functions then become
+somewhat more complicated, but can still be analyzed in some special cases.  This was used to exactly describe when a precoloring
+of a cycle of length at most nine extends to a $3$-coloring of a planar triangle-free graph~\cite{col8cyc,col9cyc} (see Theorem~\ref{thm:grotzsch-gimbel}
+for the case the length is at most six).
 
 \part{Coloring Graphs on Surfaces}
 
