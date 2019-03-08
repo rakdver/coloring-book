@@ -4882,8 +4882,38 @@ for the case the length is at most six).
 \chapter{Critical Graphs}
 
 % ZD
+A useful technique to prove that graphs from certain class are $k$-colorable,
+which we have already seen used a number of times throughout the book,
+is to consider the properties of a hypothetical minimal counterexample,
+eventually showing no such counterexample can exist.  What the minimality
+exactly entails depends on the particulars of the considered claim, but
+in virtually all cases it includes the property that while the whole graph
+cannot be $k$-colored, all proper induced subgraphs (or even all proper
+subgraphs) are $k$-colorable.
 
-\section{Definitions, Motivations and Examples}
+Given the ubiquity of the approach, it is natural to ask whether something 
+useful can be told about such ``critical'' graphs in general, without any further
+constraints imposed by a particular situation.  While there are some issues
+with this idea (since $k$-colorability is NP-hard for $k\ge 3$, it is not surprising
+critical graphs lack easily describable structure), it turns out there is a number
+of interesting results about the critical graphs in terms of density and forbidden subgraphs.
+This is especially important in the study of graphs on surfaces, which as we have
+seen are quite sparse.  Indeed, it can be argued that in the last few decades,
+most of the progess on the fundamental questions concerning the chromatic properties
+of graphs on surfaces has been achieved through the study of critical graphs.
+
+Somewhat surprisingly, much of this progess turns out to be due to improved bounds
+on the size and density of these graphs.  For example, knowing that in any
+fixed surface, there are only finitely many obstructions to $5$-colorability
+is already quite useful, as it enables us to test $5$-colorability by verifying the
+presence of the these obstructions.  Knowing that the size of these obstructions
+is bounded by a linear function of the genus may at first look just as a quantitative improvement,
+but actually this has many qualitative implications regarding for example precoloring extension
+properties or the dependence of the number of colorings on the size of the graph.
+We will discuss these consequences in detail later in the following chapter;
+here, we focus on the ways how one can prove such linear bounds for embedded graphs.
+
+\section{Definitions and Examples}
 
 \begin{itemize}
 \item Definitions.
@@ -4897,7 +4927,7 @@ give a coloring if one exists.
 
 \section{A History of Results}
 
-Survey of the bounds for size and desity, known full lists of critical graphs.
+Survey of the bounds for size and density, known full lists of critical graphs.
 
 Key Idea: Criticality with respect to a subgraph.
 
@@ -4982,7 +5012,7 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 
 \chapter{More on List Coloring?}
 
-Maybe?
+\section{Polynomial method}
 
 \section{Orientations? Paintability?}
 \section{Ohba's?}
