@@ -7,6 +7,7 @@
 \usepackage{makeidx}
 \usepackage{hyperref}
 \usepackage{framed}
+\usepackage{slashbox}
 \makeindex
 
 \newtheorem{theorem}{Theorem}[chapter]
@@ -239,25 +240,27 @@ with equality if and only if the embedding of $G$ is $2$-cell.
 
 In particular, this has the following corollary.
 \begin{lemma}\label{lemma:numedges}
-Suppose that $G$ is a graph embedded in a surface of genus $g$ and $G$ contains no cycles of length less than $k$.
+Let $\ell\ge 3$ be an integer.
+Suppose that $G$ is a graph embedded in a surface of genus $g$ and $G$ contains no cycles of length less than $\ell$.
 If $g=0$, furthermore assume that $G$ is not a forest. Then
-$$|E(G)|\le \frac{k}{k-2}(|V(G)|+g-2).$$
+$$|E(G)|\le \frac{\ell}{\ell-2}(|V(G)|+g-2).$$
 \end{lemma}
 \begin{proof}
 Without loss of generality, we can assume that $G$ is connected.  If $G$ is a tree, then by assumptions
 $g\ge 1$, and since $|E(G)|=|V(G)|-1$, the inequality holds.
 Hence, assume that $G$ is not a tree.  It follows that the boundary
-of every face of $G$ contains a cycle, and by the assumptions it has length at least $k$.
+of every face of $G$ contains a cycle, and by the assumptions it has length at least $\ell$.
 Consequently,
-$$2|E(G)|=\sum_{f\in F(G)} |f|\ge k|F(G)|.$$
-Substituting $2|E(G)|/k$ for $|F(G)|$ in Euler's formula, we obtain the required inequality.
+$$2|E(G)|=\sum_{f\in F(G)} |f|\ge \ell|F(G)|.$$
+Substituting $2|E(G)|/\ell$ for $|F(G)|$ in Euler's formula, we obtain the required inequality.
 \end{proof}
 
 This can be interpreted in the terms of average degree as follows.
 \begin{corollary}\label{cor:mad}
-If $G$ is a graph embedded in a surface of genus $g$ with no cycles of length less than $k$,
+Let $\ell\ge 3$ be an integer.
+If $G$ is a graph embedded in a surface of genus $g$ with no cycles of length less than $\ell$,
 then the average degree of $G$ is at most
-$$\frac{2k}{k-2}(1+(g-2)/|V(G)|),$$
+$$\frac{2\ell}{\ell-2}\Bigl(1+\frac{g-2}{|V(G)|}\Bigr),$$
 unless $g=0$ and $G$ is a forest.
 \end{corollary}
 
@@ -2133,6 +2136,100 @@ of configurations widely beyond the reach of other methods.  We will discuss the
 
 \subsection{Brooks' Theorem and Gallai trees}\label{ssec-gallai}
 
+As we mentioned in the introduction, Brooks' Theorem generalizes to the list coloring setting;
+in Lemma~\ref{lemma:gallai1}, we stated a quite useful variant for the list assignments where the
+sizes of the lists match the degrees of the vertices.  Lemma~\ref{lemma:gallai1} is restricted
+only to $2$-connected graphs; however, as we now show, this restriction is easy to lift.
+In the process, we will also give a proof of Lemma~\ref{lemma:gallai1}.
+A \emph{degree-sized assignment} to a graph $G$ is a list assignment such that $|L(v)|\ge \deg(v)$ for all $v\in V(G)$.
+The greedy coloring argument is almost good enough to color a connected graph from a degree-sized assignment---we can only get stuck
+at the last vertex.  This observation gives us the following result.
+
+\begin{lemma}\label{lemma:gal-trive}
+Let $G$ be a connected graph and let $L$ be a degree-sized assignment for $G$.  If $G$ is not $L$-colorable,
+then $|L(v)|=\deg(v)$ for all $v\in V(G)$.
+\end{lemma}
+\begin{proof}
+If $|L(v)|>\deg(v)$, then let $v_1$, \ldots, $v_n$ be a listing of vertices of $G$ in non-increasing order
+according to their distance from $v$; hence, $v_n=v$ and for $1\le i\le n-1$, the vertex $v_i$ has a neighbor $v_j$
+with $j>i$ (the neighbor of $v_i$ on a shortest path from $v_i$ to $v$).  Let us greedily $L$-color $v_1$, \ldots, $v_n$
+in order.  For $1\le i\le n-1$, at least one neighbor of $v_i$ has not been colored yet, and thus at most $\deg(v_i)-1<|L(v_i)|$
+colors need to be avoided.  At $v_n$, at most $\deg(v_n)<|L(v_n)|$ colors need to be avoided.  Hence, in both cases, we can
+give $v_i$ a color from its list different from the colors of its neighbors.
+\end{proof}
+
+We now apply the preceding lemma to obtain a key property of graphs not colorable from a degree-sized assignment.
+
+\begin{corollary}\label{cor:gal-adj}
+Let $G$ be a connected graph and let $L$ be a degree-sized assignment for $G$.
+If $G$ is not $L$-colorable, $uv\in E(G)$ and $u$ is not a cutvertex in $G$,
+then $L(u)\subseteq L(v)$.
+\end{corollary}
+\begin{proof}
+Suppose for a contradiction that $L(u)\not\subseteq L(v)$, and thus there exists a color $c\in L(u)\setminus L(v)$.
+Let $G'=G-u$; since $u$ is not a cutvertex, $G'$ is connected.
+Let $L'(x)=L(x)\setminus\{c\}$ for all neighbors $x$ of $u$ and $L'(x)=L(x)$ for all non-neighbors $x$.
+Note that the list size decreases only for neighbors of $u$, and their degree decreases by the removal of $u$ as well,
+and thus $L'$ is a degree-sized assignment for $G'$.  Furthermore, $|L'(v)|=|L(v)|\ge \deg_G(v)>\deg_{G'}(v)$,
+and thus $G'$ is $L'$-colorable by Lemma~\ref{lemma:gal-trive}.  We can extend this coloring to an $L$-coloring of $G$ by giving $v$ color $c$,
+which is a conradiction.
+\end{proof}
+
+Note that if neither $u$ nor $v$ is a cutvertex, then Corollary~\ref{cor:gal-adj} implies $L(u)\subseteq L(v)$ and $L(v)\subseteq L(u)$,
+and thus $L(u)=L(v)$.  This is enough to prove Lemma~\ref{lemma:gallai1}, in the following slightly stronger form.
+
+\begin{corollary}\label{cor:gal-2con}
+Let $G$ be a $2$-connected graph and let $L$ be a degree-sized assignment for $G$.  Then $G$ is not $L$-colorable if and only if
+$G$ is a clique or an odd cycle and all vertices of $G$ have the same list of length equal to the degree of vertices of $G$.
+\end{corollary}
+\begin{proof}
+Clearly a clique $K_k$ is not colorable from the assigment of the same list of size $k-1$ to each vertex,
+and an odd cycle is not colorable from the assignment of the same list of size $2$ to each vertex.
+Hence, we only need to prove the ``only if'' part.  Suppose that a $2$-connected graph $G$ is not $L$-colorable
+from a degree-sized assignment $L$.  Since $G$ is $2$-connected, Corollary~\ref{cor:gal-adj} implies that any two adjacent
+vertices of $G$ have the same list, and consequently all the vertices of $G$ have the same list, say $\{1,\ldots,d\}$,
+where $d\le \Delta(G)$.  It follows that $G$ is not $d$-colorable, and thus either $G=K_{d+1}$ or $d=2$ and $G$ is
+an odd cycle by the Brooks' theorem (see Theorem~\ref{thm:brooks}).
+\end{proof}
+
+A \emph{Gallai forest} is a graph whose $2$-connected blocks are cliques and odd cycles,
+and a \emph{Gallai tree} is a connected Gallai forest.
+Suppose $B_1$, \ldots, $B_k$ are the blocks of a Gallai tree $T$, and let $S_1$, \ldots, $S_k$ be sets of colors
+satisfying the following conditions:
+\begin{itemize}
+\item For $1\le i\le k$, if $B_i$ is a clique, then $|S_i|=|V(B_i)|-1$, and if $B_i$ is an odd cycle, then $|S_i|=2$.
+\item For $1\le i<j\le k$, if $B_i\cap B_j\neq\emptyset$, then $S_i\cap S_j=\emptyset$.
+\end{itemize}
+For $v\in V(T)$, let $L(v)=\bigcup_{v\in B_i} S_i$.  If a list assignment $L$ can be expressed in this way, we say
+that $L$ is a \emph{blockwise uniform} assignment for $T$.  We are now ready to give the full characterization of
+graphs not colorable from a degree-sized assignment.
+
+\begin{theorem}[Gallai~\cite{galfor}]\label{thm:gallai}
+Let $G$ be a connected graph and let $L$ be a degree-sized assignment for $G$. Then $G$ is not $L$-colorable if and only if
+$G$ is a Gallai tree and $L$ is blockwise uniform.
+\end{theorem}
+\begin{proof}
+It is easy to see that a Gallai tree cannot be colored from a blockwise uniform assignment, and thus it suffices to prove
+the ``only if'' part.  We do the proof by induction on the number of vertices of $G$, and thus we can assume that the
+claim holds for all graphs with fewer than $|V(G)|$ vertices.
+
+By Corollary~\ref{cor:gal-2con}, the claim holds when $G$ is $2$-connected.  Hence, suppose that $G$ is not $2$-connected.
+First, we prove that $G$ is a Gallai tree.  Let $B$ be a block of $G$.  Since $G$ is not $2$-connected, there exists a leaf block $B'$ of $G$
+distinct from $B$.  Let $v$ be a vertex of $B'$ which is not a cutvertex, and let $G'=G-v$.  Let $c$ be any color in $L(v)$
+and let $L'(x)=L(x)\setminus\{c\}$ for all neighbors $x$ of $v$ and $L'(x)=L(x)$ for all other vertices $x$ of $G'$.  Note that $L'$
+is a degree-sized assignment for $G'$ and that $G'$ is not $L'$-colorable, as otherwise we can extend the coloring to an $L$-coloring of $G$ by giving $v$ the color $c$.
+By the induction hypothesis, $G'$ is a Gallai tree.  Note that $B$ is also a block of $G'$, and thus $B$ is a clique or an odd cycle.
+As the choice of $B$ was arbitrary, all blocks of $G$ are cliques or odd cycles, and thus $G$ is a Gallai tree.
+
+Let $B_1$, \ldots, $B_k$ be the blocks of $G$, where without loss of generality $B_k$ is a leaf block.
+Let $z$ be the cutvertex of $B_k$ and let $v$ be any other vertex of $B_k$, and let $S_k=L(v)$; by Corollary~\ref{cor:gal-adj}, we conclude that
+all non-cut vertices of $B_k$ have list $S_k$, and $S_k\subseteq L(z)$.  By Lemma~\ref{lemma:gal-trive}, if $B_k$ is a clique then $|S_k|=|B_k|-1$, and if $B_k$ is an odd cycle, then $|S_k|=2$.
+Let $G'=B_1\cup\ldots\cup B_{k-1}$, let $L'(x)=L(x)$ for $x\in V(G')\setminus \{z\}$ and $L'(z)=L(z)\setminus S_k$.  Note that $L'$ is a degree-sized assignment
+for $G'$ and that $G'$ is not $L'$-colorable, as otherwise the coloring would extend to an $L$-coloring of $G$ by using the colors in $S_k$ to color $B_k-z$.
+By the induction hypothesis, $L'$ is blockwise uniform as shown by sets $S_1$, \ldots, $S_{k-1}$.  But then the sets $S_1$, \ldots, $S_{k-1}$, $S_k$ show
+that $L$ is blockwise uniform.
+\end{proof}
+
 \section{Book Proof: $5$-choosability of planar graphs}
 
 \begin{theorem}\label{thm:5choosbook}
@@ -2876,7 +2973,7 @@ Of course, we still need some argument preventing one of the Kempe chains from c
 all the vertices of the two considered colors.  We now demonstate one based on the
 degree considerations and local recoloring arguments, to prove the well-known Brooks' theorem.
 
-\begin{theorem}[Brooks' theorem]
+\begin{theorem}[Brooks' theorem]\label{thm:brooks}
 Let $\Delta\ge 3$ be an integer.
 If $G$ is a connected graph of maximum degree at most $\Delta$ and $G\neq K_{\Delta+1}$,
 then $G$ is $\Delta$-colorable.
@@ -4913,7 +5010,188 @@ properties or the dependence of the number of colorings on the size of the graph
 We will discuss these consequences in detail later in the following chapter;
 here, we focus on the ways how one can prove such linear bounds for embedded graphs.
 
-\section{Definitions and Examples}
+\section{Definitions and Basic Properties}
+
+Let us start our treatment of critical graphs by introducing a bit of terminological
+deviation.  A graph commonly called \emph{$k$-critical} if its chromatic number is $k$, but every
+proper subgraph has chromatic number less than $k$.  Consequently, a graph is $k$-colorable
+if and only if it contains no $(k+1)$-critical subgraph.  This is notationally a bit unfortunate,
+as it necessitates adding or subtracting one at a lot of places.  Even worse, in contexts
+of other kinds of coloring this notation becomes actively confusing.  For example, in the setting
+of the fractional chromatic number (which may have non-integral values), to prove results
+about $2.5$-colorability, it makes sense to consider minimal graphs that are not $2.5$-colorable.
+Calling such graphs $2.5$-critical would be missleading, as by analogy with the ordinary
+proper coloring case, this would one lead to believe these graphs actually are $2.5$-colorable.
+
+To avoid this issue, we opt for the following (somewhat non-standard) terminology.
+We say that a graph $G$ is \emph{critical for $k$-coloring} if it is not $k$-colorable,
+but all proper subgraphs of $G$ are $k$-colorable.  Thus, graphs critical for $k$-coloring
+are minimal obstructions to $k$-colorability with respect to the subgraph inclusion.
+
+\begin{observation}\label{obs:critsg}
+For every integer $k\ge 1$, a graph $G$ is $k$-colorable if and only if no subgraph of $G$
+is critical for $k$-coloring.
+\end{observation}
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+unitsize(15mm);
+
+v[0] = (0,0);
+for (i = 1; i < 5; ++i)
+  v[i] = dir(15 + 30i);
+v[5] = v[2] + (0,1);
+v[6] = v[3] + (0,1);
+
+for (i = 1; i < 5; ++i)
+  draw(v[0] -- v[i]);
+draw(v[1]--v[2]--v[3]--v[4]--v[6]--v[3]);
+draw(v[1]--v[5]--v[2]);
+draw(v[5]--v[6]);
+
+for (i = 0; i <= 6; ++i)
+  vertex (v[i], white, 0.05);
+
+label("$u$", v[3], NW);
+label("$v$", v[2], NW);
+\end{asy}
+\end{center}
+\caption{A graph vertex-critical but not critical for $3$-coloring.}\label{fig:veedcrit}
+\end{figure}
+
+In the theory of graph classes closed under induced subgraphs (but not necessarily all subgraphs),
+it is natural to consider the variation on this notion that only takes the induced subgraphs
+into account. We say that a graph $G$ is \emph{vertex-critical for $k$-coloring} if it is not $k$-colorable,
+but all proper \emph{induced} subgraphs of $G$ are $k$-colorable, and we have the following observation.
+\begin{observation}\label{obs:critinsg}
+For every integer $k\ge 1$, a graph $G$ is $k$-colorable if and only if no induced subgraph of $G$
+is vertex-critical for $k$-coloring.
+\end{observation}
+Clearly, each critical graph is also vertex-critical,
+but the converse is not true---see for example the graph in Figure~\ref{fig:veedcrit}, which becomes $3$-colorable
+after removal of any vertex, but not by removal of the edge $uv$.  Correspondingly, any claim that holds for vertex-critical
+graphs also holds for critical graphs.  Observe furthermore that a vertex-critical graph contains a critical subgraph
+with the same set of vertices.  Partially due to this fact, it is actually quite rare for the distinction between vertex-criticality
+and criticality to make difference.
+
+A graph is $1$-colorable if and only if it has any edges, and thus $K_2$ is the only critical graph for $1$-coloring.
+A graph is $2$-colorable if and only if it does not contain an odd cycle, and the shortest odd cycle in any graph is induced;
+hence, odd cycles are the only critical and vertex-critical graphs for $2$-coloring.  However, since $k$-colorability
+is NP-hard for every $k\ge 3$, we cannot expect a simple explicit description of graphs critical for $k$-coloring.  Nevertheless,
+it is at least clear these graphs cannot be too sparse.
+\begin{lemma}\label{lemma:crmindeg}
+If $G$ is vertex-critical for $k$-coloring, then $G$ has minimum degree at least $k$.
+\end{lemma}
+\begin{proof}
+If $G$ contained a vertex $v$ of degree less than $k$, then a $k$-coloring of $G-v$ (which exists
+by vertex-criticality of $G$) would greedily extend to a $k$-coloring of $G$, which is a contradiction.
+\end{proof}
+While very simple, Lemma~\ref{lemma:crmindeg} is quite interesting in the context of graphs on surfaces,
+which are sparse by Corollary~\ref{cor:mad}.
+
+\begin{corollary}\label{cor:small-simple}
+Let $\ell,k\ge 3$ and $g\ge 0$ be integers.  If $k>\tfrac{2\ell}{\ell-2}$, then every graph of genus at most $g$ and girth at least $\ell$
+which is vertex-critical for $k$-coloring has at most $$\frac{2\ell}{k\ell-2k-2\ell}(g-2)$$ vertices.
+\end{corollary}
+\begin{proof}
+Since $G$ is not $k$-colorable, it is not a forest, and thus combining Corollary~\ref{cor:mad} and Lemma~\ref{lemma:crmindeg},
+we obtain
+\begin{align*}
+\frac{2\ell}{\ell-2}\Bigl(1+\frac{g-2}{|V(G)|}\Bigr)&\ge k\\
+\frac{g-2}{|V(G)|}&\ge \frac{k(\ell-2)}{2\ell}-1.
+\end{align*}
+By assumptions, the right-hand side is positive.  Hence, we conclude that $g\ge 3$ and 
+the required inequality holds.
+\end{proof}
+In particular, Corollary~\ref{cor:small-simple} implies that no graph vertex-critical for $k$-coloring that satisfies
+the conditions exists for $g\le 2$; in other words, all graphs drawn in the plane, the projective plane, the torus
+or the Klein bottle are $7$-colorable (case $\ell=3$), $5$-colorable if they are triangle-free (case $\ell=4$),
+$4$-colorable if they have girth at least $5$ and $3$-colorable if they have girth at least $7$.
+
+Let $\FF_{k,\ell,g}$ denote the set of all pairwise non-isomorphic graphs of genus at most $g$ and girth at least $\ell$
+that are vertex-critical for $k$-coloring.  By Corollary~\ref{cor:small-simple}, when $k>\tfrac{2\ell}{\ell-2}$,
+the set $\FF_{k,\ell,g}$ is finite for any $g$.  Consider any graph $G$ of girth at least $\ell$ and genus at most $g$.  If $G$ is not
+$k$-colorable, then by Observation~\ref{obs:critinsg} $G$ contains an induced subgraph $F$ vertex-critical for $k$-coloring.
+Clearly $F$ also has girth at least $\ell$ and genus at most $g$, and thus $F\in\FF_{k,\ell,g}$.  Conversely, if $G$ is $k$-colorable,
+it clearly does not contain a subgraph belonging to $\FF_{k,\ell,g}$.  Therefore, when $k>\tfrac{2\ell}{\ell-2}$,
+we can for any fixed surface $\Sigma$ test $k$-colorability of a graph of girth at least $k$ drawn in $\Sigma$ in polynomial
+time, by checking whether it contains one of the finitely many graphs from $\FF_{k,\ell,g}$ as an induced subgraph.
+Eppstein~\cite{eppstein00} proved that one can test the presence of a fixed induced subgraph $F$ in a graph $G$ embedded in a fixed surface $\Sigma$
+in time $O(|V(G)|)$, where only the multiplicative constant hidden in the $O$-notation depends on $F$ and $\Sigma$.
+Combining these observations, we obtain the following result, highlighting the importance of obtaining bounds on the sizes of critical graphs.
+\begin{theorem}\label{thm:crittoalg}
+Let $\ell,k\ge 3$ and $g\ge 0$ be integers.  If $\FF_{k,\ell,g}$ is finite, then there exists an algorithm that,
+for an input graph $G$ of genus at most $g$ and girth at least $\ell$, decides in time $O(|V(G)|)$ whether $G$ is $k$-colorable.
+\end{theorem}
+Of course, by Corollary~\ref{cor:small-simple}, Theorem~\ref{thm:crittoalg} applies whenever $k>\tfrac{2\ell}{\ell-2}$.
+Let us remark that when $\FF_{k,\ell,g}$ is finite, even though we do not necessarily have an explicit listing of the graphs in $\FF_{k,\ell,g}$,
+we can imagine the list to be wired into the algorithm from the theorem; thus, the algorithm is non-uniform (as described, it cannot
+take $\ell$, $k$ and $g$ as a part of the input).  Of course, to show $\FF_{k,\ell,g}$ is finite, we generally prove an
+upper bound on the size of the graphs in the set (analogously to Corollary~\ref{cor:small-simple}).  In this case, we can
+instead imagine the algorithm first tests all graphs smaller than this bound for criticality, turning the algorithm into a uniform one.
+
+Furthermore, let us note that the algorithm from Theorem~\ref{thm:crittoalg} only shows a graph is $k$-colorable, but does not return
+a $k$-coloring.  If a $k$-coloring is required, one either has to go back to the proof of finiteness of $\FF_{k,\ell,g}$ and turn
+the argument into an algorithm (which is usually possible, but often quite complicated and possibly resulting in a worse time complexity),
+or to find a separate argument (possibly exploiting the possibility to call the existence-only algorithm from Theorem~\ref{thm:crittoalg}
+repeatedly for various subgraphs or contractions of the input graph).
+
+Let us return back to the study of critical graphs.  Table~\ref{table:knowncrit} summarizes our current state
+of knowledge concerning vertex-critical graphs of various girths and bounded genus, with the entries resolved
+by Corollary~\ref{cor:small-simple} and Theorem~\ref{thm:crittoalg} highlighted in green.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\backslashbox{$\ell$}{k}& 1 & 2 & 3   & 4                 & 5                 & 6                 & $\ge\!7$\\
+\hline
+3         & FC & P & NP             & ?                 & FC                & {\color{blue}FC}  & {\color{green}FC}\\
+4         & FC & P & P              & {\color{blue}FC}  & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
+5         & FC & P & FC             & {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
+$6$       & FC & P &{\color{blue}FC}& {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
+$\ge\!7$  & FC & P &{\color{green}P}& {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
+\hline
+\end{tabular}
+\end{center}
+
+Legend:
+\begin{description}
+\item[FC]: $\FF_{k,\ell,g}$ is finite for each genus $g$.
+\item[P]: $\FF_{k,\ell,g}$ is infinite for large enough $g$, but $k$-colorability of graphs of girth at least $\ell$ and genus at most $g$
+is polynomial-time solvable for each $g$.
+\item[NPC]: $k$-colorability is hard even for planar graphs.
+\end{description}
+
+\caption{Complexity of $k$-coloring a graph of girth at least $\ell$ and bounded genus.}\label{table:knowncrit}
+\end{table}
+
+%TODO: pridat odkazy.
+
+We can push this approach a bit further, to resolve the entries highlighed in blue in the table.
+Since $K_{k+1}$ is critical for $k$-coloring, the bound from Lemma~\ref{lemma:crmindeg} cannot be improved without
+further assumptions, even if we consider the average degree instead of the minimum degree.
+However, as it turns out, $K_{k+1}$ is significantly sparser than other vertex-critical graphs for $k$-coloring.
+To see this, let us first make a simple observation on the subgraphs of vertex-critical graphs for $k$-coloring induced by vertices
+of degree exactly $k$; we refer the reader to Subsection~\ref{ssec-gallai} for definition and motivation for Gallai forests.
+
+\begin{lemma}\label{lemma:degkgal}
+If $G$ is vertex-critical for $k$-coloring, then the subgraph of $G$ induced by vertices of degree exactly $k$
+is a Gallai forest.
+\end{lemma}
+\begin{proof}
+Let $S$ be the vertex set of a component of the subgraph of $G$ induced by vertices of degree exactly $k$.
+Since $G$ is vertex-critical for $k$-coloring, $G-S$ has a $k$-coloring $\varphi$.  For every vertex $v\in S$,
+let $L(v)=\{1,\ldots,k\}\setminus\{\varphi(u):u\in V(G)\setminus S, uv\in E(G)\}$ be the set of colors that do
+not appear on the neighbors of $v$; clearly, $|L(v)|\ge k-(\deg_G(v)-\deg_{G[S]}(v))=\deg_{G[S]}(v)$,
+and thus $L$ is a degree-sized assignment for $G[S]$.  Note that an $L$-coloring of $G[S]$ would combine
+with $\varphi$ to a $k$-coloring of $G$.  Since $G$ is not $k$-colorable, it follows $G[S]$ is not $L$-colorable,
+and by Theorem~\ref{thm:gallai}, $G[S]$ is a Gallai tree.
+\end{proof}
+
+...
+
 
 \begin{itemize}
 \item Definitions.
@@ -5052,7 +5330,7 @@ Corr. coloring tied to average degree (Berhnetsyn's Proof)
 
 Lift matching number? (i.e. special case of correspondence edge coloring)
 
-\chapter{Circular Coloring and Acyclic Coloring?}
+\chapter{Circular Coloring, Fractional Coloring}
 
 Maybe?
 
