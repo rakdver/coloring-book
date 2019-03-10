@@ -5101,7 +5101,7 @@ we obtain
 \frac{2\ell}{\ell-2}\Bigl(1+\frac{g-2}{|V(G)|}\Bigr)&\ge k\\
 \frac{g-2}{|V(G)|}&\ge \frac{k(\ell-2)}{2\ell}-1.
 \end{align*}
-By assumptions, the right-hand side is positive.  Hence, we conclude that $g\ge 3$ and 
+By assumptions, the right-hand side is positive.  Hence, we conclude that 
 the required inequality holds.
 \end{proof}
 In particular, Corollary~\ref{cor:small-simple} implies that no graph vertex-critical for $k$-coloring that satisfies
@@ -5147,9 +5147,9 @@ by Corollary~\ref{cor:small-simple} and Theorem~\ref{thm:crittoalg} highlighted 
 \hline
 \backslashbox{$\ell$}{k}& 1 & 2 & 3   & 4                 & 5                 & 6                 & $\ge\!7$\\
 \hline
-3         & FC & P & NP             & ?                 & FC                & {\color{blue}FC}  & {\color{green}FC}\\
-4         & FC & P & P              & {\color{blue}FC}  & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
-5         & FC & P & FC             & {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
+3         & FC & P & NPC~\cite{garey1979computers}            & ?                 & FC~\cite{Thomassen97}                & {\color{blue}FC}  & {\color{green}FC}\\
+4         & FC & P & P~\cite{trfree7}              & {\color{blue}FC}  & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
+5         & FC & P & FC~\cite{thomassen-surf}             & {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
 $6$       & FC & P &{\color{blue}FC}& {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
 $\ge\!7$  & FC & P &{\color{green}P}& {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
 \hline
@@ -5159,15 +5159,13 @@ $\ge\!7$  & FC & P &{\color{green}P}& {\color{green}FC} & {\color{green}FC} & {\
 Legend:
 \begin{description}
 \item[FC]: $\FF_{k,\ell,g}$ is finite for each genus $g$.
-\item[P]: $\FF_{k,\ell,g}$ is infinite for large enough $g$, but $k$-colorability of graphs of girth at least $\ell$ and genus at most $g$
+\item[P]: $\FF_{k,\ell,g}$ is infinite for each $g>0$, but $k$-colorability of graphs of girth at least $\ell$ and genus at most $g$
 is polynomial-time solvable for each $g$.
-\item[NPC]: $k$-colorability is hard even for planar graphs.
+\item[NPC]: $k$-colorability is NP-complete even for planar graphs.
 \end{description}
 
 \caption{Complexity of $k$-coloring a graph of girth at least $\ell$ and bounded genus.}\label{table:knowncrit}
 \end{table}
-
-%TODO: pridat odkazy.
 
 We can push this approach a bit further, to resolve the entries highlighed in blue in the table.
 Since $K_{k+1}$ is critical for $k$-coloring, the bound from Lemma~\ref{lemma:crmindeg} cannot be improved without
@@ -5190,20 +5188,77 @@ with $\varphi$ to a $k$-coloring of $G$.  Since $G$ is not $k$-colorable, it fol
 and by Theorem~\ref{thm:gallai}, $G[S]$ is a Gallai tree.
 \end{proof}
 
-...
+A straightforward inductive argument shows that Gallai forests of bounded maximum degree are relatively sparse.
 
+\begin{lemma}\label{lemma:galdens}
+Let $k\ge 3$ be an integer.  Suppose $T$ is a Gallai forest of maximum degree at most $k$.
+If no component of $T$ is a clique with $k+1$ vertices, then $T$ has average degree at most
+$k-1+\tfrac{2}{k}$.
+\end{lemma}
+\begin{proof}
+We prove the claim by induction on the number of vertices of $T$.  Clearly, we can assume that $T$ is connected.
+If $T$ is $2$-connected, then $T$ is either an odd cycle or a clique of size at most $k$, and thus its average
+degree is at most $k-1$, implying the inequality.
 
-\begin{itemize}
-\item Definitions.
-\item Motivation for bounding the size and the structure of critical graphs.
-\begin{itemize}
-\item Algorithmic remarks---complexity of finding a fixed subgraph; does not directly
-give a coloring if one exists.
-\end{itemize}
-\item Examples: coloring embedded graphs with at least $6$ colors.
-\end{itemize}
+Hence, suppose that $T$ is not $2$-connected.  Let $B$ be a leaf block of $T$.  If $k\ge 4$ and $B$ is an odd cycle,
+or if $B$ is a clique of size at most $k-1$, then let $H=B$.  Otherwise, $B$ is $(k-1)$-regular, and since the maximum degree of $T$ is at most $k$
+and $B$ is a leaf block, there exists exactly one other block $B'$ intersecting $B$ and $B'$ is isomorphic to $K_2$; in this case we let $H=B\cup B'$.
+In either case,
+\begin{equation}\label{eq:galdens-1}
+|E(H)|\le \Bigl(\frac{k-1}{2}+\frac{1}{k}\Bigr)(|V(H)|-1).
+\end{equation}
+Let $H'$ be the subgraph of $T$ such that
+$T=H\cup H'$ and $H'$ intersects $H$ in exactly one vertex.  Then $H'$ is a Gallai forest and by the induction hypothesis, we have
+\begin{equation}\label{eq:galdens-2}
+|E(H')|\le \Bigl(\frac{k-1}{2}+\frac{1}{k}\Bigr)|V(H')|.
+\end{equation}
+Since $|V(T)|=(|V(H)|-1)+|V(H')|$ and $|E(T)|=|E(H)|+|E(H')|$, the desired bound on the average degree of $T$ 
+follows by summing (\ref{eq:galdens-1}) and (\ref{eq:galdens-2}).
+\end{proof}
+
+Lemmas~\ref{lemma:degkgal} and \ref{lemma:galdens} imply that in a graph vertex-critical for $k$-coloring other than $K_{k+1}$,
+relatively many edges leave the subgraph induced by vertices of degree exactly $k$, which implies that its average degree
+must be substantially larger than $k$.
+
+\begin{theorem}[Gallai~\cite{galfor}]\label{thm:critdens}
+Let $k\ge 3$ be an integer.  If $G$ is vertex-critical for $k$-coloring and $G\neq K_{k+1}$, then $G$ has average degree
+at least
+$$k+\frac{k-2}{k^2+2k-2}.$$
+\end{theorem}
+\begin{proof}
+Let $S$ be the set of vertices of $G$ of degree $k$.  By Lemmas~\ref{lemma:degkgal} and \ref{lemma:galdens},
+$G[S]$ has at most $$\Bigl(\frac{k-1}{2}+\frac{1}{k}\Bigr)|S|$$ edges.  Note that $k|S|$ is the number of edges of $G$ incident with vertices of $S$,
+counting those in $G[S]$ twice.  Hence,
+\begin{equation}\label{eq:critdens-b1}
+|E(G)|\ge k|S|-|E(G[S])|\ge \Bigl(\frac{k+1}{2}-\frac{1}{k}\Bigr)|S|.
+\end{equation}
+All vertices of $G$ not in $S$ have degree at least $k+1$, and thus
+\begin{equation}\label{eq:critdens-b2}
+2|E(G)|\ge (k+1)|V(G)|-|S|.
+\end{equation}
+Multiplying (\ref{eq:critdens-b2}) by $\bigl(\tfrac{k+1}{2}-\tfrac{1}{k}\bigr)$ and adding it to (\ref{eq:critdens-b1}) gives
+$$\Bigl(k+2-\frac{2}{k}\Bigr)|E(G)|\ge\Bigl(\frac{k+1}{2}-\frac{1}{k}\Bigr)(k+1)|V(G)|,$$
+and thus
+$$\frac{k^2+2k-2}{k}|E(G)|\ge\frac{k^3+2k^2-k-2}{2k}|G|,$$
+and the average degree of $G$ is
+$$\frac{2|E(G)|}{|V(G)|}\ge \frac{k^3+kc^2-k-2}{k^2+2k-2}=k+\frac{k-2}{k^2+2k-2}.$$
+\end{proof}
+The bound from Theorem~\ref{thm:critdens} was later mildly improved by Krivelevich~\cite{krivelevich1997minimal}
+and by Kostochka and Stiebitz~\cite{kostochka1996excess}.  However, a breakthrough came in the work of Kostochka and Yancey~\cite{koyanore},
+who proved a near-optimal bound using a newly developed potential method; we give more detail in Chapter~\ref{chap:potential}.
+Nevertheless, for our current discussion, the bound from Theorem~\ref{thm:critdens} is sufficient; in combination with
+Corollary~\ref{cor:mad}, it gives the following extension to Corollary~\ref{cor:small-simple}, covering the blue entries in Table~\ref{table:knowncrit}.
+\begin{corollary}\label{cor:small-medium}
+Let $\ell\in\{3,4,6\}$ and $g\ge 0$ be integers, and let $k=\tfrac{2\ell}{\ell-2}$.  Every graph of genus at most $g$ and girth at least $\ell$
+other than $K_{k+1}$ which is vertex-critical for $k$-coloring has at most $$\frac{k^3+2k^2-2k}{k-2}(g-2)$$ vertices.
+\end{corollary}
+In particular, since among surfaces of genus at most two, $K_7$ can only be drawn in the torus,
+Corollary~\ref{cor:small-medium} implies that all graphs drawn in the plane, the projective plane, or the Klein bottle
+are $6$-colorable, and graphs drawn in the torus are $6$-colorable unless they contain a clique of size $7$.
 
 \section{A History of Results}
+
+...
 
 Survey of the bounds for size and density, known full lists of critical graphs.
 
@@ -5267,7 +5322,7 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 
 \part{Advanced Methods}
 
-\chapter{Density of Critical Graphs and the Potential Method}
+\chapter{Density of Critical Graphs and the Potential Method}\label{chap:potential}
 
 % LP
 
