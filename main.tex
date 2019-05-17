@@ -18,6 +18,7 @@
 \newcommand{\col}{\text{col}}
 \newcommand{\initch}{\text{ch}_0}
 \newcommand{\finch}{\text{ch}}
+\newcommand{\sgn}{\text{sgn}}
 \newcommand{\GG}{\mathcal{G}}
 \newcommand{\FF}{\mathcal{F}}
 
@@ -4950,7 +4951,7 @@ Hence, in this case we can simplify Lemma~\ref{lemma:flow-quadr-better} as follo
 \begin{corollary}\label{cor:flow-oneface}
 Let $G$ be a connected plane graph with the outer face bounded by a cycle $C$ and with exactly one non-outer face $f$ of length other than four,
 and let $\psi$ be a $3$-coloring of $C$.
-The precoloring $\psi$ extends to a proper $3$-coloring of $G$ if and only if 
+The precoloring $\psi$ extends to a proper $3$-coloring of $G$ if and only if
 \begin{itemize}
 \item[(i)] every cycle $K$ whose interior contains $f$ satisfies $|\omega_\psi(C)|\le |K|$, and
 \item[(ii)] every path $P$ starting in a vertex $v_1\in V(C)$, ending in a vertex $v_2\in V(C)$,
@@ -5002,7 +5003,7 @@ seen are quite sparse.  Indeed, it can be argued that in the last few decades,
 most of the progess on the fundamental questions concerning the chromatic properties
 of graphs on surfaces has been achieved through the study of critical graphs.
 
-Somewhat surprisingly, much of this progess turns out to be due to improved bounds
+Much of this progess turns out to be due to improved bounds
 on the size and density of these graphs.  For example, knowing that in any
 fixed surface, there are only finitely many obstructions to $5$-colorability
 is already quite useful, as it enables us to test $5$-colorability by verifying the
@@ -5016,11 +5017,11 @@ here, we focus on the ways how one can prove such linear bounds for embedded gra
 \section{Definitions and Basic Properties}
 
 Let us start our treatment of critical graphs by introducing a bit of terminological
-deviation.  A graph commonly called \emph{$k$-critical} if its chromatic number is $k$, but every
+deviation.  A graph is commonly called \emph{$k$-critical} if its chromatic number is $k$, but every
 proper subgraph has chromatic number less than $k$.  Consequently, a graph is $k$-colorable
 if and only if it contains no $(k+1)$-critical subgraph.  This is notationally a bit unfortunate,
 as it necessitates adding or subtracting one at a lot of places.  Even worse, in contexts
-of other kinds of coloring this notation becomes actively confusing.  For example, in the setting
+of other kinds of coloring this notation becomes confusing.  For example, in the setting
 of the fractional chromatic number (which may have non-integral values), to prove results
 about $2.5$-colorability, it makes sense to consider minimal graphs that are not $2.5$-colorable.
 Calling such graphs $2.5$-critical would be missleading, as by analogy with the ordinary
@@ -5078,7 +5079,7 @@ graphs also holds for critical graphs.  Observe furthermore that a vertex-critic
 with the same set of vertices, and thus each vertex-critical graph is at least as dense as some critical graph.
 Due to this fact, it is actually quite rare for the distinction between vertex-criticality and criticality to make difference.
 
-A graph is $1$-colorable if and only if it has any edges, and thus $K_2$ is the only critical graph for $1$-coloring.
+A graph is $1$-colorable if and only if it has no edges, and thus $K_2$ is the only critical graph for $1$-coloring.
 A graph is $2$-colorable if and only if it does not contain an odd cycle, and the shortest odd cycle in any graph is induced;
 hence, odd cycles are the only critical and vertex-critical graphs for $2$-coloring.  However, since $k$-colorability
 is NP-hard for every $k\ge 3$, we cannot expect a simple explicit description of graphs critical for $k$-coloring.  Nevertheless,
@@ -5138,7 +5139,7 @@ Furthermore, let us note that the algorithm from Theorem~\ref{thm:crittoalg} onl
 a $k$-coloring.  If a $k$-coloring is required, one either has to go back to the proof of finiteness of $\FF_{k,\ell,g}$ and turn
 the argument into an algorithm (which is usually possible, but often quite complicated and possibly resulting in a worse time complexity),
 or to find a separate argument (possibly exploiting the possibility to call the existence-only algorithm from Theorem~\ref{thm:crittoalg}
-repeatedly for various subgraphs or contractions of the input graph).
+repeatedly for various subgraphs or contractions of the input graph).  We will show a partial remedy for this flaw in the following chapter.
 
 Let us return back to the study of critical graphs.  Clearly, any vertex-critical graph must be connected.  Actually, even cuts of size one are easy to exclude.
 \begin{observation}\label{obs:crit-2conn}
@@ -5149,6 +5150,8 @@ Suppose for a contradiction $G=G_1\cup G_2$ for proper induced subgraphs $G_1$ a
 Since $G$ is vertex-critical for $k$-coloring, both $G_1$ and $G_2$ are $k$-colorable.  We can permute the colors in a $k$-coloring of $G_2$
 so that $v$ has the same color as in a $k$-coloring of $G_1$.  Then, the two colorings combine to a $k$-coloring of $G$, which is a contradiction.
 \end{proof}
+More generally, the argument used to prove Observation~\ref{obs:crit-2conn} shows that if a graph $G$ is vertex-critical and $K$ is a clique
+in $G$, then $G-K$ is connected.
 On the other hand, vertex-critical graphs do not have be $3$-connected, even for $k$ large.  Examples of non-$3$-connected graphs critical for $k$-coloring can
 be obtained using the following construction tracing back to Dirac~\cite{dircrit}, Haj\'os~\cite{hajos}, and Ore~\cite{ore}.  Let $G$ and $H$ be graphs,
 let $u$ and $v$ be adjacent vertices of $G$ and let $(A,B)$ be a partition of edges incident with a vertex $w$ of $H$ to two non-empty sets $A$ and $B$.
@@ -5166,10 +5169,11 @@ which is a contradiction.  Hence, $F$ is not $k$-colorable.
 
 Suppose now that $H_{w\to(A,B)}$ has a proper $k$-coloring $\psi$; since $H$ is not $k$-colorable, we have $\psi(w_A)\neq\psi(w_B)$.
 Clearly $F$ does not contain isolated vertices, and thus to show that $F$ is critical for $k$-coloring, it suffices to show that for every edge $e\in E(F)$, the graph $F-e$ is $k$-colorable.
-If $e\in E(G)\setminus\{uv\}$, then $G-e$ has a $k$-coloring, and by permuting the colors, we can assume this coloring assigns color $\psi(w_A)$ to $u$ and $\psi(w_B)$ to $v$;
-combining this coloring with $\psi$ gives a $k$-coloring of $F$.  If $e\in E(H)$, then $H-e$ has a $k$-coloring; let $\psi'$ be a $k$-coloring of $H_{w\to(A,B)}-e$ obtained from this
-$k$-coloring of $H-e$ by giving both $w_A$ and $w_B$ the color of $w$.  Since $G$ is critical for $k$-coloring, $G-uv$ has a $k$-coloring $\psi''$, and since $G$ is not $k$-colorable,
-we have $\psi''(u)=\psi''(v)$; by permuting the colors, we can ensure that $\psi''(u)=\psi'(w_A)$.  Hence, the combination of $\psi''$ and $\psi'$ gives a proper $k$-coloring
+If $e\in E(G)\setminus\{uv\}$, then $G-e$ has a $k$-coloring $\theta$, and this coloring assigns distinct colors to the ends of the edge $uv$.
+By permuting the colors, we can assume $\theta(u)=\psi(w_A)$ and $\theta(v)=\psi(w_B)$;
+combining the colorings $\theta$ and $\psi$ gives a $k$-coloring of $F-e$.  If $e\in E(H)$, then $H-e$ has a $k$-coloring; let $\psi'$ be a $k$-coloring of $H_{w\to(A,B)}-e$ obtained from this
+$k$-coloring of $H-e$ by giving both $w_A$ and $w_B$ the color of $w$.  Since $G$ is critical for $k$-coloring, $G-uv$ has a $k$-coloring $\theta'$, and since $G$ is not $k$-colorable,
+we have $\theta'(u)=\theta'(v)$; by permuting the colors, we can ensure that $\theta'(u)=\psi'(w_A)$.  Hence, the combination of $\theta'$ and $\psi'$ gives a proper $k$-coloring
 of $F-e$.
 \end{proof}
 In particular, Lemma~\ref{lemma-orecrit} applies whenever $|A|<k$, since then $H_{w\to(A,B)}$ is $k$-colorable due to $H-A$ being $k$-colorable.
@@ -5177,7 +5181,7 @@ There are two important special cases.  First one concerns the situation that $|
 and can be restated as removing the edges $uv$ and the single edge $a\in A$, identifying $u$ with one end of $a$, and adding an edge between $v$ and the other end of $a$.
 The second one concerns the case that $H$ is a clique on $k+1$ vertices; graphs obtained from repeated application of the Ore sum with copies of $K_{k+1}$ are called \emph{$(k+1)$-Ore graphs}.
 
-Note that all $(k+1)$-Ore graphs are critical for $k$-coloring and other than $K_{k+1}$, they have vertex-cuts of size two; thus, indeed,
+Note that all $(k+1)$-Ore graphs are critical for $k$-coloring and (with the exception of the graph $K_{k+1}$ itself), they have vertex-cuts of size two; thus, indeed,
 there are infinitely many non-$3$-connected critical graphs for $k$-coloring with arbitrarily large $k$.  Nevertheless, we can at least say something about their edge-connectivity,
 strengthening Lemma~\ref{lemma:crmindeg}.
 
@@ -5326,17 +5330,118 @@ The $(k+1)$-Ore graphs defined in the previous section, a best construction avai
 have in limit (as their number of vertices goes to infinity, for a fixed $k$) average degree $k+1-2/k$, which for large $k$ leaves a gap of almost $1$.
 The bound from Theorem~\ref{thm:critdens} was later mildly improved by Krivelevich~\cite{krivelevich1997minimal}
 and by Kostochka and Stiebitz~\cite{kostochka1996excess} to a bound of about $k+2/k$.  However, a breakthrough came in the work of Kostochka and Yancey~\cite{koyanore},
-who proved a bound that assymptotically matches the density of $(k+1)$-Ore graphs using a newly developed potential method; we give more detail in Chapter~\ref{chap:potential}.
+who proved a bound that asymptotically matches the density of $(k+1)$-Ore graphs using a newly developed potential method; we give more detail in Chapter~\ref{chap:potential}.
 
-\section{A History of Results}
+\section{Survey of critical graphs on surfaces}\label{sec:survsurf}
+
+In the previous sections, we have already seen several results concerning critical graphs in particular surfaces.
+Let us now summarize these results and expand on them.
+
+We start with a very well understood case of planar graphs.  By the Four Color Theorem,
+every planar graph is 4-colorable, and thus there are no planar graphs vertex-critical for $4$-coloring.
+On the other hand, deciding whether a planar graph is $3$-colorable is NP-hard~\cite{garey1979computers},
+and thus there is little hope of obtaining useful results on planar graphs critical for $3$-coloring.
+However, by Gr\"{o}tzsch' Theorem, there are no planar graphs critical for $3$-coloring of girth at least four.
+
+Somewhat annoyingly, the question of $4$-colorability is wide open for all surfaces of positive genus.
+In particular, we do not know whether one can decide $4$-colorability of a projective planar or a toroidal
+graph in polynomial time; but we also do not know any hardness result preventing this from being the case.
+What we can tell is that for the projective plane and the torus (and thus also any other surface of non-zero genus),
+there exist infinitely many graphs critical for $4$-coloring that can be drawn in the surface.
+To see this, let us start with an interesting observation about quadrangulations of the projective plane,
+shown by Youngs~\cite{youngs}.
+\begin{lemma}\label{lemma:projall}
+Let $G$ be a quadrangulation of the projective plane and let $\varphi$ be any proper coloring of $G$ (using any number of colors).
+If $G$ is not bipartite, then there exists a face $f$ of $G$ such that $\varphi$ assigns four different colors to vertices
+incident with $f$.
+\end{lemma}
+\begin{proof}
+Since $G$ is a quadrangulation, all contractible cycles in $G$ have even length.  Since $G$ is not bipartite,
+it contains an odd cycle $C$, necessarily non-contractible.  We cut the projective plane along $C$,
+turning $G$ into a quadrangulation $G'$ of a disk.  For each $4$-cycle $K$ bounding a face of $G$,
+let $\vec{K}$ be the orientation of $K$ such that the corresponding cycle in $G'$ is directed in the clockwise
+direction around the face it bounds.  Consider any edge $e$ of $G$ and let $K_1$ and $K_2$ be the cycles bounding
+the two faces incident with $e$; observe that if $e\in E(C)$, then $e$ is directed in $\vec{K}_1$ and $\vec{K}_2$
+in the same way, while if $e\not\in E(C)$, then $e$ is directed in opposite ways.  Let $\vec{C}$ be the orientation
+of $C$ that matches the orientations of incident faces.
+
+For each face $f$ bounded by a cycle $K$, let $s_f=\sum_{(u,v)\in E(\vec{K})} \sgn(\varphi(v)-\varphi(u))$.
+We have
+$$\sum_{f\in F(G)} s_f=2\sum_{(u,v)\in E(\vec{C})} \sgn(\varphi(v)-\varphi(u)),$$ since the contributions of the edges not in $C$
+cancel out.  Since $|C|$ is odd, the right-hand side is twice an odd number, and thus non-zero.  Hence, there exists a face $f$ of $G$
+such that $s_f\neq 0$.  Observe this implies $\varphi$ assigns four different colors to vertices incident with $f$.
+\end{proof}
+For a graph $G$ drawn in a surface, let $G^\dagger$ denote the triangulation of the surface obtained by adding
+into each face of $G$ a vertex adjacent to all vertices incident with the face.  If $G$ is a non-bipartite quadrangulation
+of the projective plane, Lemma~\ref{lemma:projall} implies that $G^\dagger$ is not $4$-colorable.  Note $G^\dagger$ is not
+necessarily critical for $4$-coloring; however, since we can choose the quadrangulation $G$ of arbitrarily large edge-width,
+Observation~\ref{obs:critsg} implies there exist graphs critical for $4$-coloring drawn in the projective plane with arbitrarily
+large edge-width.
+
+For orientable surfaces, we can use another intriquing observation by Fisk~\cite{Fisk78}.
+
+\begin{lemma}\label{lemma:oddsame}
+Suppose $G$ is a triangulation of a surface and let $\varphi:V(G)\to[4]$ be a proper coloring of $G$.
+For $i\in[4]$, let $d_i=\sum_{v\in \varphi^{-1}(i)} \deg v$.  Then $d_1$, \ldots, $d_4$ all have the same parity.
+\end{lemma}
+\begin{proof}
+For $j\in[4]$, let $t_j$ denote the number of faces of $G$ not incident with a vertex of color $j$ (e.g., $t_4$
+is the number of faces incident with vertices of colors $1$, $2$, and $3$).
+We claim that $t_1$, \ldots, $t_4$ have the same parity.  By symmetry, it suffices to show this is the case for $t_3$ and $t_4$.
+To see that, it suffices to note that each face that contributes to $t_3$ or $t_4$ is incident with a unique edge
+whose ends are colored $1$ and $2$, and that for each such edge $e$, the two faces incident with $uv$ contribute either
+$1$ to both $t_3$ and $t_4$, or $2$ to one of $t_3$ and $t_4$ and $0$ to the other one.
+
+Consider now a vertex $v$ of color $1$, and for $j\in \{2,3,4\}$, let $t_j(v)$ denote the number of faces of
+$G$ incident with $v$ and not incident with a vertex of color $j$.  We have
+$$t_2+t_3+t_4=\sum_{v\in \varphi^{-1}(1)} (t_2(v)+t_3(v)+t_4(v))=\sum_{v\in \varphi^{-1}(1)} \deg(v)=d_1.$$
+Since $t_2$, $t_3$, and $t_4$ have the same parity, it follows that they also have the same parity as $d_1$.
+A symmetric argument shows that $d_2$, \ldots, $d_4$ also have the same parity, as required.
+\end{proof}
+This lemma gives us the most information when $G$ has only a few vertices of odd degree.
+In particular, we have the following surprising consequence, showing that in a 4-coloring of triangulations,
+the information can propagate arbitrarily far.
+
+\begin{corollary}
+If $G$ is a triangulation of a surface and $G$ has exactly two vertices $u$ and $v$ of odd degree,
+then $u$ and $v$ have the same color in any $4$-coloring of $G$.
+\end{corollary}
+\begin{proof}
+If $u$ and $v$ had different colors (say $1$ and $2$) in a $4$-coloring of $G$, we would have $d_1$ odd
+and $d_3$ even, contradicting Lemma~\ref{lemma-same}.
+\end{proof}
+In particular, if we take plane triangulation $G$ with exactly two vertices of odd degree (and it is easy to
+construct such triangulations with vertices of odd degree arbitrarily far apart) and add an edge $e$ between
+the two vertices, we obtain a graph that can be drawn in the torus and is not $4$-colorable.
+A subgraph $G'$ of this graph that is critical for $4$-coloring clearly must contain $e$ and $G'-e$ must be connected
+by Observation~\ref{obs:crit-2conn}, and thus $|V(G')|$ is at least as large as the distance between the endpoints
+of $e$ in $G$.  Thus, indeed there are infinitely many graphs critical for $4$-coloring that can be drawn
+in the torus (or any other surface of genus at least two).
+
+The above constructions illustrate that graphs critical for $4$-coloring in any surface of non-zero genus
+can have quite intricate structure, which indicates the question of $4$-colorability of graphs on surfaces
+is rather difficult one.  With greater number of colors, the situation is somewhat easier.
+As we argued in the previous section, the set $\FF_{k,3,g}$ is finite for every $k\ge 6$,
+implying that $k$-colorability is decidable in polynomial time.  By a much more involved argument,
+Thomassen~\cite{Thomassen97} proved that $\FF_{5,3,g}$ is finite as well. ... % AMHERE
 
 ...
+One way how to obtain such graphs is via \emph{Mycielski construction}.
+For a graph $G$, let $M(G)$ denote the graph obtained from $G$ by, for each $v\in V(G)$, adding a vertex $v^\star$
+adjacent exactly to the neighbors of $v$ in $G$, and then adding a vertex $u$ adjacent exactly to the vertices $v^\star$ for $v\in V(G)$.
+Figure~\ref{fig-myc} shows the graph $M_{C_7}$ with its drawing in the projective plane and in the torus;
+it is easy to see that $M(C)$ can be drawn in these surfaces for any odd cycle $C$.
+
+\begin{figure}
+
+\caption{The Mycielski graph of a $7$-cycle.}\label{fig-myc}
+\end{figure}
 
 Survey of the bounds for size and density, known full lists of critical graphs.
 
-Key Idea: Criticality with respect to a subgraph.
 
 \section{Bounding the Size of a Critical Graph}
+Key Idea: Criticality with respect to a subgraph.
 
 Overview Methods to bound size of a critical graph:
 \begin{itemize}
