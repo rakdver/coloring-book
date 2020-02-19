@@ -99,8 +99,7 @@ int i,j;
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-\chapter*{Introduction}
-\addcontentsline{toc}{chapter}{Introduction}
+\chapter{Introduction}
 
 \section{Scope of the book}
 
@@ -4968,7 +4967,7 @@ for the case the length is at most six).
 
 \part{Coloring Graphs on Surfaces}
 
-\chapter{Motivation and Problems}
+\chapter{The history and the challenges}
 
 % LP
 
@@ -5075,8 +5074,8 @@ is vertex-critical for $k$-coloring.
 Clearly, each critical graph is also vertex-critical,
 but the converse is not true---see for example the graph in Figure~\ref{fig:veedcrit}, which becomes $3$-colorable
 after removal of any vertex, but not by removal of the edge $uv$.  Correspondingly, any claim that holds for vertex-critical
-graphs also holds for critical graphs.  Observe furthermore that a vertex-critical graph contains a critical subgraph
-with the same set of vertices, and thus each vertex-critical graph is at least as dense as some critical graph.
+graphs also holds for critical graphs.  Observe furthermore that a vertex-critical graph contains a critical spanning subgraph,
+and thus each vertex-critical graph is at least as dense as some critical graph.
 Due to this fact, it is actually quite rare for the distinction between vertex-criticality and criticality to make difference.
 
 A graph is $1$-colorable if and only if it has no edges, and thus $K_2$ is the only critical graph for $1$-coloring.
@@ -5130,10 +5129,10 @@ for an input graph $G$ of genus at most $g$ and girth at least $\ell$, decides i
 \end{theorem}
 Of course, by Corollary~\ref{cor:small-simple}, Theorem~\ref{thm:crittoalg} applies whenever $k>\tfrac{2\ell}{\ell-2}$.
 Let us remark that when $\FF_{k,\ell,g}$ is finite, even though we do not necessarily have an explicit listing of the graphs in $\FF_{k,\ell,g}$,
-we can imagine the list to be wired into the algorithm from the theorem; thus, the algorithm is non-uniform (as described, it cannot
+we can imagine the list to be hard-coded into the algorithm from the theorem; thus, the algorithm is non-uniform (as described, it cannot
 take $\ell$, $k$ and $g$ as a part of the input).  Of course, to show $\FF_{k,\ell,g}$ is finite, we generally prove an
 upper bound on the size of the graphs in the set (analogously to Corollary~\ref{cor:small-simple}).  In this case, we can
-instead imagine the algorithm first tests all graphs smaller than this bound for criticality, turning the algorithm into a uniform one.
+instead have the algorithm first test all graphs smaller than this bound for criticality, turning the algorithm into a uniform one.
 
 Furthermore, let us note that the algorithm from Theorem~\ref{thm:crittoalg} only shows a graph is $k$-colorable, but does not return
 a $k$-coloring.  If a $k$-coloring is required, one either has to go back to the proof of finiteness of $\FF_{k,\ell,g}$ and turn
@@ -5194,7 +5193,7 @@ Let $u_1v_1$, \ldots, $u_tv_t$ with $t<k$ be the edges of $G$ with $u_i\in A$ an
 $G[A]$ has a proper $k$-coloring $\varphi$ and $G[B]$ has a proper $k$-coloring $\psi$.  We now show that we can permute the colors in $\varphi$ so that the two colorings combine to
 a proper coloring of $G$.
 
-Let $H$ be an auxiliary bipartite graph with parts $\{a_1,\ldots, a_k\}$ and $\{b_1,\ldots,b_k\}$,
+Let $H$ be the auxiliary bipartite graph with parts $\{a_1,\ldots, a_k\}$ and $\{b_1,\ldots,b_k\}$,
 where for $i\in\{1,\ldots,t\}$, $a_{\varphi(u_i)}b_{\psi(v_i)}$ is a \emph{non-edge} of $H$ and all other pairs of vertices from the two parts form edges.
 Consider any non-empty set $I\subseteq \{a_1,\ldots, a_k\}$ and let $N(I)$ denote the set of vertices in $\{b_1,\ldots,b_k\}$ that have a neighbor in $I$.
 Since $H$ has at most $t$ non-edges between the parts, there are at most $t/|I|$ vertices among $\{b_1,\ldots,b_k\}$ that have no neighbor in $I$, and thus 
@@ -5225,7 +5224,7 @@ We can push this approach a bit further, to resolve the entries highlighed in bl
 4         & FC & P & P~\cite{trfree7}              & {\color{blue}FC}  & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
 5         & FC & P & FC~\cite{thomassen-surf}             & {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
 $6$       & FC & P &{\color{blue}FC}& {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
-$\ge\!7$  & FC & P &{\color{green}P}& {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
+$\ge\!7$  & FC & P &{\color{green}FC}& {\color{green}FC} & {\color{green}FC} & {\color{green}FC} & {\color{green}FC}\\
 \hline
 \end{tabular}
 \end{center}
@@ -5330,7 +5329,7 @@ The $(k+1)$-Ore graphs defined in the previous section, a best construction avai
 have in limit (as their number of vertices goes to infinity, for a fixed $k$) average degree $k+1-2/k$, which for large $k$ leaves a gap of almost $1$.
 The bound from Theorem~\ref{thm:critdens} was later mildly improved by Krivelevich~\cite{krivelevich1997minimal}
 and by Kostochka and Stiebitz~\cite{kostochka1996excess} to a bound of about $k+2/k$.  However, a breakthrough came in the work of Kostochka and Yancey~\cite{koyanore},
-who proved a bound that asymptotically matches the density of $(k+1)$-Ore graphs using a newly developed potential method; we give more detail in Chapter~\ref{chap:potential}.
+who proved a bound that asymptotically matches the density of $(k+1)$-Ore graphs using a newly developed potential method; we give more details in Chapter~\ref{chap:potential}.
 
 \section{Survey of critical graphs on surfaces}\label{sec:survsurf}
 
@@ -5343,7 +5342,9 @@ On the other hand, deciding whether a planar graph is $3$-colorable is NP-hard~\
 and thus there is little hope of obtaining useful results on planar graphs critical for $3$-coloring.
 However, by Gr\"{o}tzsch' Theorem, there are no planar graphs critical for $3$-coloring of girth at least four.
 
-Somewhat annoyingly, the question of $4$-colorability is wide open for all surfaces of positive genus.
+\subsubsection*{Four colors}
+The ideas of the proof of the Four Color Theorem do not generalize to other surfaces.
+Despite much attention, questions regarding the $4$-colorability of graphs on surfaces of positive genus remain wide open.
 In particular, we do not know whether one can decide $4$-colorability of a projective planar or a toroidal
 graph in polynomial time; but we also do not know any hardness result preventing this from being the case.
 What we can tell is that for the projective plane and the torus (and thus also any other surface of non-zero genus),
@@ -5357,7 +5358,7 @@ incident with $f$.
 \end{lemma}
 \begin{proof}
 Since $G$ is a quadrangulation, all contractible cycles in $G$ have even length.  Since $G$ is not bipartite,
-it contains an odd cycle $C$, necessarily non-contractible.  We cut the projective plane along $C$,
+it contains an odd cycle $C$, necessarily a non-contractible one.  We cut the projective plane along $C$,
 turning $G$ into a quadrangulation $G'$ of a disk.  For each $4$-cycle $K$ bounding a face of $G$,
 let $\vec{K}$ be the orientation of $K$ such that the corresponding cycle in $G'$ is directed in the clockwise
 direction around the face it bounds.  Consider any edge $e$ of $G$ and let $K_1$ and $K_2$ be the cycles bounding
@@ -5382,7 +5383,7 @@ For orientable surfaces, we can use another intriquing observation by Fisk~\cite
 
 \begin{lemma}\label{lemma:oddsame}
 Suppose $G$ is a triangulation of a surface and let $\varphi:V(G)\to[4]$ be a proper coloring of $G$.
-For $i\in[4]$, let $d_i=\sum_{v\in \varphi^{-1}(i)} \deg v$.  Then $d_1$, \ldots, $d_4$ all have the same parity.
+For $i\in[4]$, let $d_i=\sum_{v\in \varphi^{-1}(i)} \deg v$ be the sum of the degrees of vertices of color $i$.  Then $d_1$, \ldots, $d_4$ all have the same parity.
 \end{lemma}
 \begin{proof}
 For $j\in[4]$, let $t_j$ denote the number of faces of $G$ not incident with a vertex of color $j$ (e.g., $t_4$
@@ -5399,16 +5400,16 @@ Since $t_2$, $t_3$, and $t_4$ have the same parity, it follows that they also ha
 A symmetric argument shows that $d_2$, \ldots, $d_4$ also have the same parity, as required.
 \end{proof}
 This lemma gives us the most information when $G$ has only a few vertices of odd degree.
-In particular, we have the following surprising consequence, showing that in a 4-coloring of triangulations,
-the information can propagate arbitrarily far.
+In particular, we have the following surprising consequence, showing that in 4-colorings of triangulations,
+the colors of arbitrarily distant vertices are not independent.
 
 \begin{corollary}
 If $G$ is a triangulation of a surface and $G$ has exactly two vertices $u$ and $v$ of odd degree,
-then $u$ and $v$ have the same color in any $4$-coloring of $G$.
+then in any $4$-coloring of $G$, the vertices $u$ and $v$ have the same color.
 \end{corollary}
 \begin{proof}
 If $u$ and $v$ had different colors (say $1$ and $2$) in a $4$-coloring of $G$, we would have $d_1$ odd
-and $d_3$ even, contradicting Lemma~\ref{lemma-same}.
+and $d_3$ even, contradicting Lemma~\ref{lemma:oddsame}.
 \end{proof}
 In particular, if we take plane triangulation $G$ with exactly two vertices of odd degree (and it is easy to
 construct such triangulations with vertices of odd degree arbitrarily far apart) and add an edge $e$ between
@@ -5418,13 +5419,19 @@ by Observation~\ref{obs:crit-2conn}, and thus $|V(G')|$ is at least as large as 
 of $e$ in $G$.  Thus, indeed there are infinitely many graphs critical for $4$-coloring that can be drawn
 in the torus (or any other surface of genus at least two).
 
+\subsubsection*{Five and more colors}
 The above constructions illustrate that graphs critical for $4$-coloring in any surface of non-zero genus
 can have quite intricate structure, which indicates the question of $4$-colorability of graphs on surfaces
 is rather difficult one.  With greater number of colors, the situation is somewhat easier.
 As we argued in the previous section, the set $\FF_{k,3,g}$ is finite for every $k\ge 6$,
 implying that $k$-colorability is decidable in polynomial time.  By a much more involved argument,
-Thomassen~\cite{Thomassen97} proved that $\FF_{5,3,g}$ is finite as well. ... % AMHERE
+Thomassen~\cite{Thomassen97} proved that $\FF_{5,3,g}$ is finite as well.
+... %add explicit lists.
 
+% AMHERE
+\subsubsection*{Triangle-free graphs}
+
+As we have seen, for $k\ge 4$, the set $\FF_{k,4,g}$ is finite. ...
 ...
 One way how to obtain such graphs is via \emph{Mycielski construction}.
 For a graph $G$, let $M(G)$ denote the graph obtained from $G$ by, for each $v\in V(G)$, adding a vertex $v^\star$
@@ -5437,7 +5444,9 @@ it is easy to see that $M(C)$ can be drawn in these surfaces for any odd cycle $
 \caption{The Mycielski graph of a $7$-cycle.}\label{fig-myc}
 \end{figure}
 
-Survey of the bounds for size and density, known full lists of critical graphs.
+\subsubsection*{Girth at least five}
+% Thomassen.
+% explicit results for girth >= 5 (torus, klein bottle)
 
 
 \section{Bounding the Size of a Critical Graph}
