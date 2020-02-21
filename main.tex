@@ -226,8 +226,8 @@ relatively simple and educational; we will use several of them to demonstrate va
 
 The wealth of results regarding planar graphs motivated the study of graphs drawn on other surfaces.
 Heawood's formula giving an upper bound for their chromatic number is probably the best known result in this area.
-\begin{theorem}[Heawood's formula]
-Every graph drawn in a surface $\Sigma$ of genus $g$ has chromatic number at most
+\begin{theorem}[Heawood's formula]\label{thm:heawood}
+Every graph drawn in a surface of genus $g$ has chromatic number at most
 $$\Bigl\lfloor\frac{7+\sqrt{24g+1}}{2}\Bigr\rfloor.$$
 \end{theorem}
 This bound is tight for all surfaces except for the Klein bottle, for which the tight upper bound is $6$.
@@ -4411,7 +4411,7 @@ Consequently, $G$ has a nowhere-zero $\mathbb{Z}_2^3$-flow by Observation~\ref{o
 
 Thomassen improved Theorem~\ref{thm:8flow}, showing that all bridgeless graphs have nowhere-zero $6$-flows.   To this end, he used
 the following decomposition of $3$-connected graphs.
-\begin{lemma}\label{lemma-descent}
+\begin{lemma}\label{lemma:descent}
 Let $G$ be a $3$-connected graph.  Then there
 exists a partition $V_1$, \ldots, $V_k$ of vertices of $G$ such that for $i=1, \ldots, k$,
 \begin{itemize}
@@ -4437,7 +4437,7 @@ We will prove that $G$ has a nowhere-zero $\mathbb{Z}_2\times\mathbb{Z}_3$-flow.
 As in the proof of Theorem~\ref{thm:8flow}, we can assume that $G$ is $3$-edge-connected.  Furthermore, we can assume that $G$ has maximum degree at most
 three: a vertex $v$ with neighbors $v_1$, \ldots, $v_k$ can be replaced by a cycle $w_1w_2\ldots w_k$ and edges $w_iv_i$ for $1\le i\le k$,
 and a flow in the resulting graph can be transformed into a flow in $G$ by Corollary~\ref{cor:contractflow}.  Hence,
-$G$ is $3$-connected.  Let $V_1$, \ldots, $V_k$ be a partition of the vertex set of $G$ as in Lemma~\ref{lemma-descent}.
+$G$ is $3$-connected.  Let $V_1$, \ldots, $V_k$ be a partition of the vertex set of $G$ as in Lemma~\ref{lemma:descent}.
 For $m=1, \ldots, k$, let $K_m$ be the union of Hamiltonian cycles of graphs $G[V_i]$ such that $1\le i\le m$ and $|V_i|>1$.
 For $m=2, \ldots, k$, let $H_m$ be a subgraph of $G$ with vertex set $V_1\cup \ldots\cup V_m$ which for $2\le i\le m$ contains exactly two edges
 with one end in $V_i$ and the other end in $V_1\cup \ldots\cup V_{i-1}$.  Observe that $K_m\cup H_m$ is connected and there exists a cycle $C_m\subseteq H_m$
@@ -4967,13 +4967,53 @@ for the case the length is at most six).
 
 \part{Coloring Graphs on Surfaces}
 
-\chapter{The history and the challenges}
+\chapter{The history and the modern view}
 
 % LP
 
 \section{Euler's formula for Surfaces and the Heawood bound}\label{sec:heawood}
 
-\section{The Modern View}
+One of the earliest results on graph coloring is Heawood's upper bound~\cite{heawood} on the chromatic number
+of graphs that can be drawn in a fixed surface.  This bound is a simple consequence of the sparsity of embedded graphs.
+Indeed, since the proof is entirely in terms of degeneracy, it applies to the list coloring as well.
+For a non-negative integer $g$,
+let $$H(g)=\Bigl\lfloor\frac{7+\sqrt{24g+1}}{2}\Bigl\rfloor.$$
+\begin{theorem}[Heawood's formula, list coloring setting]
+Every graph drawn in a surface of genus $g\neq 0$ is $H(g)$-choosable.
+\end{theorem}
+\begin{proof}
+For projective planar graphs (the case $g=1$), we have $H(1)=6$; Corollary~\ref{cor:mad} implies these graphs have maximum
+average degree less than $6$, and thus they are $5$-degenerate and $6$-choosable by Lemma~\ref{lemma:degen}.
+Hence, we can assume $g\ge 2$.
+
+Suppose for some integer $k$, $G$ is a non-$k$-choosable graph drawn in a surface of genus $g$ with the smallest number of vertices.
+Then $G$ has minimum degree at least $k$, as if $G$ contained a vertex $v$ of degree less than $k$, then $G-v$ would be $k$-choosable
+by the minimality of $G$ and we could color $v$ greedily, showing that $G$ is $k$-choosable as well.  In particular, $|V(G)|\ge k+1$.
+Since $G$ is drawn in a surface of genus $g$, Corollary~\ref{cor:mad} gives
+$$k\le 6\Bigl(1+\frac{g-2}{|V(G)|}\Bigr)\le 6\Bigl(1+\frac{g-2}{k+1},$$
+and thus $k^2-5k-6(g-1)\le 0$.  This implies $$k\le \frac{5+\sqrt{24g+1}}{2}<H(g).$$
+Consequently, every graph drawn in a surface of genus $g$ is $H(g)$-choosable.
+\end{proof}
+Let us remark that by a sheer coincidence, $H(g)=4$, and thus for ordinary proper coloring, Heawood's bound holds for planar graphs (the case $g=0$)
+as well due to the Four Color Theorem.
+
+How tight is Heawood's bound?  If $\Sigma$ is a surface of genus $g$ other than the Klein bottle, then the complete graph
+$K_{H(g)}$ can be drawn in $\Sigma$; this is an extremely non-trivial result from graph embedding theory
+which has been proven in a series of papers~\cite{ringel54,ringel61,twyoungs,youngs67} and unpublished results by Gustin, Mayer, Ringel, Terry, Welch, and Youngs,
+completed by the announcement of the solution to the last few sporadic cases by Ringel and Youngs~\cite{ringel}.  The complete
+treatment can be found in~\cite{ringelbook}.
+
+On the other hand, Franklin~\cite{franklin} observed that while $H(g)=7$, $K_7$ cannot be drawn in the Klein bottle.
+As we will see in the next chapter (Corollary~\ref{cor:small-medium}), a graph drawn in a surface of genus 2 is 6-colorable
+if and only if its clique number is at most 6. Hence, all graphs drawn in the Klein bottle are 6-colorable,
+giving the only exception to tightness of Heawood's formula.
+
+In fact, cliques are the only obstruction preventing us from strengthening Heawood's bound in much more general circumstances.
+\begin{theorem}[Dirac~\cite{dirac1957short},  Albertson and Hutchinson~\cite{albertson1979three}]
+Suppose $G$ is a a graph drawn in a surface of genus $g\neq 0$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
+\end{theorem}
+
+... % AMHERE  ??? Include proof in the critical graphs chapter?
 
 \section{Algorithms, Locally Planar Graphs and Critical Graphs}
 
@@ -5157,7 +5197,7 @@ let $u$ and $v$ be adjacent vertices of $G$ and let $(A,B)$ be a partition of ed
 Let $H_{w\to(A,B)}$ denote the graph obtained from $H$ by splitting $w$ into two vertices $w_A$ and $w_B$ and redirecting the edges of $A$ to $w_A$
 and the edges of $B$ to $w_B$.  Let the \emph{Ore sum} of $G$ and $H$ on $(u,v,w,A,B)$ be the graph obtained from the disjoint union
 of $G-uv$ and $H_{w\to(A,B)}$ by identifying $u$ with $w_A$ and $v$ with $w_B$.
-\begin{lemma}\label{lemma-orecrit}
+\begin{lemma}\label{lemma:orecrit}
 Let $k$ be a non-negative integer, let $G$ and $H$ be graphs critical for $k$-coloring, and let $F$ be the Ore sum of $G$ and $H$ on $(u,v,w,A,B)$.
 Then $F$ is not $k$-colorable, and if $H_{w\to(A,B)}$ is $k$-colorable, then $F$ is critical for $k$-coloring.
 \end{lemma}
@@ -5175,7 +5215,7 @@ $k$-coloring of $H-e$ by giving both $w_A$ and $w_B$ the color of $w$.  Since $G
 we have $\theta'(u)=\theta'(v)$; by permuting the colors, we can ensure that $\theta'(u)=\psi'(w_A)$.  Hence, the combination of $\theta'$ and $\psi'$ gives a proper $k$-coloring
 of $F-e$.
 \end{proof}
-In particular, Lemma~\ref{lemma-orecrit} applies whenever $|A|<k$, since then $H_{w\to(A,B)}$ is $k$-colorable due to $H-A$ being $k$-colorable.
+In particular, Lemma~\ref{lemma:orecrit} applies whenever $|A|<k$, since then $H_{w\to(A,B)}$ is $k$-colorable due to $H-A$ being $k$-colorable.
 There are two important special cases.  First one concerns the situation that $|A|=1$ (and $k\ge 2$); such an Ore sum is called the \emph{Haj\'os sum},
 and can be restated as removing the edges $uv$ and the single edge $a\in A$, identifying $u$ with one end of $a$, and adding an edge between $v$ and the other end of $a$.
 The second one concerns the case that $H$ is a clique on $k+1$ vertices; graphs obtained from repeated application of the Ore sum with copies of $K_{k+1}$ are called \emph{$(k+1)$-Ore graphs}.
