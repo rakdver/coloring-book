@@ -19,6 +19,7 @@
 \newcommand{\initch}{\text{ch}_0}
 \newcommand{\finch}{\text{ch}}
 \newcommand{\sgn}{\text{sgn}}
+\newcommand{\exc}{\text{exc}}
 \newcommand{\GG}{\mathcal{G}}
 \newcommand{\FF}{\mathcal{F}}
 
@@ -5217,7 +5218,7 @@ of $F-e$.
 \end{proof}
 In particular, Lemma~\ref{lemma:orecrit} applies whenever $|A|<k$, since then $H_{w\to(A,B)}$ is $k$-colorable due to $H-A$ being $k$-colorable.
 There are two important special cases.  First one concerns the situation that $|A|=1$ (and $k\ge 2$); such an Ore sum is called the \emph{Haj\'os sum},
-and can be restated as removing the edges $uv$ and the single edge $a\in A$, identifying $u$ with one end of $a$, and adding an edge between $v$ and the other end of $a$.
+and can be restated as removing the edge $uv$ and the single edge $a\in A$, identifying $u$ with one end of $a$, and adding an edge between $v$ and the other end of $a$.
 The second one concerns the case that $H$ is a clique on $k+1$ vertices; graphs obtained from repeated application of the Ore sum with copies of $K_{k+1}$ are called \emph{$(k+1)$-Ore graphs}.
 
 Note that all $(k+1)$-Ore graphs are critical for $k$-coloring and (with the exception of the graph $K_{k+1}$ itself), they have vertex-cuts of size two; thus, indeed,
@@ -5353,7 +5354,7 @@ $$\Bigl(k+2-\frac{2}{k}\Bigr)|E(G)|\ge\Bigl(\frac{k+1}{2}-\frac{1}{k}\Bigr)(k+1)
 and thus
 $$\frac{k^2+2k-2}{k}|E(G)|\ge\frac{k^3+2k^2-k-2}{2k}|G|,$$
 and the average degree of $G$ is
-$$\frac{2|E(G)|}{|V(G)|}\ge \frac{k^3+kc^2-k-2}{k^2+2k-2}=k+\frac{k-2}{k^2+2k-2}.$$
+$$\frac{2|E(G)|}{|V(G)|}\ge \frac{k^3+2k^2-k-2}{k^2+2k-2}=k+\frac{k-2}{k^2+2k-2}.$$
 \end{proof}
 In combination with Corollary~\ref{cor:mad}, Theorem~\ref{thm:critdens} gives the following extension to Corollary~\ref{cor:small-simple}, covering the blue entries in Table~\ref{table:knowncrit}.
 \begin{corollary}\label{cor:small-medium}
@@ -5370,6 +5371,45 @@ have in limit (as their number of vertices goes to infinity, for a fixed $k$) av
 The bound from Theorem~\ref{thm:critdens} was later mildly improved by Krivelevich~\cite{krivelevich1997minimal}
 and by Kostochka and Stiebitz~\cite{kostochka1996excess} to a bound of about $k+2/k$.  However, a breakthrough came in the work of Kostochka and Yancey~\cite{koyanore},
 who proved a bound that asymptotically matches the density of $(k+1)$-Ore graphs using a newly developed potential method; we give more details in Chapter~\ref{chap:potential}.
+
+For graphs with a small number of vertices, the following bound by Dirac~\cite{diracdens} beats the one from Theorem~\ref{thm:critdens}
+(the proof we give for this result comes from~\cite{weinstein}).
+\begin{lemma}\label{lemma:diracdens}
+Let $k\ge 2$ be an integer.  If $G$ is an $n$-vertex graph vertex-critical for $k$-coloring and $G\neq K_{k+1}$, then $G$ has average degree
+at least $k+\tfrac{k-2}{n}.$
+\end{lemma}
+\begin{proof}
+For $v\in V(G)$, let the \emph{excess} of $v$ be $\exc_{G,k}(v)=\deg(v)-k$, and let $\exc_k(G)=\sum_{v\in V(G)} \exc_{G,k}(v)$.
+Hence, we want to prove that if $G$ is vertex-critical for $k$-coloring and $G\neq K_{k+1}$, then $\exc_k(G)\ge k-2$.  We prove this claim by induction on $k$.
+The basic case $k=2$ is trivial, and thus we can assume $k\ge 3$.
+
+The claim is trivial if $G$ has minimum degree at least $k+1$, and thus suppose $w$ is a vertex of $G$ of degree $k$.  Since $G$ is vertex-critical for $k$-coloring and $G\neq K_{k+1}$,
+the neighborhood of $w$ is not a clique; let $v_1$, \ldots, $v_k$ be the neighbors of $w$, where $v_1v_2\not\in E(G)$.  Since $G$ is vertex-critical, $G-v$ has a $k$-coloring $\varphi$ that cannot
+be extended to $v$; we can assume $\varphi(v_i)=i$ for $i\in\{1,\ldots,k\}$.
+
+Suppose $G[N(w)\setminus\{v_i\}]$ is not a clique (which is always the case when $i\not\in\{1,2\}$).  Let $Y$ be a maximal independent set in $G$ containing all vertices of color $i$.
+Since $G$ is not $k$-colorable, the graph $G-Y$ is not $(k-1)$-colorable, and thus it contains an induced subgraph $H$ vertex-critical for $(k-1)$-coloring.
+Since $G-w$ is $k$-colorable, $G-Y-w$ is $(k-1)$-colorable, and thus $w\in V(H)$.  Furthermore, $H$ has minimum degree at least $k-1$, and thus $N(w)\setminus\{v_i\}\subseteq V(H)$.
+Consequently, $H$ is not a clique, and thus by the induction hypothesis, we have $\exc_{k-1}(H)\ge k-3$.  Note that
+$$\exc_k(G)=\exc_{k-1}(H)+\sum_{v\in V(G)\setminus V(H)} \exc_{G,k}(v)+\sum_{v\in V(H)} (\deg_G(v)-\deg_H(v)-1).$$
+Since $Y$ is a maximal independent set, every vertex of $H$ has a neighbor in $Y$, and thus each term of the last sum is non-negative.
+We conclude that $\exc_k(G)\ge k-2$ unless all vertices of $V(G)\setminus V(H)$ have zero excess and each vertex of $H$ has exactly one neighbor in $Y$.
+Therefore, for every $i\in \{1,\ldots,k\}$ such that $G[N(w)\setminus v_i]$ is not a clique, every vertex of color $i$ has zero excess and every vertex of non-zero excess has at most one neighbor
+of color $i$.
+
+In particular, this applies to vertices of color $3$, \ldots, $k$.  By Brooks' theorem, since $G$ is not a clique, $G$ cannot have maximum degree $k$, and thus
+$G$ contains a vertex $z$ of positive excess, without loss of generality of color $1$.  Since $z$ has at most one neighbor of each of the colors $3$, \ldots, $k$,
+$z$ has at least three neighbors of color $1$.  Consequently, both $G[N(w)\setminus\{v_1\}]$ and $G[N(w)\setminus\{v_2\}]$ are cliques.  Since $w$, $v_3$, \ldots, $v_k$
+have zero excess, we conclude that all neighbors of these vertices are contained in $\{w, v_1,\ldots, v_k\}$.  If for some $j\in\{3,\ldots,k\}$, the vertices
+$v_1$ and $v_2$ had no neighbor of color $j$ other than $v_j$, we could recolor $v_1$ and $v_2$ to $j$, $v_j$ to $1$, and $w$ to $2$, obtaining a $k$-coloring of $G$.
+This is a contradiction, and thus each of the colors appears on the neighborhood of $v_1$ or $v_2$ outside of $\{v_3,\ldots,v_k\}$.
+Similarly, $v_1$ has a neighbor of color $2$ and $v_2$ has a neighbor of color $1$.
+Consequently,
+$$\exc_k(G)\ge \exc_{G,k}(v_1)+\exc_{G,k}(v_2)=\deg(v_1)+\deg(v_2)-2k\ge k-2,$$
+as required.
+\end{proof}
+The Haj\'os sum of two copies of $K_{k+1}$ has $n=2k+1$ vertices and $2\binom{k+1}{2}-1=\tfrac{1}{2}(kn+k-2)$ edges, showing that the lemma
+is tight in this special case.
 
 \section{Survey of critical graphs on surfaces}\label{sec:survsurf}
 
@@ -5465,7 +5505,10 @@ can have quite intricate structure, which indicates the question of $4$-colorabi
 is rather difficult one.  With greater number of colors, the situation is somewhat easier.
 As we argued in the previous section, the set $\FF_{k,3,g}$ is finite for every $k\ge 6$,
 implying that $k$-colorability is decidable in polynomial time.  By a much more involved argument,
-Thomassen~\cite{Thomassen97} proved that $\FF_{5,3,g}$ is finite as well.
+Thomassen~\cite{Thomassen97} proved that $\FF_{5,3,g}$ is finite as well (the full treatment of
+this case is beyond the scope of this book, but we will discuss at least some of the ideas in the following
+section).
+
 ... %add explicit lists.
 
 % AMHERE
