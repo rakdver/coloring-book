@@ -5298,7 +5298,11 @@ by fewer than $k+1$ colors.  Since $G$ is vertex-critical for $k$-coloring, it f
 the chromatic number of $G$, and thus also the chromatic number of $G_0$.  Hence, $G_0$ is a loose vertex-critical graph, and the claim of this lemma follows.
 \end{proof}
 
-% AMHERE: corollaries
+Note that $K_1$ is tight and the next smallest vertex-critical graph that is tight is $C_5$ (and this is the only tight graph with $5$-vertices), and the smallest loose vertex-critical graph is $C_7$.
+This has the following consequence.
+\begin{corollary}\label{cor:smallestcrit}
+Suppose $G\neq K_{k+1}$ is a graph vertex-critical for $k$-coloring.  Then $G$ has at least $k+3$ vertices, and if $|V(G)|=k+3$, then $G$ is the complete join of $C_5$ with $k-2$ copies of $K_1$.
+\end{corollary}
 
 \section{Density of critical graphs}
 
