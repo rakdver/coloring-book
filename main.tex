@@ -5249,6 +5249,57 @@ Indeed, for $i\in\{1,\ldots,t\}$, we have $\varphi'(u_i)=f(\varphi(u_i))$, and t
 $\psi(v_i)\neq \varphi'(u_i)$ by the definition of the edge set of $H$.
 \end{proof}
 
+How many vertices can graph vertex-critical for $k$-coloring have?  Certainly the smallest such graph is the clique $K_{k+1}$.
+The Haj\'os sum of two such cliques has $2k+1$ vertices, and in a sense, it is the next smallest non-trivial vertex-critical graph:
+There are ways to obtain smaller ones, for example the graph obtained from the $5$-cycle by adding $k-2$ universal vertices has $k+3$
+vertices, but as we will see momentarily, all such graphs have disconnected complement, and thus they are complete joins of two smaller
+vertex-critical graphs (a \emph{complete join} of two graphs $G_1$ and $G_2$ is obtained from their dijoint union by adding all edges between $V(G_1)$ and $V(G_2)$).
+
+We say that a graph $G$ vertex-critical for $k$-coloring is \emph{tight} if for every $v\in V(G)$, $G$ has a $(k+1)$-coloring
+such that the color class containing $v$ has size one and all other color classes have size two; and in particular, $|V(G)|=2k+1$.
+A graph $G$ is \emph{hypo-matchable} if for every $v\in V(G)$, $G-v$ has a perfect matching; note that the complement of a tight graph is hypo-matchable.
+We say that $G$ is \emph{loose} if $G$ has a $(k+1)$-coloring with all color classes of size at least two; and in particular, $|V(G)|\ge 2k+2$.
+The following lemma is a mild strengthening of results of Gallai~\cite{gallai2} and Stehl{\'\i}k~\cite{stehlik}.
+
+\begin{lemma}\label{lemma:gallaidecomp}
+Every vertex-critical graph is a complete join of at most one loose vertex-critical graph with tight vertex-critical graphs.
+\end{lemma}
+\begin{proof}
+Suppose $G$ is a graph vertex-critical for $k$-coloring, and let $\varphi$ be a $(k+1)$-coloring of $G$ that minimizes the size
+of the set $B$ of vertices contained in color classes of size at least three.  Let $G_1$ be the complement of $G-B$
+be the matching in $G_1$ formed by color classes of size two.  Let $k_1$ be the number of colors $\varphi$ uses on $V(G)\setminus B$.
+Since $G$ is vertex-critical, $G-B$ cannot be colored by fewer than $k_1$ colors, and thus $M$ is a maximum matching in $G_1$.
+
+We now apply a well-known Gallai-Edmonds decomposition to $G_1$: There exists a set $T\subseteq V(G_1)$ such that each component of $G_1-T$
+is hypo-matchable.  Moreover, let $\CC$ be the set of components of $G_1-T$ and let $H$ be an auxiliary bipartite graph with parts $T$ and $\CC$
+where $t\in T$ and $C\in\CC$ are adjacent if and only if $t$ has a neighbor in $C$; then $H$ has a matching that covers $T$.
+
+Let $\CC_1$ consist of the components $C\in \CC$ such that $C$ is covered by every matching in $H$ that covers $T$.
+Let $T_1$ be a maximal subset of $T$ such that the neighborhood $N(T_1)$ of $T_1$ in $H$ has size $|T_1|$.
+We claim that $\CC_1=N(T_1)$.  Indeed, since $|N(T_1)|=|T_1|$, for every $C\in N(T_1)$, no matching in $H-C$ can cover $T_1$.
+Conversely, if $C\in\CC_1$, then Hall's theorem implies there exists $T_2\subseteq T$ such that $C\in N(T_2)$ and $|N(T_2)|=|T_2|$.
+We have $|N(T_1\cup T_2)|=|N(T_1)\cup N(T_2)|=|N(T_1)|+|N(T_2)|-|N(T_1)\cap N(T_2)|\le |T_1|+|T_2|-|N(T_1\cap T_2)|\le |T_1|+|T_2|-|T_1\cap T_2|=|T_1\cup T_2|$,
+and thus $|N(T_1\cup T_2)|=|T_1\cup T_2|$ since $H$ has a matching that covers $T$.  The maximality of $T_1$ implies $T_2\subseteq T_1$ and $C\in N(T_1)$.
+Let $G_0=G\Bigl[B\cup T_1\cup\bigcup_{C\in\CC_1} V(C)]$.  
+
+Consider $C\in \CC\setminus \CC_1$ and a vertex $v\in V(C)$.  Since $C\not\in \CC_1$, $H$ has a matching $M_C$ covering $T$ but not $C$.
+We can extend this matching to a maximum matching $M'$ in $G_1$ that does not cover $v$, using the fact that the components of $\CC$ are hypo-matchable.
+This corresponds to a coloring of $G-B$ by $k_1$ colors such that the color class containing $v$ has color one and all vertices of $\overline{C}-v$ are in color
+classes of size exactly two contained in $C$.  Note that $\overline{C}$ cannot be colored by fewer than $k_C=(|V(C)|+1)/2$ colors, since $G-B$ cannot be colored by fewer than $k_1$ colors.
+On the other hand, $\overline{C}-v$ is colored by one less color, and since the choice of $v\in C$ is arbitrary, we conclude $\overline{C}$ is vertex-critical and tight.
+Note that in $G$, $v$ is adjacent to all vertices of $T_1$ since $N(T_1)=\CC_1$ and $G_1$ is the complement of $G-B$.  Furthermore, $v$ is adjacent all vertices in $B$,
+as otherwise we could recolor a non-neighbor of $v$ in $B$ to the color of $v$, contradicting the minimality of $|B|$.  Again, since the choice of $v\in C$ is arbitrary,
+it follows that $G$ contains all edges between $G_0$ and $\overline{C}$.
+
+Similarly, considering a $k_1$-coloring of $G-B$ arising from an arbitrary matching in $H$ that covers $T$, we conclude that $G$ has a $(k+1)$-coloring
+in which $V(G_0)$ is a union of $k+1-\sum_{C\in \CC\setminus \CC_1} k_C$ color classes, each of size at least two, and thus $G_0$ cannot be colored by fewer colors.
+Let $G'=G-(T\setminus T_1)$.  The graph $G'$ is a complete join of $G_0$ and the graphs $\overline{C}$ for $C\in\CC\setminus \CC_1$, and thus it cannot be colored
+by fewer than $k+1$ colors.  Since $G$ is vertex-critical for $k$-coloring, it follows that $G=G'$.  Since $G$ is vertex-critical, deleting any vertex of $G_0$ decreases
+the chromatic number of $G$, and thus also the chromatic number of $G_0$.  Hence, $G_0$ is a loose vertex-critical graph, and the claim of this lemma follows.
+\end{proof}
+
+% AMHERE: corollaries
+
 \section{Density of critical graphs}
 
 Using Corollary~\ref{cor:small-simple}, we have shown that certain combinations of chromatic number and girth admit only
@@ -5410,52 +5461,9 @@ $$\exc_k(G)\ge \exc_{G,k}(v_1)+\exc_{G,k}(v_2)=\deg(v_1)+\deg(v_2)-2k\ge k-2,$$
 as required.
 \end{proof}
 The Haj\'os sum of two copies of $K_{k+1}$ has $n=2k+1$ vertices and $2\binom{k+1}{2}-1=\tfrac{1}{2}(kn+k-2)$ edges, showing that the lemma
-is tight in this special case.  This graph also plays a role in another context, concerning the size of the smallest nontrivial critical graphs.
-We say that a graph $G$ vertex-critical for $k$-coloring is \emph{tight} if for every $v\in V(G)$, $G$ has a $(k+1)$-coloring
-such that the color class containing $v$ has size one and all other color classes have size two; and in particular, $|V(G)|=2k+1$.
-We say that $G$ is \emph{loose} if $G$ has a $(k+1)$-coloring with all color classes of size at least two; and in particular, $|V(G)|\ge 2k$.
-The following lemma is a mild strengthening of results of Gallai~\cite{gallai2} and Stehl{\'\i}k~\cite{stehlik}.
-A \emph{complete join} of two graphs $G_1$ and $G_2$ is obtained from their dijoint union by adding all edges between $V(G_1)$ and $V(G_2)$.
-A graph $G$ is \emph{hypo-matchable} if for every $v\in V(G)$, $G-v$ has a perfect matching.
+is tight in this special case. 
 
-\begin{lemma}\label{lemma-dec}
-Every vertex-critical graph is a complete join of at most one loose vertex-critical graph with tight vertex-critical graphs.
-\end{lemma}
-\begin{proof}
-Suppose $G$ is a graph vertex-critical for $k$-coloring, and let $\varphi$ be a $(k+1)$-coloring of $G$ that minimizes the size
-of the set $B$ of vertices contained in color classes of size at least three.  Let $G_1$ be the complement of $G-B$
-be the matching in $G_1$ formed by color classes of size two.  Let $k_1$ be the number of colors $\varphi$ uses on $V(G)\setminus B$.
-Since $G$ is vertex-critical, $G-B$ cannot be colored by fewer than $k_1$ colors, and thus $M$ is a maximum matching in $G_1$.
-
-We now apply a well-known Gallai-Edmonds decomposition to $G_1$: There exists a set $T\subseteq V(G_1)$ such that each component of $G_1-T$
-is hypo-matchable.  Moreover, let $\CC$ be the set of components of $G_1-T$ and let $H$ be an auxiliary bipartite graph with parts $T$ and $\CC$
-where $t\in T$ and $C\in\CC$ are adjacent if and only if $t$ has a neighbor in $C$; then $H$ has a matching that covers $T$.
-
-Let $\CC_1$ consist of the components $C\in \CC$ such that $C$ is covered by every matching in $H$ that covers $T$.
-Let $T_1$ be a maximal subset of $T$ such that the neighborhood $N(T_1)$ of $T_1$ in $H$ has size $|T_1|$.
-We claim that $\CC_1=N(T_1)$.  Indeed, since $|N(T_1)|=|T_1|$, for every $C\in N(T_1)$, no matching in $H-C$ can cover $T_1$.
-Conversely, if $C\in\CC_1$, then Hall's theorem implies there exists $T_2\subseteq T$ such that $C\in N(T_2)$ and $|N(T_2)|=|T_2|$.
-We have $|N(T_1\cup T_2)|=|N(T_1)\cup N(T_2)|=|N(T_1)|+|N(T_2)|-|N(T_1)\cap N(T_2)|\le |T_1|+|T_2|-|N(T_1\cap T_2)|\le |T_1|+|T_2|-|T_1\cap T_2|=|T_1\cup T_2|$,
-and thus $|N(T_1\cup T_2)|=|T_1\cup T_2|$ since $H$ has a matching that covers $T$.  The maximality of $T_1$ implies $T_2\subseteq T_1$ and $C\in N(T_1)$.
-Let $G_0=G\Bigl[B\cup T_1\cup\bigcup_{C\in\CC_1} V(C)]$.  
-
-Consider $C\in \CC\setminus \CC_1$ and a vertex $v\in V(C)$.  Since $C\not\in \CC_1$, $H$ has a matching $M_C$ covering $T$ but not $C$.
-We can extend this matching to a maximum matching $M'$ in $G_1$ that does not cover $v$, using the fact that the components of $\CC$ are hypo-matchable.
-This corresponds to a coloring of $G-B$ by $k_1$ colors such that the color class containing $v$ has color one and all vertices of $\overline{C}-v$ are in color
-classes of size exactly two contained in $C$.  Note that $\overline{C}$ cannot be colored by fewer than $k_C=(|V(C)|+1)/2$ colors, since $G-B$ cannot be colored by fewer than $k_1$ colors.
-On the other hand, $\overline{C}-v$ is colored by one less color, and since the choice of $v\in C$ is arbitrary, we conclude $\overline{C}$ is vertex-critical and tight.
-Note that in $G$, $v$ is adjacent to all vertices of $T_1$ since $N(T_1)=\CC_1$ and $G_1$ is the complement of $G-B$.  Furthermore, $v$ is adjacent all vertices in $B$,
-as otherwise we could recolor a non-neighbor of $v$ in $B$ to the color of $v$, contradicting the minimality of $|B|$.  Again, since the choice of $v\in C$ is arbitrary,
-it follows that $G$ contains all edges between $G_0$ and $\overline{C}$.
-
-Similarly, considering a $k_1$-coloring of $G-B$ arising from an arbitrary matching in $H$ that covers $T$, we conclude that $G$ has a $(k+1)$-coloring
-in which $V(G_0)$ is a union of $k+1-\sum_{C\in \CC\setminus \CC_1} k_C$ color classes, each of size at least two, and thus $G_0$ cannot be colored by fewer colors.
-Let $G'=G-(T\setminus T_1)$.  The graph $G'$ is a complete join of $G_0$ and the graphs $\overline{C}$ for $C\in\CC\setminus \CC_1$, and thus it cannot be colored
-by fewer than $k+1$ colors.  Since $G$ is vertex-critical for $k$-coloring, it follows that $G=G'$.  Since $G$ is vertex-critical, deleting any vertex of $G_0$ decreases
-the chromatic number of $G$, and thus also the chromatic number of $G_0$.  Hence, $G_0$ is a loose vertex-critical graph, and the claim of this lemma follows.
-\end{proof}
-
-% AMHERE: corollaries
+% AMHERE: proof of Dirac's theorem
 
 \section{Survey of critical graphs on surfaces}\label{sec:survsurf}
 
