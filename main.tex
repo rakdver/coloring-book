@@ -5011,7 +5011,7 @@ if and only if its clique number is at most 6. Hence, all graphs drawn in the Kl
 giving the only exception to tightness of Heawood's formula.
 
 In fact, cliques are the only obstruction preventing us from strengthening Heawood's bound in much more general circumstances.
-\begin{theorem}[Dirac~\cite{dirac1957short},  Albertson and Hutchinson~\cite{albertson1979three}]
+\begin{theorem}[Dirac~\cite{dirac1957short},  Albertson and Hutchinson~\cite{albertson1979three}]\label{thm:dirac}
 Suppose $G$ is a a graph drawn in a surface of genus $g\neq 0$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
 \end{theorem}
 
@@ -5467,7 +5467,33 @@ as required.
 The Haj\'os sum of two copies of $K_{k+1}$ has $n=2k+1$ vertices and $2\binom{k+1}{2}-1=\tfrac{1}{2}(kn+k-2)$ edges, showing that the lemma
 is tight in this special case. 
 
-% AMHERE: proof of Dirac's theorem
+Corollary~\ref{cor:smallestcrit} and Lemma~\ref{lemma:diracdens} together give just about enough information about critical graphs to prove
+Theorem~\ref{thm:dirac} up to a few exceptional genera.
+\begin{theorem}
+Suppose $G$ is a a graph drawn in a surface of genus $g\ge 4$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
+\end{theorem}
+\begin{proof}
+We proceed similarly to the proof of Heawood's formula, employing the stronger bounds we obtained in the meantime.
+Let $k=H(g)-1$ and $n=|V(G)|$; suppose for a contradiction that $G$ is critical for $k$-coloring and $G\neq K_{k+1}$.
+By Corollary~\ref{cor:smallestcrit}, we have $n\ge k+3$.  Combining Corollary~\ref{cor:mad} with Lemma~\ref{lemma:diracdens},
+we have
+\begin{align*}
+k+\frac{k-2}{n}&\le 6+\frac{6(g-2)}{n}\\
+k-6&\le\frac{6g-k-10}{n}\le \frac{6g-k-10}{k+3}\\
+k^2-2k-(6g+10)&\le 0\\
+\frac{3+\sqrt{24g+1}}{2}<H(g)-1=k&\le \Bigl\lfloor\frac{2+\sqrt{24g+44}}{2}\Bigr\rfloor.
+\end{align*}
+Note that $\sqrt{24g+44}-\sqrt{24g+1}-1$ is decreasing in $g$ and negative for $g=19$, hence we have $g\le 18$.
+Furthermore, numerical calculations show that
+\begin{itemize}
+\item for $15\le g\le 18$, $H(g)-1=12$ while the right-hand side is $11$,
+\item for $12\le g\le 14$, $H(g)-1=11$ while the right-hand side is $10$,
+\item for $g\in\{10,11\}$, $H(g)-1=10$ while the right-hand side is $9$,
+% ?? case g=9 currently fails, fix this somehow!
+...
+\end{proof}
+
+% add remarks on other genera, choosability
 
 \section{Survey of critical graphs on surfaces}\label{sec:survsurf}
 
