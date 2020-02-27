@@ -4973,14 +4973,14 @@ for the case the length is at most six).
 
 % LP
 
-\section{Euler's formula for Surfaces and the Heawood bound}\label{sec:heawood}
+\section{The Heawood bound and beyond}\label{sec:heawood}
 
 One of the earliest results on graph coloring is Heawood's upper bound~\cite{heawood} on the chromatic number
 of graphs that can be drawn in a fixed surface.  This bound is a simple consequence of the sparsity of embedded graphs.
 Indeed, since the proof is entirely in terms of degeneracy, it applies to the list coloring as well.
 For a non-negative integer $g$,
 let $$H(g)=\Bigl\lfloor\frac{7+\sqrt{24g+1}}{2}\Bigl\rfloor.$$
-\begin{theorem}[Heawood's formula, list coloring setting]
+\begin{theorem}[Heawood's formula, list coloring setting]\label{thm:listheawood}
 Every graph drawn in a surface of genus $g\neq 0$ is $H(g)$-choosable.
 \end{theorem}
 \begin{proof}
@@ -5006,16 +5006,15 @@ completed by the announcement of the solution to the last few sporadic cases by 
 treatment can be found in~\cite{ringelbook}.
 
 On the other hand, Franklin~\cite{franklin} observed that while $H(g)=7$, $K_7$ cannot be drawn in the Klein bottle.
-As we will see in the next chapter (Corollary~\ref{cor:small-medium}), a graph drawn in a surface of genus 2 is 6-colorable
+As we will see in the next chapter, a graph drawn in a surface of genus 2 is 6-colorable
 if and only if its clique number is at most 6. Hence, all graphs drawn in the Klein bottle are 6-colorable,
 giving the only exception to tightness of Heawood's formula.
-
 In fact, cliques are the only obstruction preventing us from strengthening Heawood's bound in much more general circumstances.
 \begin{theorem}[Dirac~\cite{dirac1957short},  Albertson and Hutchinson~\cite{albertson1979three}]\label{thm:dirac}
 Suppose $G$ is a a graph drawn in a surface of genus $g\neq 0$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
 \end{theorem}
 
-... % AMHERE  ??? Include proof in the critical graphs chapter?
+... % AMHERE
 
 \section{Algorithms, Locally Planar Graphs and Critical Graphs}
 
@@ -5340,7 +5339,88 @@ is polynomial-time solvable for each $g$.
 Since $K_{k+1}$ is critical for $k$-coloring, the bound from Lemma~\ref{lemma:crmindeg} cannot be improved without
 further assumptions, even if we consider the average degree instead of the minimum degree.
 However, as it turns out, $K_{k+1}$ is significantly sparser than other vertex-critical graphs for $k$-coloring.
-To see this, let us first make a simple observation on the subgraphs of vertex-critical graphs for $k$-coloring induced by vertices
+For graphs with a small number of vertices, the following bound by Dirac~\cite{diracdens} is quite good
+(the proof we give for this result comes from~\cite{weinstein}).
+\begin{lemma}\label{lemma:diracdens}
+Let $k\ge 2$ be an integer.  If $G$ is an $n$-vertex graph vertex-critical for $k$-coloring and $G\neq K_{k+1}$, then $G$ has average degree
+at least $k+\tfrac{k-2}{n}.$
+\end{lemma}
+\begin{proof}
+For $v\in V(G)$, let the \emph{excess} of $v$ be $\exc_{G,k}(v)=\deg(v)-k$, and let $\exc_k(G)=\sum_{v\in V(G)} \exc_{G,k}(v)$.
+Hence, we want to prove that if $G$ is vertex-critical for $k$-coloring and $G\neq K_{k+1}$, then $\exc_k(G)\ge k-2$.  We prove this claim by induction on $k$.
+The basic case $k=2$ is trivial, and thus we can assume $k\ge 3$.
+
+The claim is trivial if $G$ has minimum degree at least $k+1$, and thus suppose $w$ is a vertex of $G$ of degree $k$.  Since $G$ is vertex-critical for $k$-coloring and $G\neq K_{k+1}$,
+the neighborhood of $w$ is not a clique; let $v_1$, \ldots, $v_k$ be the neighbors of $w$, where $v_1v_2\not\in E(G)$.  Since $G$ is vertex-critical, $G-v$ has a $k$-coloring $\varphi$ that cannot
+be extended to $v$; we can assume $\varphi(v_i)=i$ for $i\in\{1,\ldots,k\}$.
+
+Suppose $G[N(w)\setminus\{v_i\}]$ is not a clique (which is always the case when $i\not\in\{1,2\}$).  Let $Y$ be a maximal independent set in $G$ containing all vertices of color $i$.
+Since $G$ is not $k$-colorable, the graph $G-Y$ is not $(k-1)$-colorable, and thus it contains an induced subgraph $H$ vertex-critical for $(k-1)$-coloring.
+Since $G-w$ is $k$-colorable, $G-Y-w$ is $(k-1)$-colorable, and thus $w\in V(H)$.  Furthermore, $H$ has minimum degree at least $k-1$, and thus $N(w)\setminus\{v_i\}\subseteq V(H)$.
+Consequently, $H$ is not a clique, and thus by the induction hypothesis, we have $\exc_{k-1}(H)\ge k-3$.  Note that
+$$\exc_k(G)=\exc_{k-1}(H)+\sum_{v\in V(G)\setminus V(H)} \exc_{G,k}(v)+\sum_{v\in V(H)} (\deg_G(v)-\deg_H(v)-1).$$
+Since $Y$ is a maximal independent set, every vertex of $H$ has a neighbor in $Y$, and thus each term of the last sum is non-negative.
+We conclude that $\exc_k(G)\ge k-2$ unless all vertices of $V(G)\setminus V(H)$ have zero excess and each vertex of $H$ has exactly one neighbor in $Y$.
+Therefore, for every $i\in \{1,\ldots,k\}$ such that $G[N(w)\setminus v_i]$ is not a clique, every vertex of color $i$ has zero excess and every vertex of non-zero excess has at most one neighbor
+of color $i$.
+
+In particular, this applies to vertices of color $3$, \ldots, $k$.  By Brooks' theorem, since $G$ is not a clique, $G$ cannot have maximum degree $k$, and thus
+$G$ contains a vertex $z$ of positive excess, without loss of generality of color $1$.  Since $z$ has at most one neighbor of each of the colors $3$, \ldots, $k$,
+$z$ has at least three neighbors of color $1$.  Consequently, both $G[N(w)\setminus\{v_1\}]$ and $G[N(w)\setminus\{v_2\}]$ are cliques.  Since $w$, $v_3$, \ldots, $v_k$
+have zero excess, we conclude that all neighbors of these vertices are contained in $\{w, v_1,\ldots, v_k\}$.  If for some $j\in\{3,\ldots,k\}$, the vertices
+$v_1$ and $v_2$ had no neighbor of color $j$ other than $v_j$, we could recolor $v_1$ and $v_2$ to $j$, $v_j$ to $1$, and $w$ to $2$, obtaining a $k$-coloring of $G$.
+This is a contradiction, and thus each of the colors appears on the neighborhood of $v_1$ or $v_2$ outside of $\{v_3,\ldots,v_k\}$.
+Similarly, $v_1$ has a neighbor of color $2$ and $v_2$ has a neighbor of color $1$.
+Consequently,
+$$\exc_k(G)\ge \exc_{G,k}(v_1)+\exc_{G,k}(v_2)=\deg(v_1)+\deg(v_2)-2k\ge k-2,$$
+as required.
+\end{proof}
+The Haj\'os sum of two copies of $K_{k+1}$ has $n=2k+1$ vertices and $2\binom{k+1}{2}-1=\tfrac{1}{2}(kn+k-2)$ edges, showing that the lemma
+is tight in this special case. 
+
+Corollary~\ref{cor:smallestcrit} and Lemma~\ref{lemma:diracdens} together give just about enough information about critical graphs to prove
+Theorem~\ref{thm:dirac} up to a few exceptional genera.
+\begin{theorem}\label{thm:aldirac}
+Suppose $G$ is a a graph drawn in a surface of genus $g\not\in\{0,1,3\}$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
+\end{theorem}
+\begin{proof}
+We proceed similarly to the proof of Heawood's formula, employing the stronger bounds we obtained in the meantime.
+Let $k=H(g)-1$ and $n=|V(G)|$; suppose for a contradiction that $G$ is critical for $k$-coloring and $G\neq K_{k+1}$.
+By Corollary~\ref{cor:smallestcrit}, we have $n\ge k+3$.  Combining Corollary~\ref{cor:mad} with Lemma~\ref{lemma:diracdens},
+we have
+\begin{align*}
+k+\frac{k-2}{n}&\le 6+\frac{6(g-2)}{n}\\
+k-6&\le\frac{6g-k-10}{n}\le \frac{6g-k-10}{k+3}\\
+k^2-2k-(6g+8)&\le 0\\
+\frac{3+\sqrt{24g+1}}{2}<H(g)-1=k&\le \Bigl\lfloor\frac{2+\sqrt{24g+36}}{2}\Bigr\rfloor.
+\end{align*}
+Note that $\sqrt{24g+36}-\sqrt{24g+1}-1$ is decreasing in $g$ and equal to $0$ for $g=12$, hence we have $g\le 11$.
+Furthermore, numerical calculations show that
+\begin{itemize}
+\item for $g\in\{10,11\}$, $H(g)-1=10$ while the right-hand side is $9$,
+\item for $g\in\{7,8,9\}$, $H(g)-1=9$ while the right-hand side is $8$,
+\item for $g\in\{5,6\}$, $H(g)-1=8$ while the right-hand side is $7$,
+\item for $g=4$, $H(g)-1=7$ while the right-hand side is $6$, and
+\item for $g=2$, $H(g)-1=6$ while the right-hand side is $5$.
+\end{itemize}
+This is a contradiction.
+\end{proof}
+Let us remark that as we already mentioned, $K_7$ cannot be drawn in the Klein bottle, and thus Theorem~\ref{thm:aldirac} implies
+graphs drawn in the Klein bottle are $6$-colorable.
+As for the genera excluded in the statement of Theorem~\ref{thm:aldirac}, the case $g=0$ obviously fails---it is not true that
+all planar graphs of clique number at most three are $3$-colorable.  On the other hand, the conclusion holds for $g\in\{1,3\}$;
+all projective planar graphs not containing $K_6$ are 5-colorable, and all graphs drawn in the non-orientable surface of genus $3$
+not containing $K_7$ are $6$-colorable~\cite{albertson1979three}.  We encourage the reader to work out these last two cases as an
+exercise (hint: a vertex $v$ of minimum degree has two non-adjacent neighbors; we can delete $v$, identify these two neighbors,
+and proceed by induction, unless the identification creates the forbidden clique).
+
+Let us also remark that while the proof of the Heawood bound is purely in the terms of degeneracy and thus it directly
+applies to the list coloring setting, the presented proofs of Lemmas~\ref{lemma:gallaidecomp} and \ref{lemma:diracdens}
+employ ideas that are specific just to the ordinary proper coloring.  Nevertheless, Theorem~\ref{thm:dirac} can be generalized
+to the list coloring setting, using somewhat more involved arguments~\cite{bohmelc,listdir2}.
+
+For graphs with many vertices, the bound from Lemma~\ref{lemma:diracdens} is not much better than the trivial lower bound of $k$.
+To obtain an asymptotically better bound, let us first make a simple observation on the subgraphs of vertex-critical graphs for $k$-coloring induced by vertices
 of degree exactly $k$; we refer the reader to Subsection~\ref{ssec-gallai} for definition and motivation for Gallai forests.
 
 \begin{lemma}\label{lemma:degkgal}
@@ -5417,9 +5497,6 @@ In combination with Corollary~\ref{cor:mad}, Theorem~\ref{thm:critdens} gives th
 Let $\ell\in\{3,4,6\}$ and $g\ge 0$ be integers, and let $k=\tfrac{2\ell}{\ell-2}$.  Every graph of genus at most $g$ and girth at least $\ell$
 other than $K_{k+1}$ which is vertex-critical for $k$-coloring has at most $$\frac{k^3+2k^2-2k}{k-2}(g-2)$$ vertices.
 \end{corollary}
-In particular, since among surfaces of genus at most two, $K_7$ can only be drawn in the torus,
-Corollary~\ref{cor:small-medium} implies that all graphs drawn in the plane, the projective plane, or the Klein bottle
-are $6$-colorable, and graphs drawn in the torus are $6$-colorable unless they contain a clique of size $7$.
 
 How good is the bound from Theorem~\ref{thm:critdens}?  The average degree given by the Theorem is about $k+1/k$.
 The $(k+1)$-Ore graphs defined in the previous section, a best construction available to us at the moment,
@@ -5427,73 +5504,6 @@ have in limit (as their number of vertices goes to infinity, for a fixed $k$) av
 The bound from Theorem~\ref{thm:critdens} was later mildly improved by Krivelevich~\cite{krivelevich1997minimal}
 and by Kostochka and Stiebitz~\cite{kostochka1996excess} to a bound of about $k+2/k$.  However, a breakthrough came in the work of Kostochka and Yancey~\cite{koyanore},
 who proved a bound that asymptotically matches the density of $(k+1)$-Ore graphs using a newly developed potential method; we give more details in Chapter~\ref{chap:potential}.
-
-For graphs with a small number of vertices, the following bound by Dirac~\cite{diracdens} beats the one from Theorem~\ref{thm:critdens}
-(the proof we give for this result comes from~\cite{weinstein}).
-\begin{lemma}\label{lemma:diracdens}
-Let $k\ge 2$ be an integer.  If $G$ is an $n$-vertex graph vertex-critical for $k$-coloring and $G\neq K_{k+1}$, then $G$ has average degree
-at least $k+\tfrac{k-2}{n}.$
-\end{lemma}
-\begin{proof}
-For $v\in V(G)$, let the \emph{excess} of $v$ be $\exc_{G,k}(v)=\deg(v)-k$, and let $\exc_k(G)=\sum_{v\in V(G)} \exc_{G,k}(v)$.
-Hence, we want to prove that if $G$ is vertex-critical for $k$-coloring and $G\neq K_{k+1}$, then $\exc_k(G)\ge k-2$.  We prove this claim by induction on $k$.
-The basic case $k=2$ is trivial, and thus we can assume $k\ge 3$.
-
-The claim is trivial if $G$ has minimum degree at least $k+1$, and thus suppose $w$ is a vertex of $G$ of degree $k$.  Since $G$ is vertex-critical for $k$-coloring and $G\neq K_{k+1}$,
-the neighborhood of $w$ is not a clique; let $v_1$, \ldots, $v_k$ be the neighbors of $w$, where $v_1v_2\not\in E(G)$.  Since $G$ is vertex-critical, $G-v$ has a $k$-coloring $\varphi$ that cannot
-be extended to $v$; we can assume $\varphi(v_i)=i$ for $i\in\{1,\ldots,k\}$.
-
-Suppose $G[N(w)\setminus\{v_i\}]$ is not a clique (which is always the case when $i\not\in\{1,2\}$).  Let $Y$ be a maximal independent set in $G$ containing all vertices of color $i$.
-Since $G$ is not $k$-colorable, the graph $G-Y$ is not $(k-1)$-colorable, and thus it contains an induced subgraph $H$ vertex-critical for $(k-1)$-coloring.
-Since $G-w$ is $k$-colorable, $G-Y-w$ is $(k-1)$-colorable, and thus $w\in V(H)$.  Furthermore, $H$ has minimum degree at least $k-1$, and thus $N(w)\setminus\{v_i\}\subseteq V(H)$.
-Consequently, $H$ is not a clique, and thus by the induction hypothesis, we have $\exc_{k-1}(H)\ge k-3$.  Note that
-$$\exc_k(G)=\exc_{k-1}(H)+\sum_{v\in V(G)\setminus V(H)} \exc_{G,k}(v)+\sum_{v\in V(H)} (\deg_G(v)-\deg_H(v)-1).$$
-Since $Y$ is a maximal independent set, every vertex of $H$ has a neighbor in $Y$, and thus each term of the last sum is non-negative.
-We conclude that $\exc_k(G)\ge k-2$ unless all vertices of $V(G)\setminus V(H)$ have zero excess and each vertex of $H$ has exactly one neighbor in $Y$.
-Therefore, for every $i\in \{1,\ldots,k\}$ such that $G[N(w)\setminus v_i]$ is not a clique, every vertex of color $i$ has zero excess and every vertex of non-zero excess has at most one neighbor
-of color $i$.
-
-In particular, this applies to vertices of color $3$, \ldots, $k$.  By Brooks' theorem, since $G$ is not a clique, $G$ cannot have maximum degree $k$, and thus
-$G$ contains a vertex $z$ of positive excess, without loss of generality of color $1$.  Since $z$ has at most one neighbor of each of the colors $3$, \ldots, $k$,
-$z$ has at least three neighbors of color $1$.  Consequently, both $G[N(w)\setminus\{v_1\}]$ and $G[N(w)\setminus\{v_2\}]$ are cliques.  Since $w$, $v_3$, \ldots, $v_k$
-have zero excess, we conclude that all neighbors of these vertices are contained in $\{w, v_1,\ldots, v_k\}$.  If for some $j\in\{3,\ldots,k\}$, the vertices
-$v_1$ and $v_2$ had no neighbor of color $j$ other than $v_j$, we could recolor $v_1$ and $v_2$ to $j$, $v_j$ to $1$, and $w$ to $2$, obtaining a $k$-coloring of $G$.
-This is a contradiction, and thus each of the colors appears on the neighborhood of $v_1$ or $v_2$ outside of $\{v_3,\ldots,v_k\}$.
-Similarly, $v_1$ has a neighbor of color $2$ and $v_2$ has a neighbor of color $1$.
-Consequently,
-$$\exc_k(G)\ge \exc_{G,k}(v_1)+\exc_{G,k}(v_2)=\deg(v_1)+\deg(v_2)-2k\ge k-2,$$
-as required.
-\end{proof}
-The Haj\'os sum of two copies of $K_{k+1}$ has $n=2k+1$ vertices and $2\binom{k+1}{2}-1=\tfrac{1}{2}(kn+k-2)$ edges, showing that the lemma
-is tight in this special case. 
-
-Corollary~\ref{cor:smallestcrit} and Lemma~\ref{lemma:diracdens} together give just about enough information about critical graphs to prove
-Theorem~\ref{thm:dirac} up to a few exceptional genera.
-\begin{theorem}
-Suppose $G$ is a a graph drawn in a surface of genus $g\ge 4$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
-\end{theorem}
-\begin{proof}
-We proceed similarly to the proof of Heawood's formula, employing the stronger bounds we obtained in the meantime.
-Let $k=H(g)-1$ and $n=|V(G)|$; suppose for a contradiction that $G$ is critical for $k$-coloring and $G\neq K_{k+1}$.
-By Corollary~\ref{cor:smallestcrit}, we have $n\ge k+3$.  Combining Corollary~\ref{cor:mad} with Lemma~\ref{lemma:diracdens},
-we have
-\begin{align*}
-k+\frac{k-2}{n}&\le 6+\frac{6(g-2)}{n}\\
-k-6&\le\frac{6g-k-10}{n}\le \frac{6g-k-10}{k+3}\\
-k^2-2k-(6g+10)&\le 0\\
-\frac{3+\sqrt{24g+1}}{2}<H(g)-1=k&\le \Bigl\lfloor\frac{2+\sqrt{24g+44}}{2}\Bigr\rfloor.
-\end{align*}
-Note that $\sqrt{24g+44}-\sqrt{24g+1}-1$ is decreasing in $g$ and negative for $g=19$, hence we have $g\le 18$.
-Furthermore, numerical calculations show that
-\begin{itemize}
-\item for $15\le g\le 18$, $H(g)-1=12$ while the right-hand side is $11$,
-\item for $12\le g\le 14$, $H(g)-1=11$ while the right-hand side is $10$,
-\item for $g\in\{10,11\}$, $H(g)-1=10$ while the right-hand side is $9$,
-% ?? case g=9 currently fails, fix this somehow!
-...
-\end{proof}
-
-% add remarks on other genera, choosability
 
 \section{Survey of critical graphs on surfaces}\label{sec:survsurf}
 
