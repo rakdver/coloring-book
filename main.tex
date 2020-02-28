@@ -2971,7 +2971,7 @@ for $i=1, \ldots, 4$.  Hence, by contracting all the edges of $H_5$ not incident
 which is a contradiction.
 \end{proof}
 
-\subsection{Brook's theorem}
+\subsection{Brooks' theorem}
 
 Kempe chains are also extensively used in coloring problems in non-embedded graphs.
 Of course, we still need some argument preventing one of the Kempe chains from containing
@@ -4730,7 +4730,7 @@ requiring a lot of careful trial-and-error; and we can say very little regarding
 
 ???
 
-\section{$3$-colorability of near-quadrangulations}
+\section{$3$-colorability of near-quadrangulations}\label{sec:quadran}
 
 The connection between coloring and nowhere-zero flows turns out to be especially useful in the case of $3$-coloring of
 plane graphs with almost all faces of length exactly $4$; the reason being that nowhere-zero $\mathbb{Z}_3$-flows
@@ -4971,7 +4971,31 @@ for the case the length is at most six).
 
 \chapter{The history and the modern view}
 
-% LP
+Under the influence of the Four Color Problem, planar graphs played a prominent role in the beginnings of the graph coloring theory.
+It is therefore not surprising that graphs drawn in other surfaces were also considered quite early; Heawood's upper bound
+on the chromatic number of graphs drawn in any surface dates to 1890.  For a long time, most of the research was focused
+on the behavior with the number of colors close to the one given by Heawood's formula, on the order of the square root of the genus
+of the surface.  Most prominently, a series of results culminating in the paper of Ringel and Youngs~\cite{ringel} established the tightness of Heawood's
+upper bound and Dirac~\cite{dirac1952} has shown that this bound is essentially only achieved by cliques.
+
+Since 1990's, the focus shifts towards coloring by a small number of colors.  Corollary~\ref{cor:mad} shows that for any $\varepsilon>0$ and any fixed surface,
+all but finitely many graphs drawn in the surface have average degree less than $6+\varepsilon$.  This makes it easy to decide the $k$-colorability
+of these graphs for any $k\ge 7$, by testing for one of a finitely many obstructions.  Using very simple arguments on the density of critical graphs
+(which we explore in the next chapter) this idea applies to $6$-colorability as well.  As it turns out, 5-colorability in any fixed surface is also described
+by only finitely many obstructions, but this is a much more challenging proposition.  It was established by Thomassen~\cite{Thomassen97} in 1997,
+and the argument highlights the importance of precoloring extension arguments.  In particular, this result implies that locally planar graphs
+(graphs drawn in a fixed surface without short non-contractible cycles) are 5-colorable, generalizing the 5-color theorem for planar graphs.
+
+Similarly, motivated by Gr\"{o}tzsch' Theorem, one can ask whether locally planar triangle-free graphs are 3-colorable.  This is quite difficult to establish
+even for graphs of girth at least five~\cite{thomassen-surf}, and the triangle-free case brings further challenges, since 3-colorability of triangle-free
+graphs on surfaces is not characterized by a finite number of obstructions.  The 3-coloring theory of quadrangulations we have seen in Section~\ref{sec:quadran}
+plays an important role in this context, and combining it with a number of other ideas, 3-colorability of locally planar triangle-free graphs has been established
+by Dvo\v{r}\'ak, Kr\'al' and Thomas~\cite{trfree6}.
+
+The reader probably noticed a glaring omission in our discussion.  What about 4-colorability, arguably the most interesting case given the Four Color Theorem?
+Unfortunately, we cannot say much on this topic.  Very little is known about 4-colorability of graphs in any surface other than the sphere.  Not only that,
+even seemingly simple questions such as how hard is it to decide the 4-colorability for graphs drawn in the plane with just one crossing are wide open.
+This new incarnation of the Four Color Problem is one of the main challenges for the current graph coloring theory.
 
 \section{The Heawood bound and beyond}\label{sec:heawood}
 
@@ -5010,7 +5034,7 @@ As we will see in the next chapter, a graph drawn in a surface of genus 2 is 6-c
 if and only if its clique number is at most 6. Hence, all graphs drawn in the Klein bottle are 6-colorable,
 giving the only exception to tightness of Heawood's formula.
 In fact, cliques are the only obstruction preventing us from strengthening Heawood's bound in much more general circumstances.
-\begin{theorem}[Dirac~\cite{dirac1957short},  Albertson and Hutchinson~\cite{albertson1979three}]\label{thm:dirac}
+\begin{theorem}[Dirac~\cite{dirac1952,dirac1957short},  Albertson and Hutchinson~\cite{albertson1979three}]\label{thm:dirac}
 Suppose $G$ is a a graph drawn in a surface of genus $g\neq 0$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
 \end{theorem}
 
@@ -5020,7 +5044,7 @@ Suppose $G$ is a a graph drawn in a surface of genus $g\neq 0$.  If $\omega(G)<H
 
 \section{Precolored Vertices, Crossings, and Many Colorings}
 
-\chapter{Critical Graphs}
+\chapter{Critical Graphs}\label{chap:critical}
 
 % ZD
 A useful technique to prove that graphs from certain class are $k$-colorable,
@@ -5691,7 +5715,7 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 
 \section{Maximum average degree, degeneracy, embedded graphs.}
 \section{Potential instead of mad.}
-\section{Short Potential Proof of Brook's Theorem}
+\section{Short Potential Proof of Brooks' Theorem}
 \section{The Short Potential Proof of Grotzsch's Theorem}
 \section{Outline of general $k$?}
 \section{Survey of other results.}
