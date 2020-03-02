@@ -1274,7 +1274,7 @@ label("$y$", v[7],N);
 
 Next, we establish reducible configurations.  Let \emph{tetrad} denote a path of four vertices $v_1v_2v_3v_4$ of degree three
 contained in a boundary of a face, such that edges $v_1v_2$ and $v_3v_4$ are incident with $3$-faces; see Figure~\ref{fig:tetrad}.
-To reduce tetrads,we use the precolored cycle trick.
+To reduce tetrads, we use the precolored cycle trick.
 
 \begin{lemma}\label{lemma:no4to8-redu}
 Let $G$ be a counterexample with $|V(G)|+|E(G)|$ the smallest possible, and let $C$ be the cycle bounding the outer face of $G$.
@@ -5617,6 +5617,10 @@ by Observation~\ref{obs:crit-2conn}, and thus $|V(G')|$ is at least as large as 
 of $e$ in $G$.  Thus, indeed there are infinitely many graphs critical for $4$-coloring that can be drawn
 in the torus (or any other surface of genus at least two).
 
+Given the Four Color Theorem, it is tempting to conjecture that graphs critical for $4$-coloring in other surfaces
+should at least have a simple structure.  If that is the case, such structure is still beyond our grasp,
+and the problem of 4-coloring graphs on surfaces is wide open.
+
 \subsubsection*{Five and more colors}
 The above constructions illustrate that graphs critical for $4$-coloring in any surface of non-zero genus
 can have quite intricate structure, which indicates the question of $4$-colorability of graphs on surfaces
@@ -5624,28 +5628,80 @@ is rather difficult one.  With greater number of colors, the situation is somewh
 As we argued in the previous section, the set $\FF_{k,3,g}$ is finite for every $k\ge 6$,
 implying that $k$-colorability is decidable in polynomial time.  By a much more involved argument,
 Thomassen~\cite{Thomassen97} proved that $\FF_{5,3,g}$ is finite as well (the full treatment of
-this case is beyond the scope of this book, but we will discuss at least some of the ideas in the following
-section).
+this case is beyond the scope of this book, but we will discuss at least some of the ideas later).
 
-... %add explicit lists.
+The explicit lists of critical graphs are known for the simplest surfaces.  Heawood's formula shows
+that all projective-planar graphs are 6-colorable, and by Theorem~\ref{thm:dirac}, the only
+projective-planar graph critical for 5-coloring is $K_6$.  Similarly, these results show that
+graphs drawn in the torus are $7$-colorable and the only graph critical for $6$-coloring is $K_7$.
+Thomassen~\cite{Tho5torus} proved there are exactly four graphs critical for $5$-coloring in the torus~\cite{Tho5torus}.
+As we already noted, all graphs in the Klein bottle are 6-colorable.  The explicit list of nine
+graphs critical for $5$-coloring in the Klein bottle was given by Chenette et al.~\cite{ChePosStrThoYer}
+and Kawarabayashi et al.~\cite{KawKraKynLid}.
 
-% AMHERE
 \subsubsection*{Triangle-free graphs}
 
-As we have seen, for $k\ge 4$, the set $\FF_{k,4,g}$ is finite. ...
-...
+As we have seen in Corollary~\ref{cor:small-medium}, for $k\ge 4$, the set $\FF_{k,4,g}$ is finite,
+and furthermore, every triangle-free graph drawn in a surface of genus at most two is $4$-colorable.
+
+The situation is much more interesting for the 3-coloring case.  Gr\"{o}tzsch' theorem shows all planar triangle-free
+graphs are 3-colorable, but this is not true for any other surface.  Indeed, in any surface other than the sphere,
+there are infinitely many triangle-free graphs critical for $3$-coloring.  
 One way how to obtain such graphs is via \emph{Mycielski construction}.
 For a graph $G$, let $M(G)$ denote the graph obtained from $G$ by, for each $v\in V(G)$, adding a vertex $v^\star$
 adjacent exactly to the neighbors of $v$ in $G$, and then adding a vertex $u$ adjacent exactly to the vertices $v^\star$ for $v\in V(G)$.
-Figure~\ref{fig-myc} shows the graph $M_{C_7}$ with its drawing in the projective plane and in the torus;
+Figure~\ref{fig:myc} shows the graph $M_{C_7}$ with its drawing in the projective plane and in the torus;
 it is easy to see that $M(C)$ can be drawn in these surfaces for any odd cycle $C$.
 
 \begin{figure}
+%AMHERE
 
-\caption{The Mycielski graph of a $7$-cycle.}\label{fig-myc}
+\caption{The Mycielski graph of a $7$-cycle.}\label{fig:myc}
 \end{figure}
 
+Another construction applicable to non-orientable surfaces is given in Lemma~\ref{lemma:projall}.
+Indeed, there is a nice generalization of this construction.  Consider a quadrangulation of
+a non-orientable surface where a closed walk that passes through each crosscap exactly once has odd length.  If this quadrangulation
+has no separating 4-cycles and has large enough edge-width, then it is critical for $3$-coloring.
+
+The latter construction is actually very instructive.  Indeed, the only graphs critical for $3$-coloring of large edge-width turn out
+to be such quadrangulations~\cite{trfree6}.  More generally, all graphs critical for $3$-coloring drawn in any fixed surface
+are ``almost quadrangulations''; we will discuss their theory in more detail in Chapter~\ref{chap:trfree}.
+For now, let us just note that although the set $\FF_{3,4,g}$ is infinite for any $g\ge 1$, we know enough about the
+structure of these critical graphs to determine whether a triangle-free graph drawn in a fixed surface is $3$-colorable
+in linear time~\cite{trfree7}.
+
+As for explicit lists, Gimbel and Thomassen~\cite{gimbel} proved that projective-planar graphs critical for $3$-coloring
+are exactly the non-bipartite quadrangulations without separating 4-cycles.  In the torus, the situation is much more complicated---the
+critical graphs fall into 186 infinite families~\cite{dpfuture}.  For Klein bottle, the explicit list is not known.
+
 \subsubsection*{Girth at least five}
+
+Corollary~\ref{cor:small-medium} shows that for $k\ge 3$ and any $g\ge 0$, the set $\FF_{k,6,g}$ is finite, and
+furthermore, every graph of girth at least six drawn in a surface of genus at most two is $3$-colorable.
+This leaves girth five as the last interesting case.  Another deep result of Thomassen~\cite{thomassen-surf}
+shows that $\FF_{3,5,g}$ is finite for any $g\ge 0$.  Furthermore, all graphs of girth at least five drawn in the
+projective plane, the torus~\cite{thom-torus}, or the Klein bottle~\cite{tw-klein} are $3$-colorable.
+
+Let us comment a bit on the proof method in the last two results.  The argument is a generalization of a reducible
+configurations proof of Gr\"{o}tzsch' theorem.  The main complication is the need to avoid creating cycles of length
+at most four in the reductions.   The contractible ones can be dealt with using the precolored cycle trick, see
+Section~\ref{sec:precolface}.  To deal with the non-contractible ones, they actually show a stronger result, allowing
+non-contractible triangles and 4-cycles: Every graph drawn in the projective plane or the torus without contractible
+cycles of length at most four is $3$-colorable.  For the Klein bottle, the situation is a bit more complicated,
+as there exist graphs critical for 3-coloring drawn in the Klein bottle without contractible $(\le\!4)$-cycles.
+However, they turn out to form a simple infinite family, whose first few graphs are depicted in Figure~\ref{fig:tw}.
+These graphs play an important role in the coloring theory of embedded triangle-free graphs and we will encounter
+them or their variations several more times.
+
+\begin{figure}
+%AMHERE
+
+\caption{Graphs critical for 3-coloring drawn in the Klein bottle without contractible $(\le\!4)$-cycles.}\label{fig:tw}
+\end{figure}
+
+
+% AMHERE
 % Thomassen.
 % explicit results for girth >= 5 (torus, klein bottle)
 
@@ -5687,7 +5743,7 @@ Application to far apart (at least in plane). Prove the plane version via Steine
 \section{Overview of the known hyperbolic families and bounds.}
 
 
-\chapter{Triangle-free Graphs and Quadrangulations}
+\chapter{Triangle-free Graphs and Quadrangulations}\label{chap:trfree}
 
 % ZD
 
