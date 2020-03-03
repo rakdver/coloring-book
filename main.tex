@@ -72,6 +72,16 @@ void outnbrs(pair a, real d, int n)
     draw(a -- (a + 0.3dir((d-25)+50i/(n-1))));
 }
 
+void crosscap (pair a)
+{
+  int i;
+  for (i = 0; i < 9; ++i)
+    {
+      pair d = dir(360i/9+17);
+      draw ((a + 0.1d) -- (a + 0.3d));
+    }
+}
+
 pair v[];
 int i,j;
 \end{asydef}
@@ -5078,7 +5088,7 @@ properties or the dependence of the number of colorings on the size of the graph
 We will discuss these consequences in detail later in the following chapter;
 here, we focus on the ways how one can prove such linear bounds for embedded graphs.
 
-\section{Definitions and Basic Properties}
+\section{Definitions and Basic Properties}\label{sec:defbas}
 
 Let us start our treatment of critical graphs by introducing a bit of terminological
 deviation.  A graph is commonly called \emph{$k$-critical} if its chromatic number is $k$, but every
@@ -5244,6 +5254,7 @@ In particular, Lemma~\ref{lemma:orecrit} applies whenever $|A|<k$, since then $H
 There are two important special cases.  First one concerns the situation that $|A|=1$ (and $k\ge 2$); such an Ore sum is called the \emph{Haj\'os sum},
 and can be restated as removing the edge $uv$ and the single edge $a\in A$, identifying $u$ with one end of $a$, and adding an edge between $v$ and the other end of $a$.
 The second one concerns the case that $H$ is a clique on $k+1$ vertices; graphs obtained from repeated application of the Ore sum with copies of $K_{k+1}$ are called \emph{$(k+1)$-Ore graphs}.
+Figure~\ref{fig:tw} depicts a $4$-Ore graph.
 
 Note that all $(k+1)$-Ore graphs are critical for $k$-coloring and (with the exception of the graph $K_{k+1}$ itself), they have vertex-cuts of size two; thus, indeed,
 there are infinitely many non-$3$-connected critical graphs for $k$-coloring with arbitrarily large $k$.  Nevertheless, we can at least say something about their edge-connectivity,
@@ -5654,7 +5665,85 @@ Figure~\ref{fig:myc} shows the graph $M_{C_7}$ with its drawing in the projectiv
 it is easy to see that $M(C)$ can be drawn in these surfaces for any odd cycle $C$.
 
 \begin{figure}
-%AMHERE
+\begin{center}
+\begin{asy}
+for (i = 0; i < 14; ++i)
+  v[i] = 2 * dir(360i/14);
+for (i = 0; i < 7; ++i)
+  v[14+i] = dir(360*(2i+1)/14);
+v[21] = (0,0);
+draw(circle (v[21], 2));
+for (i = 0; i < 7; ++i)
+  {
+    draw (v[2i] -- v[14+i] -- v[(2i+2) % 14]);
+    draw (v[21] -- v[14+i]);
+  }
+for (i = 0; i <= 21; ++i)
+  vertex(v[i]);
+label ("A", v[0], E);
+label ("B", v[1], NE);
+label ("C", v[2], NE);
+label ("D", v[3], N);
+label ("E", v[4], N);
+label ("F", v[5], NW);
+label ("G", v[6], NW);
+label ("A", v[7], W);
+label ("B", v[8], SW);
+label ("C", v[9], SW);
+label ("D", v[10], S);
+label ("E", v[11], S);
+label ("F", v[12], SE);
+label ("G", v[13], SE);
+
+pair p = (4,3);
+for (i = 0; i < 7; ++i)
+  {
+    v[i] = p + (0,-i);
+    v[7 + i] = p + (4,-i);
+    v[14 + i] = p + (i % 2 == 0 ? 1 : 3, -1 - i);
+  };
+v[20] = p + (2,0);
+v[21] = p + (2,-3);
+v[22] = p + (0,-7);
+v[23] = p + (2,-7);
+v[24] = p + (4,-7);
+
+draw(v[0] -- v[22]);
+draw(v[7] -- v[24]);
+draw(v[0] -- v[7], dashed);
+draw(v[22] -- v[24], dashed);
+for (i = 0; i < 3; ++i)
+  draw (v[2i] -- v[14+2i] -- v[2i+2]);
+for (i = 0; i < 2; ++i)
+  draw (v[7+2i+1] -- v[14+2i+1] -- v[7+2i+3]);
+draw (v[20] -- v[8]);
+draw (v[12] -- v[19] -- v[24]);
+draw (v[6] -- v[23]);
+for (i = 0; i < 7; ++i)
+  draw (v[21] -- v[14+i]);
+for (i = 0; i <= 24; ++i)
+  vertex(v[i]);
+label ("A", v[0], W);
+label ("B", v[1], W);
+label ("C", v[2], W);
+label ("D", v[3], W);
+label ("E", v[4], W);
+label ("F", v[5], W);
+label ("G", v[6], W);
+label ("A", v[7], E);
+label ("B", v[8], E);
+label ("C", v[9], E);
+label ("D", v[10], E);
+label ("E", v[11], E);
+label ("F", v[12], E);
+label ("G", v[13], E);
+label ("A", v[22], W);
+label ("A", v[24], E);
+label ("H", v[20], N);
+label ("H", v[23], S);
+
+\end{asy}
+\end{center}
 
 \caption{The Mycielski graph of a $7$-cycle.}\label{fig:myc}
 \end{figure}
@@ -5690,12 +5779,45 @@ Section~\ref{sec:precolface}.  To deal with the non-contractible ones, they actu
 non-contractible triangles and 4-cycles: Every graph drawn in the projective plane or the torus without contractible
 cycles of length at most four is $3$-colorable.  For the Klein bottle, the situation is a bit more complicated,
 as there exist graphs critical for 3-coloring drawn in the Klein bottle without contractible $(\le\!4)$-cycles.
-However, they turn out to form a simple infinite family, whose first few graphs are depicted in Figure~\ref{fig:tw}.
+However, they turn out to form a simple infinite family (a subclass of $4$-Ore graphs we introduced in Section~\ref{sec:defbas}),
+whose first few graphs are depicted in Figure~\ref{fig:tw}.
 These graphs play an important role in the coloring theory of embedded triangle-free graphs and we will encounter
-them or their variations several more times.
+them or their variations several more times.  As the drawing shows, they are planar and contain exactly four triangles,
+and in the drawing in the Klein bottle, these triangles are one-sided.
 
 \begin{figure}
-%AMHERE
+\begin{center}
+\begin{asy}
+for (j = 0; j < 3; ++j)
+  for (i = 0; i < 4; ++i)
+    v[4j+i] = (j+1) * dir(90i);
+
+for (j = 0; j < 2; ++j)
+  {
+    v[12+2j] = v[4j] + (0.5,0);
+    v[12+2j+1] = v[4j+3] + (0,-0.5);
+  }
+
+for (j = 0; j < 3; ++j)
+  for (i = 0; i < 4; ++i)
+    draw(v[4j+i] -- v[4j+(i+1)%4]);
+for (j = 0; j < 2; ++j)
+  {
+    draw(v[4j] -- v[12+2j] -- v[12+2j+1] -- v[4j+2] -- v[4j+5] -- v[12+2j]);
+    draw(v[12+2j+1] -- v[4j+7]);
+  }
+
+draw (v[1] -- v[3]);
+draw (v[8]{N} .. (v[9] + (0,0.5)) .. {S}v[10]);
+
+crosscap (interp (v[1],v[3],0.5));
+crosscap (v[9] + (0,0.5));
+
+for (i = 0; i <= 15; ++i)
+  vertex(v[i]);
+  
+\end{asy}
+\end{center}
 
 \caption{Graphs critical for 3-coloring drawn in the Klein bottle without contractible $(\le\!4)$-cycles.}\label{fig:tw}
 \end{figure}
