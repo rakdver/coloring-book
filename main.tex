@@ -5048,11 +5048,44 @@ In fact, cliques are the only obstruction preventing us from strengthening Heawo
 Suppose $G$ is a a graph drawn in a surface of genus $g\neq 0$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
 \end{theorem}
 
-... % AMHERE
+It is not very hard to improve upon this theorem by adding further forbidden subgraphs, as is
+easily seen using the theory of critical graphs we present in the next chapter.  Indeed,
+we invite the reader to combine the idea of the proof of Theorem~\ref{thm:aldirac} with
+Lemma~\ref{lemma:gallaidecomp} to prove the following theorem.
+\begin{theorem}
+For every integer $c\ge 0$, there exist integers $p$ and $g_0$ and a finite set $\FF_c$ of graphs of chromatic number $p$
+such that for every $g\ge g_0$, a graph $G$ drawn in a surface of genus $g$ is $(H(g)-c)$-colorable if and only if
+$G$ does not contain a subgraph consisting of a graph from $\FF_c$ together with $H(g)+1-c-p$ universal vertices.
+\end{theorem}
 
-\section{Algorithms, Locally Planar Graphs and Critical Graphs}
+Indeed, from a more modern perspective, coloring by a number of colors close to $H(g)=\Theta(\sqrt{g})$ is simple.
+In fact, suppose we color by $c\ge 7$ colors.  If the graph has more than $6(g-2)$ vertices, Corollary~\ref{cor:mad} implies
+it contains a vertex of degree at most $6$, which we can delete without affecting the $c$-colorability of the graph.
+Thus, $c$-colorability is only interesting for graphs with at most $6(g-2)$ vertices, of which there are only finitely
+many in any given surface!  This immediately gives us an algorithm with time complexity $O(|V(G)|+\exp(g))$ for $c$-colorability
+of a graph $G$ of genus $g$, and a way to describe the $c$-colorability by finitely many forbidden subgraphs for any fixed genus.
 
-\section{Precolored Vertices, Crossings, and Many Colorings}
+The challenge thus becomes to bring the number of colors needed below $7$. As we will see in the next chapter, the case $c=6$ is not
+much harder.  The case of $5$-colorability is much more intriguing and was only resolved in the 90's by Thomassen~\cite{Thomassen97},
+who has shown that it also can be characterized by finitely many forbidden subgraphs for any fixed genus.
+Since $3$-colorability is NP-hard even in planar graphs~\cite{garey1979computers}, and thus unlikely to admit any nice characterization,
+this leaves the case of $4$-colorability (arguably the most interesting one, in connection with the Four Color Theorem).
+Here, we know a characterization by a finite number of forbidden subgraphs is not possible.  However, we can neither confirm nor
+exclude the existence of a polynomial-time algorithm to decide $4$-colorability of a graph embedded in a fixed surface.
+
+Considering Gr\"{o}tzsch' Theorem, what happens if we forbid triangles?  Analogously to the Heawood's bound,
+Gimbel and Thomassen~\cite{gimbel} have a lower bound of $\Omega(g^{1/3}/\log g)$ and an upper
+bound of $O((g/\log g)^{1/3})$ for the maximum chromatic number of a triangle-free graph
+of genus $g$.  However, as we indicated, we are more interested in the case of a small number of colors.
+Here, it is not hard to see that $c$-colorability of embedded triangle-free graphs is characterized by a finite number
+of forbidden subgraphs for every $c\ge 4$.  The case $c=3$ is significantly more interesting, though:
+while the number of forbidden subgraphs is not finite, polynomial-time algorithm does exist~\cite{trfree7}.
+As these results are most naturally described in terms of critical graphs, we postpone a detailed discussion till Section~\ref{sec:survsurf}.
+
+\section{Locally Planar Graphs, Precolorings, Crossings, and Many Colorings}
+
+Let us finish our brief introduction to coloring graphs on surfaces by a survey of further aspects of the question.
+% AMHERE
 
 \chapter{Critical Graphs}\label{chap:critical}
 
