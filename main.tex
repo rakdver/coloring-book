@@ -5043,7 +5043,8 @@ On the other hand, Franklin~\cite{franklin} observed that while $H(g)=7$, $K_7$ 
 As we will see in the next chapter, a graph drawn in a surface of genus 2 is 6-colorable
 if and only if its clique number is at most 6. Hence, all graphs drawn in the Klein bottle are 6-colorable,
 giving the only exception to tightness of Heawood's formula.
-In fact, cliques are the only obstruction preventing us from strengthening Heawood's bound in much more general circumstances.
+In fact, cliques are the only obstruction preventing us from strengthening Heawood's bound in much more general circumstances,
+as was first shown by Dirac for genus at least four and later exteneded to all surfaces other than the sphere.
 \begin{theorem}[Dirac~\cite{dirac1952,dirac1957short},  Albertson and Hutchinson~\cite{albertson1979three}]\label{thm:dirac}
 Suppose $G$ is a a graph drawn in a surface of genus $g\neq 0$.  If $\omega(G)<H(g)$, then $G$ is $(H(g)-1)$-colorable.
 \end{theorem}
@@ -5082,10 +5083,52 @@ of forbidden subgraphs for every $c\ge 4$.  The case $c=3$ is significantly more
 while the number of forbidden subgraphs is not finite, polynomial-time algorithm does exist~\cite{trfree7}.
 As these results are most naturally described in terms of critical graphs, we postpone a detailed discussion till Section~\ref{sec:survsurf}.
 
-\section{Locally Planar Graphs, Precolorings, Crossings, and Many Colorings}
+Finally, let us mention how the situation changes when instead of ordinary proper coloring, we consider list coloring.
+This case is also well developed, though the results in this setting were only obtained recently and we still have
+less knowledge of some aspects (especially concerning the particulars of the coloring properties of graphs drawn in the projective plane,
+the torus, and the Klein bottle).  As we have seen, the Heawood's bound follows solely from degeneracy, and thus it applies to the list
+coloring case without any changes.  The original proof of Dirac's improved bound uses some ideas specific to ordinary proper coloring,
+but later the result was extended to the list coloring case as well~\cite{bohmelc,listdir2}.  The arguments we discussed above for coloring with $c\ge 6$
+colors, or with $c\ge 4$ colors in the triangle-free case, also directly apply to the list coloring.  The 5-list-coloring case turns out to be
+substantially more challenging, but it also is characterized by a finite number of forbidden subgraphs~\cite{lukethe}.
+On the other hand, planar graphs are not all 4-list-colorable~\cite{voigt1993}, and this fact can be used to show that deciding colorability of
+a planar graph from lists of size four is NP-complete.  Similarly, there are triangle-free planar graphs that are not 3-list-colorable~\cite{voigt1995},
+and this implies that deciding colorability of a triangle=free planar graph from lists of size three is NP-complete.
+Hence, 3-list-colorability is only interesting for graphs of girth at least five.  This is again a very challenging case; only very recently,
+Postle~\cite{postle3crit} proved it is characterized by finitely many forbidden subgraphs.
 
-Let us finish our brief introduction to coloring graphs on surfaces by a survey of further aspects of the question.
-% AMHERE
+\section{Further aspects}
+
+In the previous section, we discussed the basic questions of exact characterization and efficient algorithms for colorability
+of embedded graphs.  Of course, there are many further viewpoints, which we discuss in this section.
+
+The basic (and sometime even correct) intuition is that if a graph drawn in a surface is sufficiently generic and cannot be locally distinguished
+from a planar graph, then it should behave similarly to planar graphs.  More precisely, we say that some result holds for \emph{locally planar graphs}
+if there exists a function $f:\mathbb{N}\to\mathbb{N}$ such that for every $g\ge 0$, the result holds for all graphs drawn in a surface of genus $g$
+with edge-width at least $f(g)$.  The reader might wonder why we chose to constrain the edge-width rather than the representativity; the reason
+is that in this way, the subgraphs of locally planar graphs are also locally planar (while subgraphs of a graph $G$ can have larger representativity than $G$,
+they have at least as large edge-width).
+
+Starting by contradicting our intuition, let us note that the Four Color Theorem does not extend to the locally planar setting.
+Indeed, in Section~\ref{sec:survsurf}, we will give examples of non-4-colorable graphs drawn in any fixed surface other than the sphere
+with arbitrarily large edge-width.  On the other hand, in most other cases our intuition works.  Indeed, if all planar graphs (possibly subject
+to girth restrictions) are $c$-colorable and the $c$-colorability in any fixed surface is characterized by a finite number of forbidden subgraphs, then clearly
+locally planar graphs (subject to these girth restrictions) are $c$-colorable, since any graph drawn with edge-width larger than the number of vertices in
+the forbidden subgraphs is $c$-colorable.  As we have argued in the previous section, this covers essentially all combinations of the number of colors
+and girth, except for the case of $3$-colorability of triangle-free graphs.  For those, the situation is more complicated---locally planar triangle-free
+graphs in orientable surfaces are 3-colorable, while in non-orientable surfaces, there are non-3-colorable triangle-free graphs of arbitrarily large edge-width~\cite{trfree6}.
+Let us remark that these non-3-colorable graphs have a simple structure (they are supergraps of quadrangulations satisfying a certain parity condition).
+
+Let us also note that it is possible to prove colorability of locally planar graphs without establishing the colorability is characterized
+by a finite number of forbidden subgraphs, and indeed, this is sometimes substantially easier.  % AMHERE -- discuss results and methods
+
+Coloring most of the graph
+
+Precolorings
+
+Crossings and other anomalies
+
+Number of colorings
 
 \chapter{Critical Graphs}\label{chap:critical}
 
