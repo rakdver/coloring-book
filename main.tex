@@ -5102,8 +5102,9 @@ Postle~\cite{postle3crit} proved it is characterized by finitely many forbidden 
 In the previous section, we discussed the basic questions of exact characterization and efficient algorithms for colorability
 of embedded graphs.  Of course, there are many further viewpoints, which we discuss in this section.
 
-The basic (and sometime even correct) intuition is that if a graph drawn in a surface is sufficiently generic and cannot be locally distinguished
-from a planar graph, then it should behave similarly to planar graphs.  More precisely, we say that some result holds for \emph{locally planar graphs}
+\subsection{Locally planar graphs}
+The basic (and sometimes even correct) intuition is that if graphs are drawn in a surface in a sufficiently generic way and cannot be locally distinguished
+from planar graphs, then they should behave similarly to planar graphs.  More precisely, we say that some result holds for \emph{locally planar graphs}
 if there exists a function $f:\mathbb{N}\to\mathbb{N}$ such that for every $g\ge 0$, the result holds for all graphs drawn in a surface of genus $g$
 with edge-width at least $f(g)$.  The reader might wonder why we chose to constrain the edge-width rather than the representativity; the reason
 is that in this way, the subgraphs of locally planar graphs are also locally planar (while subgraphs of a graph $G$ can have larger representativity than $G$,
@@ -5120,11 +5121,43 @@ graphs in orientable surfaces are 3-colorable, while in non-orientable surfaces,
 Let us remark that these non-3-colorable graphs have a simple structure (they are supergraps of quadrangulations satisfying a certain parity condition).
 
 Let us also note that it is possible to prove colorability of locally planar graphs without establishing the colorability is characterized
-by a finite number of forbidden subgraphs, and indeed, this is sometimes substantially easier.  % AMHERE -- discuss results and methods
+by a finite number of forbidden subgraphs, and indeed, this is sometimes substantially easier.
+For example, the result that locally planar graphs are 5-colorable~\cite{Th2} predates the result on forbidden subgraphs~\cite{Thomassen97},
+and similar situation occurred for 5-choosability~\cite{DKM,lukethe}.  The basic idea of such a direct argument is as follows.
+Let $G$ be a locally planar graph embedded in a surface of genus $g$; without loss of generality, the embedding of $G$ is $2$-cell.
+Then $G$ has a subgraph $H$ such that $H$ has only one face and this face is $2$-cell.
+If $H$ were bipartite, we could proceed as follows: Give vertices of $G-V(H)$ the list $\{1,\ldots,5\}$ if they have no
+neighbor in $H$ and the list $\{1,2,3\}$ if they have a neighbor in $H$. All vertices with list of size three are
+incident with one face of the plane graph $G-V(H)$, and thus $G-V(H)$ can be colored from these lists by Theorem~\ref{thm:5choosbook}.
+We can then use colors $3$ and $4$ to color $H$.
 
-Coloring most of the graph
+However, $H$ is not in general bipartite.  Note that all but $O(g)$ vertices of $H$ have degree two, and since $G$ is locally planar, $H$ can be split into a forest $H'$
+with $O(g)$ vertices and $O(g)$ long paths of vertices of degree two between vertices of $H'$.  We can $2$-color $H'$ and most of these long
+paths, only transitioning between different colorings at most once on each of the paths.  Moreover, $H$ can be chosen with the minimimum number
+of edges, which implies the paths are geodesic, and thus each vertex of $G-V(H)$ attaches to the paths ``locally'',
+to at most three consecutive vertices of such a path.  A more detailed analysis of this locality shows that we can transition between the
+colorings at a carefully chosen point (and possibly color a few more vertices outside of $H$) so that this does not create a list of size
+less than three in $G-V(H)$.  The idea for 5-choosability is similar but more involved, due to the fact that we cannot choose the coloring
+in this ``almost bipartite'' fashion.
 
-Precolorings
+\subsection{Precoloring extension}
+
+As we have just seen, precoloring extension arguments play an important role in coloring graphs on surfaces.
+They are also commonly used to deal with the case that the considered graph $G$ is not locally planar, and thus it contains a short
+non-contractible cycle $C$.  We can cut the surface along $C$, obtaining a graph $G'$ drawn in a simpler surface with
+boundary components bounded by two cycles $C_1$ and $C_2$ corresponding to $C$ (or by one cycle of twice the length,
+in case $C$ is $1$-sided).  If a precoloring of $C_1$ and $C_2$ in which the matching vertices have the same color
+can be extended to a coloring of $G'$, this also gives a proper coloring of $G$.
+Similarly, if we already deal with a graph with several precolored boundary cycles and two of the cycles
+are close to each other, we can cut the surface along a path between the two cycles and precolor the two resulting paths.
+
+This leads us to consider the case of locally planar (or even planar) graphs with several precolored cycles far apart from
+one another.  Before we discuss this case, let us consider an even simpler setting: we precolor single vertices,
+which are required to be far apart from one another.  We have already seen an example in Chapter~\ref{chap:recolor},
+Theorem~\ref{thm:extend-dist4}: In a planar graph, any precoloring of vertices at distance four from one another extends to a $5$-coloring.
+Let us remark that as we will see in Corollary~\ref{cor:oddsame}, this is not the case for $4$-coloring.
+
+% AMHERE
 
 Crossings and other anomalies
 
@@ -5688,7 +5721,7 @@ This lemma gives us the most information when $G$ has only a few vertices of odd
 In particular, we have the following surprising consequence, showing that in 4-colorings of triangulations,
 the colors of arbitrarily distant vertices are not independent.
 
-\begin{corollary}
+\begin{corollary}\label{cor:oddsame}
 If $G$ is a triangulation of a surface and $G$ has exactly two vertices $u$ and $v$ of odd degree,
 then in any $4$-coloring of $G$, the vertices $u$ and $v$ have the same color.
 \end{corollary}
@@ -5859,7 +5892,9 @@ However, they turn out to form a simple infinite family (a subclass of $4$-Ore g
 whose first few graphs are depicted in Figure~\ref{fig:tw}.
 These graphs play an important role in the coloring theory of embedded triangle-free graphs and we will encounter
 them or their variations several more times.  As the drawing shows, they are planar and contain exactly four triangles,
-and in the drawing in the Klein bottle, these triangles are one-sided.
+and in the drawing in the Klein bottle, these triangles are one-sided.  In this context, let us remark that planar graphs
+with at most three triangles are 3-colorable~\cite{aksenov}, and the graphs depicted in Figure~\ref{fig:tw} play a key role
+in the characterization of non-3-colorable planar graphs with four triangles~\cite{4c4t}.
 
 \begin{figure}
 \begin{center}
@@ -5897,12 +5932,6 @@ for (i = 0; i <= 15; ++i)
 
 \caption{Graphs critical for 3-coloring drawn in the Klein bottle without contractible $(\le\!4)$-cycles.}\label{fig:tw}
 \end{figure}
-
-
-% AMHERE
-% Thomassen.
-% explicit results for girth >= 5 (torus, klein bottle)
-
 
 \section{Bounding the Size of a Critical Graph}
 Key Idea: Criticality with respect to a subgraph.
