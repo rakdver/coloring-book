@@ -1092,7 +1092,7 @@ as an exercise.
 
 \section{Coloring with forbidden cycle lengths}
 
-Given Gr\"otzsch Theorem, it is natural to ask whether forbidding other cycle lengths is sufficient to
+Given Gr\"otzsch' Theorem, it is natural to ask whether forbidding other cycle lengths is sufficient to
 ensure that a planar graph is $3$-colorable.  It is easy to see that forbidding either $4$-cycles or $5$-cycles
 by themselves is not sufficient.  Steinberg~\cite{conj-stein} conjectured that forbidding both $4$- and $5$-cycles
 ensures that a planar graph is $3$-colorable, however this was recently disproved~\cite{steinfalse}.
@@ -5154,8 +5154,21 @@ are close to each other, we can cut the surface along a path between the two cyc
 This leads us to consider the case of locally planar (or even planar) graphs with several precolored cycles far apart from
 one another.  Before we discuss this case, let us consider an even simpler setting: we precolor single vertices,
 which are required to be far apart from one another.  We have already seen an example in Chapter~\ref{chap:recolor},
-Theorem~\ref{thm:extend-dist4}: In a planar graph, any precoloring of vertices at distance four from one another extends to a $5$-coloring.
-Let us remark that as we will see in Corollary~\ref{cor:oddsame}, this is not the case for $4$-coloring.
+Theorem~\ref{thm:extend-dist4}: In a planar graph, any precoloring of vertices at distance four from one another extends to a $5$-coloring
+(let us remark that as we will see in Corollary~\ref{cor:oddsame}, this is not the case for $4$-coloring).
+The idea of the proof of Theorem~\ref{thm:extend-dist4} crucially depends on the fact that we use more colors than is the chromatic number
+of the graph.  Hence, it does not extend to precoloring extension of $5$-colorings in locally planar graphs.
+It also does not apply to list coloring.
+
+The nibbling approach of the proof of 5-choosability in Theorem~\ref{thm:5choos-nonbook} can be (with substantial additional effort)
+extended to prove that there exists $d_0$ such that in a planar graph with an assignment $L$ of lists of size 5, any $L$-coloring
+of vertices at distance at least $d_0$ from one another extends to an $L$-coloring of the whole graph~\cite{LidDvoMohPos}.
+The key idea is that all coloring steps are performed near to the special path $P$ contained in the boundary of the outer face
+of the graph, and thus they can only be affected by one of the precolored vertices.  This essentially reduces the problem
+to the case that exactly one vertex is precolored, for which the minimal counterexamples (in the generalized setting analogous
+to Theorem~\ref{thm:5choos-nonbook}) can be characterized.
+
+For graphs drawn in more general surfaces, the precoloring results were only obtained in connection with ...
 
 % AMHERE
 
@@ -5735,7 +5748,10 @@ the two vertices, we obtain a graph that can be drawn in the torus and is not $4
 A subgraph $G'$ of this graph that is critical for $4$-coloring clearly must contain $e$ and $G'-e$ must be connected
 by Observation~\ref{obs:crit-2conn}, and thus $|V(G')|$ is at least as large as the distance between the endpoints
 of $e$ in $G$.  Thus, indeed there are infinitely many graphs critical for $4$-coloring that can be drawn
-in the torus (or any other surface of genus at least two).
+in the torus (or any other surface of genus at least two).  Finally, let us remark on another way how to use
+Corollary~\ref{cor:oddsame} to obtain graphs critical for $4$-coloring: any triangulation of a surface
+with exactly two vertices of odd degree where the two vertices are adjacent has chromatic number at least five,
+and for surfaces of non-zero genus, one can construct such triangulations with arbitrarily large edge-width.
 
 Given the Four Color Theorem, it is tempting to conjecture that graphs critical for $4$-coloring in other surfaces
 should at least have a simple structure.  If that is the case, such structure is still beyond our grasp,
@@ -5769,9 +5785,29 @@ graphs are 3-colorable, but this is not true for any other surface.  Indeed, in 
 there are infinitely many triangle-free graphs critical for $3$-coloring.  
 One way how to obtain such graphs is via \emph{Mycielski construction}.
 For a graph $G$, let $M(G)$ denote the graph obtained from $G$ by, for each $v\in V(G)$, adding a vertex $v^\star$
-adjacent exactly to the neighbors of $v$ in $G$, and then adding a vertex $u$ adjacent exactly to the vertices $v^\star$ for $v\in V(G)$.
+adjacent exactly to the neighbors of $v$ in $G$, and then adding a \emph{central} vertex $u$ adjacent exactly to the vertices $v^\star$ for $v\in V(G)$.
 Figure~\ref{fig:myc} shows the graph $M_{C_7}$ with its drawing in the projective plane and in the torus;
-it is easy to see that $M(C)$ can be drawn in these surfaces for any odd cycle $C$.
+it is easy to see that $M(C)$ is triangle-free and can be drawn in these surfaces for any odd cycle $C$.
+Furthermore, $M(C)$ is critical for $3$-coloring, due to the following more general observation.
+\begin{lemma}\label{lemma:myccrit}
+If a graph $G$ is critical for $k$-coloring, then $M(G)$ is critical for $(k+1)$-coloring.
+\end{lemma}
+\begin{proof}
+Let $u$ be the central vertex of $M(G)$ and let $Z=V(M(G))\setminus (V(G)\cup \{u\})$.
+If $M(G)$ had a $(k+1)$-coloring, then $M(G)-u$ would have a $(k+1)$-coloring $\varphi$ in which
+the color $k+1$ would not appear on $Z$.  The vertices of $G$ colored by $k+1$ form an independent
+set, and thus we could recolor each such vertex $v$ to the color $\varphi(v^\star)\in\{1,\ldots,k\}$,
+obtaining a $k$-coloring of $G$.  This is a contradiction, implying $\chi(M(G))>k+1$.
+
+Consider now an edge $e\in E(M(G))$.  If $e\in E(G)$, then $G-e$ has a $k$-coloring $\psi_1$.
+For each $v\in V(G)$, give $v^\star$ the color $\psi_1(v)$, and color $u$ by the color $k+1$,
+obtaining a $(k+1)$-coloring of $M(G)-e$.  Otherwise, $e=v^\star x$ for some $v\in V(G)$
+and $x\in N_G(v)\cup\{u\}$.  If $x=u$, then let $\psi_2$ be a $k$-coloring of $G-v$.
+For $y\in V(G)\setminus \{v\}$, color $y^\star$ by $\psi_2(y)$ and give $v$, $v^\star$, and $u$ the color $k+1$.
+Finally, consider the case that $x\neq u$.  Let $\psi_3$ be a $k$-coloring of $G-uv$.
+For $y\in V(G)$, color $y^\star$ by $\psi_3(y)$, change the color of $v$ to $k+1$, and give $u$ the color $k+1$.
+We conclude that $M(G)-e$ is $(k+1)$-colorable for every $e\in E(M(G))$, and thus $M(G)$ is critical for $(k+1)$-coloring.
+\end{proof}
 
 \begin{figure}
 \begin{center}
