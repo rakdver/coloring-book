@@ -18,6 +18,7 @@
 \newcommand{\col}{\text{col}}
 \newcommand{\initch}{\text{ch}_0}
 \newcommand{\finch}{\text{ch}}
+\newcommand{\crs}{\text{cr}}
 \newcommand{\sgn}{\text{sgn}}
 \newcommand{\exc}{\text{exc}}
 \newcommand{\GG}{\mathcal{G}}
@@ -5168,12 +5169,64 @@ of the graph, and thus they can only be affected by one of the precolored vertic
 to the case that exactly one vertex is precolored, for which the minimal counterexamples (in the generalized setting analogous
 to Theorem~\ref{thm:5choos-nonbook}) can be characterized.
 
-For graphs drawn in more general surfaces, the precoloring results were only obtained in connection with ...
+For locally planar graphs, the cutting technique we described in the previous subsection is in principle aplicable
+(choosing $H$ as a minimal subgraph with one $2$-cell face and containing all precolored vertices), though we are
+not aware of anyone actually carrying it out.  The progess on this topic was obtained in the more general setting
+where larger subgraphs (e.g., boundaries of faces of bounded length) can be precolored.
 
-% AMHERE
+Hence, let us consider this more general case: Let $G$ be a graph drawn in a surface of genus $g$ and let $H$
+be a subgraph of $G$ such that each connected component of $H$ has at most $p$ vertices.  Let $\varphi$ be a $5$-coloring
+of $H$ and suppose that the edge-width of $G$ as well as the distance between distinct components of $H$ is at least $d_0$,
+for some $d_0$ sufficiently large compared to $g$ and $p$.  Can $\varphi$ be extended to a $5$-coloring of $G$?
+There of course arises the issue that this does not need to be the case even if $H$ has only one component.
+To avoid having to deal with this local issue and be able to focus on the global phenomenon, let us add
+an assumption that for every component $C$ of $H$, the restriction of $\varphi$ to $C$ extends to a $5$-coloring of $G$.
 
-Crossings and other anomalies
+This question was resolved as a side effect of the developments on the forbidden subgraphs for $5$-coloring of embedded graphs.
+The main result of~\cite{pothom} can be stated as follows.  For some absolute constant $\kappa$, if $G$ is drawn in a surface of genus $g$ and $H$ is a subgraph of $G$,
+then there exists $F\subseteq G$ such that $H\subseteq F$, $|V(F)|\le \kappa(|V(H)|+g)$, and every 5-coloring of $H$ that extends to $F$ also
+extends to $G$.  In particular, in the situation of the previous paragraph, we can assume $G=F$.  We can also assume that $G$ is
+connected, as otherwise we can consider each component separately.  If $H$ had $c\ge 2$ components, then since the distance between
+distinct components is at least $d_0$, we would have $|V(G)|\ge \tfrac{cd_0}{2}\ge {d_0}{2p}|V(H)|>\kappa(|V(H)|+g)$
+for sufficiently large $d_0$, which is a contradiction.  Hence, $H$ has only one component, and $\varphi$ extends to a $5$-coloring of $G$
+by assumptions.
 
+The same idea applies in the $5$-list-coloring setting~\cite{lukethe}, as well as for 3-coloring~\cite{trfree3} and 3-list-coloring~\cite{postle3crit}
+of graphs of girth at least five.  For 3-coloring of triangle-free graphs, the situation is more complicated, and indeed, the analogous statement
+is false.  Indeed, while a precoloring of a 5-cycle in a triangle-free planar graph always extends to a 3-coloring of the whole
+graph, this does not have to be the case for two 5-cycles, regardless of how far they are from each other---the reader should
+use the theory explained in Section~\ref{sec:quadran} to check this is the case when all other faces have length four.
+Nevertheless, building upon the idea from the previous paragraph, Dvo\v{r}\'ak and Lidick{\'y}~\cite{cylgen-part2} proved that
+in a planar triangle-free graph, a precoloring of sufficiently distant vertices can be extended to a $3$-coloring.
+
+\subsection{Crossings and other anomalies}
+
+So far, we considered the possibility to generalize the drawing of graphs from the plane to more general surfaces.
+Another natural option is to stay in the plane, but allow edges in the drawing to cross in a restricted way.
+
+The \emph{crossing number} $\crs(G)$ is defined as the minimum number of crossings with which $G$ can be drawn in the plane
+(no edge can pass through a vertex, and at most two edges can cross at each point).  Of course, the genus of $G$ is
+at most $\crs(G)$, as each crossing can be replaced by a crosscap, and thus $\chi(G)\le H(\crs(G))=O(\sqrt{\crs(G)})$
+by Heawood's formula.  However, this is not the correct order of magnitude.
+\begin{lemma}
+Every graph $G$ is $k$-choosable, where $k=\max(15,\sqrt[4]{232\crs(G)})$.
+\end{lemma}
+\begin{proof}
+Let $n=|V(G)|$ and $m=|E(G)|$.  Suppose $G$ is not $k$-choosable, and in particular, $n>k$.
+Without loss of generality, we can assume all proper subgraphs of $G$ are $k$-choosable,
+as otherwise we can consider such a subgraph instead of $G$.  It follows that $G$ has minimum degree at least $k$,
+as otherwise we could delete a vertex $v$ of degree less than $k$, color $G-v$ from the lists, and extend the coloring to $v$ greedily.
+In particular, $m\ge kn/2>7n$, and thus by the crossing number lemma~\cite{ackerman2019topological},
+$$\crs(G)\ge \frac{m^3}{29n^2}\ge\frac{k^3n}{232}>\frac{k^4}{232}.$$
+Therefore, $k<\sqrt[4]{232\crs(G)}$, which is a contradiction.
+\end{proof}
+Moreover, the crossing number of the clique $K_k$ is less than $k^4/64$, showing that this bound is asymptotically tight.
+Indeed, by analogy to Hadwiger's conjecture, Albertson conjectured that if $\chi(G)\ge k$, then $\crs(G)\ge \crs(K_k)$.
+Ackerman~\cite{ackerman2019topological} proved this conjecture holds for $k\le 18$.
+
+...
+
+%AMHERE
 Number of colorings
 
 \chapter{Critical Graphs}\label{chap:critical}
