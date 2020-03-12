@@ -146,7 +146,7 @@ $C_k$ denotes a cycle on $k$ vertices, its length is $k$.  Length of a cycle $C$
 Girth (no special notation)? Odd girth.
 
 Graphs on surfaces: genus (Euler by default), representativity and edge-width, contractible and
-noncontractible curves (separating vs non-separating, one-sided vs two-sided).
+non-contractible curves (separating vs non-separating, one-sided vs two-sided).
 
 Planar vs plane graphs.
 
@@ -5223,6 +5223,40 @@ Therefore, $k<\sqrt[4]{232\crs(G)}$, which is a contradiction.
 Moreover, the crossing number of the clique $K_k$ is less than $k^4/64$, showing that this bound is asymptotically tight.
 Indeed, by analogy to Hadwiger's conjecture, Albertson conjectured that if $\chi(G)\ge k$, then $\crs(G)\ge \crs(K_k)$.
 Ackerman~\cite{ackerman2019topological} proved this conjecture holds for $k\le 18$.
+
+In particular, since $\crs(K_6)=3$, every graph drawn in the plane with at most two crossings is $5$-colorable.
+The precoloring extension results we discussed before thus imply that a graph drawn in the plane
+with any number of crossings sufficiently far apart is 5-colorable.
+Indeed, replace each crossing $c$ by a vertex $v_c$ of degree four, obtaining a planar graph $G'$; thus, each crossing $c$
+corresponds to a copy $H_c$ of $K_{1,4}$ in $G'$.  For each crossing $c$ one by one, turn $v_c$ back into a crossing;
+as we observed, the resulting graph has a $5$-coloring $\varphi_c$.  For each $c$, color $H_c-v_c$ according to $\varphi_c$
+and give $v_c$ a color different from the colors of its neighbors.  As we observed in the previous subsection,
+since the components of the precolored subgraph are far apart and the coloring of each of them individually extends to a $5$-coloring,
+the precoloring of the whole precolored subgraph also extends to a 5-coloring of the whole graph.
+By the choice of the precoloring, this gives a 5-coloring of the original graph with the crossings.
+
+Let us remark that we can extend this idea to list coloring, to 3-coloring of graphs of girth at least five, and to graphs
+drawn on surfaces with crossings in a natural way; we invite the reader to work out the details.  Let us also note that
+it is possible to prove results for graphs with distant crossings directly, without resorting to the precoloring extension arguments
+but using similar ideas, see~\cite{5choosfar} for an example.  In fact, for 5-coloring, the situation is much easier than the previous
+paragraph might suggest.  Indeed, if the distance between any two crossings is at least two, we can exploit the fact that
+planar graphs are 4-colorable analogously to the proof of Theorem~\ref{thm:extend-dist4}: Delete an edge from each crossing,
+4-color the resulting planar graph, and recolor one of the vertices incident with the other edge of each crossing by color 5.
+Actually, it suffices to require that the distance between crossings is at least one, as Kr\'al' and Stacho~\cite{krst}
+proved by a variation on a reducible configuration proof of 5-colorability of planar graphs.
+
+One can view distant crossings or precolored vertices in a planar graph as ``anomalies'' in its regular structure.
+Another kind of anomaly that has been studied is the presence of distant short cycles in graphs of otherwise
+larger girth.  The prototypical example concerns the problem of colorability of planar graphs where any two triangles
+are far apart.  By analogy with Gr\"{o}tzsch' Theorem and considering the fact that planar graphs with one triangle
+(in fact, even with at most three triangles~\cite{aksenov}) are 3-colorable, one would expect such graphs are 3-colorable
+as well.  This question has been known as Havel's problem (Havel~\cite{conj-havel} disproved an earlier
+conjecture that it is enough the triangles are at distance at least one from one another, and asked whether
+any distance $d\ge 2$ suffices).  It is known that $d\ge 4$ by a construction of Aksionov and Mel'nikov~\cite{aksmel}.
+The question was resolved in positive by Dvo\v{r}\'ak, Kr\'al' and Thomas~\cite{trfree5}, but with a rather
+high bound on $d$ (they claim $d=10^{100}$ suffices; this bound likely can be improved using the stronger results
+regarding the obstructions to 3-colorability that have been obtained since then).  We will discuss their
+argument in more detail in Chapter~\ref{chap:trfree}.
 
 ...
 
