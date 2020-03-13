@@ -5258,10 +5258,43 @@ high bound on $d$ (they claim $d=10^{100}$ suffices; this bound likely can be im
 regarding the obstructions to 3-colorability that have been obtained since then).  We will discuss their
 argument in more detail in Chapter~\ref{chap:trfree}.
 
-...
+One can ask similar questions in the list coloring setting.  For example, we know that planar graphs
+of girth at least five are $3$-choosable.  What about planar graphs where the $(\le\!4)$-cycles are far apart?
+This question can be reduced to a precoloring extension one (in each of the $(\le\!4)$-cycles, subdivide one
+of their edges to transform them to 5-cycles and precolor the 5-cycles so that the ends of the subdivided
+edge receive different colors) or handled directly using the techniques we discussed~\cite{le4far}.
 
-%AMHERE
-Number of colorings
+\subsection{Number of colorings}
+
+Suppose $G$ is a locally planar graph with $n$ vertices and maximum degree $\Delta$.
+For an integer $d_0\ge 3$, let $G'$ be obtained from $G$ by joining vertices at distance at most $d_0$
+from one another.  Then $G'$ has maximum degree less than $\Delta^{d_0}$; consequently,
+it has chromatic number at most $\Delta^{d_0}$, and contains an independent set $X$ of size at least
+$n/\Delta^{d_0}$.  This means that the distance between vertices of $X$ in $G$ is more than $d_0$,
+and as we have seen, for sufficiently large $d_0$, this implies that every precoloring of $X$ by five colors
+extends to a $5$-coloring of $G$.  In particular, $G$ has at least $c_\Delta^n$ $5$-colorings,
+where $c_\Delta=n/\Delta^{d_0}$.
+
+Thus, locally planar graphs of bounded maximum degree have an exponential number of $5$-colorings,
+and this result also extends to the list coloring setting, as well as to the setting of $3$-colorings
+in case the girth is at least five.
+It is natural to ask whether these results still hold if we do not bound the maximum degree.
+For ordinary proper coloring, this is the case by Kempe chain arguments, see Theorem~\ref{thm:expmany}.
+As usual, the list coloring setting is more complicated; here, Thomassen~\cite{thom-2007,thom-many} used a variation
+of the nibbling method to establish exponential bounds.  This idea was later extended to locally planar
+setting in the context of the study of forbidden subgraphs for list coloring~\cite{PosThoHyperb};
+we will discuss this in more detail in Chapter~\ref{chap:hyper}.
+
+Note that no such result is possible for $4$-colorings.  Indeed, consider any plane triangulation obtained from
+$K_4$ by repeatedly adding vertices of degree three into faces.  The resulting graph has exactly one $4$-coloring
+up to permutation of colors (and indeed, this is the exact characterization of planar graphs that have
+only one $4$-coloring~\cite{fowler2000unique}).
+
+Finally, let us mention the interesting case of the number of 3-colorings of triangle-free
+planar graphs.  Thomassen~\cite{thom-many} proved that an $n$-vertex triangle-free planar graph
+has at least $\exp(n^{1/12})$ $3$-colorings, and conjectured it actually has an exponential number of colorings.
+The bound was later improved to $\exp(n^{1/2})$ by Asadi et al.~\cite{submany}, but the conjecture is still
+open.
 
 \chapter{Critical Graphs}\label{chap:critical}
 
@@ -6071,7 +6104,7 @@ on the size of graphs in disk critical for $5$-list-coloring)?
 
 \section{Increasing Weight via Nibbling}
 
-\chapter{Hyperbolicity}
+\chapter{Hyperbolicity}\label{chap:hyper}
 
 % LP
 
