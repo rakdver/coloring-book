@@ -24,6 +24,7 @@
 \newcommand{\GG}{\mathcal{G}}
 \newcommand{\CC}{\mathcal{C}}
 \newcommand{\FF}{\mathcal{F}}
+\newcommand{\EE}{\mathcal{E}}
 
 \makeatletter
 \newcommand{\ovlr}{\mathpalette{\overarrowsmall@\leftrightarrowfill@}}
@@ -5183,9 +5184,13 @@ To avoid having to deal with this local issue and be able to focus on the global
 an assumption that for every component $C$ of $H$, the restriction of $\varphi$ to $C$ extends to a $5$-coloring of $G$.
 
 This question was resolved as a side effect of the developments on the forbidden subgraphs for $5$-coloring of embedded graphs.
-The main result of~\cite{pothom} can be stated as follows.  For some absolute constant $\kappa$, if $G$ is drawn in a surface of genus $g$ and $H$ is a subgraph of $G$,
-then there exists $F\subseteq G$ such that $H\subseteq F$, $|V(F)|\le \kappa(|V(H)|+g)$, and every 5-coloring of $H$ that extends to $F$ also
-extends to $G$.  In particular, in the situation of the previous paragraph, we can assume $G=F$.  We can also assume that $G$ is
+The main result of~\cite{pothom} can be stated as follows.
+\begin{theorem}\label{thm:5hyperbol}
+For some absolute constant $\kappa$, if $G$ is drawn in a surface of genus $g$, $H$ is a subgraph of $G$, and
+$\varphi$ is a $5$-coloring of $H$, then either $\varphi$ extends to a $5$-coloring of $G$, or there exists
+$F\subseteq G$ such that $H\subseteq F$, $|V(F)|\le \kappa(|V(H)|+g)$, and $\varphi$ does not extend to $F$.
+\end{theorem}
+In particular, in the situation of the previous paragraph, we can assume $G=F$.  We can also assume that $G$ is
 connected, as otherwise we can consider each component separately.  If $H$ had $c\ge 2$ components, then since the distance between
 distinct components is at least $d_0$, we would have $|V(G)|\ge \tfrac{cd_0}{2}\ge {d_0}{2p}|V(H)|>\kappa(|V(H)|+g)$
 for sufficiently large $d_0$, which is a contradiction.  Hence, $H$ has only one component, and $\varphi$ extends to a $5$-coloring of $G$
@@ -6090,6 +6095,72 @@ for (i = 0; i <= 15; ++i)
 \end{figure}
 
 \section{Bounding the Size of a Critical Graph}
+
+As we have mentioned in the previous section, Thomassen~\cite{Thomassen97} proved that $\FF_{5,3,g}$ is finite for every $g$.
+That is, there exists a function $f:\mathbb{N}\to\mathbb{N}$ such that every graph of genus $g$ critical for $5$-coloring
+has at most $f(g)$ vertices.  Thomassen's proof gives a very weak, superexponential bound on this function $f$.
+Later, this bound was improved to linear~\cite{pothom}, even in the list-coloring setting~\cite{lukethe}.
+While this may appear to be just a quantitative improvement, the linearity of the bound has far-reaching consequences.
+
+We will discuss this phenomenon in more detail in the following chapter, but let us give a simple example.
+Firstly, note the following connection to precoloring extension.  Suppose we are given a graph $G$ of genus $g$
+and a precoloring $\varphi$ of its subgraph $H$ by five colors.  Let $G'$ be obtained from $G$ by adding $K_5$
+whose vertices represent the colors and joining each vertex $v$ of $H$ to the four vertices of the $K_5$ representing
+the colors distinct from $\varphi(v)$.  Then $\varphi$ extends to a $5$-coloring of $G$ if and only if $G'$ is $5$-colorable.
+Moreover, the genus of $G'$ is at most $g+1+8|V(H)|$, as for each edge we need to add at most one handle to the surface.
+Hence, either $\varphi$ extends to a $5$-coloring of $G$, or $G'$ contains a non-5-colorable subgraph with at most $f(g+1+8|V(H)|)$
+vertices, and consequently $\varphi$ does not extend to some subgraph of $G$ with at most $|V(H)|+f(g+1+8|V(H)|)$ vertices.
+If $f$ is linear, this implies Theorem~\ref{thm:5hyperbol}, which as we have seen implies any precoloring of sufficiently
+distant vertices in a locally planar graph extends to a $5$-coloring; this would not be the case if $f$ (and thus the bound in Theorem~\ref{thm:5hyperbol})
+were superlinear!
+
+Given the consequences in terms of precoloring extension we just described, it makes sense to directly
+bound the sizes critical graphs with precolored vertices (and indeed, this greater generality is very
+convenient in the arguments).  Hence, we would like to bound the size of a graph of genus $g$
+with $k$ precolored vertices by a (linear) function of $g$ and $k$.
+However, it may not be immediately clear what criticality with precolored vertices means.
+Motivated by the previous paragraph, it is tempting to use the following definition.
+Suppose $H$ is a subgraph of a graph $G$ and $\varphi$ is a proper $k$-coloring of $G$.
+We say $G$ is \emph{$(H,\varphi)$-critical} for $k$-coloring if $\varphi$ does not extend to a $k$-coloring of $G$,
+but extends to a $k$-coloring of every proper subgraph of $G$ that contains $H$.
+We could then define $G$ to be $H$-critical if it is $(H,\varphi)$-critical for some $k$-coloring $\varphi$ of $H$.
+
+This definition is quite natural, and indeed used in some papers.  However, it is somewhat inconvenient,
+for the following reason.  Suppose $G$ is $H$-critical and drawn in a surface, $C$ is a contractible cycle
+in $G$ bounding a closed disk $\Delta$ disjoint from $H$, and $G_C\neq C$ is the subgraph of $G$ drawn in $\Delta$.
+When arguing about $G$, it is sometimes useful to have information about the properties of the subgraph $G_C$.
+To obtain such information through an inductive argument, it would be nice if $G_C$ were guaranteed to be $C$-critical.
+However, this is not the case.  For example, $G_C$ can consist of $C$ with two chords, and there is no coloring of $C$
+which would become proper after removing either of them.
+
+For this reason, we use a different definition which, although slightly less intuitive, is more convenient in practice.
+We say that $G$ is \emph{$H$-critical} for $k$-coloring if $G\neq H$ and for every proper subgraph $G'$ of $G$ containing $H$,
+there exists a proper $k$-coloring of $H$ that extends to a $k$-coloring of $G'$, but not to a $k$-coloring of $G$.
+
+To clarify this definition, let us give an alternative formulation.  Let $\EE_{H,k}(G)$ denote the set of proper $k$-colorings of
+$H$ that extend to a $k$-coloring of $G$.  Clearly, if $H\subseteq G'\subseteq G$, then $\EE_{H,k}(G)\subseteq \EE_{H,k}(G')$.
+The graph $G$ is $H$-critical if $G\neq H$ and for every proper subgraph $G'$ of $G$ containing $H$, $\EE_{H,k}(G')\neq\EE_{H,k}(G)$.
+That is, no proper subgraph of $G$ carries the full information about which precolorings of $H$ extend to $G$.
+
+As we have indicated, this notion of criticality has many desirable properties; the last one implies that in the
+situation described above, the graph $G_C$ is $C$-critical.
+\begin{lemma}\label{lemma:critsgprop}
+Suppose $G$ is a graph, $H$ is a proper subgraph of $G$, and $k\ge 1$ is an integer.
+\begin{itemize}
+\item There exists a subgraph $G'$ of $G$ containing $H$ such that $\EE_{H,k}(G')=\EE_{H,k}(G)$
+and $G'$ is $H$-critical for $k$-coloring.
+\item If $G$ is $(H,\varphi)$-critical for $k$-coloring for some proper $k$-coloring $\varphi$ of $H$,
+then $G$ is $H$-critical for $k$-coloring.
+\item If $H'$ is a spanning subgraph of $H$ and $G$ is $H$-critical for $k$-coloring, then $G$ is
+$H'$-critical for $k$-coloring.
+\item If $G=A\cup B$, $H\subseteq A$, $B\not\subseteq A$, and $G$ is $H$-critical for $k$-coloring,
+then $B$ is $(A\cap B)$-critical for $k$-coloring.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+%AMHERE
+\end{proof}
+
 Key Idea: Criticality with respect to a subgraph.
 
 Overview Methods to bound size of a critical graph:
