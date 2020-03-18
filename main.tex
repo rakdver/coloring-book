@@ -6148,32 +6148,92 @@ situation described above, the graph $G_C$ is $C$-critical.
 Suppose $G$ is a graph, $H$ is a proper subgraph of $G$, and $k\ge 1$ is an integer.
 \begin{itemize}
 \item There exists a subgraph $G'$ of $G$ containing $H$ such that $\EE_{H,k}(G')=\EE_{H,k}(G)$
-and $G'$ is $H$-critical for $k$-coloring.
+and either $G'=H$ or $G'$ is $H$-critical for $k$-coloring.
 \item If $G$ is $(H,\varphi)$-critical for $k$-coloring for some proper $k$-coloring $\varphi$ of $H$,
 then $G$ is $H$-critical for $k$-coloring.
-\item If $H'$ is a spanning subgraph of $H$ and $G$ is $H$-critical for $k$-coloring, then $G$ is
+\item If $H'$ is a spanning subgraph of $H$ and $G$ is $H$-critical for $k$-coloring, then $G-(E(H)\setminus E(H'))$ is
 $H'$-critical for $k$-coloring.
 \item If $G=A\cup B$, $H\subseteq A$, $B\not\subseteq A$, and $G$ is $H$-critical for $k$-coloring,
 then $B$ is $(A\cap B)$-critical for $k$-coloring.
 \end{itemize}
 \end{lemma}
 \begin{proof}
-%AMHERE
+For the first claim, select $G'$ as the minimal subgraph of $G$ such that $H\subseteq G'$ and $\EE_{H,k}(G')=\EE_{H,k}(G)$.
+For any proper subgraph $G''$ of $G'$ containing $H$, we have $\EE_{H,k}(G'')\supsetneq \EE_{H,k}(G)=\EE_{H,k}(G')$, and thus there
+exists a precoloring of $H$ that extends to a $k$-coloring of $G''$, but not of $G'$; hence, $G'=H$ or $G'$ is $H$-critical for $k$-coloring.
+
+For the second claim, note that if $F$ is a proper subgraph of $G$ containing $H$, then some precoloring of $H$, namely $\varphi$,
+extends to a $k$-coloring of $F$ but not of $G$. Furthermore, $G\neq H$, since $\varphi$ does not extend to a $k$-coloring of $G$.  Hence, $G$
+is $H$-critical for $k$-coloring.
+
+For the third claim, letting $G'=G-(E(H)\setminus E(H'))$, if $F'$ is a proper subgraph of $G'$ containing $H'$,
+then $F=F'+(E(H)\setminus E(H'))$ is a proper subgraph of $G$ containing $H$, and thus there exists a proper $k$-coloring $\varphi$
+of $H$ that extends to a $k$-coloring $\psi$ of $F$, but not of $G$.  Then $\varphi$ is also a proper $k$-coloring of $H'$ that
+extends to the $k$-coloring $\psi$ of $F'$, but not of $G$.  Hence, $G'$ is $H'$-critical for $k$-coloring.
+
+For the final claim, let $F'$ be a proper subgraph fo $B$ containing $A\cap B$, and let $F=A\cup F'$.  Then $F$ is a proper
+subgraph of $G$ containing $H$, and thus there exists a proper $k$-coloring $\varphi$
+of $H$ that extends to a $k$-coloring $\psi$ of $F$, but not of $G$.  Let $\varphi'$ be the restriction of $\psi$ to
+$A\cap B$.  Then $\varphi'$ extends to a $k$-coloring of $F'$ (given by the restriction of $\psi$ to $F'$), but not of $B$.
+Hence, $B$ is $(A\cap B)$-critical for $k$-coloring.
 \end{proof}
 
-Key Idea: Criticality with respect to a subgraph.
+When considering graphs drawn on surfaces, it is convenient to allow surfaces with holes and require that the precolored
+vertices are contained in the boundary.  It is also usually convenient to require that each hole is bounded by a cycle
+in the graph (this lets us avoid discussing faces that intersect the boundary).  We say that an embedding of a graph
+$G$ in a surface $\Sigma$ is \emph{normal} if every hole of $\Sigma$ is bounded by a cycle in $G$,
+and letting $H$ denote the union of these cycles, we say that $G$ is \emph{boundary-critical} for $k$-coloring
+if $G$ is $H$-critical for $k$-coloring.
 
-Overview Methods to bound size of a critical graph:
+The simplest non-trivial situation to consider is the boundary-critical graphs drawn in the disk, or equivalently,
+plane graphs with the precolored boundary of the outer face.  This case is relatively simple and hides some difficulties
+encountered in more general situations, but as we will see in the next chapter, it is of fundamental importance.
+Furthermore, it will serve us well to introduce the ideas without getting bogged down in technical details.
+We will also focus on the 5-coloring (another interesting case concerns 3-coloring of graphs of girth at least five;
+it can be addressed by the same techniques, but the arguments are somewhat more complicated, mostly due to the
+fact that Gr\"otzsch' Theorem is somewhat harder to prove than 5-colorability of planar graphs).
+
+So suppose $G$ is a graph drawn normally in a disk with boundary cycle $C$, and that $G$ is $C$-critical for $5$-coloring.
+How do we prove $|V(G)|$ is bounded by $f(|C|)$ for some fixed function $f$?  It is natural to try to modify the proofs of the 5-colorability
+of planar graphs to this setting.  The simplest proofs are through the method of reducible configurations, proving
+that given a plane graph $H$, we can modify it on neighborhood of a vertex of degree at most five (which is guaranteed to exist)
+and obtain a plane graph $H'$ with fewer vertices such that any 5-coloring of $H'$ can be transformed to a 5-coloring of $H$.
+We then conclude the argument by applying the induction to $H'$.
+
+We can try to apply the same idea in the disk with precolored boundary cycle $C$ as well.  It is not hard to see that if $G$
+is large enough, it still contains a non-precolored vertex of degree at most five.  We can then apply an analogous transformation
+and obtain a graph $G'$ drawn in the disk with the same boundary cycle $C$, and with the property that any 5-coloring of $G'$
+can be transformed to a 5-coloring of $G$ without changing the colors on the precolored cycle.  There is now a small issue
+that $G'$ is not necessarily $C$-critical, but by the first claim of Lemma~\ref{lemma:critsgprop}, we can solve this
+by considering a suitable subgraph of $G'$ instead, if necessary.  Hence, say we can apply induction to $G'$.
+This shows that $|V(G')|\le f(|C|)$.  However, $G$ has more vertices than $G'$, and thus this does not imply $|V(G)|\le f(|C|)$!
+
+To avoid this issue, instead of bounding the number of vertices of $G$ directly, we bound suitably defined weight $w(G)$
+of $G$.  The exact definition of the weight function $w$ depends on the specific problem and graph class under consideration;
+we will see an example shortly.  However, in general we need it satisfies the following two properties:
 \begin{itemize}
-\item Reductions increasing a properly defined weight (example: linear bound on the size of graphs in disk
-critical for $5$-coloring?).
-\item Specific subgraphs at the precolored face coming from the nibbling method (example: quadratic (or linear?) bound
-on the size of graphs in disk critical for $5$-list-coloring)?
+\item $|V(G)|$ is bounded by a function of $w(G)$, and
+\item the reduced graph $G'$ satisfies $w(G')\ge w(G)$; i.e., even though we decrease the number of vertices,
+we do not descrease the weight.
 \end{itemize}
+Hence, by induction applied to $G'$, we obtain $w(G')\le f'(|C|)$, and thus $w(G)\le f'(|C|)$ by the second property.
+Consequently, $|V(G)|$ is bounded by a function of $|C|$ by the first property.
 
-\section{Increasing Weight via Discharging}
+Another way to prove $5$-colorability of planar graphs is via Thomassen's nibbling argument (which actually works
+in the list coloring setting as well), see Theorem~\ref{thm:5choosbook}.  Note that if each vertex 
+had at most two neighbors in $C$, then Theorem~\ref{thm:5choosbook} would imply that every 5-coloring of $C$ extends to a $5$-coloring
+of $G$, contradicting the assumption that $G$ is $C$-critical for 5-coloring.  This shows that some vertex has at least three
+neighbors in $C$.  A more detailed analysis shows existence of more complicated structures near the precolored cycle $C$,
+and we can exploit these structures to reduce the problem to a smaller graph (again preserving a carefully chosen weight function)
+and finish the proof by induction.
 
-\section{Increasing Weight via Nibbling}
+Let us now work out two detailed examples demonstrating these ideas.
+
+\subsection{Increasing Weight via Discharging}
+
+% AMHERE
+
+\subsection{Increasing Weight via Nibbling}
 
 \chapter{Hyperbolicity}\label{chap:hyper}
 
