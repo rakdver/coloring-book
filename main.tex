@@ -4542,7 +4542,7 @@ $\deg(A)\ge \beta'(A)+4$ by (\ref{eq:lbbeta}).  Hence, Theorem~\ref{thm:6flowgen
 has a $\beta$-orientation.
 \end{proof}
 This has a nice consequence observed by Thomassen~\cite{weak83}: Consider a $6$-edge-connected graph $G$ such that $|E(G)|$ is
-divisible by $3$.  Then the function $\beta(v)=(-\deg v)\bmod 3$ for $v\in V(G)$ is a boundary for $G$, and a $\beta$-orientation $\vec{G}$
+divisible by $3$.  Then the function $\beta(v)=(-\deg(v))\bmod 3$ for $v\in V(G)$ is a boundary for $G$, and a $\beta$-orientation $\vec{G}$
 which exist by Corollary~\ref{cor:z3conn} has the property that the outdegree of every vertex is divisible by $3$.
 Consequently, $G$ can be expressed as a union of edge-disjoint claws (copies of $K_{1,3}$).
 
@@ -5839,7 +5839,7 @@ For orientable surfaces, we can use another intriquing observation by Fisk~\cite
 
 \begin{lemma}\label{lemma:oddsame}
 Suppose $G$ is a triangulation of a surface and let $\varphi:V(G)\to[4]$ be a proper coloring of $G$.
-For $i\in[4]$, let $d_i=\sum_{v\in \varphi^{-1}(i)} \deg v$ be the sum of the degrees of vertices of color $i$.  Then $d_1$, \ldots, $d_4$ all have the same parity.
+For $i\in[4]$, let $d_i=\sum_{v\in \varphi^{-1}(i)} \deg(v)$ be the sum of the degrees of vertices of color $i$.  Then $d_1$, \ldots, $d_4$ all have the same parity.
 \end{lemma}
 \begin{proof}
 For $j\in[4]$, let $t_j$ denote the number of faces of $G$ not incident with a vertex of color $j$ (e.g., $t_4$
@@ -6183,7 +6183,7 @@ vertices are contained in the boundary.  It is also usually convenient to requir
 in the graph (this lets us avoid discussing faces that intersect the boundary).  We say that an embedding of a graph
 $G$ in a surface $\Sigma$ is \emph{normal} if every hole of $\Sigma$ is bounded by a cycle in $G$,
 and letting $H$ denote the union of these cycles, we say that $G$ is \emph{boundary-critical} for $k$-coloring
-if $G$ is $H$-critical for $k$-coloring.
+if $G$ is $H$-critical for $k$-coloring.  We say the vertices not in the boundary are \emph{internal}.
 
 The simplest non-trivial situation to consider is the boundary-critical graphs drawn in the disk, or equivalently,
 plane graphs with the precolored boundary of the outer face.  This case is relatively simple and hides some difficulties
@@ -6230,6 +6230,183 @@ and finish the proof by induction.
 Let us now work out two detailed examples demonstrating these ideas.
 
 \subsection{Increasing Weight via Discharging}
+
+For the discharging argument, we will need several simple reducible configurations,
+depicted in Figure~\ref{fig:wtredu5}.
+
+\begin{lemma}\label{lemma:wtredu5}
+Let $G$ be a graph, and let $X\subset V(G)$ and a proper $5$-coloring $\varphi$ of $G-X$
+satisfy one of the following conditions.
+\begin{itemize}
+\item $G[X]$ is an edge $uv$, where $\deg_G(u)=\deg_G(v)=5$, and two of the neighbors of $u$ in $G-X$ are
+assigned the same color by $\varphi$, or
+\item $G[X]$ is an edge $uv$, where $\deg_G(u)=5$, $\deg_G(v)=6$, and $u$ and $v$ have two common neighbors
+$w$ and $z$ in $G-X$ and $\varphi(w)=\varphi(z)$, or
+\item $G[X]$ consists of a star with center $v$ and rays $v_1$, $v_3$, and $v_5$,
+all vertices of $X$ have degree $6$ in $G$, for $i\in \{1,3,5\}$, $v$, $v_i$, and $v_{i+2}$ have a common
+neighbor $v_{i+1}$ in $G-X$ (where $v_7=v_1$), and $\varphi(v_2)=\varphi(v_4)=\varphi(v_6)$.
+\end{itemize}
+Then $\varphi$ extends to a $5$-coloring of $G$.
+\end{lemma}
+\begin{proof}
+In the first two cases, we first greedily color $v$ and then $u$.  
+In the last case, we greedily color $v_1$, $v_3$, $v_5$, and $v$.
+\end{proof}
+Of course, just a single vertex of degree five can be colored if it has two neighbors of the same color,
+so the reader might wonder why we bother with the more complicated configurations discussed in
+Lemma~\ref{lemma:wtredu5}.  The reason is that knowing a larger part of the graph is deleted in the
+reduction will be needed to argue about the weight of the resulting critical subgraph.
+
+Consider a graph $G$ with a normal drawing in the disk bounded by a cycle $C$.  We define
+the weight of $G$ as
+$$w(G)=\varepsilon|V(G)\setminus V(C)|+\sum_{f\in F(G)} (|f|-3),$$
+for some sufficiently small $\varepsilon>0$ ($\varepsilon=...$ will suffice).
+Clearly $|V(G)|\le |V(C)|+w(G)/\varepsilon$, and thus to bound the size of $G$,
+it suffices to bound $w(G)$.
+
+We aim to prove the following result.
+\begin{theorem}\label{thm:wt5}
+Let $\varepsilon=...$ and $\beta=...$.  Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+If $G$ is boundary-critical for $5$-coloring, then
+$$w(G)\le |C|-\begin{cases}
+4&\text{if $V(G)=V(C)$ and $|E(G)\setminus E(C)|=1$}\\
+5-\varepsilon&\text{if $|V(G)\setminus V(C)|=1$ and $|E(G)\setminus E(C)|=5$}\\
+5&\text{if $V(G)=V(C)$ and $|E(G)\setminus E(C)|=2$}\\
+5+\beta&\text{otherwise.}
+\end{cases}$$
+\end{theorem}
+Observe that if $G=C$ then $w(G)=|C|-3$, if $G$ is $C$ with one chord then $w(G)=|C|-4$, if $G$ is $C$ plus a vertex of degree five
+then $w(G)=|C|-5+\varepsilon$, and if $G$ is $C$ with two chords then $w(G)=|C|-5$; we call such graphs \emph{exceptional}.
+We say that $G$ is a \emph{counterexample} if $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$,
+$G$ is boundary-critical for $5$-coloring, $G$ is not exceptional
+and $w(G)>|C|-5-\beta$.  We say $G$ is a \emph{minimum counterexample} if $|V(G)|+|E(G)|$ is minimum among all counterexamples.
+Our goal of course is to prove that no counterexample exists, and thus Theorem~\ref{thm:wt5} holds.
+Note that $V(G)\neq V(C)$, since if $G$ consisted of $C$ with $k\ge 3$ chords, we would have $w(G)=|C|-3-k\le |C|-6$.
+
+For a cycle $K$ in $G$, let $G_K$ be the subgraph of $G$ drawn in the closed disk bounded by $K$.
+If $G$ is boundary-critical for $5$-coloring, then $G_K$ is also boundary-critical for $5$-coloring by Lemma~\ref{lemma:critsgprop}.
+\begin{lemma}\label{lemma:wt5sep}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+If $G$ is a minimum counterexample and $K\neq C$ is a cycle of length at most five in $G$,
+then $G_K$ is exceptional.
+\end{lemma}
+\begin{proof}
+Since $K\neq C$, the minimality of $G$ implies that either $G_K$ is exceptional or $w(G_K)\le |K|-5-\beta$.
+However, since $|K|\le 5$, the latter is not possible.
+\end{proof}
+
+We can also only consider counterexamples that are critical with respect to a fixed precoloring.
+\begin{lemma}\label{lemma:wt5crcol}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+If $G$ is a minimum counterexample and $\varphi$ is a $5$-coloring of $C$ that does not extend
+to a $5$-coloring of $G$, then $G$ is $(C,\varphi)$-critical for $5$-coloring.
+\end{lemma}
+\begin{proof}
+Let $G'\supsetneq C$ be a minimal subgraph of $G$ such that $\varphi$ does not extend to a $5$-coloring of $G$.
+Then $G'$ is $(C,\varphi)$-critical for $5$-coloring.  Suppose for a contradiction that $G'\neq G$.
+Observe that since $G'$ is $C$-critical for 5-coloring and every planar graph is 5-colorable, $G'$ is $2$-connected.
+By the minimality of $G$, for every face $f$ of $G'$ bounded by a cycle $K$, we have $w(G_K)\le |K|-3$,
+and $w(G_K)\le |K|-4$ if $f$ is not a face of $G$ (and at least one such face exists, since $G'\neq G$).
+Note also that $f$ contributes $|K|-3$ towards the weight of $G'$.  Hence,
+$w(G)=w(G')+\sum_K (w(G_K)-|K|+3)\le w(G')-1$, and thus $w(G')>|C|-4-\beta$.
+The minimality of $G$ implies $G'$ is exceptional, and more precisely, $G'$ is $C$ with a chord.
+However, since $V(G)\neq V(C)$, for some cycle $K$ bounding a face of $G'$ we have
+$w(G_K)\le |K|-5+\varepsilon$, and thus $w(G)\le w(G')-2+\varepsilon=|C|-6+\varepsilon\le |C|-5-\beta$,
+which is a contradiction.
+\end{proof}
+
+We say that the drawing of $G$ is \emph{nicely arched} if
+\begin{itemize}
+\item $C$ is an induced cycle,
+\item each vertex of $C$ has degree at least three, and
+\item each internal vertex $v$ has at most three neighbors $v_1$, \ldots, $v_k$ in $C$,
+$v_1\ldots v_k$ is a subpath of $C$, and $vv_iv_{i+1}$ is a $3$-face for $i=1,\ldots,k-1$.
+\end{itemize}
+
+\begin{lemma}\label{lemma-arch}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+If $G$ is a minimum counterexample, then $G$ is nicely arched.
+\end{lemma}
+\begin{proof}
+Let $\varphi$ be a $5$-coloring of $C$ that does not extend to a $5$-coloring of $G$.
+By Lemma~\ref{lemma:wt5crcol}, $G$ is $(C,\varphi)$-critical for $5$-coloring.
+
+Suppose first $C$ has a chord $uv$.  If $\varphi(u)\neq\varphi(v)$, then $\varphi$
+cannot extend to a $5$-coloring of $G-uv$.  If $\varphi(u)\neq\varphi(v)$, then $\varphi$
+does not extend to a $5$-coloring of $C+uv$.  In either case, we obtain a contradiction
+with the $(C,\varphi)$-criticality of $G$.  Therefore $C$ is an induced cycle.
+
+Suppose now that a vertex $v\in V(C)$ has degree two, and let $x$ and $y$ be its neighbors.
+If $\varphi(x)=\varphi(y)$, then let $G'$ be obtained from $G-v$ by identifying $x$ with $y$,
+otherwise, let $G'=G-v+xy$; and in either case, let $C'$ be the cycle obtained from $C$ and
+let $\varphi'$ be its $5$-coloring naturally corresponding to $\varphi$.  Note that in the former
+case $x$ and $y$ cannot have a common neighbor other than $v$ by the $(C,\varphi)$-criticality of $G$;
+hence, all vertices of $V(G')\setminus V(C')$ have the same degree as in $G$, and $G'$ is not exceptional.
+Clearly $G'$ is $(C',\varphi')$-critical, and by the minimality of $G$, we have $w(G')\le |C'|-5-\beta$.
+However, $w(G)$ differs from $w(G')$ only by the term corresponding to the one face whose length differs by
+$|C|-|C'|$, and thus $w(G)=V(G')+|C|-|C'|\le |C|-5-\beta$.  This is a contradiction implying that $G$ has minimum
+degree at least three.
+
+Finally, consider a vertex $v$ with neighbors $v_1$, \ldots, $v_k$ in $C$ in the clockwise order, where $k\ge 2$.
+Note that $\varphi(v_1)$, \ldots, $\varphi(v_k)$ are distinct by the $(C,\varphi)$-criticality of $G$,
+and thus $k\le 5$.  If $k=5$, then $\varphi$ cannot be extended to $v$; by the $(C,\varphi)$-criticality of $G$,
+we would conclude that $G$ consists of $C$, $v$, and the edges $vv_i$ for $i=1,\ldots,5$, and thus $G$ would
+be exceptional.  Hence, $k\le 4$.  For $i=1,\ldots,k$, let $K_i$ be the cycle consisting of the path from $v_i$ to
+$v_{i+1}$ in $C$ in the clockwise order (where $v_{k+1}=v_1$) and the path $v_{i+1}vv_i$.  Since $G$ is boundary-critical
+for $5$-coloring, $v$ has degree at least five, and thus we can assume $v$ has a neighbor in $G_{K_k}$ not belonging to $K_k$.
+The minimality of $G$ implies $w(G_{K_i})\le |K_i|-3$ for $i=1,\ldots, k-1$ and $w(G_{K_k})\le |K_k|-5+\varepsilon$.
+Therefore,
+\begin{align*}
+w(G)&=\varepsilon+\sum_{i=1}^k w(G_{K_i})\le 2\varepsilon-2-3k+\sum_{i=1}^k |K_i|\\
+&=|C|+2\varepsilon-2-k.
+\end{align*}
+Since $w(G)>|C|-5-\beta$, it follows that $k\le 3$.
+If $G_{K_i}=K_i$ for $i=1,\ldots,k$, then $v_1\ldots v_k$ is a subpath of $C$, since all vertices of $C$ have degree three.
+If for some $i$, we have $G_{K_i}\neq K_i$, note that $G_{K_i}$ is not $K_i$ with a chord, since we listed all neighbors of $v$
+and $C$ is induced; hence, this would decrease the right-hand side of the inequality by at least $2-\varepsilon$,
+giving $w(G)\le |C|+3\varepsilon-4-k\le |C|+3\varepsilon-6\le |C|-5-\beta$, which is a contradiction.
+Therefore, $G$ is nicely arched.
+\end{proof}
+
+Next, we use the discharging method to show that any graph of sufficiently large weight contains one of the
+reducible configurations.  
+\begin{lemma}\label{lemma:hwredu}
+Let $G$ be a connected graph with a normal nicely arched drawing in the disk bounded by an induced cycle $C$
+and such that every internal vertex has degree at least five.
+If $w(G)>|C|-6$, then $G$ contains one of the following configurations:
+\begin{itemize}
+\item[(C1)] Adjacent internal vertices $u$ and $v$, where $\deg(u)=5$, $\deg(v)=6$, and 
+both faces incident with $uv$ have length three and are only incident with internal vertices.
+
+
+\item[(C2)] Adjacent internal vertices $u$ and $v$ of degree five, such that denoting the
+faces incident with $u$ but not the edge $uv$ $f_1$, $f_2$, and $f_3$ in order,
+either $f_1$ and $f_2$ are both $3$-faces or at least one of them is a $4$-face.???
+\item[(C3)] An internal vertex $v$ of degree six such that all incident faces have length three
+and all adjacent vertices are internal and have degree six.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+Give each vertex $v\in V(G)$ the initial charge $\initch(v)=\deg(v)-6$ and each face $f$
+the initial charge $2|f|-6$.  Note that the sum of these charges is $-6-2|C|$
+(if $G$ were drawn in the plane, the sum would be $-12$ by Lemma~\ref{lemma:initch}),
+but since it is drawn in the disk, $C$ does not bound a face of $G$).
+
+A vertex $u$ is \emph{heavy} if either $u\in V(C)$ and $\deg(u)\ge 4$, or $\deg(u)\ge 7$.
+We now redistribute the charge according to the following rules.
+\begin{itemize}
+\item[(R1)] Suppose $uv\in E(G)$, $u$ is heavy and $v$ is internal.
+Then $u$ sends to $v$
+\begin{itemize}
+\item $\tfrac{1}{5}(1+\varepsilon)$ if $\deg(v)=5$ and $u$ is internal,
+\item $\tfrac{\deg(u)-2}{5}(1+\varepsilon)$ if $\deg(v)=5$ and $u\in V(C)$, and
+\item $\varepsilon$ if $\deg(v)\ge 6$.
+\end{itemize}
+\item[(R2)] ...
+\item[(R3)]
+\end{itemize}
+Let $\finch$ denote the resulting final charge.
+\end{proof}
 
 % AMHERE
 
