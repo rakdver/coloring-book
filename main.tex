@@ -671,7 +671,7 @@ configurations.
 \subsection{Common errors}\label{ssec:errors}
 
 Dealing with planar graphs or graphs embedded on other surfaces has an advantage of easy visualisation.
-The disadvantage is the ease of drawing missleading pictures.
+The disadvantage is the ease of drawing misleading pictures.
 
 \begin{figure}
 \begin{center}
@@ -5345,7 +5345,7 @@ as it necessitates adding or subtracting one at a lot of places.  Even worse, in
 of other kinds of coloring this notation becomes confusing.  For example, in the setting
 of the fractional chromatic number (which may have non-integral values), to prove results
 about $2.5$-colorability, it makes sense to consider minimal graphs that are not $2.5$-colorable.
-Calling such graphs $2.5$-critical would be missleading, as by analogy with the ordinary
+Calling such graphs $2.5$-critical would be misleading, as by analogy with the ordinary
 proper coloring case, this would one lead to believe these graphs actually are $2.5$-colorable.
 
 To avoid this issue, we opt for the following (somewhat non-standard) terminology.
@@ -6231,42 +6231,15 @@ Let us now work out two detailed examples demonstrating these ideas.
 
 \subsection{Increasing Weight via Discharging}
 
-For the discharging argument, we will need several simple reducible configurations,
-depicted in Figure~\ref{fig:wtredu5}.
-
-\begin{lemma}\label{lemma:wtredu5}
-Let $G$ be a graph, and let $X\subset V(G)$ and a proper $5$-coloring $\varphi$ of $G-X$
-satisfy one of the following conditions.
-\begin{itemize}
-\item $G[X]$ is an edge $uv$, where $\deg_G(u)=\deg_G(v)=5$, and two of the neighbors of $u$ in $G-X$ are
-assigned the same color by $\varphi$, or
-\item $G[X]$ is an edge $uv$, where $\deg_G(u)=5$, $\deg_G(v)=6$, and $u$ and $v$ have two common neighbors
-$w$ and $z$ in $G-X$ and $\varphi(w)=\varphi(z)$, or
-\item $G[X]$ consists of a star with center $v$ and rays $v_1$, $v_3$, and $v_5$,
-all vertices of $X$ have degree $6$ in $G$, for $i\in \{1,3,5\}$, $v$, $v_i$, and $v_{i+2}$ have a common
-neighbor $v_{i+1}$ in $G-X$ (where $v_7=v_1$), and $\varphi(v_2)=\varphi(v_4)=\varphi(v_6)$.
-\end{itemize}
-Then $\varphi$ extends to a $5$-coloring of $G$.
-\end{lemma}
-\begin{proof}
-In the first two cases, we first greedily color $v$ and then $u$.  
-In the last case, we greedily color $v_1$, $v_3$, $v_5$, and $v$.
-\end{proof}
-Of course, just a single vertex of degree five can be colored if it has two neighbors of the same color,
-so the reader might wonder why we bother with the more complicated configurations discussed in
-Lemma~\ref{lemma:wtredu5}.  The reason is that knowing a larger part of the graph is deleted in the
-reduction will be needed to argue about the weight of the resulting critical subgraph.
-
 Consider a graph $G$ with a normal drawing in the disk bounded by a cycle $C$.  We define
 the weight of $G$ as
 $$w(G)=\varepsilon|V(G)\setminus V(C)|+\sum_{f\in F(G)} (|f|-3),$$
-for some sufficiently small $\varepsilon>0$ ($\varepsilon=...$ will suffice).
+for some sufficiently small $\varepsilon>0$ ($\varepsilon=1/100$ will suffice).
 Clearly $|V(G)|\le |V(C)|+w(G)/\varepsilon$, and thus to bound the size of $G$,
-it suffices to bound $w(G)$.
+it suffices to bound $w(G)$.  We aim to prove the following result, which implies $|V(G)|\le 101|C|$.
 
-We aim to prove the following result.
 \begin{theorem}\label{thm:wt5}
-Let $\varepsilon=...$ and $\beta=...$.  Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+Let $\varepsilon=1/100$ and $\beta=1-7\varepsilon$.  Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
 If $G$ is boundary-critical for $5$-coloring, then
 $$w(G)\le |C|-\begin{cases}
 4&\text{if $V(G)=V(C)$ and $|E(G)\setminus E(C)|=1$}\\
@@ -6283,6 +6256,15 @@ and $w(G)>|C|-5-\beta$.  We say $G$ is a \emph{minimum counterexample} if $|V(G)
 Our goal of course is to prove that no counterexample exists, and thus Theorem~\ref{thm:wt5} holds.
 Note that $V(G)\neq V(C)$, since if $G$ consisted of $C$ with $k\ge 3$ chords, we would have $w(G)=|C|-3-k\le |C|-6$.
 
+Let us now comment of the general outline of the proof.  Firstly, we eliminate some ``degeneracies'' (chords, short separating
+cycles) from the minimal counterexample that would otherwise complicate reductions.  Then, as the key step of the argument,
+we exhibit several reducible configurations that can be reduced so that the weight does not decrease; such configurations
+of course cannot appear in a minimum counterexample.  Finally, we give a discharging procedure where each internal vertex ends up
+with charge $\varepsilon$, each face $f$ ends up with charge at least $|f|-3$, each vertex of $C$ ends up with a non-negative charge,
+and the sum of the charges is $|C|-6$, which shows that $w(G)\le |C|-6$,
+a contradiction to $w(G)>|C|-5-\beta$.
+
+Let us start with the first part, elimination of degeneracies.
 For a cycle $K$ in $G$, let $G_K$ be the subgraph of $G$ drawn in the closed disk bounded by $K$.
 If $G$ is boundary-critical for $5$-coloring, then $G_K$ is also boundary-critical for $5$-coloring by Lemma~\ref{lemma:critsgprop}.
 \begin{lemma}\label{lemma:wt5sep}
@@ -6294,6 +6276,7 @@ then $G_K$ is exceptional.
 Since $K\neq C$, the minimality of $G$ implies that either $G_K$ is exceptional or $w(G_K)\le |K|-5-\beta$.
 However, since $|K|\le 5$, the latter is not possible.
 \end{proof}
+In particular, every triangle in $G$ bounds a face, and if $V(G_K)\neq V(K)$, then $|K|\ge 5$.
 
 We can also only consider counterexamples that are critical with respect to a fixed precoloring.
 \begin{lemma}\label{lemma:wt5crcol}
@@ -6317,13 +6300,14 @@ which is a contradiction.
 
 We say that the drawing of $G$ is \emph{nicely arched} if
 \begin{itemize}
-\item $C$ is an induced cycle,
-\item each vertex of $C$ has degree at least three, and
+\item $C$ is an induced cycle;
+\item each vertex of $C$ has degree at least three;
 \item each internal vertex $v$ has at most three neighbors $v_1$, \ldots, $v_k$ in $C$,
-$v_1\ldots v_k$ is a subpath of $C$, and $vv_iv_{i+1}$ is a $3$-face for $i=1,\ldots,k-1$.
+$v_1\ldots v_k$ is a subpath of $C$, and $vv_iv_{i+1}$ is a $3$-face for $i=1,\ldots,k-1$; and
+\item internal vertices with three neighbors in $C$ form an independent set.
 \end{itemize}
 
-\begin{lemma}\label{lemma-arch}
+\begin{lemma}\label{lemma:arch}
 Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
 If $G$ is a minimum counterexample, then $G$ is nicely arched.
 \end{lemma}
@@ -6347,7 +6331,7 @@ However, $w(G)$ differs from $w(G')$ only by the term corresponding to the one f
 $|C|-|C'|$, and thus $w(G)=V(G')+|C|-|C'|\le |C|-5-\beta$.  This is a contradiction implying that $G$ has minimum
 degree at least three.
 
-Finally, consider a vertex $v$ with neighbors $v_1$, \ldots, $v_k$ in $C$ in the clockwise order, where $k\ge 2$.
+Next, consider a vertex $v$ with neighbors $v_1$, \ldots, $v_k$ in $C$ in the clockwise order, where $k\ge 2$.
 Note that $\varphi(v_1)$, \ldots, $\varphi(v_k)$ are distinct by the $(C,\varphi)$-criticality of $G$,
 and thus $k\le 5$.  If $k=5$, then $\varphi$ cannot be extended to $v$; by the $(C,\varphi)$-criticality of $G$,
 we would conclude that $G$ consists of $C$, $v$, and the edges $vv_i$ for $i=1,\ldots,5$, and thus $G$ would
@@ -6356,59 +6340,419 @@ $v_{i+1}$ in $C$ in the clockwise order (where $v_{k+1}=v_1$) and the path $v_{i
 for $5$-coloring, $v$ has degree at least five, and thus we can assume $v$ has a neighbor in $G_{K_k}$ not belonging to $K_k$.
 The minimality of $G$ implies $w(G_{K_i})\le |K_i|-3$ for $i=1,\ldots, k-1$ and $w(G_{K_k})\le |K_k|-5+\varepsilon$.
 Therefore,
-\begin{align*}
-w(G)&=\varepsilon+\sum_{i=1}^k w(G_{K_i})\le 2\varepsilon-2-3k+\sum_{i=1}^k |K_i|\\
-&=|C|+2\varepsilon-2-k.
-\end{align*}
+\begin{align}
+w(G)&=\varepsilon+\sum_{i=1}^k w(G_{K_i})\le 2\varepsilon-2-3k+\sum_{i=1}^k |K_i|\nonumber\\
+&=|C|+2\varepsilon-2-k.\label{ineq:wt5-2chord}
+\end{align}
 Since $w(G)>|C|-5-\beta$, it follows that $k\le 3$.
 If $G_{K_i}=K_i$ for $i=1,\ldots,k$, then $v_1\ldots v_k$ is a subpath of $C$, since all vertices of $C$ have degree three.
 If for some $i$, we have $G_{K_i}\neq K_i$, note that $G_{K_i}$ is not $K_i$ with a chord, since we listed all neighbors of $v$
-and $C$ is induced; hence, this would decrease the right-hand side of the inequality by at least $2-\varepsilon$,
+and $C$ is induced; hence, $w(G_{K_i})\le |K_i|-5+\varepsilon$ by the minimality of $G$.
+Therefore, in this case we could decrease the right-hand side of (\ref{ineq:wt5-2chord}) by at least $2-\varepsilon$,
 giving $w(G)\le |C|+3\varepsilon-4-k\le |C|+3\varepsilon-6\le |C|-5-\beta$, which is a contradiction.
-Therefore, $G$ is nicely arched.
+
+Finally, suppose that vertices $v$ and $v'$ with three neighbors in $C$ are adjacent.  Let $K_1$ and $K_2$ be the cycles
+bounding the faces of $G[V(C)\cup\{v,v'\}]$ incident with the edge $vv'$.  Since both $v_1$ and $v_2$ have degree
+at least five, each of them is incident with at least one edge belonging to $E(G_{K_1}\cup G_{K_2})\setminus E(K_1\cup K_2)$.
+Hence, either $w(G_{K_1})\le |K_1|-4$ and $w(G_{K_2})\le |K_2|-4$, or $w(G_{K_1})\le |K_1|-5+\varepsilon$ and $w(G_{K_2})\le |K_2|-3$,
+or vice versa.  Consequently,
+$$w(G)=w(G_{K_1})+w(G_{K_2})+2\varepsilon\le |K_1|+|K_2|-8+3\varepsilon=|C|-6+3\varepsilon.$$
+This contradicts $w(G)>|C|-5-\beta$, and thus $G$ is nicely arched.
 \end{proof}
 
-Next, we use the discharging method to show that any graph of sufficiently large weight contains one of the
-reducible configurations.  
-\begin{lemma}\label{lemma:hwredu}
-Let $G$ be a connected graph with a normal nicely arched drawing in the disk bounded by an induced cycle $C$
-and such that every internal vertex has degree at least five.
-If $w(G)>|C|-6$, then $G$ contains one of the following configurations:
+We now exclude several reducible configurations from a minimal counterexample.
+\begin{lemma}\label{lemma:wt5-nofour55}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+Let the edge $v_1v_2\in E(G)$ join two internal vertices of degree five.
+If $G$ is a minimum counterexample, then the edge $v_1v_2$ is incident with a face
+of length at least four.
+\end{lemma}
+\begin{proof}
+Suppose for a contradiction both faces incident with the edge have length three;
+let $v_3$ and $v_4$ be the common neighbors of $v_1$ and $v_2$.  Let
+$v_2$, $v_3$, $x_1$, $x_2$, $v_4$ be the neighbors of $v_1$ in the clockwise order,
+and let $v_1$, $v_4$, $y_1$, $y_2$, $v_3$ be the neighbors of $v_2$ in the clockwise order;
+see Figure~\ref{fig:wt5-nofour55} for illustration.
+
+If $x_1,x_2,y_1,y_2\in V(C)$, then since $G$ is nicely arched, cycles $A_1=x_1x_2v_1$ and $A_2=y_1y_2v_2$
+bound 3-faces.  Let $K_1$ and $K_2$ be the cycles in $(C+A_1+A_2-x_1x_2-y_1y_2)+v_1v_2$ containing
+the edge $v_1v_2$, where $v_3\in V(G_{K_1})$ and $v_4\in V(G_{K_2})$.  By the minimality of $G$, we
+have $w(G_{K_i})\le |K_i|-5+\varepsilon$ for $i\in\{1,2\}$, and thus
+$$w(G)=w(G_{K_1})+w(G_{K_2})+2\varepsilon\le |K_1|+|K_2|-10+4\varepsilon=|C|-6+4\varepsilon\le |C|-5-\beta,$$
+which is a contradiction.  Therefore, we can by symmetry assume $y_1\not\in V(C)$.
+
+Similar calculations can be used to exclude the cases that
+$x_1,x_2,y_2\in V(C)$ and $y_1$ has three neighbors in $C$, or that $x_1,x_2\in V(C)$, $y_2\not\in V(C)$, and both
+$y_1$ and $y_2$ have three neighbors in $V(C)$---e.g., in the latter case, we would have
+$w(G)\le |C|-6+6\varepsilon\le |C|-5-\beta$.  Hence, by symmetry we can assume that either at least one of the
+vertices $x_1$ and $x_2$ is internal, or $y_1$ has at most two neighbors in $C$.
+
+Let $\varphi$ be a precoloring of $C$ that does not extend to a $5$-coloring of $G$.
+Let $G_1$ be the graph obtained from $G-\{v_1,v_2\}$ by adding the edges $x_1y_1$ and $x_2y_1$.
+We claim that $\varphi$ does not extend to a $5$-coloring $\psi$ of $G_1$.  Indeed, if at most
+three colors were used by $\psi$ on $\{v_3,v_4,x_1,x_2\}$, then we could extend $\psi$ greedily to $v_2$
+and $v_1$; hence, we can assume these vertices get pairwise distinct colors, say
+$\psi(v_3)=1$, $\psi(v_4)=2$, $\psi(x_1)=3$, and $\psi(x_2)=4$.  Symmetrically, we can assume
+$\psi$ uses four different colors on $\{v_3,v_4,y_1,y_2\}$, and because of the edges $x_1y_1$ and $x_2y_1$,
+we have $\psi(y_1)=5$ and $\psi(y_2)\in\{3,4\}$.  But then we could give $v_1$ color $5$ and $v_2$ the color $7-\psi(y_2)$,
+giving a 5-coloring of $G$ extending $\varphi$, a contradiction.
+
+Hence, $G_1$ contains a subgraph $G_2$ $(C,\varphi)$-critical for $5$-coloring.
+Since $y_1\not\in V(C)$, $C$ is an induced cycle in $G_2$.  Since either at least one of the vertices
+$x_1$ and $x_2$ is internal, or $y_1$ has at most two neighbors in $C$, the vertex $y_1$ has
+at most four neighbors in $C$ in $G_2$; and since $G$ is nicely arched, no vertex of $G_2$ has more than four neighbors in $C$.
+Hence, $G_2$ is not exceptional, and $w(G_2)\le |C|-5-\beta$ by the minimality of $G$.
+
+Note that at least one of the edges $x_1y_1$ and $x_2y_1$ is present in $G_2$, since $G_2$ is not
+a subgraph of $G$, as $G$ is $(C,\varphi)$-critical for $5$-coloring by Lemma~\ref{lemma:wt5crcol}.
+Let $G_3$ be obtained from $G_2$ by replacing the edges $x_1y_1$ and $x_2y_1$ (if present)
+by edges $x_1v_1$ and $x_2v_1$ and adding the path $v_1v_2y_1$.
+Note that $G_3$ is a subgraph of $G$.  Let $f_1$ and $f_2$ be the faces of $G_3$ incident with $v_2$,
+where the edges $v_1v_3$, $v_2v_3$ and $v_2y_2$ are drawn in $f_1$ and
+the edges $v_1v_4$ and $v_2v_4$ are drawn in $f_2$.
+Note that $G_2$ is $2$-connected since it is $(C,\varphi)$-critical, and thus $f_1\neq f_2$.
+Let $f'_1$ and $f'_2$ be the corresponding faces of $G_2$, and let $K_1$ and $K_2$ be the cycles bounding
+$f_1$ and $f_2$; we have $|f_1|=|f'_1|+2$ and $|f_2|=|f'_2|+2$.
+Note that $G_{K_1}$ is not exceptional since $\{v_1v_3, v_2v_3,v_2y_2\}\subset E(G_{K_1})$, and thus
+$w(G_{K_1})\le |f_1|-5-\beta$ by the minimality of $G$.  Furthermore, $|E(G_{K_2})\setminus E(K_2)|\ge 2$,
+and thus $w(G_{K_2})\le |f_2|-5+\varepsilon$.  Any face $g$ of $G_3$ distinct from $f_1$ and $f_2$
+corresponds to a face $g'$ of $G_2$ of the same length, and if it is bounded by a cycle $K_g$, then $w(G_{K_g})\le |g|-3$.
+Hence,
+\begin{align*}
+w(G)&=w(G_3)+\sum_{g\in F(G_3)} (w(G_{K_g})-(|g|-3))\\
+&\le w(G_3)-4+\varepsilon-\beta=(w(G_2)+4+2\varepsilon)-4+\varepsilon-\beta\\
+&=w(G_2)+3\varepsilon-\beta<w(G_2)\le |C|-5-\beta,
+\end{align*}
+which is a contradiction.
+\end{proof}
+
+\begin{lemma}\label{lemma:wt5-nofour56}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+Consider an edge $v_1v_2\in E(G)$ joining two internal vertices, where $\deg(v_1)=5$ and $\deg(v_2)=6$.
+If $G$ is a minimum counterexample, then one of the following holds:
 \begin{itemize}
-\item[(C1)] Adjacent internal vertices $u$ and $v$, where $\deg(u)=5$, $\deg(v)=6$, and 
-both faces incident with $uv$ have length three and are only incident with internal vertices.
-
-
-\item[(C2)] Adjacent internal vertices $u$ and $v$ of degree five, such that denoting the
-faces incident with $u$ but not the edge $uv$ $f_1$, $f_2$, and $f_3$ in order,
-either $f_1$ and $f_2$ are both $3$-faces or at least one of them is a $4$-face.???
-\item[(C3)] An internal vertex $v$ of degree six such that all incident faces have length three
-and all adjacent vertices are internal and have degree six.
+\item $v_1$ and $v_2$ have a common neighbor in $C$, or
+\item $v_1$ has two neighbors in $C$ non-adjacent to $v_2$, or
+\item the edge $v_1v_2$ is incident with a face of length at least four.
 \end{itemize}
 \end{lemma}
 \begin{proof}
-Give each vertex $v\in V(G)$ the initial charge $\initch(v)=\deg(v)-6$ and each face $f$
-the initial charge $2|f|-6$.  Note that the sum of these charges is $-6-2|C|$
-(if $G$ were drawn in the plane, the sum would be $-12$ by Lemma~\ref{lemma:initch}),
-but since it is drawn in the disk, $C$ does not bound a face of $G$).
+Suppose for a contradiction both faces incident with the edge have length three,
+the common neighbors $v_3$ and $v_4$ of $v_1$ and $v_2$ are internal, and $v_1$ has
+at most one neighbor in $C$.  See Figure~\ref{fig:wt5-nofour56} for illustration.
 
-A vertex $u$ is \emph{heavy} if either $u\in V(C)$ and $\deg(u)\ge 4$, or $\deg(u)\ge 7$.
-We now redistribute the charge according to the following rules.
-\begin{itemize}
-\item[(R1)] Suppose $uv\in E(G)$, $u$ is heavy and $v$ is internal.
-Then $u$ sends to $v$
-\begin{itemize}
-\item $\tfrac{1}{5}(1+\varepsilon)$ if $\deg(v)=5$ and $u$ is internal,
-\item $\tfrac{\deg(u)-2}{5}(1+\varepsilon)$ if $\deg(v)=5$ and $u\in V(C)$, and
-\item $\varepsilon$ if $\deg(v)\ge 6$.
-\end{itemize}
-\item[(R2)] ...
-\item[(R3)]
-\end{itemize}
-Let $\finch$ denote the resulting final charge.
+Let $\varphi$ be a precoloring of $C$ that does not extend to a $5$-coloring of $G$.
+Note that $v_3v_4\not\in E(G)$, since $G$ does not contain separating triangles.
+Let $G_1$ be the graph obtained from $G-\{v_1,v_2\}$ by identifying $v_3$ with $v_4$ to a new vertex $v$.
+Note that no parallel edges arise by this identification by Lemma~\ref{lemma:wt5sep}.
+Clearly $\varphi$ does not extend to a $5$-coloring of $G_1$, as such $5$-coloring could be extended
+to $v_2$ and $v_1$ greedily.  Hence, $G_1$ contains a subgraph $G_2$ $(C,\varphi)$-critical for $5$-coloring.
+Since $v_3,v_4\not\in V(C)$, $C$ is an induced cycle in $G_2$.
+
+Suppose $v$ has at least five neighbors in $C$.  Since $G$ is nicely arched, we can by symmetry assume
+$v_3$ has three neighbors in $C$ forming a path $P_1$ and $v_4$ has two neighbors in $C$ forming a path $P_2$.  For $i\in \{1,2\}$, let
+$K_i$ be the cycle in $G-E(P_1\cup P_2)$ consisting of the path $v_3v_{3-i}v_4$, edges from $v_3$ and $v_4$ to $C$,
+and a path of $C-E(P_1\cup P_2)$, such that $v_i\in G_{K_i}$.  Note that $G_{K_2}$ is not exceptional since $\deg(v_2)=6$,
+and $G_{K_1}$ is not exceptional since $v_1$ has at most one neighbor in $C$.
+Hence,
+\begin{align*}
+w(G)&=w(G_{K_1})+w(G_{K_2})+2\varepsilon=|K_1|+|K_2|-10+2\varepsilon-2\beta\\
+&=|C|-5+2\varepsilon-2\beta<|C|-5-\beta,
+\end{align*}
+which is a contradiction.  Hence, $v$ has at four neighbors in $C$.  It follows that
+$G_2$ is not exceptional, and $w(G_2)\le |C|-5-\beta$ by the minimality of $G$.
+
+Note that $v\in V(G_2)$ and for $i\in\{3,4\}$, $G_2$ contains at least one edge corresponding
+to an edge of $G$ incident with $v_i$, since $G$ does not have a subgraph isomorphic to $G_2$
+via an isomorphism fixing $C$, as $G$ is $(C,\varphi)$-critical for $5$-coloring by Lemma~\ref{lemma:wt5crcol}.
+
+Let $G_3$ be obtained from $G_2$ by splitting $v$ back into $v_3$ and $v_4$ and adding the path $v_3v_1v_4$.
+Note that $G_3$ is a subgraph of $G$.  Let $f_1$ and $f_2$ be the faces of $G_3$ incident with $v_1$,
+where $v_2\in V(G_{K_2})$.  Note that $G_2$ is $2$-connected since it is $(C,\varphi)$-critical, and thus $f_1\neq f_2$.
+Let $f'_1$ and $f'_2$ be the corresponding faces of $G_2$, and let $K_1$ and $K_2$ be the cycles bounding
+$f_1$ and $f_2$; we have $|f_1|=|f'_1|+2$ and $|f_2|=|f'_2|+2$.
+Note that $G_{K_1}$ contains four edges incident with $v_1$, and thus 
+$w(G_{K_1})\le |f_1|-5$ by the minimality of $G$.  Furthermore, $G_{K_2}$ contains the vertex $v_2$ of degree six,
+and thus it is not exceptional and $w(G_{K_2})\le |f_2|-5-\beta$.  Any face $g$ of $G_3$ distinct from $f_1$ and $f_2$
+corresponds to a face $g'$ of $G_2$ of the same length, and if it is bounded by a cycle $K_g$, then $w(G_{K_g})\le |g|-3$.
+Hence,
+\begin{align*}
+w(G)&=w(G_3)+\sum_{g\in F(G_3)} (w(G_{K_g})-(|g|-3))\\
+&\le w(G_3)-4-\beta=(w(G_2)+4+2\varepsilon)-4-\beta\\
+&=w(G_2)+2\varepsilon-\beta<w(G_2)\le |C|-5-\beta,
+\end{align*}
+which is a contradiction.
 \end{proof}
 
-% AMHERE
+The reader could ask why we proved Lemma~\ref{lemma:wt5-nofour55} separately---certainly, the reduction
+from the proof of Lemma~\ref{lemma:wt5-nofour56} also applies in the case $\deg(v_2)=5$?
+The issue is in the calculation at the end of the proof: if $\deg(v_2)=5$, then $G_{K_2}$ could be exceptional,
+giving only whe bound $w(G_{K_2})\le |f_2|-5+\varepsilon$, which is not sufficient to reach the conclusion $w(G)\le w(G_2)$.
+We need two more simple configurations; while we include their proofs for completeness, the reader should feel free
+to skip them, as no new ideas are presented in them.
+
+\begin{lemma}\label{lemma:wt5-nosix}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+Let $v$ be an internal vertex of $G$ of degree six such that all incident faces
+have length three and all adjacent vertices are internal.
+If $G$ is a minimum counterexample, then $v$ is adjacent to a vertex of degree at least seven.
+\end{lemma}
+\begin{proof}
+Suppose for a contradiction all neighbors $v_1$, \ldots, $v_6$ of $v$ have degree
+at most six.  See Figure~\ref{fig:wt5-nosix} for illustration.
+Let $\varphi$ be a precoloring of $C$ that does not extend to a $5$-coloring of $G$.
+
+Suppose first that $\deg(v_1)=\deg(v_3)=5$.  By Lemma~\ref{lemma:wt5crcol}, $\varphi$ extends
+to a 5-coloring $\psi$ of $G-\{v,v_1,\ldots,v_6\}$.  For $i=1,\ldots, 6$, let $L(v_i)$ be a
+set of colors not used by $\psi$ on the neighborhood of $v_i$, where $|L(v_1)|=|L(v_3)|=3$
+and $|L(v_2)|=|L(v_4)|=|L(v_5)|=|L(v_6)|=2$.  If there exists $c\in L(v_2)\cap L(v_4)$, then
+we can color $v_2$ and $v_4$ by $c$ and then color $v_5$, $v_6$, $v_1$, $v$, and $v_3$ greedily.
+Hence, we can assume $L(v_2)\cap L(v_4)=\emptyset$, and symmetrically $L(v_2)\cap L(v_6)=\emptyset$.
+Hence, $L(v_4)$ and $L(v_6)$ are subsets of the $3$-element set $[5]\setminus L(v_2)$, and thus
+there exists a color $c'\in L(v_4)\cap L(v_6)$.  Color $v_4$ and $v_6$ by $c'$ and color $v_5$
+by a color $c''\in L(v_5)\setminus \{c'\}$.  Let $L'(v_1)=L(v_1)\setminus\{c'\}$,
+$L'(v_2)=L(v_2)$, $L'(v_3)=L(v_3)\setminus \{c'\}$, and $L'(v)=[5]\setminus\{c',c''\}$.
+Vertices $v$, $v_1$, $v_2$, and $v_3$ can be $L'$-colored, for a detailed argument see
+the proof of Lemma~\ref{lemma:diamredu}(a).  This is a contradiction, since $\varphi$ does not
+extend to a $5$-coloring of $G$.
+Hence, at most one of $v_1$ and $v_3$ has degree five.  More generally, no two vertices
+at distance two in the cycle $v_1v_2\ldots v_6$ have both degree five.
+
+Suppose now two neighbors $v_i$ and $v_j$ of $v$ each have three neighbors in $C$;
+since $G$ is nicely arched, $v_iv_j\not\in E(G)$.
+Let $K_1$ and $K_2$ be the cycles bounding the faces of
+$G[V(C)\cup \{v,v_i,v_j\}]$ incident with $v$, where $G_{K_1}$ contains at least four
+neighbors of $v$.  The minimality of $G$ implies $w(G_{K_1})\le |K_1|-5-\beta$
+and $w(G_{K_2})\le |K_2|-5+\varepsilon$.
+Hence,
+$$w(G)\le w(G_{K_1})+w(G_{K_2})+3\varepsilon\le |C|-6+4\varepsilon-\beta<|C|-5-\beta,$$
+which is a contradiction.
+
+For $i=1,\ldots,6$, let $k_i$ denote the number of neighbors of $v_i$ in $C$; by the previous
+paragraph, all but at most one of these numbers are smaller than three, and thus by symmetry we can assume
+$k_1,k_3,k_5\le 2$.  Let $X$ be an independent set of neighbors of $v_i$ with a neighbor in $C$, with $|X|\ge 2$.
+For $x\in X$, let $x'$ be the next element of $X$ in the clockwise order around $v$,
+and let $K_x$ be the cycle in $G$ consisting of the path $xvx'$, the minimal clockwise
+path from a neighbor of $x$ to a neighbor of $x'$ in $C$, and the edges between the ends of these
+paths.  Let $X_0$ consist of $x\in X$ such that the neighbor of $v$ following $x$ in the clockwise
+order are $w$ and $x'$ and $w$ has degree five.  Note that $w(G_{K_x})\le |K_x|-5+\varepsilon$ if $x\in X_0$
+and $w(G_{K_x})\le |K_x|-5-\beta$ if $x\in X\setminus X_0$.  Therefore,
+\begin{align}
+w(G)&=(|X|+1)\varepsilon+\sum_{x\in X} w(G_{K_x})\nonumber\\
+&\le (2|X|+1)\varepsilon-|X|-|X\setminus X_0|(\beta+\varepsilon)+\sum_{x\in X}(|K_x|-4)\nonumber\\
+&=|C|-\Bigl(\sum_{x\in X} k_x\Bigr)+(2|X|+1)\varepsilon-|X\setminus X_0|(\beta+\varepsilon).\label{ineq:wt5-nosix}
+\end{align}
+Let $X=\{v_i:i\in\{1,3,5\}, k_i>0\}$.  Since $w(G)>|C|-5-\beta$, the inequality (\ref{ineq:wt5-nosix})
+gives $k_1+k_3+k_5\le 5$.  Moreover, if $k_1+k_3+k_5=5$, then since $k_1,k_3,k_5\le 2$, we have $X=\{v_1,v_3,v_5\}$.
+Since no two vertices at distance two in the cycle $v_1v_2\ldots v_6$ have both degree five,
+we have $|X_0|\le 1$, and thus (\ref{ineq:wt5-nosix}) again contradicts $w(G)>|C|-5-\beta$.
+Therefore, we have $k_1+k_3+k_5\le 4$.
+
+Note that $\{v_1,v_3,v_5\}$ is an independent set in $G$, since $G$ does not contain separating triangles.
+Let $G_1$ be the graph obtained from $G-\{v,v_1,\ldots,v_6\}$ by identifying $v_1$, $v_3$, and $v_5$ to a new vertex $z$.
+Note that no parallel edges arise by this identification by Lemma~\ref{lemma:wt5sep}.
+Clearly $\varphi$ does not extend to a $5$-coloring of $G_1$, as such $5$-coloring could be extended
+to $v_2$, $v_4$, $v_6$, and $v$ greedily.  Hence, $G_1$ contains a subgraph $G_2$ $(C,\varphi)$-critical for $5$-coloring.
+Since $v_1,v_3,v_5\not\in V(C)$, $C$ is an induced cycle in $G_2$.  Moreover, since $k_1+k_3+k_5\le 4$,
+the vertex $z$ has at most four neighbors in $C$.  Since $G$ is nicely arched, we conclude that $G_2$ is not
+exceptional, and $w(G_2)\le |C|-5-\beta$ by the minimality of $G$.
+
+Note that $z\in V(G_2)$.  Let $Y\subseteq\{1,3,5\}$ consist of indices $i$ such that $G_2$ contains at least one edge corresponding
+to an edge of $G$ incident with $v_i$.  We have $|Y|\ge 2$, since $G$ does not have a subgraph isomorphic to $G_2$
+via an isomorphism fixing $C$, as $G$ is $(C,\varphi)$-critical for $5$-coloring by Lemma~\ref{lemma:wt5crcol}.
+
+Let $G_3$ be the subgraph of $G$ obtained from $G_2$ by splitting $z$ back into vertices $\{v_i:i\in Y\}$ and adding $v$ and the edges $vv_i$ for $i\in Y$.
+Note that $G_2$ is $2$-connected since it is $(C,\varphi)$-critical, and thus the faces of $G_3$ incident with $v$ are
+pairwise distinct and by two longer than the corresponding faces of $G_2$.
+Note that for any of these faces $f$ bounded by a cycle $K$, we have $w(G_K)\le |f|-5+\varepsilon$.
+Moreover, since no two vertices at distance two in the cycle $v_1v_2\ldots v_6$ have both degree five,
+at least two of $v_2$, $v_4$ and $v_6$ have degree six, and thus for at least one such face $f$, we
+have $w(G_K)\le |f|-5-\beta$.  Any face $g$ of $G_3$ distinct from $f_1$ and $f_2$
+corresponds to a face $g'$ of $G_2$ of the same length, and if it is bounded by a cycle $K_g$, then $w(G_{K_g})\le |g|-3$.
+Hence,
+\begin{align*}
+w(G)&=w(G_3)+\sum_{g\in F(G_3)} (w(G_{K_g})-(|g|-3))\\
+&\le w(G_3)-|Y|(2-\varepsilon)-\beta-\varepsilon\\
+&=(w(G_2)+(2+\varepsilon)|Y|)-|Y|(2-\varepsilon)-\beta-\varepsilon\\
+&=w(G_2)+(2|Y|-1)\varepsilon-\beta<w(G_2)\le |C|-5-\beta,
+\end{align*}
+which is a contradiction.
+\end{proof}
+
+\begin{lemma}\label{lemma:wt5-four}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+Let $K=v_1v_2v_3v_4$ be a $4$-cycle bounding a face.
+If $G$ is a minimum counterexample, then at most one of $v_1$ and $v_3$ is an internal vertex of degree five.
+\end{lemma}
+\begin{proof}
+Suppose for a contradiction $v_1$ and $v_3$ are internal vertices of degree five.
+at most six.  See Figure~\ref{fig:wt5-nosix} for illustration.
+Let $\varphi$ be a precoloring of $C$ that does not extend to a $5$-coloring of $G$.
+Since $G$ is nicely arched, at least one of $v_2$ and $v_4$, say $v_4$, is internal.
+
+Suppose that $v_2\in V(C)$ and $v_4$ has a neighbor $w\in V(C)$.  For $i\in \{1,3\}$,
+let $K_i$ be the cycle in $C+v_2v_{4-i}v_4w$ containing $v_4$ such that $v_i\in G_{K_i}$.
+Note that $v_i$ has at most three neighbors in $C$ and one of them is $v_2$, and thus
+$v_i$ has a neighbor in $G_{K_i}$ not belonging to $K_i$.
+It follows that $G_{K_i}$ is not exceptional, and thus $w(G_{K_i})\le |K_i|-5-\beta$.
+Moreover, note that the face bounded by $K$ of weight $1$ is counted both in $w(G_{K_1})$
+and $w(G_{K_3})$, and thus
+$$w(G)\le w(G_{K_1})+w(G_{K_3})+\varepsilon-1\le |C|-5-2\beta+\varepsilon<|C|-5-\beta,$$
+a contradiction.  Therefore, if $v_2\in V(C)$, then $v_4$ has no neighbors in $C$.
+A similar calculation shows that if $v_2$ is internal, the total number of neighbors of $v_2$
+and $v_4$ in $C$ is at most four.
+
+Note that $v_2v_4\not\in E(G)$, since $G$ does not contain separating triangles.
+Let $G_1$ be the graph obtained from $G-\{v_1,v_2\}$ by identifying $v_2$ and $v_4$ to a new vertex $v$.
+Note that no parallel edges arise by this identification by Lemma~\ref{lemma:wt5sep}.
+Clearly $\varphi$ does not extend to a $5$-coloring of $G_1$, as such $5$-coloring could be extended
+to $v_1$ and $v_3$ greedily.  Hence, $G_1$ contains a subgraph $G_2$ $(C,\varphi)$-critical for $5$-coloring.
+Since $v_4$ has no neighbors in $C$ if $v_2\in V(C)$, $C$ is an induced cycle in $G_2$.  Moreover, since
+$G$ is nicely arched and if $v_2$ is internal the total number of neighbors of $v_2$
+and $v_4$ in $C$ is at most four, no vertex of $G_2$ has five neighbors in $C$.
+We conclude that $G_2$ is not exceptional, and $w(G_2)\le |C|-5-\beta$ by the minimality of $G$.
+
+Note that $v\in V(G_2)$, and moreover, for $i\in\{2,4\}$, $G_2$ contains an edge corresponding to an edge of $G$
+incident with $v_i$, since $G$ does not have a subgraph isomorphic to $G_2$
+via an isomorphism fixing $C$, as $G$ is $(C,\varphi)$-critical for $5$-coloring by Lemma~\ref{lemma:wt5crcol}.
+
+Let $G_3$ be the subgraph of $G$ obtained from $G_2$ by splitting $v$ back into $v_2$ and $v_4$
+and adding the $4$-cycle $K$.  For $i\in \{1,3\}$, let $f_i$ be the face of $G_3$ incident with $v_i$
+and not bounded by $K$, and let $K_i$ be the cycle obtained from the one bounding $f_i$ by replacing
+the path $v_2v_iv_4$ by the path $v_2v_{4-i}v_4$.
+Note that $G_2$ is $2$-connected since it is $(C,\varphi)$-critical, and thus $f_1\neq f_3$
+and these faces are by two longer than the corresponding faces of $G_2$.
+Moreover, $w(G_{K_i})\le |K_i|-5+\varepsilon$, and both $w(G_{K_1})$ and $w(G_{K_3})$ include
+the weight $1$ of the face bounded by $K$; additionally, $w(K_{K_i})$ includes the weight of $v_i$.
+Any face $g$ of $G_3$ distinct from $f_1$, $f_3$, and the face $f_0$ bounded by $K$
+corresponds to a face $g'$ of $G_2$ of the same length, and if it is bounded by a cycle $K_g$, then $w(G_{K_g})\le |g|-3$.
+Hence,
+\begin{align*}
+w(G)&=w(G_3)+w(G_{K_1})-1-\varepsilon-(|K_1|-3)+w(G_{K_3})-1-\varepsilon-(|K_3|-3)\\
+&\hphantom{=}+\sum_{g\in F(G_3)\setminus\{f_0,f_1,f_3\}} (w(G_{K_g})-(|g|-3))\\
+&\le w(G_3)-6=(w(G_2)+5+2\varepsilon)-6\\
+&=w(G_2)+2\varepsilon-1\le |C|-5-\beta,
+\end{align*}
+which is a contradiction.
+\end{proof}
+
+How did we come up with these configurations? It is convenient (and only slightly misleading) to think about the
+case $G$ is a triangulation and $G_2=G_1$, in which case we need that the resulting graph has a non-triangular
+face (whose weigth more than compensates for the weight of the vertices lost in the reduction).
+
+We are now ready to finish the proof by discharging.  Let $G$ be a minimum counterexample.
+Give each internal vertex $v\in V(G)\setminus V(C)$ the initial charge $\initch(v)=\deg(v)-6$,
+each vertex $v\in V(C)$ the initial charge $\initch(v)=\deg(v)-3$ each face $f$
+the initial charge $2|f|-6$  Note that the sum of these charges is
+$$\Bigl(\sum_{v\in V(G)} (\deg(v)-6)\Bigr)+3|C|+\Bigl(\sum_{f\in F(G)} (|f|-6)\Bigr)-(2|C|-6)=|C|-6,$$
+where in $F(G)$ we include the outer face (which is not actually a face of $G$ since it is drawn normally in a disk),
+and we use
+$$\Bigl(\sum_{v\in V(G)} (\deg(v)-6)\Bigr)+\Bigl(\sum_{f\in F(G)} (|f|-6)\Bigr)=-12$$
+by Lemma~\ref{lemma:initch}.
+
+A vertex $u$ is \emph{heavy} if $u\in V(C)$ and $\deg(u)\ge 4$, or $\deg(u)\ge 7$.
+We now redistribute the charge according to the following rules.
+\begin{itemize}
+\item[(R1)] Suppose $uv\in E(G)$ and $v$ is an internal vertex of degree five.
+If $u$ is heavy, then $u$ sends to $v$
+\begin{itemize}
+\item $1/4$ if $u$ is internal, both faces incident with the edge $uv$ have length
+three, and both common neighbors of $u$ and $v$ are heavy,
+\item $1/5$ if $u$ is internal, both faces incident with the edge $uv$ have length three,
+and exactly one of the common neighbors of $u$ and $v$ is heavy,
+\item $1-\varepsilon$ if $u\in V(C)$, $u$ has degree at least four, and $u$ has an internal neighbor of degree at least six,
+\item $1/2$ if $u\in V(C)$, $u$ has degree at least four, and all internal neighbors of $u$ have degree five,
+\item $1/10+4\varepsilon$ otherwise.
+\end{itemize}
+\item[(R2)] Suppose $uv\in E(G)$ and $v$ is an internal vertex of degree six.
+If $u$ is heavy, then $u$ sends $\varepsilon$ to $v$.
+\item[(R3)] Suppose $f$ is a face of length at least four, incident with
+$n_5$ internal vertices of degree five and $n_6$ internal vertices of degree six, where $n_5+n_6>0$.
+Then $f$ sends $\varepsilon$ to each incident internal vertex of degree six and
+$(|f|-3-n_6\varepsilon)/n_5$ to each incident internal vertex of degree five.
+\item[(R4)] Suppose $uv\in E(G)$, both $u$ and $v$ are internal vertices of degree five,
+and $v$ has three neighbors in $C$. Then $u$ sends $\varepsilon/2$ to $v$.
+\end{itemize}
+Let $\finch$ denote the resulting final charge.
+
+Let us first consider the final charge of a vertex $v$.  Suppose $v\in V(C)$.
+If $\deg(v)=3$, then $\finch(v)=\initch(v)=0$.  If $\deg(v)\ge 4$ and $v$ has an internal neighbor of degree at least
+six, then $v$ sends at most $\varepsilon$ to this neighbor by (R1) and at most $1-\varepsilon$ to other internal neighbors
+by (R1) and (R2), and $\finch(v)\ge \initch(v)-\varepsilon-(\deg(v)-3)(1-\varepsilon)\ge\initch(v)-(\deg(v)-3)=0$.
+If all internal neighbors of $v$ have degree five, then by (R1) we have
+$\finch(v)=\initch(v)-(\deg(v)-2)/2=\deg(v)/2-2\ge 0$.  Hence, the final charge of vertices of $C$ is non-negative.
+
+Suppose now $v$ is an internal vertex of degree $k\ge 5$.  Let $v_1$, $f_1$, $v_2$, $f_2$, \ldots, $v_k$, $f_k$ be the
+faces of $G$ incident with $v$ in order.  Let us first consider the case $k=5$, and thus $\initch(v)=-1$.
+It will be convenient to give a lower bound on how much charge $v$ receives from an incident face $f_i$ of length at least four by (R3):
+If $|f_i|=4$, then by Lemma~\ref{lemma:wt5-four} at most two incident vertices are internal of degree five, and
+thus $v$ receives at least $1/2-\varepsilon$ from $f_i$.  If $|f_i|=5$ and all incident vertices are internal of degree five,
+then $v$ receives $2/5$.  If $|f_i|=5$ and not all incident vertices are internal of degree five, then $v$
+receives at least $(2-\varepsilon)/4>1/2-\varepsilon$.  Finally, if $|f_i|\ge 6$, then $v$ receives at least
+$(|f_i|-3)/|f_i|\ge 1/2$.
+\begin{itemize}
+\item If at least three faces incident with $v$ have length greater than three,
+then $\finch(v)\ge \initch(v)+3\cdot 2/5-5\varepsilon/2=1/10-5\varepsilon/2\ge\varepsilon$ by (R3) and (R4).  
+\item Suppose now two faces incident with $v$ have length greater than three, say $f_1$ and another face $f_i$ for $i\in\{2,3\}$.
+Note that by Corollary~\ref{cor:gallai1}, it cannot be the case that both $f_1$ and $f_i$ are only incident with internal vertices
+of degree five, since $G$ is boundary-critical.  If $v$ receives charge by (R1) from at least one neighbor, then by (R3) and (R4) we have
+$\finch(v)\ge\initch(v)+2/5+(1/2-\varepsilon)+(1/10+4\varepsilon)-4\cdot \varepsilon/2=\varepsilon$.  Hence, we can assume no neighbor of $v$ is heavy,
+and in particular all neighbors of $v$ in $C$ have degree three.
+By Lemmas~\ref{lemma:wt5-nofour55} and \ref{lemma:wt5-nofour56} applied to the edge $vv_5$, the vertex $v$ has a neighbor $x\neq v_2$
+in $C$.  This is not possible if $i=2$, since then the whole path $v_3v_4v_5v_1$ would have to consist of vertices of $C$ of degree
+three, contrary to the fact that $G$ is well-arched.  Hence, we have $i=3$ and either $v_2,v_3\in V(C)$ or $v_4,v_5,v_1\in V(C)$.
+
+In either case, both $f_1$ and $f_3$ are incident with at least two vertices incident with $C$.
+If at least one of $v_1$, $v_2$, $v_3$, and $v_4$ is an internal vertex of degree at least six, then
+one of the faces $f_1$ and $f_3$ sends at least $1-\varepsilon$ and the other one sends at least $1/2$ to
+$v$ by (R3), implying $\finch(v)\ge\initch(v)+1-\varepsilon+1/2-3\cdot\varepsilon/2>\varepsilon$.
+Hence, we can assume each of the vertex either belongs to $C$ or has degree five.  If $v_4,v_5,v_1\in V(C)$,
+then $v$ receives charge from $v_2$ and $v_3$ by (R4), and thus $\finch(v)\ge\initch(v)+2\cdot 1/2+2\cdot\varepsilon/2=\varepsilon$.
+If $v_2,v_3\in V(C)$, then since no neighbor of $v$ is heavy, we have $\deg(v_5)\le 6$, and since $\deg(v_1)=\deg(v_4)=5$,
+this contradicts Lemma~\ref{lemma:diamredu}(a) and the criticality of $G$.
+
+\item Suppose exactly one face incident with $v$, say $f_1$, has degree greater than three.
+If all neighbors of $v$ are internal, then by Lemmas~\ref{lemma:wt5-nofour55} and \ref{lemma:wt5-nofour56},
+the vertices $v_3$, $v_4$, and $v_5$ have degree at least $7$, and by (R1), (R2), and (R4) we have
+$\finch(v)\ge\initch(v)+2\cdot 1/5+1/4+2/5-2\cdot\varepsilon/2\ge \varepsilon$.  Hence, we can assume $v$ has a neighbor in $C$.
+
+Suppose now that $v$ has adjacent neighbors $x$ and $y$ such that $x\in V(C)$, $y\not\in V(C)$, and $y\not\in \{v_1,v_2\}$.
+Note that $\deg(x)\ge 4$, and Lemma~\ref{lemma:wt5-nofour55} implies $\deg(y)\ge 6$.  Hence,
+$\finch(v)\ge\initch(v)+(1-\varepsilon)+2/5-4\cdot\varepsilon/2>\varepsilon$.  Therefore, we can assume no such neighbors exist.
+This implies $v_3,v_4,v_5\in V(C)$, $v_3$ and $v_5$ have degree at least four, and
+and $\finch(v)\ge \initch(v)+2\cdot 1/2+2/5>\varepsilon$.
+
+\item Finally, suppose all faces incident with $v$ have length three.  If $v$ does not have any neighbor in $C$,
+then all neighbors of $v$ have degree at least $7$ by Lemmas~\ref{lemma:wt5-nofour55} and \ref{lemma:wt5-nofour56},
+and $\finch(v)\ge\initch(v)+5\cdot 1/4>\varepsilon$.  Hence, suppose $v_1, \ldots, v_t$ are the neighbors of $v$
+belonging to $C$, for some $t\ge 1$.  Note that $v_1$ and $v_t$ have degree at least four and $v_5$ and $v_{t+1}$
+have degree at least six by Lemma~\ref{lemma:wt5-nofour55}, and thus if $t\ge 2$, then
+$\finch(v)\ge \initch(v)+2\cdot (1-\varepsilon)-\varepsilon/2>\varepsilon$.  If $t=1$, then $v_3$ and $v_4$
+have degree at least $7$ by Lemmas~\ref{lemma:wt5-nofour55} and \ref{lemma:wt5-nofour56}, and
+$\finch(v)\ge \initch(v)+(1-\varepsilon)+2\cdot 1/5>\varepsilon$.
+\end{itemize}
+
+If $k=6$, then $\initch(v)=0$.  By Lemma~\ref{lemma:wt5-nosix}, $v$ is incident with a face of length
+at least four or adjacent to a heavy vertex, and thus $\finch(v)\ge \varepsilon$ by (R2) or (R3).
+If $k\ge 8$, then by (R1) and (R2), noting that $v$ cannot send $1/4$ to two consecutive neighbors,
+we have $\finch(v)\ge \initch(v)-\deg(v)/2\cdot 1/4-\deg(v)/2\cdot 1/5=(31\deg(v)-240)/40\ge 1/5>\varepsilon$.
+
+It remains to consider the case $k=7$, and thus $\initch(v)=1$.  If $v$ is adjacent to at most three internal vertices of degree five,
+then $\finch(v)\ge \initch(v)-3\cdot 1/4-4\varepsilon>\varepsilon$ by (R1) and (R2).  If $v$ is adjacent to four internal vertices
+of degree five, then it sends $1/4$ by (R1) to at most two of them, and
+$\finch(v)\ge \initch(v)-2\cdot 1/4-2\cdot 1/5-3\varepsilon\ge\varepsilon$.  If $v$ is adjacent to five internal vertices of degree five,
+then $v$ either sends $1/4$ to one of them and $1/5$ to at most two of them, or $1/5$ to at most four of them, and
+$\finch(v)\ge \initch(v)-\max(1/4+2\cdot 1/5, 4\cdot 1/5)-(1/10+4\varepsilon)-2\varepsilon\ge \varepsilon$.
+If $v$ is adjacent to six internal vertices of degree five, then $v$ does not send $1/4$ to any of them and sends $1/5$ to at most two of them,
+implying $\finch(v)\ge \initch(v)-2\cdot 1/5-4\cdot(1/10+4\varepsilon)-\varepsilon\ge\varepsilon$.
+Finally, if all neighbors of $v$ are internal and of degree five, then
+$\finch(v)=\initch(v)-7\cdot(1/10+4\varepsilon)\ge\varepsilon$.
+
+Therefore, every internal vertex of $G$ has final charge at least $\varepsilon$, and vertices of $C$ have non-negative final charge.
+Moreover, the rule (R3) is construed so that $\finch(f)\ge \initch(f)-(|f|-3)=|f|-3$ for every face $f$ of $G$.
+Therefore,
+$$w(G)\le \sum_{v\in V(G)} \finch(v)+\sum_{f\in F(G)} \finch(f)=\sum_{v\in V(G)} \initch(v)+\sum_{f\in F(G)} \initch(f)=|C|-6,$$
+contradicting the assumption $w(G)>|C|-5-\beta$.  This contradiction finishes the proof of Theorem~\ref{thm:wt5}.
 
 \subsection{Increasing Weight via Nibbling}
 
