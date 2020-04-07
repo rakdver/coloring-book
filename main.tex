@@ -195,7 +195,7 @@ ordering---indeed, we can form such an ordering by repeatedly removing vertices 
 arranging them in the opposite order of their removal.
 Greedy coloring can naturally be applied to this ordering, giving the following result.
 \begin{lemma}\label{lemma:degen}
-Every $d$-degenerate graph has choosability (as well as chromatic number) at most $d+1$; i.e., $\chi(G)\le\chi_l(G)\le \col(G)$.
+Every $d$-degenerate graph has list chromatic number (as well as chromatic number) at most $d+1$; i.e., $\chi(G)\le\chi_l(G)\le \col(G)$.
 \end{lemma}
 
 Clearly, this also implies that a graph of maximum degree at most $\Delta$ has chromatic number
@@ -2148,7 +2148,7 @@ of configurations widely beyond the reach of other methods.  We will discuss the
 \section{Overview of the Method}
 \begin{itemize}
 \item definitions and why useful
-\item Even cycles are $2$-choosable; antimatching (Erdos, Rubin, Taylor); Brooks' for list?
+\item Even cycles are $2$-list-colorable; antimatching (Erdos, Rubin, Taylor); Brooks' for list?
 \end{itemize}
 
 \subsection{Brooks' Theorem and Gallai trees}\label{ssec-gallai}
@@ -2247,7 +2247,7 @@ By the induction hypothesis, $L'$ is blockwise uniform as shown by sets $S_1$, \
 that $L$ is blockwise uniform.
 \end{proof}
 
-\section{Book Proof: $5$-choosability of planar graphs}
+\section{Book Proof: $5$-list-colorability of planar graphs}
 
 \begin{theorem}\label{thm:5choosbook}
 Let $G$ be a plane graph, let $e$ be an edge incident with its outer face,
@@ -2296,7 +2296,7 @@ this gives an $L$-coloring of $G$.
 
 Both the formulation of Theorem~\ref{thm:5choosbook} and its proof are exceptionally elegant.
 However, they are something of an anomaly, not the most typical examples of the method.
-Let us give another proof of $5$-choosability of planar graphs whose ideas translate directly to other
+Let us give another proof of $5$-list-colorability of planar graphs whose ideas translate directly to other
 contexts, such as the proof of Grotzsch's theorem we give in the next section.
 
 \begin{theorem}\label{thm:5choos-nonbook}
@@ -5017,20 +5017,20 @@ Indeed, since the proof is entirely in terms of degeneracy, it applies to the li
 For a non-negative integer $g$,
 let $$H(g)=\Bigl\lfloor\frac{7+\sqrt{24g+1}}{2}\Bigl\rfloor.$$
 \begin{theorem}[Heawood's formula, list coloring setting]\label{thm:listheawood}
-Every graph drawn in a surface of genus $g\neq 0$ is $H(g)$-choosable.
+Every graph drawn in a surface of genus $g\neq 0$ is $H(g)$-list-colorable.
 \end{theorem}
 \begin{proof}
 For projective planar graphs (the case $g=1$), we have $H(1)=6$; Corollary~\ref{cor:mad} implies these graphs have maximum
-average degree less than $6$, and thus they are $5$-degenerate and $6$-choosable by Lemma~\ref{lemma:degen}.
+average degree less than $6$, and thus they are $5$-degenerate and $6$-list-colorable by Lemma~\ref{lemma:degen}.
 Hence, we can assume $g\ge 2$.
 
-Suppose for some integer $k$, $G$ is a non-$k$-choosable graph drawn in a surface of genus $g$ with the smallest number of vertices.
-Then $G$ has minimum degree at least $k$, as if $G$ contained a vertex $v$ of degree less than $k$, then $G-v$ would be $k$-choosable
-by the minimality of $G$ and we could color $v$ greedily, showing that $G$ is $k$-choosable as well.  In particular, $|V(G)|\ge k+1$.
+Suppose for some integer $k$, $G$ is a non-$k$-list-colorable graph drawn in a surface of genus $g$ with the smallest number of vertices.
+Then $G$ has minimum degree at least $k$, as if $G$ contained a vertex $v$ of degree less than $k$, then $G-v$ would be $k$-list-colorable
+by the minimality of $G$ and we could color $v$ greedily, showing that $G$ is $k$-list-colorable as well.  In particular, $|V(G)|\ge k+1$.
 Since $G$ is drawn in a surface of genus $g$, Corollary~\ref{cor:mad} gives
 $$k\le 6\Bigl(1+\frac{g-2}{|V(G)|}\Bigr)\le 6\Bigl(1+\frac{g-2}{k+1},$$
 and thus $k^2-5k-6(g-1)\le 0$.  This implies $$k\le \frac{5+\sqrt{24g+1}}{2}<H(g).$$
-Consequently, every graph drawn in a surface of genus $g$ is $H(g)$-choosable.
+Consequently, every graph drawn in a surface of genus $g$ is $H(g)$-list-colorable.
 \end{proof}
 Let us remark that by a sheer coincidence, $H(g)=4$, and thus for ordinary proper coloring, Heawood's bound holds for planar graphs (the case $g=0$)
 as well due to the Four Color Theorem.
@@ -5125,7 +5125,7 @@ Let us remark that these non-3-colorable graphs have a simple structure (they ar
 Let us also note that it is possible to prove colorability of locally planar graphs without establishing the colorability is characterized
 by a finite number of forbidden subgraphs, and indeed, this is sometimes substantially easier.
 For example, the result that locally planar graphs are 5-colorable~\cite{Th2} predates the result on forbidden subgraphs~\cite{Thomassen97},
-and similar situation occurred for 5-choosability~\cite{DKM,lukethe}.  The basic idea of such a direct argument is as follows.
+and similar situation occurred for 5-list-colorability~\cite{DKM,lukethe}.  The basic idea of such a direct argument is as follows.
 Let $G$ be a locally planar graph embedded in a surface of genus $g$; without loss of generality, the embedding of $G$ is $2$-cell.
 Then $G$ has a subgraph $H$ such that $H$ has only one face and this face is $2$-cell.
 If $H$ were bipartite, we could proceed as follows: Give vertices of $G-V(H)$ the list $\{1,\ldots,5\}$ if they have no
@@ -5139,7 +5139,7 @@ paths, only transitioning between different colorings at most once on each of th
 of edges, which implies the paths are geodesic, and thus each vertex of $G-V(H)$ attaches to the paths ``locally'',
 to at most three consecutive vertices of such a path.  A more detailed analysis of this locality shows that we can transition between the
 colorings at a carefully chosen point (and possibly color a few more vertices outside of $H$) so that this does not create a list of size
-less than three in $G-V(H)$.  The idea for 5-choosability is similar but more involved, due to the fact that we cannot choose the coloring
+less than three in $G-V(H)$.  The idea for 5-list-colorability is similar but more involved, due to the fact that we cannot choose the coloring
 in this ``almost bipartite'' fashion.
 
 \subsection{Precoloring extension}
@@ -5162,7 +5162,7 @@ The idea of the proof of Theorem~\ref{thm:extend-dist4} crucially depends on the
 of the graph.  Hence, it does not extend to precoloring extension of $5$-colorings in locally planar graphs.
 It also does not apply to list coloring.
 
-The nibbling approach of the proof of 5-choosability in Theorem~\ref{thm:5choos-nonbook} can be (with substantial additional effort)
+The nibbling approach of the proof of 5-list-colorability in Theorem~\ref{thm:5choos-nonbook} can be (with substantial additional effort)
 extended to prove that there exists $d_0$ such that in a planar graph with an assignment $L$ of lists of size 5, any $L$-coloring
 of vertices at distance at least $d_0$ from one another extends to an $L$-coloring of the whole graph~\cite{LidDvoMohPos}.
 The key idea is that all coloring steps are performed near to the special path $P$ contained in the boundary of the outer face
@@ -5214,11 +5214,11 @@ The \emph{crossing number} $\crs(G)$ is defined as the minimum number of crossin
 at most $\crs(G)$, as each crossing can be replaced by a crosscap, and thus $\chi(G)\le H(\crs(G))=O(\sqrt{\crs(G)})$
 by Heawood's formula.  However, this is not the correct order of magnitude.
 \begin{lemma}
-Every graph $G$ is $k$-choosable, where $k=\max(15,\sqrt[4]{232\crs(G)})$.
+Every graph $G$ is $k$-list-colorable, where $k=\max(15,\sqrt[4]{232\crs(G)})$.
 \end{lemma}
 \begin{proof}
-Let $n=|V(G)|$ and $m=|E(G)|$.  Suppose $G$ is not $k$-choosable, and in particular, $n>k$.
-Without loss of generality, we can assume all proper subgraphs of $G$ are $k$-choosable,
+Let $n=|V(G)|$ and $m=|E(G)|$.  Suppose $G$ is not $k$-list-colorable, and in particular, $n>k$.
+Without loss of generality, we can assume all proper subgraphs of $G$ are $k$-list-colorable,
 as otherwise we can consider such a subgraph instead of $G$.  It follows that $G$ has minimum degree at least $k$,
 as otherwise we could delete a vertex $v$ of degree less than $k$, color $G-v$ from the lists, and extend the coloring to $v$ greedily.
 In particular, $m\ge kn/2>7n$, and thus by the crossing number lemma~\cite{ackerman2019topological},
@@ -5264,7 +5264,7 @@ regarding the obstructions to 3-colorability that have been obtained since then)
 argument in more detail in Chapter~\ref{chap:trfree}.
 
 One can ask similar questions in the list coloring setting.  For example, we know that planar graphs
-of girth at least five are $3$-choosable.  What about planar graphs where the $(\le\!4)$-cycles are far apart?
+of girth at least five are $3$-list-colorable.  What about planar graphs where the $(\le\!4)$-cycles are far apart?
 This question can be reduced to a precoloring extension one (in each of the $(\le\!4)$-cycles, subdivide one
 of their edges to transform them to 5-cycles and precolor the 5-cycles so that the ends of the subdivided
 edge receive different colors) or handled directly using the techniques we discussed~\cite{le4far}.
@@ -6099,7 +6099,7 @@ for (i = 0; i <= 15; ++i)
 As we have mentioned in the previous section, Thomassen~\cite{Thomassen97} proved that $\FF_{5,3,g}$ is finite for every $g$.
 That is, there exists a function $f:\mathbb{N}\to\mathbb{N}$ such that every graph of genus $g$ critical for $5$-coloring
 has at most $f(g)$ vertices.  Thomassen's proof gives a very weak, superexponential bound on this function $f$.
-Later, this bound was improved to linear~\cite{pothom}, even in the list-coloring setting~\cite{lukethe}.
+Later, this bound was improved to linear~\cite{pothom}, even in the list coloring setting~\cite{lukethe}.
 While this may appear to be just a quantitative improvement, the linearity of the bound has far-reaching consequences.
 
 We will discuss this phenomenon in more detail in the following chapter, but let us give a simple example.
@@ -6755,6 +6755,56 @@ $$w(G)\le \sum_{v\in V(G)} \finch(v)+\sum_{f\in F(G)} \finch(f)=\sum_{v\in V(G)}
 contradicting the assumption $w(G)>|C|-5-\beta$.  This contradiction finishes the proof of Theorem~\ref{thm:wt5}.
 
 \subsection{Increasing Weight via Nibbling}
+
+The second approach towards bounding the size of critical graphs is based on nibbling,
+reducing the graph by considering configurations that arise at the precolored boundary.
+The starting point is typically a list-coloring result that itself is proved by Thomassen-like nibbling
+argument, and thus this approach naturally lends itself to obtaining bounds even on graphs that are
+critical in the list coloring setting.
+
+The definition of criticality is analogous to the ordinary proper coloring case.
+Consider a graph $G$ with a list assignment $L$.  We say that $G$ is \emph{critical for $L$-coloring}
+if $G$ is not $L$-colorable, but every proper subgraph of $G$ is $L$-colorable.
+Let $H$ be a proper subgraph of $G$.
+We say that \emph{$G$ is $H$-critical for $L$-coloring} if for every proper subgraph $F$
+of $G$ such that $H\subseteq F$, there exists an $L$-coloring of $H$ that extends to $F$,
+but not to $G$.  For a positive integer $k$, we say $G$ is \emph{critical for $k$-list-coloring} (or \emph{$H$-critical for $k$-list-coloring})
+if there exists an assignment $L$ of lists of size $k$ to vertices of $G$ such that $G$ is critical
+for $L$-coloring (or $H$-critical for $L$-coloring).  If $G$ is normally drawn in a surface and $H$ is the subgraph of $G$
+drawn in the boundary, we say $G$ is boundary-critical for $L$-coloring or boundary-critical for $k$-list-coloring, instead.
+The reader should verify that Lemma~\ref{lemma:critsgprop} naturally generalizes to the list coloring setting.
+
+In the nibbling approach, we exploit the fact that in the Thomassen-like proofs of $k$-list-colorability,
+the lists of some of the vertices incident with the outer face can be smaller than $k$. Our example
+is based on the most famous proof of $5$-list-colorability of planar graphs,
+Theorem~\ref{thm:5choosbook}.  It gives us the following structural information about graphs critical
+for $5$-list-coloring.
+
+\begin{corollary}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+If $G$ is $C$-critical for $5$-list-coloring and $C$ is an induced cycle, then
+there exists a vertex $v\in V(G)\setminus V(C)$ with at least three neighbors in $C$.
+Moreover, all but at most one face of $G[V(C)\cup\{v\}]$ is also a face of $G$.
+\end{corollary}
+\begin{proof}
+Let $K$ be a cycle in $G$ such that $|V(K)\setminus V(C)|\le 1$, the closed disk $\Delta$ bounded
+by $K$ contains at least one vertex not belonging to $K$, and subject to these conditions, $\Delta$ is inclusionwise-minimal
+(such a cycle $K$ exists, since $C=K$ is possible).  Recall that by $G_K$, we denote the subgraph of $G$ drawn in $\Delta$.
+Let $w$ be the vertex in $V(K)\setminus V(C)$ if this set is non-empty and an arbitrary vertex of $C$ otherwise.
+Since $C$ is an induced cycle, $K-w$ is a subpath of $C$.  Moreover, the minimality of $\Delta$ implies $K$ is an induced
+cycle in $G_K$.
+
+Since $G$ is $C$-critical for $5$-list-coloring, $G_K$ is $K$-critical for $5$-list-coloring, and in particular,
+there exists an assignment $L$ of lists of size $5$ to vertices of $G_K$ and an $L$-coloring $\varphi$ of $K$
+that does not extend to an $L$-coloring of $G_K$.  Let $G'=G_K-(V(K)\setminus \{w\})$, let $L'(w)=\{\varphi(w)\}$,
+and for $z\in V(G')\setminus\{w\}$, let $L'(z)=L(z)\setminus \{\varphi(x):x\in V(K)\setminus\{w\},zx\in E(G)\}$.
+Then $G'$ is not $L'$-colorable, and thus by Theorem~\ref{thm:5choosbook}, there exists $v\in V(G')\setminus\{w\}$
+such that $|L'(v)|\le 2$.  Consequently, $v$ has at least three neighbors in $K-w\subset C$.  Moreover,
+by the minimality of $\Delta$, every face of $G[V(C)\cup \{v\}]$ other than the one containing $w$ must also
+be a face of $G$.
+\end{proof}
+
+...
 
 \chapter{Hyperbolicity}\label{chap:hyper}
 
