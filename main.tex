@@ -6780,7 +6780,7 @@ is based on the most famous proof of $5$-list-colorability of planar graphs,
 Theorem~\ref{thm:5choosbook}.  It gives us the following structural information about graphs critical
 for $5$-list-coloring.
 
-\begin{corollary}
+\begin{corollary}\label{cor:tripod}
 Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
 If $G$ is $C$-critical for $5$-list-coloring and $C$ is an induced cycle, then
 there exists a vertex $v\in V(G)\setminus V(C)$ with at least three neighbors in $C$.
@@ -6804,7 +6804,115 @@ by the minimality of $\Delta$, every face of $G[V(C)\cup \{v\}]$ other than the 
 be a face of $G$.
 \end{proof}
 
-...
+The case that all faces of $G[V(C)\cup\{v\}]$ have length smaller than $|C|$ naturally lends itself to an inductive argument
+bounding the number of vertices of $G$.  However, there is one problematic situation where $G[V(C)\cup\{v\}]$ has a face of length $|C|$.
+A \emph{tripod} consists of a $3$-vertex path $v_1v_2v_3$ in $C$ and a vertex $v$ whose neighbors in $C$ are exactly the vertices
+$v_1$, $v_2$, and $v_3$, where $vv_1v_2$ and $vv_2v_3$ are faces.  We say that $v$ is the \emph{summit} of the tripod and $v_2$ is its \emph{base}.
+The \emph{tripod reduction} of $G$ is the graph $G-v_2$, drawn in the disk bounded by the cycle arising from $C-v_2$ by adding the path
+$v_1vv_3$; note that this cycle has length $|C|$.  The following lemma is used to show that we cannot repeat the
+tripod reduction operation indefinitely.
+
+\begin{lemma}\label{lemma:tripstop}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$,
+and $G'$ is a subgraph of $G$ with a normal drawing in the disk bounded by a cycle $C'$, obtained
+from $G$ by repeating the tripod reduction operation.  Let $L$ be an assignment of lists of size five to vertices of $G$
+and let $\varphi$ be an $L$-coloring of $C$ that does not extend to an $L$-coloring of $G$.   Suppose no proper subgraph
+of $G'$ containing $C'$ is $C'$-critical for $L$-coloring.  Then every tripod in $G'$ has the base in $V(C)\cap V(C')$.
+\end{lemma}
+\begin{proof}
+Suppose for a contradiction $G'$ contains a tripod with base $w$ and summit $v$ such that $w\not\in V(C)$,
+i.e., at some point $w$ was the summit of a tripod used in a tripod reduction.
+Let $G_0$ be the subgraph of $G$ obtained by deleting all vertices and edges of $G'$ not contained in $C'$.
+We claim that $G_0$ has two $L$-colorings $\varphi_1$ and $\varphi_2$, both extending $\varphi$,
+that differ exactly in the color of $w$.  We color the vertices of $G_0$
+in order they appeared as summits of tripods in tripod reductions.  Until we reach $w$, we assign the same
+colors in both $\varphi_1$ and $\varphi_2$; some choice is always possible, since the summit has list of size five
+and only three already colored neighbors.  The same argument shows that when we assign the color to $w$,
+we have at least two possible choices---we use one of them in $\varphi_1$ and the other one in $\varphi_2$.
+Consider a tripod with summit $z$ that is being colored after $w$.  Then the three colored neighbors of $z$ have the
+same color in $\varphi_1$ and $\varphi_2$, with the exception of the case that $z$ is adjacent to $w$.
+Hence, we can color $z$ by a color from $L(z)$ avoiding the colors of its neighbors according to $\varphi_1$
+and the color $\varphi_2(z)$, thus extending both $\varphi_1$ and $\varphi_2$ in the same way.
+
+Since $\varphi$ does not extend to an $L$-coloring of $G$, neither $\varphi_1$ nor $\varphi_2$ extends to an $L$-coloring of
+$G'$.  By assumptions, no subgraph of $G'-vw$ is $C'$-critical for $L$-coloring, and thus $\varphi_1$ extends
+to an $L$-coloring $\varphi'_1$ of $G'-vw$.  Since $\varphi_1$ does not extend to $G'$, we have
+$\varphi'_1(v)=\varphi_1(w)\neq\varphi_2(w)$.  But then the coloring obtained from $\varphi'_1$ by changing
+the color of $w$ to $\varphi_2(w)$ extends $\varphi_2$ to an $L$-coloring of $G'$, which is a contradiction.
+\end{proof}
+
+In combination, these results are sufficient to give a simple proof that the size of graphs in the disk that are
+boundary-critical for 5-list-coloring is at most quadratic in the length of the boundary.  Before we give the argument,
+let us note an easy consequence of Theorem~\ref{thm:5choosbook}.
+\begin{lemma}\label{lemma:l5elem}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+If $G$ is $C$-critical for $5$-list-coloring, then $|C|\ge 4$ and $G$ is $2$-connected.
+\end{lemma}
+\begin{proof}
+Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
+and let $\varphi$ be an $L$-coloring of $C$ that does not extend to an $L$-coloring of $G$.
+If $C=v_1v_2v_3$ had length three, change the list of $v_1$ to $\{\varphi(v_1)\}$, the list
+of $v_2$ to $\{\varphi(v_2)\}$, and the list of $v_3$ to $\{\varphi(v_1),\varphi(v_2),\varphi(v_3)\}$.
+By Theorem~\ref{thm:5choosbook}, $G$ is colorable from these lists, giving an $L$-coloring that extends $\varphi$.
+This contradiction implies $|C|\ge 4$.
+
+Suppose now $G$ is not $2$-connected, and thus $G$ contains a $2$-connected block $B$ intersecting
+the rest of the graph only in a single vertex $z$, such that $C\not\subseteq B$.  By Theorem~\ref{thm:5choosbook},
+every precoloring of $z$ extends to an $L$-coloring of $G$, contradicting the $C$-criticality of $G$ for $L$-coloring.
+Hence, $G$ is $2$-connected.
+\end{proof}
+
+For $\varepsilon>0$ and a face $f$, let $w_\varepsilon(f)=\varepsilon$ if $|f|=3$ and $w(k)=|f|-7/2$ otherwise.  For a graph $G$ with a
+normal drawing in the disk, let $w_\varepsilon(G)=\sum_{f\in F(G)} w_\varepsilon(f)$.
+The following theorem applied with $\varepsilon=\tfrac{1}{4(|C|+1)}$ shows that a critical graph has $O(|C|/\varepsilon)=O(|C|^2)$ faces, and since the weight of faces
+grows with their length, this implies a quadratic bound on the number of vertices as well.
+
+\begin{theorem}\label{thm:l5-quadr}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$,
+and $0<\varepsilon\le \tfrac{1}{4(|C|+1)}$.  If $G$ is $C$-critical for $5$-list-coloring, then
+$$w_\varepsilon(G)\le |C|-4+2\varepsilon.$$
+\end{theorem}
+\begin{proof}
+We prove the theorem by induction, and thus we can assume it holds for all graphs with fewer than $|E(G)|$ edges.
+Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
+and let $\varphi$ be an $L$-coloring of $C$ that does not extend to an $L$-coloring of $G$.
+If $C$ has a chord $e$, then let $K_1$ and $K_2$ be the cycles in $C+e$ distinct from $C$.
+By the induction hypothesis,
+$$w_\varepsilon(G)=w_\varepsilon(G_{K_1})+w_\varepsilon(G_{K_2})\le (|K_1|-3+\varepsilon)+(|K_2|-3+\varepsilon)=|C|-4+2\varepsilon,$$
+and the conclusion of the theorem holds.  Hence, we can assume $C$ is an induced cycle.
+
+Let $G'$ be a subgraph of $G$ with a normal drawing in the disk bounded by a cycle $C'$, obtained
+from $G$ by repeating the tripod reduction operation on tripods with base in $V(C)$.
+Note that $|C'|=|C|$, $C'$ is an induced cycle in $G'$, and $F(G)\setminus F(G')$ consists of at most $2|C|$ faces of length three.
+
+Let us first consider the case that $G'$ has a proper subgraph $G''$ containing $C'$ and $C'$-critical for $L$-coloring.
+By the induction hypothesis, we have $w_\varepsilon(G'')\le |C|-4+2\varepsilon$.
+Recall that $G''$ is $2$-connected by Lemma~\ref{lemma:l5elem}.
+Consider a face $f$ of $G''$ that is not also a face of $G$, bounded by a cycle $K$.  Note that $|K|\ge 4$ by Lemma~\ref{lemma:l5elem}.
+Furthermore, we have $w_\varepsilon(f)\le w_\varepsilon(G'')\le |C|-4+2\varepsilon$, and thus $|K|<|C|$.
+By the induction hypothesis, we have $w_\varepsilon(G_K)\le |K|-4+2\varepsilon=w_\varepsilon(f)-(1/2-2\varepsilon)$.
+In $G''$, $f$ is replaced by $G_K$, and since $G''\neq G'$, at least one such replacement must occur.  We conclude that
+$w_\varepsilon(G'')\le w_\varepsilon(G')-(1/2-2\varepsilon)$.  Therefore,
+$$w_\varepsilon(G)\le w_\varepsilon(G')+2|C|\varepsilon\le w_\varepsilon(G'')-(1/2-2(|C|+1)\varepsilon)\le w_\varepsilon(G'')\le |C|-4+2\varepsilon,$$
+as required.
+
+Hence, we can assume no proper subgraph of $G'$ containing $C'$ is $C'$-critical for $L$-coloring.
+By Lemma~\ref{lemma:tripstop} and the choice of $G'$, we conclude $G'$ contains no tripod.
+By Corollary~\ref{cor:tripod}, there exist $v\in V(G')\setminus V(C')$ and three neighbors
+$v_1$, $v_2$, and $v_3$ of $v$ in $C'$, such that, denoting by $K_1$, $K_2$, and $K_3$ the three
+facial cycles of $C'+\{vv_1,vv_2,vv_3\}$, $|K_2|\ge 4$ and $G_{K_3}\neq K_3$.
+Hence, by the induction hypothesis, we have $w_\varepsilon(G_{K_1})\le |K_1|-3+\varepsilon$,
+$w_\varepsilon(G_{K_2})\le |K_2|-7/2$, and $w_\varepsilon(G_{K_3})\le |K_3|-4+2\varepsilon$,
+implying
+\begin{align*}
+w_\varepsilon(G)&\le w_\varepsilon(G')+2|C|\varepsilon=2|C|\varepsilon+\sum_{i=1}^3 w_\varepsilon(G_{K_i})\\
+&\le |K_1|+|K_2|+|K_3|-21/2+(2|C|+3)\varepsilon\le |K_1|+|K_2|+|K_3|-10+2\varepsilon\\
+&=|C|-4+2\varepsilon,
+\end{align*}
+as required.
+\end{proof}
+
+% AMHERE
 
 \chapter{Hyperbolicity}\label{chap:hyper}
 
