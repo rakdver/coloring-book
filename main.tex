@@ -6862,7 +6862,7 @@ every precoloring of $z$ extends to an $L$-coloring of $G$, contradicting the $C
 Hence, $G$ is $2$-connected.
 \end{proof}
 
-For $\varepsilon>0$ and a face $f$, let $w_\varepsilon(f)=\varepsilon$ if $|f|=3$ and $w(k)=|f|-7/2$ otherwise.  For a graph $G$ with a
+For $\varepsilon>0$ and a face $f$, let $w_\varepsilon(f)=\varepsilon$ if $|f|=3$ and $w(f)=|f|-7/2$ otherwise.  For a graph $G$ with a
 normal drawing in the disk, let $w_\varepsilon(G)=\sum_{f\in F(G)} w_\varepsilon(f)$.
 The following theorem applied with $\varepsilon=\tfrac{1}{4(|C|+1)}$ shows that a critical graph has $O(|C|/\varepsilon)=O(|C|^2)$ faces, and since the weight of faces
 grows with their length, this implies a quadratic bound on the number of vertices as well.
@@ -6912,7 +6912,81 @@ w_\varepsilon(G)&\le w_\varepsilon(G')+2|C|\varepsilon=2|C|\varepsilon+\sum_{i=1
 as required.
 \end{proof}
 
-% AMHERE
+To obtain a linear bound, we need information about the degrees of tripod summits.
+To this end, let us add another term into the weight function.  For a graph $G$ drawn normally
+in a disk bounded by a cycle $C$, let $b(G)=\sum_{v\in V(C)} (\deg(v)-2)$ be the number of
+internal edges incident with vertices of $C$ (counting chords twice).  If $G'$ is the tripod
+reduction of $G$ on a tripod with summit of degree $d$, we have $b(G')=b(G)+d-6$.  Thus, in
+particular in case $d\ge 7$, we could use the increase in $b(G)$ to compensate for the two faces
+of length three lost in the reduction.
+
+Hence, let us fix $\varepsilon=...$ and $\gamma=...$, for a face $f$ let $w(f)=\varepsilon$ if $|f|=3$ and $w(f)=|f|-7/2$ otherwise,
+and for a graph $G$ with a normal drawing in the disk, let
+$$w(G)=\gamma b(G)+\sum_{f\in F(G)} w(f).$$
+\begin{theorem}\label{thm:l5-lin}
+Suppose $G$ is a graph with a normal drawing in the disk bounded by a cycle $C$.
+If $G$ is $C$-critical for $5$-list-coloring, then
+$$w(G)\le |C|-4+2\gamma+2\varepsilon.$$
+\end{theorem}
+The initial stages of the proof of Theorem~\ref{thm:l5-lin} proceed similarly to the proof
+of Theorem~\ref{thm:l5-quadr}.  We say $G$ is a \emph{counterexample} if $G$ is $C$-critical for $5$-list-coloring
+and $w(G)>|C|-4+2\gamma+2\varepsilon$, and a \emph{minimal counterexample} if $G$ has the smallest number of vertices
+among all counterexamples.
+\begin{lemma}\label{lemma:l5-lin-basic}
+Suppose $G$ is a minimal counterexample, with a normal drawing in the disk bounded by a cycle $C$.
+Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
+and let $\varphi$ be an $L$-coloring of $C$ that does not extend to an $L$-coloring of $G$.
+Let $G'$ be obtained from $G$ by at most $2$ tripod reductions and let $C'$ be the cycle bounding $G'$.
+\begin{itemize}
+\item $C$ is an induced cycle,
+\item no vertex in $V(G')\setminus V(C')$ has more than three neighbors in $C'$, and if such a vertex
+has three neighbors in $C'$, then it is the summit of a tripod, and
+\item the base of every tripod in $G'$ belongs to $C$.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+If $C$ has a chord $e$, then let $K_1$ and $K_2$ be the cycles in $C+e$ distinct from $C$.
+By the minimality of $G$, we have
+\begin{align*}
+w(G)&=w(G_{K_1})+w(G_{K_2})+2\gamma\le (|K_1|-3+\varepsilon)+(|K_2|-3+\varepsilon)+2\gamma\\
+&=|C|-4+2\varepsilon+2\gamma,
+\end{align*}
+contradicting the assumption that $G$ is a counterexample.   Hence, $C$ is an induced cycle.
+
+Consequently, $C'$ is also an induced cycle in $G'$.  Since vertices in $V(G)\setminus V(C)$
+have degree at least five, each tripod reduction decreases $b(G)$ by at most one, and thus
+$w(G)\le w(G')+4\varepsilon+2\gamma$.
+
+Suppose that a vertex $v\in V(G')$ either has at least four neighbors in $C'$, or three neighbors
+and $v$ is not the summit of a tripod.  Then, $v$ has three neighbors $v_1$, $v_2$, and $v_3$
+in $C'$ such that, denoting by $K_1$, $K_2$, and $K_3$ the three
+facial cycles of $C'+\{vv_1,vv_2,vv_3\}$, $|K_2|\ge 4$ and $G_{K_3}\neq K_3$.
+By the minimality of $G$, we have $w(G_{K_1})\le |K_1|-3+\varepsilon$,
+$w(G_{K_2})\le |K_2|-7/2$, and $w(G_{K_3})\le |K_3|-4+2\varepsilon+2\gamma$,
+implying
+\begin{align*}
+w(G)&\le w(G')+4\varepsilon+2\gamma\le 4\varepsilon+5\gamma+\sum_{i=1}^3 w_\varepsilon(G_{K_i})\\
+&\le |K_1|+|K_2|+|K_3|-21/2+7\varepsilon+7\gamma\le |K_1|+|K_2|+|K_3|-10+2\varepsilon+2\gamma\\
+&=|C|-4+2\varepsilon+2\gamma,
+\end{align*}
+contradicting the assumption that $G$ is a counterexample.   Hence, each such vertex is the summit
+of a tripod.
+
+Next, consider the case that $G'$ has a proper subgraph $G''$ containing $C'$ and $C'$-critical for $L$-coloring.
+By the minimality of $G$, we have $w(G'')\le |C|-4+2\varepsilon+2\gamma$.
+Note that $G''$ is $2$-connected by Lemma~\ref{lemma:l5elem}.
+Consider a face $f$ of $G''$ that is not also a face of $G$, bounded by a cycle $K$.  We have $|K|\ge 4$ by Lemma~\ref{lemma:l5elem}.
+Furthermore, we have $w(f)\le w(G'')\le |C|-4+2\varepsilon+2\gamma$, and thus $|K|<|C|$.
+By the minimality of $G$, we have $w(G_K)\le |K|-4+2\varepsilon+2\gamma=w(f)-(1/2-2\varepsilon-2\gamma)$.
+In $G''$, $f$ is replaced by $G_K$, and since $G''\neq G'$, at least one such replacement must occur.  We conclude that
+$w(G'')\le w(G')-(1/2-2\varepsilon-2\gamma)$.  Therefore,
+\begin{align*}
+w(G)&\le w(G')+4\varepsilon+2\gamma\le w(G'')-(1/2-6\varepsilon-4\gamma)\\
+&\le w(G'')\le |C|-4+2\varepsilon+2\gamma,
+\end{align*}
+contradicting the assumption that $G$ is a counterexample.   Hence, no such proper subgraph exists.
+Therefore, Lemma~\ref{lemma:tripstop} implies that the base of every tripod in $G'$ belongs to $C$.
+\end{proof}
 
 \chapter{Hyperbolicity}\label{chap:hyper}
 
