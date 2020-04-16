@@ -6889,7 +6889,7 @@ Let us first consider the case that $G'$ has a proper subgraph $G''$ containing 
 By the induction hypothesis, we have $w_\varepsilon(G'')\le |C|-4+2\varepsilon$.
 Recall that $G''$ is $2$-connected by Lemma~\ref{lemma:l5elem}.
 Consider a face $f$ of $G''$ that is not also a face of $G$, bounded by a cycle $K$.  Note that $|K|\ge 4$ by Lemma~\ref{lemma:l5elem}.
-Furthermore, we have $w_\varepsilon(f)\le w_\varepsilon(G'')\le |C|-4+2\varepsilon$, and thus $|K|<|C|$.
+%Furthermore, we have $w_\varepsilon(f)\le w_\varepsilon(G'')\le |C|-4+2\varepsilon$, and thus $|K|<|C|$.
 By the induction hypothesis, we have $w_\varepsilon(G_K)\le |K|-4+2\varepsilon=w_\varepsilon(f)-(1/2-2\varepsilon)$.
 In $G''$, $f$ is replaced by $G_K$, and since $G''\neq G'$, at least one such replacement must occur.  We conclude that
 $w_\varepsilon(G'')\le w_\varepsilon(G')-(1/2-2\varepsilon)$.  Therefore,
@@ -6931,17 +6931,22 @@ $$w(G)\le |C|-4+2\gamma+2\varepsilon.$$
 The initial stages of the proof of Theorem~\ref{thm:l5-lin} proceed similarly to the proof
 of Theorem~\ref{thm:l5-quadr}.  We say $G$ is a \emph{counterexample} if $G$ is $C$-critical for $5$-list-coloring
 and $w(G)>|C|-4+2\gamma+2\varepsilon$, and a \emph{minimal counterexample} if $G$ has the smallest number of vertices
-among all counterexamples.
+among all counterexamples.  
+We say that a tripod reduction is \emph{neutral} if it is performed on a tripod whose summit
+has degree six.
 \begin{lemma}\label{lemma:l5-lin-basic}
 Suppose $G$ is a minimal counterexample, with a normal drawing in the disk bounded by a cycle $C$.
 Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
 and let $\varphi$ be an $L$-coloring of $C$ that does not extend to an $L$-coloring of $G$.
-Let $G'$ be obtained from $G$ by at most $2$ tripod reductions and let $C'$ be the cycle bounding $G'$.
+Let $G'$ be obtained from $G$ by at most BLA tripod reductions and let $C'$ be the cycle bounding $G'$.
 \begin{itemize}
 \item $C$ is an induced cycle,
 \item no vertex in $V(G')\setminus V(C')$ has more than three neighbors in $C'$, and if such a vertex
-has three neighbors in $C'$, then it is the summit of a tripod, and
+has three neighbors in $C'$, then it is the summit of a tripod, 
+\item no proper subgraph $G''$ of $G'$ containing $C'$ is $C'$-critical for $L$-coloring, and
 \item the base of every tripod in $G'$ belongs to $C$.
+\item Moreover, if all tripod reductions used to obtain $G'$ are neutral, then the summit of every
+tripod in $G'$ has degree at most six.
 \end{itemize}
 \end{lemma}
 \begin{proof}
@@ -6955,7 +6960,7 @@ contradicting the assumption that $G$ is a counterexample.   Hence, $C$ is an in
 
 Consequently, $C'$ is also an induced cycle in $G'$.  Since vertices in $V(G)\setminus V(C)$
 have degree at least five, each tripod reduction decreases $b(G)$ by at most one, and thus
-$w(G)\le w(G')+4\varepsilon+2\gamma$.
+$w(G)\le w(G')+2BLA\varepsilon+BLA\gamma$.
 
 Suppose that a vertex $v\in V(G')$ either has at least four neighbors in $C'$, or three neighbors
 and $v$ is not the summit of a tripod.  Then, $v$ has three neighbors $v_1$, $v_2$, and $v_3$
@@ -6965,8 +6970,8 @@ By the minimality of $G$, we have $w(G_{K_1})\le |K_1|-3+\varepsilon$,
 $w(G_{K_2})\le |K_2|-7/2$, and $w(G_{K_3})\le |K_3|-4+2\varepsilon+2\gamma$,
 implying
 \begin{align*}
-w(G)&\le w(G')+4\varepsilon+2\gamma\le 4\varepsilon+5\gamma+\sum_{i=1}^3 w_\varepsilon(G_{K_i})\\
-&\le |K_1|+|K_2|+|K_3|-21/2+7\varepsilon+7\gamma\le |K_1|+|K_2|+|K_3|-10+2\varepsilon+2\gamma\\
+w(G)&\le w(G')+2BlA\varepsilon+BLA\gamma\le 2BLA\varepsilon+(BLA+3)\gamma+\sum_{i=1}^3 w_\varepsilon(G_{K_i})\\
+&\le |K_1|+|K_2|+|K_3|-21/2+(2BLA+3)\varepsilon+(BLA+5)\gamma\le |K_1|+|K_2|+|K_3|-10+2\varepsilon+2\gamma\\
 &=|C|-4+2\varepsilon+2\gamma,
 \end{align*}
 contradicting the assumption that $G$ is a counterexample.   Hence, each such vertex is the summit
@@ -6976,17 +6981,93 @@ Next, consider the case that $G'$ has a proper subgraph $G''$ containing $C'$ an
 By the minimality of $G$, we have $w(G'')\le |C|-4+2\varepsilon+2\gamma$.
 Note that $G''$ is $2$-connected by Lemma~\ref{lemma:l5elem}.
 Consider a face $f$ of $G''$ that is not also a face of $G$, bounded by a cycle $K$.  We have $|K|\ge 4$ by Lemma~\ref{lemma:l5elem}.
-Furthermore, we have $w(f)\le w(G'')\le |C|-4+2\varepsilon+2\gamma$, and thus $|K|<|C|$.
+%Furthermore, we have $w(f)\le w(G'')\le |C|-4+2\varepsilon+2\gamma$, and thus $|K|<|C|$.
 By the minimality of $G$, we have $w(G_K)\le |K|-4+2\varepsilon+2\gamma=w(f)-(1/2-2\varepsilon-2\gamma)$.
 In $G''$, $f$ is replaced by $G_K$, and since $G''\neq G'$, at least one such replacement must occur.  We conclude that
 $w(G'')\le w(G')-(1/2-2\varepsilon-2\gamma)$.  Therefore,
 \begin{align*}
-w(G)&\le w(G')+4\varepsilon+2\gamma\le w(G'')-(1/2-6\varepsilon-4\gamma)\\
+w(G)&\le w(G')+2BLA\varepsilon+BLA\gamma\le w(G'')-(1/2-(2BLA+2)\varepsilon-(BLA+2)\gamma)\\
 &\le w(G'')\le |C|-4+2\varepsilon+2\gamma,
 \end{align*}
 contradicting the assumption that $G$ is a counterexample.   Hence, no such proper subgraph exists.
 Therefore, Lemma~\ref{lemma:tripstop} implies that the base of every tripod in $G'$ belongs to $C$.
+
+Assume now all tripod reductions used to obtain $G'$ are neutral, and thus they do not change $b(G)$.
+Consequently, $w(G)\le w(G')+2BLA\varepsilon$.  Suppose $G'$ contains a tripod with summit of degree at least $7$,
+and let $G''$ be the corresponding tripod reduction; we have $w(G')\le w(G'')+2\varepsilon-\gamma$,
+and thus $w(G)\le w(G'')+(2BLA+2)\varepsilon-\gamma\le w(G'')$, contradicting the minimality of $G$.
+Therefore, the summit of every tripod in $G'$ has degree at most six.
 \end{proof}
+
+Next, we restrict tripod adjacencies.
+
+\begin{lemma}\label{lemma:l5-tripadj}
+Suppose $G$ is a minimal counterexample, with a normal drawing in the disk bounded by a cycle $C$.
+Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
+and let $\varphi$ be an $L$-coloring of $C$ that does not extend to an $L$-coloring of $G$.
+Let $G'$ be obtained from $G$ by at most QUA tripod reductions and let $C'$ be the cycle bounding $G'$.
+Let $T_1$ be a tripod in $G'$, consisting of a vertex $v$ adjacent to vertices of a subpath $v_1v_2v_3$ of $C'$,
+and let $T_2$ be a tripod in the tripod reduction of $G'$ on $T_1$, consisting of a vertex $w$
+adjacent to vertices of path $vv_3v_4$.  Then $\deg_G(v)\ge 6$, and if all the tripod reductions
+used to create $G'$ are neutral, then $\deg(w)=5$.
+\end{lemma}
+\begin{proof}
+Suppose for a contradiction that either $\deg_G(v)=5$, or all the tripod reductions
+used to create $G'$ are neutral and $\deg(w)\ge 6$.  Note that in the latter case, we have $\deg_G(v)\le 6$
+by Lemma~\ref{lemma:l5-basic}.
+Furthermore, $w(G)\le w(G')+2QUA\varepsilon+QUA\gamma$, and if all the tripod reductions used to create $G'$ are neutral,
+then $w(G)\le w(G')+2QUA\varepsilon$.  
+
+Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
+Let $\varphi$ be an $L$-coloring of $C'$ that does not extend to an $L$-coloring of $G'$.  By Lemma~\ref{lemma:l5-basic},
+$G'$ has no proper subgraph containing $C'$ and $C'$-critical for $L$-coloring, and thus $\varphi$ extends to an $L$-coloring
+of every proper subgraph of $G'$ containing $C'$.  Consequently, the colors $\varphi(v_1)$, $\varphi(v_2)$, and $\varphi(v_3)$
+are distinct and all of them belong to $L(v)$.  Indeed, suppose for a contradiction that for some distinct $i,j\in\{1,2,3\}$,
+$\varphi(v_i)$ does not belong to $L(v)\setminus \{\varphi(v_j)\}$.  The coloring $\varphi$ extends to an $L$-coloring $\psi$
+of $G'-vv_i$, and since $\varphi(v_i)\not\in L(v)\setminus \{\varphi(v_j)\}$ and $\psi(v)\in L(v)\setminus \{\varphi(v_j)\}$,
+this coloring would also be proper in $G'$, which is a contradiction.
+
+Therefore, letting $A=L(v)\setminus\{\varphi(v_1),\varphi(v_2),\varphi(v_3)\}$, we have $|A|=2$, and thus there exists a color
+$c\in L(w)\setminus (A\cup\{\varphi(v_3),\varphi(v_4)\})$.  Let $G_1$ be the graph obtained from $G'$ by contracting the edge
+$v_3w$ to a new vertex $w_3$, suppressing the parallel edges $vw_1$ and $w_1v_4$.  Let $c_2$ and $c_3$ be new colors that do not
+appear in any of the lists.  Let $L_1$ be the list assignment for $G_1$ obtained from $L$ by the following changes:
+we change the lists of $v_2$ and $w_3$  to any list of size five containing $c_2$ and $c_3$, we replace $c$ by $c_3$
+in the lists of all neighbors of $w$, and we set $L_1(v)=A\cup\{\varphi(v_1),c_2,c_3\}$.  We let $\varphi_1$ be the $L_1$-coloring
+of $C'$ obtained from $\varphi$ by setting $\varphi_1(v_2)=c_2$ and $\varphi_1(w_3)=c_3$.
+Note that $\varphi_1$ does not extend to an $L_1$-coloring of $G_1$, since such a coloring could be turned int an $L$-coloring of $G'$
+extending $\varphi$ by changing back the colors of $v_2$ and $v_3$ and giving $w$ the color $c$.
+
+Hence, $G_1$ contains a subgraph $G_2$ containing $C'$ and $C'$-critical for $L_1$-coloring.
+We have $\deg_{G_1}(v)=\deg_G(v)-1$.  Since $\deg_G(v)\le 6$,
+if $v\in V(G_2)$, then $\deg_G(v)=6$, $\deg_{G_2}(v)=5$, and all edges of $G_1$ incident with $v$ belong to $G_2$;
+in particular, this includes the edges $vv_1$, $vv_2$, and $vw_3$.  Let $G_3$ be the subgraph of $G$ obtained
+by first adding $v$ and the edges $vv_1$, $vv_2$, and $vw_3$ if they are not present, and then splitting $w_3$ back into $v_3$
+and $w$ and adding the edges $vw$, $v_3w$, and $v_4w$.  Let $a$ denote the number of neighbors of $w_3$ in $G_2$ distinct
+from $v_2$, $v$, and $v_4$; we have $a\ge 1$, as otherwise $G_2$ would be a proper subgraph of $G'$.
+Note that $w(G_3)=w(G_2)+2\varepsilon+(2-a)\gamma$ if $v\in V(G_2)$
+and $w(G_3)=w(G_2)+4\varepsilon+(5-a)\gamma$ if $v\not\in V(G_2)$.
+
+Let us first consider the case that $G_3\neq G'$.  In order to obtain $G'$ from $G_3$, we replace
+at least one face $f$ of $G_3$ bounded by a cycle $K$ by the subgraph $G_K$.
+By the minimality of $G$, we have $w(G_K)\le |K|-4+2\varepsilon+2\gamma=w(f)-(1/2-2\varepsilon-2\gamma)$,
+and thus
+\begin{align*}
+w(G)&\le w(G')+2QUA\varepsilon+QUA\gamma\le w(G_3)-(1/2-(2QUA+2)\varepsilon-(QUA+2)\gamma)\\
+&\le w(G_2)-(1/2-(2QUA+4)\varepsilon-(QUA+6)\gamma)\le w(G_2),
+\end{align*}
+contradicting the minimality of $G$.
+
+Therefore, we have $G_3=G'$.  This implies that $v\in V(G_2)$, as otherwise $G_3$ would miss at least one edge incident with $v$.
+Consequently, $\deg_G(v)=6$, and by the assumptions, all the tripod reductions used to create $G'$ are neutral and $\deg(w)\ge 6$.
+Moreover, we have $a=\deg(w)-3\ge 3$, and thus
+\begin{align*}
+w(G)&\le w(G')+2QUA\varepsilon=w(G_3)+2QUA\varepsilon\\
+&\le w(G_2)+(2QUA+2)\varepsilon-\gamma\le w(G_2),
+\end{align*}
+again contradicting the minimality of $G$.
+\end{proof}
+
+...
 
 \chapter{Hyperbolicity}\label{chap:hyper}
 
