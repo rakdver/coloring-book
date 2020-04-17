@@ -6920,7 +6920,7 @@ reduction of $G$ on a tripod with summit of degree $d$, we have $b(G')=b(G)+d-6$
 particular in case $d\ge 7$, we could use the increase in $b(G)$ to compensate for the two faces
 of length three lost in the reduction.
 
-Hence, let us fix $\varepsilon=...$ and $\gamma=...$, for a face $f$ let $w(f)=\varepsilon$ if $|f|=3$ and $w(f)=|f|-7/2$ otherwise,
+Hence, let us fix $\varepsilon=1/600$ and $\gamma=1/30$, for a face $f$ let $w(f)=\varepsilon$ if $|f|=3$ and $w(f)=|f|-7/2$ otherwise,
 and for a graph $G$ with a normal drawing in the disk, let
 $$w(G)=\gamma b(G)+\sum_{f\in F(G)} w(f).$$
 \begin{theorem}\label{thm:l5-lin}
@@ -6938,7 +6938,7 @@ has degree six.
 Suppose $G$ is a minimal counterexample, with a normal drawing in the disk bounded by a cycle $C$.
 Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
 and let $\varphi$ be an $L$-coloring of $C$ that does not extend to an $L$-coloring of $G$.
-Let $G'$ be obtained from $G$ by at most BLA tripod reductions and let $C'$ be the cycle bounding $G'$.
+Let $G'$ be obtained from $G$ by at most nine tripod reductions and let $C'$ be the cycle bounding $G'$.
 \begin{itemize}
 \item $C$ is an induced cycle,
 \item no vertex in $V(G')\setminus V(C')$ has more than three neighbors in $C'$, and if such a vertex
@@ -6960,7 +6960,7 @@ contradicting the assumption that $G$ is a counterexample.   Hence, $C$ is an in
 
 Consequently, $C'$ is also an induced cycle in $G'$.  Since vertices in $V(G)\setminus V(C)$
 have degree at least five, each tripod reduction decreases $b(G)$ by at most one, and thus
-$w(G)\le w(G')+2BLA\varepsilon+BLA\gamma$.
+$w(G)\le w(G')+18\varepsilon+9\gamma$.
 
 Suppose that a vertex $v\in V(G')$ either has at least four neighbors in $C'$, or three neighbors
 and $v$ is not the summit of a tripod.  Then, $v$ has three neighbors $v_1$, $v_2$, and $v_3$
@@ -6970,8 +6970,8 @@ By the minimality of $G$, we have $w(G_{K_1})\le |K_1|-3+\varepsilon$,
 $w(G_{K_2})\le |K_2|-7/2$, and $w(G_{K_3})\le |K_3|-4+2\varepsilon+2\gamma$,
 implying
 \begin{align*}
-w(G)&\le w(G')+2BlA\varepsilon+BLA\gamma\le 2BLA\varepsilon+(BLA+3)\gamma+\sum_{i=1}^3 w_\varepsilon(G_{K_i})\\
-&\le |K_1|+|K_2|+|K_3|-21/2+(2BLA+3)\varepsilon+(BLA+5)\gamma\le |K_1|+|K_2|+|K_3|-10+2\varepsilon+2\gamma\\
+w(G)&\le w(G')+2BlA\varepsilon+9\gamma\le 18\varepsilon+12\gamma+\sum_{i=1}^3 w_\varepsilon(G_{K_i})\\
+&\le |K_1|+|K_2|+|K_3|-21/2+21\varepsilon+14\gamma\le |K_1|+|K_2|+|K_3|-10+2\varepsilon+2\gamma\\
 &=|C|-4+2\varepsilon+2\gamma,
 \end{align*}
 contradicting the assumption that $G$ is a counterexample.   Hence, each such vertex is the summit
@@ -6981,21 +6981,20 @@ Next, consider the case that $G'$ has a proper subgraph $G''$ containing $C'$ an
 By the minimality of $G$, we have $w(G'')\le |C|-4+2\varepsilon+2\gamma$.
 Note that $G''$ is $2$-connected by Lemma~\ref{lemma:l5elem}.
 Consider a face $f$ of $G''$ that is not also a face of $G$, bounded by a cycle $K$.  We have $|K|\ge 4$ by Lemma~\ref{lemma:l5elem}.
-%Furthermore, we have $w(f)\le w(G'')\le |C|-4+2\varepsilon+2\gamma$, and thus $|K|<|C|$.
 By the minimality of $G$, we have $w(G_K)\le |K|-4+2\varepsilon+2\gamma=w(f)-(1/2-2\varepsilon-2\gamma)$.
 In $G''$, $f$ is replaced by $G_K$, and since $G''\neq G'$, at least one such replacement must occur.  We conclude that
 $w(G'')\le w(G')-(1/2-2\varepsilon-2\gamma)$.  Therefore,
 \begin{align*}
-w(G)&\le w(G')+2BLA\varepsilon+BLA\gamma\le w(G'')-(1/2-(2BLA+2)\varepsilon-(BLA+2)\gamma)\\
+w(G)&\le w(G')+18\varepsilon+9\gamma\le w(G'')-(1/2-20\varepsilon-11\gamma)\\
 &\le w(G'')\le |C|-4+2\varepsilon+2\gamma,
 \end{align*}
 contradicting the assumption that $G$ is a counterexample.   Hence, no such proper subgraph exists.
 Therefore, Lemma~\ref{lemma:tripstop} implies that the base of every tripod in $G'$ belongs to $C$.
 
 Assume now all tripod reductions used to obtain $G'$ are neutral, and thus they do not change $b(G)$.
-Consequently, $w(G)\le w(G')+2BLA\varepsilon$.  Suppose $G'$ contains a tripod with summit of degree at least $7$,
+Consequently, $w(G)\le w(G')+18\varepsilon$.  Suppose $G'$ contains a tripod with summit of degree at least $7$,
 and let $G''$ be the corresponding tripod reduction; we have $w(G')\le w(G'')+2\varepsilon-\gamma$,
-and thus $w(G)\le w(G'')+(2BLA+2)\varepsilon-\gamma\le w(G'')$, contradicting the minimality of $G$.
+and thus $w(G)\le w(G'')+20\varepsilon-\gamma\le w(G'')$, contradicting the minimality of $G$.
 Therefore, the summit of every tripod in $G'$ has degree at most six.
 \end{proof}
 
@@ -7003,9 +7002,7 @@ Next, we restrict tripod adjacencies.
 
 \begin{lemma}\label{lemma:l5-tripadj}
 Suppose $G$ is a minimal counterexample, with a normal drawing in the disk bounded by a cycle $C$.
-Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
-and let $\varphi$ be an $L$-coloring of $C$ that does not extend to an $L$-coloring of $G$.
-Let $G'$ be obtained from $G$ by at most QUA tripod reductions and let $C'$ be the cycle bounding $G'$.
+Let $G'$ be obtained from $G$ by at most six tripod reductions and let $C'$ be the cycle bounding $G'$.
 Let $T_1$ be a tripod in $G'$, consisting of a vertex $v$ adjacent to vertices of a subpath $v_1v_2v_3$ of $C'$,
 and let $T_2$ be a tripod in the tripod reduction of $G'$ on $T_1$, consisting of a vertex $w$
 adjacent to vertices of path $vv_3v_4$.  Then $\deg_G(v)\ge 6$, and if all the tripod reductions
@@ -7015,8 +7012,8 @@ used to create $G'$ are neutral, then $\deg(w)=5$.
 Suppose for a contradiction that either $\deg_G(v)=5$, or all the tripod reductions
 used to create $G'$ are neutral and $\deg(w)\ge 6$.  Note that in the latter case, we have $\deg_G(v)\le 6$
 by Lemma~\ref{lemma:l5-basic}.
-Furthermore, $w(G)\le w(G')+2QUA\varepsilon+QUA\gamma$, and if all the tripod reductions used to create $G'$ are neutral,
-then $w(G)\le w(G')+2QUA\varepsilon$.  
+Furthermore, $w(G)\le w(G')+12\varepsilon+6\gamma$, and if all the tripod reductions used to create $G'$ are neutral,
+then $w(G)\le w(G')+12\varepsilon$.  
 
 Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
 Let $\varphi$ be an $L$-coloring of $C'$ that does not extend to an $L$-coloring of $G'$.  By Lemma~\ref{lemma:l5-basic},
@@ -7052,8 +7049,8 @@ at least one face $f$ of $G_3$ bounded by a cycle $K$ by the subgraph $G_K$.
 By the minimality of $G$, we have $w(G_K)\le |K|-4+2\varepsilon+2\gamma=w(f)-(1/2-2\varepsilon-2\gamma)$,
 and thus
 \begin{align*}
-w(G)&\le w(G')+2QUA\varepsilon+QUA\gamma\le w(G_3)-(1/2-(2QUA+2)\varepsilon-(QUA+2)\gamma)\\
-&\le w(G_2)-(1/2-(2QUA+4)\varepsilon-(QUA+6)\gamma)\le w(G_2),
+w(G)&\le w(G')+12\varepsilon+6\gamma\le w(G_3)-(1/2-14\varepsilon-8\gamma)\\
+&\le w(G_2)-(1/2-16\varepsilon-12\gamma)\le w(G_2),
 \end{align*}
 contradicting the minimality of $G$.
 
@@ -7061,13 +7058,68 @@ Therefore, we have $G_3=G'$.  This implies that $v\in V(G_2)$, as otherwise $G_3
 Consequently, $\deg_G(v)=6$, and by the assumptions, all the tripod reductions used to create $G'$ are neutral and $\deg(w)\ge 6$.
 Moreover, we have $a=\deg(w)-3\ge 3$, and thus
 \begin{align*}
-w(G)&\le w(G')+2QUA\varepsilon=w(G_3)+2QUA\varepsilon\\
-&\le w(G_2)+(2QUA+2)\varepsilon-\gamma\le w(G_2),
+w(G)&\le w(G')+12\varepsilon=w(G_3)+12\varepsilon\\
+&\le w(G_2)+14\varepsilon-\gamma\le w(G_2),
 \end{align*}
 again contradicting the minimality of $G$.
 \end{proof}
 
-...
+Lemma~\ref{lemma:l5-tripadj} enables us to further constrain degrees of tripod summits.
+
+\begin{corollary}\label{cor:l5-onelevel}
+Suppose $G$ is a minimal counterexample, with a normal drawing in the disk bounded by a cycle $C$.
+Let $G'$ be obtained from $G$ by the tripod reduction of all tripods in $G$ whose summit has degree six,
+and let $C'$ be the cycle bounding $G'$.  Then every vertex $w\in V(G')\setminus V(C')$ with at least three
+neighbors in $C'$ has degree five and is a summit of a tripod.
+\end{corollary}
+\begin{proof}
+Let $v_1$, $v_2$, and $v_3$ be three neighbors of $w$ in $C'$; in case $w$ is not the summit of a tripod,
+choose them so that $C'[\{v_1,v_2,v_3\}]$ is not a path.  Let $G_1$ be the graph obtained from $G$ by
+performing the (neutral) tripod reductions on the tripods with summits in $\{v_1,v_2,v_3\}\setminus V(C)$,
+and let $C_1$ be the cycle bounding $G_1$.  Note that $v_1,v_2,v_3\in V(C_1)$, and by Lemma~\ref{lemma:l5-lin-basic},
+$w$ is the summit of a tripod in $G_1$.  This implies that $v_1v_2v_3$ is a path in $C_1$, and thus also in $C'$.
+Therefore, $w$ is the summit of a tripod in $G'$.  Lemma~\ref{lemma:l5-lin-basic} also implies $v_2\in V(C)$
+and $\deg(w)\le 6$.
+
+If $v_1,v_3\in V(C)$, then $w$ is also the summit of a tripod in $G$.  Since $w\not\in V(C')$, we did not perform
+the tripod reducion on this tripod when constructing $G'$, and thus $\deg(w)\neq 6$; this implies $\deg(w)=5$.
+
+Suppose now that say $v_1\not\in V(C)$.  If $v_3\in V(C)$, then let $G_2=G$, otherwise let $G_2$ be the graph obtained
+from $G$ by performing the (neutral) tripod reduction on the tripod with summit $v_3$.  Lemma~\ref{lemma:l5-tripadj}
+applied in $G_2$, with $T_1$ being the tripod with summit $v_1$ and $T_2$ the tripod with summit $w$,
+implies that $\deg(w)=5$.
+\end{proof}
+
+We are now ready to finish the argument.
+\begin{proof}[Proof of Theorem~\ref{thm:l5-lin}]
+Suppose for a contradiction that the theorem is false, and thus there exists a minimal counterexample $G$ bounded by a cycle $C$.
+Note that $C$ is an induced cycle in $G$ by Lemma~\ref{lemma:l5-lin-basic}.
+
+Let $G_1$ be obtained from $G$ by the tripod reduction of all tripods in $G$ whose summit has degree six, and let $C_1$ be the cycle
+bounding $G_1$.  Note that $C_1$ is an induced cycle, as otherwise two of the tripods in $G$ have adjacent summits, and we obtain
+a contradiction with Lemma~\ref{lemma:l5-lin-basic} after performing tripod reduction on one of them.
+By Corollary~\ref{cor:l5-onelevel}, every tripod in $G_1$ has summit of degree five.
+
+Let $G_2$ be obtained from $G_1$ by performing tripod reductions on all tripods in $G_1$, and let $C_2$ be the cycle bounding $G_2$.
+For a set $X\subseteq V(C_2)$, let $G_X$ be the graph with $X$ contained in the cycle $C_X$ bounding $G_X$,
+obtained from $G$ by the minimum possible number of tripod reductions.  Using Lemma~\ref{lemma:l5-lin-basic}, observe that
+if $|X|\le 3$, then each of these reductions is performed on a tripod with base in $C$ and at most $3|X|$ tripod reductions
+are used to obtain $G_X$.
+
+We claim that $C_2$ is an induced cycle in $G_2$.  Otherwise, suppose $uv$ is a chord of $C_2$.  Since $C_1$ is an induced cycle,
+we can assume $u\not\in V(C_1)$, and thus $u$ is the summit of a tripod in $G_1$ and $u$ is adjacent to vertices of a subpath $u_1u_2u_3$ of $C_1$,
+where $u_2\in V(C)$.  Note that in $G_{\{u_1,u_3,v\}}$, $u$ has at least four neighbors $u_1$, $u_2$, $u_3$, and $v$ is
+$C_{\{u_1,u_3,v\}}$; this contradicts Lemma~\ref{lemma:l5-lin-basic}.
+
+By Corollary~\ref{cor-tripod}, we conclude that there exists a vertex $w\in V(G_2)$ with at least three neighbors
+$w_1$, $w_2$, and $w_3$ in $C_2$.  By Lemma~\ref{lemma:l5-lin-basic} applied to $G_{\{w_1,w_2,w_3\}}$,
+we conclude that $w$ is the summit of a tripod, adjacent to vertices of the path $w_1w_2w_3$ with $w_2\in V(C)$;
+it follows $w_1w_2w_3$ is also a subpath of $C_2$.  Since we performed all possible tripod reductions to obtain $G_2$ from $G_1$,
+$w$ is not the summit of a tripod in $G_1$, and thus we can assume $w_1\not\in V(C_1)$.  Therefore,
+$w_1$ is the summit of a tripod in $G_1$, implying that $\deg(w_1)=5$.  Let $z_1z_2w_2$ be the subpath of $C_1$ whose vertices
+are adjacent to $w_1$, and note that Lemma~\ref{lemma:l5-lin-basic} implies $z_2\in V(C)$.  But then
+in $G_{\{z_1,w_3\}}$, the tripods $T_1$ with summit $w_1$ and $T_2$ with summit $w$ contradict Lemma~\ref{lemma:l5-tripad}.
+\end{proof}
 
 \chapter{Hyperbolicity}\label{chap:hyper}
 
