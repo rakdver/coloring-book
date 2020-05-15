@@ -51,6 +51,7 @@
 
 
 \begin{asydef}
+usepackage("amsmath");
 unitsize(10mm);
 
 void vertex(pair a, pen barva=white, real pol = 0.1)
@@ -6131,7 +6132,7 @@ in $G$ bounding a closed disk $\Delta$ disjoint from $H$, and $G_C\neq C$ is the
 When arguing about $G$, it is sometimes useful to have information about the properties of the subgraph $G_C$.
 To obtain such information through an inductive argument, it would be nice if $G_C$ were guaranteed to be $C$-critical.
 However, this is not the case.  For example, $G_C$ can consist of $C$ with two chords, and there is no coloring of $C$
-which would become proper after removing either of them.
+which would become proper after removing any one of them, but would not be proper to begin with.
 
 For this reason, we use a different definition which, although slightly less intuitive, is more convenient in practice.
 We say that $G$ is \emph{$H$-critical} for $k$-coloring if $G\neq H$ and for every proper subgraph $G'$ of $G$ containing $H$,
@@ -6179,11 +6180,14 @@ Hence, $B$ is $(A\cap B)$-critical for $k$-coloring.
 \end{proof}
 
 When considering graphs drawn on surfaces, it is convenient to allow surfaces with holes and require that the precolored
-vertices are contained in the boundary.  It is also usually convenient to require that each hole is bounded by a cycle
-in the graph (this lets us avoid discussing faces that intersect the boundary).  We say that an embedding of a graph
-$G$ in a surface $\Sigma$ is \emph{normal} if every hole of $\Sigma$ is bounded by a cycle in $G$,
-and letting $H$ denote the union of these cycles, we say that $G$ is \emph{boundary-critical} for $k$-coloring
-if $G$ is $H$-critical for $k$-coloring.  We say the vertices not in the boundary are \emph{internal}.
+vertices are contained in the boundary (and we say the vertices not in the boundary are \emph{internal}).
+We always implicity assume that in a drawing of a graph in a surface with boundary,
+each edge is either completely contained in the boundary, or disjoint from the boundary except possibly for its ends.
+Hence, the intersection of such a drawing of a graph $G$ with the boundary is a drawing of a subgraph $H$ of $G$.
+We say that $G$ is \emph{boundary-critical} for $k$-coloring if $G$ is $H$-critical for $k$-coloring.
+It is also usually convenient to require that each hole is bounded by a cycle
+in the graph (this lets us avoid discussing faces that intersect the boundary)---we say that an embedding of a graph
+$G$ in a surface $\Sigma$ is \emph{normal} if every hole of $\Sigma$ is bounded by a cycle in $G$.
 
 The simplest non-trivial situation to consider is the boundary-critical graphs drawn in the disk, or equivalently,
 plane graphs with the precolored boundary of the outer face.  This case is relatively simple and hides some difficulties
@@ -6210,7 +6214,7 @@ This shows that $|V(G')|\le f(|C|)$.  However, $G$ has more vertices than $G'$, 
 
 To avoid this issue, instead of bounding the number of vertices of $G$ directly, we bound suitably defined weight $w(G)$
 of $G$.  The exact definition of the weight function $w$ depends on the specific problem and graph class under consideration;
-we will see an example shortly.  However, in general we need it satisfies the following two properties:
+we will see examples shortly.  However, in general we need it satisfies the following two properties:
 \begin{itemize}
 \item $|V(G)|$ is bounded by a function of $w(G)$, and
 \item the reduced graph $G'$ satisfies $w(G')\ge w(G)$; i.e., even though we decrease the number of vertices,
@@ -6229,7 +6233,7 @@ and finish the proof by induction.
 
 Let us now work out two detailed examples demonstrating these ideas.
 
-\subsection{Increasing Weight via Discharging}
+\subsection{Increasing Weight via Discharging and Reducible Configurations}
 
 Consider a graph $G$ with a normal drawing in the disk bounded by a cycle $C$.  We define
 the weight of $G$ as
@@ -6374,6 +6378,75 @@ $v_2$, $v_3$, $x_1$, $x_2$, $v_4$ be the neighbors of $v_1$ in the clockwise ord
 and let $v_1$, $v_4$, $y_1$, $y_2$, $v_3$ be the neighbors of $v_2$ in the clockwise order;
 see Figure~\ref{fig:wt5-nofour55} for illustration.
 
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[1] = (0,0);
+v[2] = (1,0);
+v[3] = (0.5,-1);
+v[4] = (0.5,1);
+v[5] = (-0.7,-0.7);
+v[6] = (-0.7,0.7);
+v[7] = (1.7,0.7);
+v[8] = (1.7,-0.7);
+
+draw(v[5]--v[1]--v[6]);
+draw(v[7]--v[2]--v[8]);
+draw(v[1]--v[2]--v[4]--v[1]--v[3]--v[2]);
+
+vertex(v[1]);
+vertex(v[2]);
+for (i = 3; i <= 8; ++i)
+  vertex(v[i], black);
+
+label("$v_1$", v[1], S);
+label("$v_2$", v[2], S);
+label("$v_3$", v[3], S);
+label("$v_4$", v[4], N);
+label("$x_1$", v[5], SW);
+label("$x_2$", v[6], NW);
+label("$y_1$", v[7], NE);
+label("$y_2$", v[8], SE);
+
+for (i = 1; i <= 8; ++i)
+  v[i] += (5,0);
+
+label("$\xrightarrow{G_1}$", (3,0));
+
+draw (v[5]--v[7]--v[6]);
+for (i = 3; i <= 8; ++i)
+  vertex(v[i], black);
+label("$v_3$", v[3], S);
+label("$v_4$", v[4], N);
+label("$x_1$", v[5], SW);
+label("$x_2$", v[6], NW);
+label("$y_1$", v[7], NE);
+label("$y_2$", v[8], SE);
+
+for (i = 1; i <= 8; ++i)
+  v[i] += (5,0);
+label("$\xrightarrow{G_3}$", (8,0));
+
+draw (v[5]--v[1]--v[6]);
+draw (v[1]--v[2]--v[7]);
+vertex(v[1]);
+vertex(v[2]);
+for (i = 3; i <= 8; ++i)
+  vertex(v[i], black);
+label("$v_1$", v[1], S);
+label("$v_2$", v[2], S);
+label("$v_3$", v[3], S);
+label("$v_4$", v[4], N);
+label("$x_1$", v[5], SW);
+label("$x_2$", v[6], NW);
+label("$y_1$", v[7], NE);
+label("$y_2$", v[8], SE);
+\end{asy}
+\end{center}
+
+\caption{Reduction for two 5-vertices incident with two common 3-faces.}\label{fig:wt5-nofour55}
+\end{figure}
+
 If $x_1,x_2,y_1,y_2\in V(C)$, then since $G$ is nicely arched, cycles $A_1=x_1x_2v_1$ and $A_2=y_1y_2v_2$
 bound 3-faces.  Let $K_1$ and $K_2$ be the cycles in $(C+A_1+A_2-x_1x_2-y_1y_2)+v_1v_2$ containing
 the edge $v_1v_2$, where $v_3\in V(G_{K_1})$ and $v_4\in V(G_{K_2})$.  By the minimality of $G$, we
@@ -6441,6 +6514,69 @@ Suppose for a contradiction both faces incident with the edge have length three,
 the common neighbors $v_3$ and $v_4$ of $v_1$ and $v_2$ are internal, and $v_1$ has
 at most one neighbor in $C$.  See Figure~\ref{fig:wt5-nofour56} for illustration.
 
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[0] = (0.5,0);
+v[1] = (0,0);
+v[2] = (1,0);
+v[3] = (0.5,-1);
+v[4] = (0.5,1);
+v[5] = (-0.7,-0.7);
+v[6] = (-0.7,0.7);
+v[7] = (1.7,0.7);
+v[8] = (1.7,-0.7);
+v[9] = (-1,0);
+
+draw(v[5]--v[1]--v[6]);
+draw(v[7]--v[2]--v[8]);
+draw(v[1]--v[2]--v[4]--v[1]--v[3]--v[2]);
+draw(v[1]--v[9]);
+
+outnbrs(v[3],-90, 3);
+outnbrs(v[4],90, 4);
+
+vertex(v[1]);
+vertex(v[2]);
+for (i = 3; i <= 9; ++i)
+  vertex(v[i], black);
+
+label("$v_1$", v[1], S);
+label("$v_2$", v[2], S);
+label("$v_3$", v[3], E);
+label("$v_4$", v[4], E);
+
+for (i = 0; i <= 9; ++i)
+  v[i] += (5,0);
+
+label("$\xrightarrow{G_1}$", (3,0));
+
+outnbrs(v[0],-90, 3);
+outnbrs(v[0],90, 4);
+vertex(v[0], black);
+for (i = 5; i <= 9; ++i)
+  vertex(v[i], black);
+label("$v$", v[0], E);
+
+for (i = 0; i <= 9; ++i)
+  v[i] += (5,0);
+label("$\xrightarrow{G_3}$", (8,0));
+
+draw (v[3]--v[1]--v[4]);
+outnbrs(v[3],-90, 3);
+outnbrs(v[4],90, 4);
+vertex(v[1]);
+for (i = 3; i <= 9; ++i)
+  vertex(v[i], black);
+label("$v_1$", v[1], S);
+label("$v_3$", v[3], E);
+label("$v_4$", v[4], E);
+\end{asy}
+\end{center}
+
+\caption{Reduction for 5- and 6-vertex incident with two common 3-faces.}\label{fig:wt5-nofour56}
+\end{figure}
+
 Let $\varphi$ be a precoloring of $C$ that does not extend to a $5$-coloring of $G$.
 Note that $v_3v_4\not\in E(G)$, since $G$ does not contain separating triangles.
 Let $G_1$ be the graph obtained from $G-\{v_1,v_2\}$ by identifying $v_3$ with $v_4$ to a new vertex $v$.
@@ -6486,8 +6622,8 @@ which is a contradiction.
 
 The reader could ask why we proved Lemma~\ref{lemma:wt5-nofour55} separately---certainly, the reduction
 from the proof of Lemma~\ref{lemma:wt5-nofour56} also applies in the case $\deg(v_2)=5$?
-The issue is in the calculation at the end of the proof: if $\deg(v_2)=5$, then $G_{K_2}$ could be exceptional,
-giving only whe bound $w(G_{K_2})\le |f_2|-5+\varepsilon$, which is not sufficient to reach the conclusion $w(G)\le w(G_2)$.
+The issue is in the calculation at the end of the proof: If $\deg(v_2)=5$, then $G_{K_2}$ could be exceptional,
+giving only the bound $w(G_{K_2})\le |f_2|-5+\varepsilon$, which is not sufficient to reach the conclusion $w(G)\le w(G_2)$.
 We need two more simple configurations; while we include their proofs for completeness, the reader should feel free
 to skip them, as no new ideas are presented in them.
 
@@ -6501,6 +6637,66 @@ If $G$ is a minimum counterexample, then $v$ is adjacent to a vertex of degree a
 Suppose for a contradiction all neighbors $v_1$, \ldots, $v_6$ of $v$ have degree
 at most six.  See Figure~\ref{fig:wt5-nosix} for illustration.
 Let $\varphi$ be a precoloring of $C$ that does not extend to a $5$-coloring of $G$.
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+v[0] = (0,0);
+for (i = 1; i <= 6; ++i)
+  v[i] = dir (-30-60i);
+
+for (i = 1; i <= 6; ++i)
+  {
+    draw(v[0]--v[i]);
+    draw(v[i]--v[i%6 + 1]);
+    outnbrs (v[i],-30-60i,3);
+  }
+
+vertex(v[0]);
+for (i = 1; i <= 6; ++i)
+  vertex(v[i], i % 2 == 1 ? black : white);
+
+label("$v$", v[0], E);
+label("$v_1$", v[1], SE);
+label("$v_2$", v[2], S);
+label("$v_3$", v[3], N);
+label("$v_4$", v[4], E);
+label("$v_5$", v[5], N);
+label("$v_6$", v[6], S);
+
+for (i = 0; i <= 6; ++i)
+  v[i] += (5,0);
+
+label("$\xrightarrow{G_1}$", (2.5,0));
+
+vertex(v[0], black);
+outnbrs (v[0],-90,3);
+outnbrs (v[0],30,3);
+outnbrs (v[0],150,3);
+label("$z$", v[0], N);
+
+for (i = 0; i <= 6; ++i)
+  v[i] += (5,0);
+label("$\xrightarrow{G_3}$", (7.5,0));
+
+draw (v[1]--v[0]--v[3]);
+draw (v[0]--v[5]);
+outnbrs (v[1],-90,3);
+outnbrs (v[5],30,3);
+outnbrs (v[3],150,3);
+vertex(v[0]);
+vertex(v[1], black);
+vertex(v[3], black);
+vertex(v[5], black);
+label("$v$", v[0], SE);
+label("$v_1$", v[1], SE);
+label("$v_3$", v[3], N);
+label("$v_5$", v[5], N);
+\end{asy}
+\end{center}
+
+\caption{Reduction for 6-vertex surrounded by 3-faces and $(\le\!6)$-vertices.}\label{fig:wt5-nosix}
+\end{figure}
 
 Suppose first that $\deg(v_1)=\deg(v_3)=5$.  By Lemma~\ref{lemma:wt5crcol}, $\varphi$ extends
 to a 5-coloring $\psi$ of $G-\{v,v_1,\ldots,v_6\}$.  For $i=1,\ldots, 6$, let $L(v_i)$ be a
@@ -6549,7 +6745,7 @@ we have $|X_0|\le 1$, and thus (\ref{ineq:wt5-nosix}) again contradicts $w(G)>|C
 Therefore, we have $k_1+k_3+k_5\le 4$.
 
 Note that $\{v_1,v_3,v_5\}$ is an independent set in $G$, since $G$ does not contain separating triangles.
-Let $G_1$ be the graph obtained from $G-\{v,v_1,\ldots,v_6\}$ by identifying $v_1$, $v_3$, and $v_5$ to a new vertex $z$.
+Let $G_1$ be the graph obtained from $G-\{v,v_2,v_4,v_6\}$ by identifying $v_1$, $v_3$, and $v_5$ to a new vertex $z$.
 Note that no parallel edges arise by this identification by Lemma~\ref{lemma:wt5sep}.
 Clearly $\varphi$ does not extend to a $5$-coloring of $G_1$, as such $5$-coloring could be extended
 to $v_2$, $v_4$, $v_6$, and $v$ greedily.  Hence, $G_1$ contains a subgraph $G_2$ $(C,\varphi)$-critical for $5$-coloring.
@@ -6889,7 +7085,6 @@ Let us first consider the case that $G'$ has a proper subgraph $G''$ containing 
 By the induction hypothesis, we have $w_\varepsilon(G'')\le |C|-4+2\varepsilon$.
 Recall that $G''$ is $2$-connected by Lemma~\ref{lemma:l5elem}.
 Consider a face $f$ of $G''$ that is not also a face of $G$, bounded by a cycle $K$.  Note that $|K|\ge 4$ by Lemma~\ref{lemma:l5elem}.
-%Furthermore, we have $w_\varepsilon(f)\le w_\varepsilon(G'')\le |C|-4+2\varepsilon$, and thus $|K|<|C|$.
 By the induction hypothesis, we have $w_\varepsilon(G_K)\le |K|-4+2\varepsilon=w_\varepsilon(f)-(1/2-2\varepsilon)$.
 In $G''$, $f$ is replaced by $G_K$, and since $G''\neq G'$, at least one such replacement must occur.  We conclude that
 $w_\varepsilon(G'')\le w_\varepsilon(G')-(1/2-2\varepsilon)$.  Therefore,
@@ -7011,12 +7206,12 @@ used to create $G'$ are neutral, then $\deg(w)=5$.
 \begin{proof}
 Suppose for a contradiction that either $\deg_G(v)=5$, or all the tripod reductions
 used to create $G'$ are neutral and $\deg(w)\ge 6$.  Note that in the latter case, we have $\deg_G(v)\le 6$
-by Lemma~\ref{lemma:l5-basic}.
+by Lemma~\ref{lemma:l5-lin-basic}.
 Furthermore, $w(G)\le w(G')+12\varepsilon+6\gamma$, and if all the tripod reductions used to create $G'$ are neutral,
 then $w(G)\le w(G')+12\varepsilon$.  
 
 Let $L$ be an assignment of lists of size five to vertices of $G$ such that $G$ is $C$-critical for $L$-coloring,
-Let $\varphi$ be an $L$-coloring of $C'$ that does not extend to an $L$-coloring of $G'$.  By Lemma~\ref{lemma:l5-basic},
+Let $\varphi$ be an $L$-coloring of $C'$ that does not extend to an $L$-coloring of $G'$.  By Lemma~\ref{lemma:l5-lin-basic},
 $G'$ has no proper subgraph containing $C'$ and $C'$-critical for $L$-coloring, and thus $\varphi$ extends to an $L$-coloring
 of every proper subgraph of $G'$ containing $C'$.  Consequently, the colors $\varphi(v_1)$, $\varphi(v_2)$, and $\varphi(v_3)$
 are distinct and all of them belong to $L(v)$.  Indeed, suppose for a contradiction that for some distinct $i,j\in\{1,2,3\}$,
@@ -7111,26 +7306,258 @@ we can assume $u\not\in V(C_1)$, and thus $u$ is the summit of a tripod in $G_1$
 where $u_2\in V(C)$.  Note that in $G_{\{u_1,u_3,v\}}$, $u$ has at least four neighbors $u_1$, $u_2$, $u_3$, and $v$ is
 $C_{\{u_1,u_3,v\}}$; this contradicts Lemma~\ref{lemma:l5-lin-basic}.
 
-By Corollary~\ref{cor-tripod}, we conclude that there exists a vertex $w\in V(G_2)$ with at least three neighbors
+By Corollary~\ref{cor:tripod}, we conclude that there exists a vertex $w\in V(G_2)$ with at least three neighbors
 $w_1$, $w_2$, and $w_3$ in $C_2$.  By Lemma~\ref{lemma:l5-lin-basic} applied to $G_{\{w_1,w_2,w_3\}}$,
 we conclude that $w$ is the summit of a tripod, adjacent to vertices of the path $w_1w_2w_3$ with $w_2\in V(C)$;
 it follows $w_1w_2w_3$ is also a subpath of $C_2$.  Since we performed all possible tripod reductions to obtain $G_2$ from $G_1$,
 $w$ is not the summit of a tripod in $G_1$, and thus we can assume $w_1\not\in V(C_1)$.  Therefore,
 $w_1$ is the summit of a tripod in $G_1$, implying that $\deg(w_1)=5$.  Let $z_1z_2w_2$ be the subpath of $C_1$ whose vertices
 are adjacent to $w_1$, and note that Lemma~\ref{lemma:l5-lin-basic} implies $z_2\in V(C)$.  But then
-in $G_{\{z_1,w_3\}}$, the tripods $T_1$ with summit $w_1$ and $T_2$ with summit $w$ contradict Lemma~\ref{lemma:l5-tripad}.
+in $G_{\{z_1,w_3\}}$, the tripods $T_1$ with summit $w_1$ and $T_2$ with summit $w$ contradict Lemma~\ref{lemma:l5-tripadj}.
 \end{proof}
+
+\subsection{General surfaces}
+
+We have now seen two ways how to linearly bound the weight of a boundary-critical graph drawn in a disk.
+What about graphs drawn in more general surfaces?  As we will see in the next chapter, it suffices to additionally
+deal with the case of graphs drawn in the cylinder: a linear bound for the disk case together with any bound
+for the cylinder case implies a linear bound for any surface.  Let us remark the linearity of the bound in the disk
+case is important here, any weaker bound would not imply such a generalization.
+
+We can additionally assume that the two cycles $C_1$ and $C_2$ bounding the cylinder are far apart in the considered
+boundary-critical graph $G$.  Indeed, if they are joined by a path of length at most $f(|C_1|,|C_2|)$, we can cut the surface along this path,
+obtaining a graph that is boundary-critical (as is easy to see by a variation of the argument used to prove the last
+property from Lemma~\ref{lemma:critsgprop}) and drawn in a disk, and applying the results for the disk case,
+we conclude $G$ has $O(|C_1|+|C_2|+f(|C_1|,|C_2|))$ vertices.
+
+For the reducible configuration argument, the discharging part then goes through with only minor modifications.
+However, several additional difficulties arise in the reductions.  The graph now can contain short non-contractible
+cycles, and so for instance in the proof of Lemma~\ref{lemma:wt5-nofour55}, it can be the case that $x_1=y_1$,
+making it impossible to add the edge $x_1y_1$.  To deal with this issue, we need to argue that a boundary-critical
+graph in a cylinder cannot contain too many short non-contractible cycles (e.g., by some variation on a recoloring argument);
+then, we can avoid choosing reducible configurations intersecting such cycles by giving them additional charge in the
+discharging part of the argument, at the expense of correspondingly increasing the bound on the weight we obtain.
+
+Another issue comes from the fact that the critical subgraph of the reduced graph (the graph $G_2$ in the proof
+of Lemma~\ref{lemma:wt5-nofour55}) no longer needs to be $2$-connected, as it can contain a cutvertex separating $C_1$ from $C_2$.
+This in turn means that the faces $f'_1$ and $f'_2$ whose length increases in the transformation to the subgraph $G_3$
+can in fact be the same face, and the gain from replacing the weight of $f'_1$ by the weight of the subgraph of $G$ drawn
+inside it would not offset the loss from the increase in the length of $f'_1$.  To deal with this issue, we prove
+stronger bounds depending on the number of cutvertices (or equivalently, add to the weight function a positive
+term accounting for them).  We then of course have to ensure that cutvertices do not disappear in the reductions;
+á recoloring argument then can be used to bound the total number of cutvertices and additional charge then can be put on them
+in the discharging phase of the argument to avoid their appearance close to the reducible configurations.
+
+For the nibbling argument, one needs to prove an analogue of Theorem~\ref{thm:5choosbook} where vertices with list of size three
+are allowed to appear in the boundaries of two faces (and possibly a precolored path appears in the boundary of one of them).
+Once this (technically quite challenging) step is done, the argument from the disk case works almost directly.
+The basic idea employed in the proof of the generalized Theorem~\ref{thm:5choosbook} is that we can proceed as usual
+as long as the two special faces are far apart, and once they are close, we can carefully cut in between them and
+reduce to the disk case.
 
 \chapter{Hyperbolicity}\label{chap:hyper}
 
-% LP
+The proofs of statements about graphs on surfaces often proceed as follows. First, one solves the disk case,
+often quite elegantly.  Then, one uses similar ideas, but in more involved and technically more demanding fashion,
+to deal with the cylinder case.  Next, one proceeds with the locally planar case, where the graph is drawn in a general
+surface with high representativity and with the holes of the surface far apart in the graph, either using the same idea
+or possibly even reducing to the disk case by cutting the surface appropriately.  The final step, proving the claim
+for general surfaces, then follows by cutting the surface into a locally planar part and possibly a number of parts
+drawn in cylinders.
 
-\section{Weak hyperbolicity and its consequences.}
+This general scheme is followed by many of the coloring arguments we discussed in the last chapter~\cite{Thomassen97,thomassen-surf,
+trfree2,trfree3}, as well as by results in the graph minor theory~\cite{rs6,rs7} and other areas.  Intuitively,
+the cases of the disk and the cylinder require a special attention since (along with the sphere and the sphere with three holes,
+which also sometimes need extra handling) they cannot be cut along a non-contractible curve into ``simpler'' surfaces
+of smaller genus or with a smaller number of holes.  Still, it may be somewhat surprising that these two cases are often
+the most substantial part of the proof.
 
-\subsection{Edgewidth of critical graphs. }
-\subsection{Logarithmic radius and coloring algorithm.}
+As we have already alluded to in the previous chapter, something even more surprising happens when
+in the disk case, we can prove the size of the graphs in the considered class is linear in the number
+of their vertices contained in the boundary: In that situation, \emph{any} bound for the cylinder case
+automatically translates into a linear bound for general surfaces.  This has a number of additional consequences,
+established in the foundational paper of Postle and Thomas~\cite{PosThoHyperb} on the hyperbolicity theory;
+we explore them in this chapter.
+
+\section{Hyperbolicity and its consequences.}
+
+In case a graph is drawn in a surface with boundary, we generally prefer the components of the boundary to trace
+cycles in the graph (recall we say such a drawing is \emph{normal}).  However, in the theory of hyperbolicity, it is necessary to
+consider another kind of drawing, where only vertices are contained in the boundary; if this condition is satisfied,
+we say that the drawing is \emph{boundary-perpendicular}.  For a boundary-perpendicular graph $G$, let $\partial G$
+denote the set of vertices of $G$ drawn in the boundary.  Boundary-perpendicular drawings naturally arise from cutting
+the surface along curves passing only through vertices.
+
+We need to make this cutting process a bit more rigorous, as we will need to cut not just along simple closed curves,
+but also along curves that touch (but not cross) itself.  Suppose $H$ is a graph drawn in a surface (possibly one with boundary)
+and $f$ is a face of $H$.  If every vertex and edge of $H$ is incident with $f$ and the boundary of $f$ consists of edges and vertices
+of $H$ (i.e., is not just part of the boundary of the surface), we say that $(H,f)$ is a \emph{stencil}.
+The basic case is that $H$ is a cycle and $f$ is a face bounded by this cycle, but there are more complicated possibilities
+involving $f$ not being homeomorphic to an open disk or vertices and edges of $H$ appearing more than once in the boundary of $f$.
+Note that the face $f$ is homeomorphic to the interior of a unique (up to homeomorphism) surface $\Sigma_f$.
+Let $\theta_f$ be a continuous function from $\Sigma_f$ to the closure $\overline{f}$ of $f$ such that the restriction of $\theta$ to the interior
+of $\Sigma_f$ is a homeomorphism.
+The stencil $(H,f)$ is \emph{perpendicular} to a drawing of another graph $G$ in the surface if $G$ and $H$ intersect exactly
+in their common vertices.  The \emph{slice} of $G$ along the stencil $(H,f)$ is the graph $G_f=\theta^{-1}(G\cap \overline{f})$
+drawn in $\Sigma_f$.  Note that $G_f$ is boundary-perpendicular in $\Sigma_f$, and we can view it as being obtained from
+$G\cap \overline{f}$ by cutting along the boundary of $f$, spliting the vertices as necessary; see Figure~\ref{fig:cutting}
+for an illustration.
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+path pl = ((1.5,0)..(1,-1)..{dir(-45)}(1,-2){dir(45)}..{dir(45)}(2,-1){dir(-45)}..(3,-2)..{dir(-135)}(2,-3){dir(135)}..{dir(135)}(1,-2){dir(-135)}..{dir(-45)}(1,-3){dir(-135)}..(1,-4)..(1.5,-5));
+path pr = ((4.5,0)..(4,-1){dir(-135)}..(4,-2){dir(-45)}..(4,-3){dir(-135)}..(4,-4)..(4.5,-5));
+path parr = pl -- reverse(pr) -- cycle;
+
+fill (parr, interp (red, white, 0.9));
+
+for (i = 1; i <= 4; ++i)
+  {
+    draw ((0,-i)--(5,-i), blue);
+    draw ((i,0)--(i,-5), blue);
+  }
+draw(pl, red);
+draw(pr, red);
+draw((0,0)--(5,0), arrow=MidArrow);
+draw((0,0)--(0,-5), arrow=MidArrow);
+draw((0,-5)--(5,-5), arrow=MidArrow);
+draw((5,0)--(5,-5), arrow=MidArrow);
+for (i = 1; i <= 4; ++i)
+  for (j = 1; j <= 4; ++j)
+    vertex((i,-j), blue);
+
+draw ((6,-2.5)--(7,-2.5), Arrow);
+
+path pl1 = ((8.5,0)..(8,-1)..{dir(-45)}(8,-1.7){dir(45)}..{dir(45)}(9,-1){dir(-45)}..(10,-2)..{dir(-135)}(9,-3){dir(135)}..{dir(135)}(8,-2.3){dir(-135)}..{dir(-45)}(8,-3){dir(-135)}..(8,-4)..(8.5,-5));
+path pr1 = ((11.5,0)..(11,-1){dir(-135)}..(11,-2){dir(-45)}..(11,-3){dir(-135)}..(11,-4)..(11.5,-5));
+
+draw((8,-1)--(11,-1),blue);
+draw((10,-2)--(11,-2),blue);
+draw((8,-3)--(11,-3),blue);
+draw((8,-4)--(11,-4),blue);
+draw((8,-1)--(8,-1.7),blue);
+draw((8,-2.3)--(8,-4),blue);
+draw((9,0)--(9,-1),blue);
+draw((9,-3)--(9,-5),blue);
+draw((10,0)--(10,-5),blue);
+draw((11,0)--(11,-1),blue);
+draw((11,-2)--(11,-3),blue);
+draw((11,-4)--(11,-5),blue);
+
+draw(pl1, red);
+draw(pr1, red);
+draw((8.5,0)--(11.5,0), arrow=MidArrow);
+draw((8.5,-5)--(11.5,-5), arrow=MidArrow);
+
+vertex((8,-1), blue);
+vertex((8,-1.7), blue);
+vertex((8,-2.3), blue);
+vertex((8,-3), blue);
+vertex((8,-4), blue);
+
+vertex((9,-1), blue);
+vertex((9,-3), blue);
+vertex((9,-4), blue);
+
+vertex((10,-1), blue);
+vertex((10,-2), blue);
+vertex((10,-3), blue);
+vertex((10,-4), blue);
+
+vertex((11,-1), blue);
+vertex((11,-2), blue);
+vertex((11,-3), blue);
+vertex((11,-4), blue);
+\end{asy}
+\end{center}
+
+\caption{Cutting the torus along a stencil (red), obtaining a boundary-perpendicular graph in the cylinder.  Opposite edges are identified along the arrows.}\label{fig:cutting}
+\end{figure}
+
+From the perspective of graph coloring, it is important this cutting operation preserves the notion of criticality
+we introduced in the previous chapter.  We state this fact (related to Lemma~\ref{lemma:critsgprop}) in the list coloring
+setting, though it of course also applies to the ordinary proper coloring by giving every vertex the same list.
+
+\begin{lemma}\label{lemma:cutcrit}
+Let $G$ be a graph drawn in a surface $\Sigma$ and let $(H,f)$ be a perpendicular stencil in this surface.
+Let $\Sigma_f$ and $\theta$ be as in the definition of the slice.
+Let $L$ be an assignment of lists to vertices of $G$, and let $L_f$ be the list assignment for the slice $G_f$
+defined by $L_f(v)=L(\theta(v))$ for $v\in V(G_f)$.  If $G$ is boundary-critical for $L$-coloring and $f\cap G\neq\emptyset$, then the slice
+$G_f$ along this stencil is also boundary-critical for $L_f$-coloring.
+\end{lemma}
+\begin{proof}
+Let $H_1$ be the (edgeless) subgraph of $G_f$ drawn
+in the boundary of $\Sigma_f$, and consider any proper subgraph $G_1$ of $G_f$ containing $H_1$.  Let $G'$ be the proper subgraph
+of $G$ obtained by deleting vertices and edges drawn in $f$ and by adding the graph $\theta(G_1)$.  Since $G$ is boundary-critical,
+there exists an $L$-coloring $\psi$ of the subgraph $H$ of $G$ drawn in the boundary of $\Sigma$ that extends to an $L$-coloring
+$\varphi'$ of $G'$, but not to an $L$-coloring of $G$.  Let $\psi_1$ be the $L_f$-coloring of $H_1$ such that
+$\psi_1(v)=\varphi'(\theta(v))$ for $v\in V(H_1)$.  Then $\psi_1$ extends to an $L_f$-coloring $\varphi_1$ of $G_1$
+given by $\varphi_1(v)=\varphi'(\theta(v))$ for $v\in V(G_1)$.  Moreover, $\psi_1$ cannot extend to an $L_f$-coloring $\varphi_2$
+of $G_f$, as otherwise the combination of $\varphi'$ with the $\theta$-image of $\varphi_2$ would be an $L$-coloring of $G$.
+As this holds for every such subgraph $G_1$, it follows that $G_f$ is boundary-critical for $L_f$-coloring.
+\end{proof}
+
+Let $\GG$ be a class of graphs drawn in surfaces; we always implicitly assume such classes are closed under homeomorphism,
+i.e., if $G_1$ and $G_2$ are graphs drawn in surfaces, some homeomorphism of the surfaces maps $G_1$ to $G_2$, and
+$G_1\in\GG$, then $G_2\in\GG$.  We say $\GG$ is \emph{cutting-closed} if for every
+graph $G\in\GG$ and every perpendicular stencil $(H,f)$ drawn in the same surface such that $f\cap G\neq\emptyset$, the slice $G_f$ belongs to $\GG$.
+Lemma~\ref{lemma:cutcrit} shows that, e.g., for any integer $k$, the class of graphs drawn in surfaces and boundary-critical
+for $k$-list-coloring (or $k$-coloring) is cutting-closed.  For convenience, we develop the theory of hyperbolicity
+only for cutting-closed classes, though it is not hard to avoid this assumption.
+
+Finally, we are ready for the key definition of the hyperbolicity theory.
+We say that a cutting-closed class $\GG$ of graphs in surfaces is \emph{hyperbolic} with \emph{Cheeger constant} $\gamma$
+if every $G\in\GG$ with boundary-perpendicular drawing in the disk satisfies
+\begin{equation}\label{eq:weakhyper}
+|V(G)|\le \gamma(|\partial G|-1).
+\end{equation}
+
+Let us start with a few comments on this definition.  If $|\partial G|=0$, i.e., $G$ is a planar graph drawn in the interior
+of the disk, the inequality would imply $|V(G)|<0$, a contradiction.  Therefore, the definition and the assumption that
+$\GG$ is cutting-closed implies that no graph in $\GG$ has a component drawn in a contractible subset of the surface and disjoint
+from the boundary.  In case that $\GG$ is the class of critical graphs for some kind of coloring (in graphs subject to some
+subgraph-monotone constraints), this means that all planar graphs (satisfying these constraints) are colorable in this way.
+
+For $|\partial G|=1$, the definition implies $|V(G)|\le 0<|\partial G|$, which again is a contradiction.
+Since $\GG$ is cutting-closed, this observation implies that if a face $f$ of $G\in\GG$ is contained inside a part of the surface
+homeomorphic to the open disk, then $f$ is bounded by a cycle: Otherwise, we could cut the surface along a stencil
+passing through a vertex that appears more than once in the boundary of $f$ and obtain a contradiction.
+In the coloring setting, the consequence is that in a planar graph satisfying the constraints, any precoloring of a single
+vertex extends to a coloring of the whole graph.
+
+It needs to be remarked that for most kinds of coloring, it actually would not make much difference if
+we stated the condition (\ref{eq:weakhyper}) as $|V(G)|\le \gamma|\partial G|$.  For ordinary proper coloring, the symmetry between the colors
+implies that if a graph $H$ is colorable, then any precoloring of a single vertex of $H$ extends to a coloring of $H$.
+For the $k$-list-coloring case, suppose that $H$ is a planar graph with list assignment $L$ and coloring of a vertex $v\in V(H)$
+by a color $c$ does not extend to an $L$-coloring of $H$.  By permuting the colors, we can for any color $c_i$ get a list assignment $L_i$
+such that coloring of $v$ by $c_i$ does not extend to an $L_i$-coloring of $H$.  Consider the graph $H'$ obtained from
+$k$ copies $H_1$, \ldots, $H_k$ of $H$ by identifying the vertices corresponding to $v$; this graph is planar, and typically
+still satisfies whatever constraints we place on the considereded class (forbidden cycle lengths, \ldots).
+Let $L'$ be the list assignment matching $L_i$ on $V(H_i)\setminus \{v\}$ for $i=1,\ldots, k$, with $L'(v)=\{c_1,\ldots, c_k\}$.
+Then $H'$ is not $L'$-colorable, contradicting the fact that planar graphs satisfying the constraints are $k$-list-colorable.
+
+In the previous chapter, we proved linear bounds on sizes of critical graphs in terms of normal drawings rather than boundary-perpendicular ones,
+but this technicality is easy to overcome, as we see from the following example.
+\begin{lemma}
+The class $\GG$ of all graphs with boundary-perpendicular drawings in surfaces that are boundary-critical for $5$-list-coloring
+is hyperbolic.
+\end{lemma}
+\begin{proof}
+Let $G$ be a graph with boundary-perpendicular drawing in the disk $\Delta$, and suppose $G$ is boundary-critical for $5$-list-coloring.
+Since planar graphs are $5$-list-colorable by Theorem~\ref{thm:5choosbook}, we have $\partial G\neq\emptyset$.
+Actually, the idea presented in the paragraph preceding this lemma shows that the precoloring of any single vertex in
+a planar graph extends to a coloring from any lists of size five, and thus $|\partial G|\ge 2$.  Let $G'$ be the graph
+obtained from $G$ by adding a cycle $C$ of length $2|\partial G|$ tracing the boundary of $\Delta$ such that every other
+vertex of $C$ belongs to $\partial G$.
+
+We claim $G'$ is boundary-critical for $5$-list-coloring.  Indeed, let $L$ be the ...
+\end{proof}
+
+\subsection{Edgewidth of critical graphs}
+\subsection{Logarithmic radius and coloring algorithm}
 \subsection{Precoloring extension?}
-\subsection{Number of colorings? }
+\subsection{Number of colorings?}
 
 \section{Proof of the Weak Hyperbolic Structure Theorem?}
 
