@@ -7551,10 +7551,71 @@ a planar graph extends to a coloring from any lists of size five, and thus $|\pa
 obtained from $G$ by adding a cycle $C$ of length $2|\partial G|$ tracing the boundary of $\Delta$ such that every other
 vertex of $C$ belongs to $\partial G$.
 
-We claim $G'$ is boundary-critical for $5$-list-coloring.  Indeed, let $L$ be the ...
+We claim $G'$ is boundary-critical for $5$-list-coloring.  Indeed, let $L$ be a list assignment such that $G$ is
+boundary-critical for $L$-coloring, and let $L'$ be obtained from $L$ by choosing lists of size five for vertices of $V(C)\setminus V(G)$
+arbitrarily.  Let $G'_1$ be any proper subgraph of $G'$ containing $C$, and let $G_1=G'_1-(V(C)\setminus V(G))$.  Then $G_1$
+is a proper subgraph of $G$ containing $\partial G$, and since $G$ is boundary-critical for $L$-coloring, there exists an $L$-coloring $\psi$
+of $G$ that exteds to an $L$-coloring $\varphi$ of $G_1$, but not to an $L$-coloring of $G$.
+Greedily extend $\psi$ to an $L'$-coloring $\psi'$ of $C$, and let $\varphi'$ extend $\varphi$ in the same way.
+Then $\psi'$ is an $L'$-coloring of $C$ that extends to an $L'$-coloring $\varphi'$ of $G'_1$, but not to an $L'$-coloring of $G'$.
+
+Therefore, by Theorem~\ref{thm:l5-lin}, we have $w(G')<|C|-3$.  Note that $w(f)\ge(|f|-2)/600$ for each face $f$ of $G'$,
+and thus by Euler's formula, we have
+\begin{align*}
+w(G')&\ge \sum_{f\in F(G')} w(f)\ge \frac{1}{600}\sum_{f\in F(G')}(|f|-2)\\
+&=\frac{2|E(G')|-|C|-2|F(G')|}{600}=\frac{2|V(G')|-|C|-2}{600}.
+\end{align*}
+This implies $2|V(G')|\le 601|C|-1798=1202|\partial G|-1798$.  Consequently,
+$$|V(G)|=|V(G')|-|\partial G|=600|\partial G|-899<600(|\partial G|-1).$$
+This implies $\GG$ is hyperbolic with Cheeger constant $600$.
 \end{proof}
 
 \subsection{Edgewidth of critical graphs}
+
+The crucial property of graphs from hyperbolic classes is that contractible neighborhoods grow exponentially
+with the distance.  We need the following auxiliary statement.
+\begin{lemma}\label{lemma:disknbr}
+Let $G$ be a graph with drawing in a surface $\Sigma$ other than the sphere.
+For a vertex $v\in V(G)$ and an integer $r\ge 1$, let $G_r$ be the subgraph of $G$ induced by vertices
+at distance at most $r$ from $v$.  If every non-contractible closed walk in $G$ containing $v$ has length at least
+$2r+2$ and $V(G_r)\cap \partial G=\emptyset$,
+then there exists a closed disk $\Delta\subset\Sigma$ whose boundary intersects $G$ only in vertices at distance
+exactly $r$ from $v$ and $G_r\subset\Delta$.
+\end{lemma}
+\begin{proof}[Proof idea.]
+For each vertex $x\in V(G_r)$, let us fix a path $P_x$ of length at most $r$ from $v$ to $x$.
+By the assumptions, for each edge $xy\in E(G_r)$, the closed walk
+$W_{xy}=W_x+xy+W^{-1}y$ is contractible.  Consider any cycle $K=x_1x_2\ldots x_m$ in $G_r$.
+The walk $W_{x_1x_2}+W_{x_2x_3}+\cdots+W_{x_mx_1}$ is contractible and homotopically equivalent to $K$.
+We conclude that all cycles in $G_r$ are contractible.  Let $D$ be the union of $G_r$ with all disks in $\Sigma$
+bounded by cycles in $G_r$.  Observe that $D$ is simply-connected.  Moreover, note that vertices at distance $r$ from $v$
+cannot form cuts in $D$.  ``Fatten'' $D$ slightly to obtain a disk containing $D$ and intersecting $G$ only in
+vertices incident both with an edge in $D$ and outside of $D$; all such vertices are at distance exactly $r$ from $v$.
+\end{proof}
+
+\begin{corollary}\label{cor:expgrowth}
+Let $\GG$ be a cutting-closed class graphs hyperbolic with Cheeger constant $\gamma>1$.
+Let $G\in\GG$ be a graph with drawing in a surface $\Sigma$ other than the sphere.
+For a vertex $v\in V(G)$ and integers $i=0,\ldots,r$, let $G_i$ be the subgraph of $G$ induced by vertices
+at distance at most $i$ from $v$.
+If every non-contractible closed walk in $G$ containing $v$ has length at least
+$2r+2$ and $V(G_r)\cap \partial G=\emptyset$, then $|V(G_i)|\ge \tfrac{\gamma}{\gamma-1}|V(G_{i-1})|$ for $i=1,\ldots,r$, and
+consequently $|V(G_r)|\ge \Bigl(\tfrac{\gamma}{\gamma-1}\Bigr)^r$.
+\end{corollary}
+\begin{proof}
+For $i=1,\ldots,r$, let $\Delta_i\subseteq\Sigma$ be a closed disk whose boundary intersects $G$ only in vertices at
+distance exactly $i$ from $v$ and such that $G_i\subseteq \Delta_i$, obtained by Lemma~\ref{lemma:disknbr}.
+Let $P_i$ denote the set of vertices of $G$ at distance exactly $i$ from $v$; the hyperbolicity of $\GG$ (applied
+to the graph obtained by cutting along the stencil corresponding to $\Delta_i$) implies $|V(G_i)|\le \gamma |P_i|$.
+Hence,
+\begin{align*}
+|V(G_{i-1})|&=|V(G_i)|-|P_i|\le (\gamma-1)|P_i|\\
+|P_i|&\ge \tfrac{1}{\gamma-1}|V(G_{i-1})|\\
+|V(G_i)|&=|V(G_{i-1})|+|P_i|\ge \tfrac{\gamma}{\gamma-1}|V(G_{i-1})|.
+\end{align*}
+\end{proof}
+
+
 \subsection{Logarithmic radius and coloring algorithm}
 \subsection{Precoloring extension?}
 \subsection{Number of colorings?}
