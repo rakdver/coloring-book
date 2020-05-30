@@ -153,7 +153,7 @@ non-contractible curves (separating vs non-separating, one-sided vs two-sided).
 Planar vs plane graphs.
 
 Face of an embedded graph $G$ is a maximal connected subset of the surface minus $G$.
-A face is \emph{$2$-cell} if it is homeomorphic to an open disk, \emph{closed $2$-cell}
+A face is \emph{$2$-cell} if it is simple-connected, \emph{closed $2$-cell}
 if additionally bounded by a cycle.  Embedding is $2$-cell if all faces are $2$-cell.
 \emph{Facial walk} of $f$ is a closed walk in $G$ tracing
 a component of the boundary of $f$, the length $|f|$ of $f$ is the sum of lengths of its facial
@@ -5771,7 +5771,7 @@ All vertices of $G$ not in $S$ have degree at least $k+1$, and thus
 Multiplying (\ref{eq:critdens-b2}) by $\bigl(\tfrac{k+1}{2}-\tfrac{1}{k}\bigr)$ and adding it to (\ref{eq:critdens-b1}) gives
 $$\Bigl(k+2-\frac{2}{k}\Bigr)|E(G)|\ge\Bigl(\frac{k+1}{2}-\frac{1}{k}\Bigr)(k+1)|V(G)|,$$
 and thus
-$$\frac{k^2+2k-2}{k}|E(G)|\ge\frac{k^3+2k^2-k-2}{2k}|G|,$$
+$$\frac{k^2+2k-2}{k}|E(G)|\ge\frac{k^3+2k^2-k-2}{2k}|V(G)|,$$
 and the average degree of $G$ is
 $$\frac{2|E(G)|}{|V(G)|}\ge \frac{k^3+2k^2-k-2}{k^2+2k-2}=k+\frac{k-2}{k^2+2k-2}.$$
 \end{proof}
@@ -7389,7 +7389,7 @@ denote the set of vertices of $G$ drawn in the boundary.  Boundary-perpendicular
 the surface along curves passing only through vertices.
 
 We need to make this cutting process a bit more rigorous, as we will need to cut not just along simple closed curves,
-but also along curves that touch (but not cross) itself.  Suppose $H$ is a graph drawn in a surface (possibly one with boundary)
+but also along curves that touch (but not cross) itself.  Suppose $H$ is a multigraph drawn in a surface (possibly one with boundary)
 and $f$ is a face of $H$.  If every vertex and edge of $H$ is incident with $f$ and the boundary of $f$ consists of edges and vertices
 of $H$ (i.e., is not just part of the boundary of the surface), we say that $(H,f)$ is a \emph{stencil}.
 The basic case is that $H$ is a cycle and $f$ is a face bounded by this cycle, but there are more complicated possibilities
@@ -7507,8 +7507,8 @@ for $k$-list-coloring (or $k$-coloring) is cutting-closed.  For convenience, we 
 only for cutting-closed classes, though it is not hard to avoid this assumption.
 
 Finally, we are ready for the key definition of the hyperbolicity theory.
-We say that a cutting-closed class $\GG$ of graphs in surfaces is \emph{hyperbolic} with \emph{Cheeger constant} $\gamma$
-if every $G\in\GG$ with boundary-perpendicular drawing in the disk satisfies
+We say that a cutting-closed class $\GG$ of boundary-perpendicular graphs in surfaces is \emph{hyperbolic} with \emph{Cheeger constant} $\gamma$
+if every $G\in\GG$ drawn in the disk satisfies
 \begin{equation}\label{eq:weakhyper}
 |V(G)|\le \gamma(|\partial G|-1).
 \end{equation}
@@ -7570,9 +7570,114 @@ $$|V(G)|=|V(G')|-|\partial G|=600|\partial G|-899<600(|\partial G|-1).$$
 This implies $\GG$ is hyperbolic with Cheeger constant $600$.
 \end{proof}
 
-\subsection{Edgewidth of critical graphs}
+\subsection{Edgewidth and structure of hyperbolic graphs}
 
-The crucial property of graphs from hyperbolic classes is that contractible neighborhoods grow exponentially
+Any surface can be cut along suitably chosen stencil so that the resulting surface is a disk.
+More precisely, we say a stencil $(H,f)$ is a \emph{net} if the drawing of $H$ is normal, $H$ has exactly one face $f$,
+and this face is $2$-cell.  Suppose this net is perpendicular to a graph $G$ from a hypebolic class.  Then the hyperbolicity
+condition implies the net must necessarily intersect $G$ in at least a constant fraction of the vertices
+of $G$.  As it turns out, unless $|\partial G|$ is linear in the number of vertices of $G$,
+this can only be forced by $G$ containing short non-contractible cycles.  In the proof of this claim,
+the following notion is useful.  The \emph{radial multigraph} of a graph $G$ with a $2$-cell drawing in a surface $\Sigma$ is
+the bipartite multigraph $R$ with vertex set $V(G)\cup F(G)$ and with edges joining each face $f$ to all incident vertices;
+the multiplicity of the edge $fv$ is the number of appearances of $v$ in the boundary walk of $f$.
+Note that $R$ has a natural drawing in $\Sigma$, where the vertices of $V(G)$ are drawn in the same wc+1y
+as in $G$, each vertex of $F(G)$ is drawn in the corresponding face of $G$, and adding to $R$ the edges of $G$,
+we obtain a triangulation of $\Sigma$; let us remark that since $G$ is boundary-perpendicular, every hole
+of $\Sigma$ is bounded by a cycle in $R$ in this natural drawing.
+
+\begin{lemma}\label{lemma-linnet}
+For all integers $k,g\ge 0$ and $c\ge 1$, the following claim holds.
+If $G$ is a graph with a boundary-perpendicular $2$-cell drawing in a surface $\Sigma$ of genus $g$ with $k$ holes
+and every non-contractible cycle of length less than $c$ in $G$ intersects $\partial G$, then
+there exists a net $(H,f)$ perpendicular to $G$ such that
+$$|V(H)|\le 1+(2g+k)(2|V(G)|/c+2|\partial G|+c)+2|\partial G|.$$
+\end{lemma}
+\begin{proof}
+If $\Sigma$ is the sphere,  we can let $(H,f)$ be a net with $H$ consisting of a single vertex not contained in $G$.
+If $\Sigma$ is the disk, we can let $(H,f)$ be a net with $H$ consisting of the cycle with vertex set $\partial G$
+tracing the boundary of $f$. Hence, we can assume $\Sigma$ is neither the sphere nor the disk.
+
+Let $R$ be the radial multigraph of $G$, with its natural drawing in $\Sigma$.
+Choose a vertex $v\in V(G)$ arbitrarily, and let $T$ be a breadth-first search spanning tree of $R$ from $v$;
+that is, the path in $T$ from $v$ to any other vertex is a shortest path between these vertices in $R$.
+For even integer $r\ge 0$, let $G_r$ denote the subraph of $G$ induced by vertices at distance exactly $r$ from $v$ in $R$.
+We say $r$ is tight if $V(G_r)\cap \partial G=\emptyset$ and $|V(G_r)|<c$.
+
+Let $r_0\ge 0$ be the maximum even integer such that either $r_0=0$, or $r_0$ is tight and $v$ is drawn inside a $2$-cell
+face $f_0$ of $G_{r_0}$.  Let $K_0=v$ if $r=0$ and let $K_0$ denote the subgraph of $G_{r_0}$ drawn in the boundary of $f_0$ otherwise.
+Let $r_1>r_0$ be the minimum even integer such that $r_1$ is tight; note that $V(G_{r_1})=\emptyset$ is possible.
+Since $G$ does not contain a non-contractible cycle of length less than $c$ in $G$ disjoint from $\partial G$,
+every cycle in $G_{r_1}$ is contractible; consequently, $G_{r_1}$ has exactly one face $f_1$ that is not $2$-cell,
+and the complement of $f_1$ is simply-connected.  Let $K_1$ be the subgraph of $G_{r_1}$ drawn in the boundary of $f_1$.
+
+The choice of $r_0$ and $r_1$ implies $v\in f_1$.
+A curve in $f_1$ from $v$ to any vertex $x$ of $R$ drawn in $f_1$ can be continuously transformed to a
+walk in $R$ from $v$ to $x$ disjoint from $G_{r_1}$, implying $x$ is at distance less than $r_1$ from $v$ in $R$.
+Moreover, if $r_0>0$, then $V(K_0)$ separates all vertices of $R$ not drawn in $f_0$ from $v$, implying
+their distance from $v$ is greater than $r_0$.
+
+Let $R'$ be the subgraph of $R\cup K_0\cup K_1$ obtained by deleting all vertices and
+edges drawn in the complement of $\overline{f_1}$ or, in case $r_0>0$, in $f_0$.  The drawing of $R'$ in $\Sigma$ is $2$-cell,
+as the we only deleted parts contained in the interior of the simply-connected complement of $f_1$ and possibly in $f_0$.
+Let $T'$ be the spanning tree of $R'$ consisting of $T\cap R'$ and a spanning tree of $K_0$.
+and let $v'$ be an arbitrary vertex of $K_0$.
+Note that every vertex of $T'$ is at distance at most $r_1-r_0+c-2$ from $v'$, since each vertex of $R'$
+is at distance at most $r_1-r_0$ from $V(K_0)$ and $|V(K_0)|\le c-1$.
+For each even $r$ such that $r_0<r<r_1$, either $V(G_{r})\cap \partial G\neq \emptyset$,
+or $|V(G_r)|\ge c$.  Consequently, $|V(G)|\ge c((r_1-r_0)/2-1-|\partial G|)$, and $r_1-r_0+c-2\le 2|V(G)|/c+2|\partial G|+c$.
+
+Consider $R'$ drawn in the surface $\Sigma'$ obtained from $\Sigma$ by patching all holes.
+Since every hole of $\Sigma$ is bounded by a cycle in $R$ and all these cycles belong to $R'$ by the choice of $r_0$ and $r_1$,
+the drawing of $R'$ in $\Sigma'$ is $2$-cell.  Let $R^\star$ be the dual of $R'$ in this surface, and let $D$ be
+the spanning subraph of $R^\star$ whose edges are dual to those in $E(R')\setminus E(T')$.  Since $T'$ has only one face in $\Sigma'$,
+the graph $D$ is connected.  Let $S$ be a spanning tree of $D$, let $X^\star=E(D)\setminus E(S)$, and let $X\subseteq E(R')\setminus E(T')$
+be the set of edges dual to $X^\star$.  Then $T'+X$ has exactly one face in $\Sigma'$ and this face is $2$-cell, since it
+is obtained from the faces of $R'$ by gluing along the edges dual to those of the tree $S$.  Since $T'$ and $S$ are spanning trees
+of $R'$ and its dual, we have
+\begin{align*}
+|X|&=|E(D)|-|E(S)|=|E(R')|-(|E(T')|+|E(S)|)\\
+&=|E(R')|-(|V(R')|+|F(R')|-2)=g
+\end{align*}
+by Euler's formula (Theorem~\ref{thm:eulerfla}).
+
+Let $H'$ be the subgraph of $T'+X$ obtained by iteratively removing vertices of degree one distinct from $v'$; the resulting graph
+still has only one face in $\Sigma'$ and the face is $2$-cell.  Note that $H'$ contains only $X$ and
+the paths from the ends of $X$ to $v'$ in $T'$, implying that $|V(H)|\le 1+2g(2|V(G)|/c+2|\partial G|+c)$.
+Let $H''$ be obtained from $H'$ by, for each hole of $\Sigma$, adding the cycle in $R'$ bounding the hole
+and a path from $v'$ to this cycle in $T'$.  We have $V(H'')\le 1+(2g+k)(2|V(G)|/c+2|\partial G|+c)+2|\partial G|$.
+Note that every face of $H''$ is $2$-cell in $\Sigma$, and thus there exists a subgraph $H$ of $H''$ such that
+$H$ has exactly one face $f$ and this face is $2$-cell, obtained by iteratively deleting edges of $H''$ between different faces.
+Then $(H,f)$ is a net perpendicular to $G$.
+\end{proof}
+
+
+
+\begin{proof}
+Let $(H,f)$ be a net perpendicular to $G$ with $|V(H)|$ minimum; we have
+$|V(H)|\le |V(H_2)|\le 1+(2g+k)(2|V(G)|/c+2|\partial G|+c)+|\partial G|$.
+Clearly $\delta(H)\ge 2$.  If $H$ is not a cycle, consider the multigraph $H_3$ obtained from $H$ by suppressing all vertices of degree two, keeping loops and parallel edges
+that may arise.  Then $H_3$ has minimum degree at least three and is normally drawn in $\Sigma$ with only one face;
+by Euler's formula, we have
+$$3|V(H_3)|\le 2|E(H_3)|=2(|V(H_3)+(k+1)+g-2),$$
+implying $|V(H_3)|\le 2(k+g-1)$ and $|E(H_3)|\le 3(k+g-1)$.
+Consider a vertex $v\in V(G)\cap V(H)$, and let $b=1$ if $v\in\partial G$ and $b=0$ otherwise.
+Note that when cutting along the net $(H,f)$, every vertex $v\in V(G)\cap V(H)$ is split into $2-b$ vertices
+if $v\not\in V(H')$, and into $\deg_{H'}(v)-b$ vertices if $v\in V(H')$.  Consequently,
+\begin{align*}
+|\partial G_f|&=2|V(G)\cap V(H)|-|\partial G|+\sum_{v\in V(G)\cap V(H')} (\deg_{H'}(v)-2)\\
+&=2|V(G)\cap V(H)|-|\partial G|+2(|E(H')|-|V(H')|)\\
+&\le 2|V(G)\cap V(H)|-|\partial G|+k+g-1<2|V(G)\cap V(H)|+g.
+\end{align*}
+We can assume the first outcome of the lemma does not hold,
+and thus
+$$|V(G)|\le |V(G_f)|\le \gamma |\partial G_f|\le \gamma(2|V(G)\cap V(H)|+g).$$
+...
+\end{proof}
+
+\subsection{Exponential growth and logarithmic radius}
+
+Another important property of graphs from hyperbolic classes is that contractible neighborhoods grow exponentially
 with the distance.  We need the following auxiliary statement.
 \begin{lemma}\label{lemma:disknbr}
 Let $G$ be a graph with drawing in a surface $\Sigma$ other than the sphere.
@@ -7594,7 +7699,7 @@ vertices incident both with an edge in $D$ and outside of $D$; all such vertices
 \end{proof}
 
 \begin{corollary}\label{cor:expgrowth}
-Let $\GG$ be a cutting-closed class graphs hyperbolic with Cheeger constant $\gamma>1$.
+Let $\GG$ be a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma>1$.
 Let $G\in\GG$ be a graph with drawing in a surface $\Sigma$ other than the sphere.
 For a vertex $v\in V(G)$ and integers $i=0,\ldots,r$, let $G_i$ be the subgraph of $G$ induced by vertices
 at distance at most $i$ from $v$.
@@ -7615,8 +7720,22 @@ Hence,
 \end{align*}
 \end{proof}
 
+In particular, this bounds the distance to the boundary in the disk case.
 
-\subsection{Logarithmic radius and coloring algorithm}
+\begin{corollary}\label{cor:logdisk}
+Let $\GG$ be a cutting-closed hyperbolic class of graphs.
+Let $G\in\GG$ be a graph with drawing in the disk.  Then every vertex of $G$ is
+at distance $O(\log |\partial G|)$ from $\partial G$.
+\end{corollary}
+\begin{proof}
+Let $\gamma>1$ be the Cheeger constant of $\GG$.  Suppose that the distance from a vertex $v\in V(G)$ to $\partial G$
+is greater than $r=\Big\lceil\log_{\gamma/(\gamma-1)}(\gamma|\partial G|)\Big\rceil$.  By Corollary~\ref{cor:expgrowth} and the hyperbolicity of $\GG$, we have
+$$|V(G_r)|\ge \Bigl(\tfrac{\gamma}{\gamma-1}\Bigr)^r\ge \gamma|\partial G|>|V(G)|,$$
+which is a contradiction.
+\end{proof}
+
+\subsection{Testing? (rename)}
+
 \subsection{Precoloring extension?}
 \subsection{Number of colorings?}
 
