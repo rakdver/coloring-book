@@ -7543,7 +7543,7 @@ Then $H'$ is not $L'$-colorable, contradicting the fact that planar graphs satis
 
 In the previous chapter, we proved linear bounds on sizes of critical graphs in terms of normal drawings rather than boundary-perpendicular ones,
 but this technicality is easy to overcome, as we see from the following example.
-\begin{lemma}
+\begin{lemma}\label{lemma:5lchyper}
 The class $\GG$ of all graphs with boundary-perpendicular drawings in surfaces that are boundary-critical for $5$-list-coloring
 is hyperbolic.
 \end{lemma}
@@ -7633,7 +7633,30 @@ $$|V(G_r)|\ge \Bigl(\tfrac{\gamma}{\gamma-1}\Bigr)^r\ge \gamma|\partial G|>|V(G)
 which is a contradiction.
 \end{proof}
 
+Let us sketch an application.  Let $G$ be a planar graph with $n$ vertices, let $L$ be an assignment of lists of size five to
+vertices of $G$, and let $\psi$ be an $L$-coloring of a connected subgraph $H$ of $G$.  How to decide whether $\psi$ extends
+to an $L$-coloring of $G$?  Clearly, it suffices to be able to decide whether the coloring extends to each of the subgraphs
+of $G$ drawn in the faces of $H$.  Fix a face $f$ of $H$ and let $G_f$ be the subgraph of $G$ obtained by cutting along the corresponding
+stencil.  If $\psi$ does not extend to an $L$-coloring of $G_f$, then $G_f$ contains a subgraph $G'$ containing $\partial G_f$
+boundary-critical for $L$-coloring such that $\psi$ does not extend to an $L$-coloring of $G'$.
+The graph $G'$ belongs to a hyperbolic class by Lemma~\ref{lemma:5lchyper}, and thus all its vertices are at distance $O(\log n)$ from
+$\partial G_f$ by Corollary~\ref{cor:logdisk}.  Let $G''$ be the subgraph of $G_f$ induced by vertices
+at distance at most $O(\log n)$ from $\partial G_f$.  As we just argued, $G''$ contains a boundary-critical subgraph to that
+$\psi$ does not extend if and only if $G_f$ does, and thus $\psi$ extends to an $L$-coloring of $G_f$ if and only if it extends to
+an $L$-coloring of $G''$.
 
+Moreover, Robertson and Seymour~\cite{rs3} proved that a plane graph where every vertex is at distance at most $r$ from the boundary
+of one of its faces has tree-width $O(r)$, and for an $n$-vertex graph of tree-width at most $t$, the precoloring extension problem from lists of
+bounded size can be decided in time $\exp(O(t))n$.  Combining these results, we can decide whether $\psi$ extends to an $L$-coloring
+of $G''$ in time $\exp(O(\log n))n=\text{poly}(n)$.  Hence, for any connected subgraph $H$ of a planar graph $G$ and
+an assignment $L$ of lists of size five, we can decide whether a precoloring of $H$ extends to an $L$-coloring of $G$ in polynomial
+time.  The interesting point here is that the size of $H$ is not bounded---so this is not the case that we could just check a finite
+number of obstructions.  Let us also remark that the assumption that $H$ is connected is crucial; otherwise, take a plane graph $G_0$
+with an assignment $L_0$ of lists of size four, add a pendant vertex adjacent to each of the vertices of $G_0$, and let $H$ be the
+independent set formed by these pendant vertices.  Let $c$ be a new color not appearing in any of the lists, let
+$L(v)=L_0(v)\cup\{c\}$ for every vertex $v\in V(G_0)$, and choose lists of size five containing $c$ for vertices of $H$ arbitrarily.
+The precoloring of $H$ giving each vertex the color $c$ extends to an $L$-coloring of $G$ if and only of $G_0$ is $L_0$-colorable.
+However, deciding colorability of planar graphs from lists of size four is NP-hard.
 
 \subsection{Short non-contractible cycles in hyperbolic graphs}
 
@@ -7642,89 +7665,101 @@ More precisely, we say a stencil $(H,f)$ is a \emph{net} if the drawing of $H$ i
 and this face is $2$-cell.  Suppose this net is perpendicular to a graph $G$ from a hypebolic class.  Then the hyperbolicity
 condition implies the net must necessarily intersect $G$ in at least a constant fraction of the vertices
 of $G$.  As it turns out, unless $|\partial G|$ is linear in the number of vertices of $G$,
-this can only be forced by $G$ containing short non-contractible cycles.  In the proof of this claim,
-the following notion is useful.  The \emph{radial multigraph} of a graph $G$ with a $2$-cell drawing in a surface $\Sigma$ is
+this can only be forced by $G$ containing short non-contractible cycles.
+
+In the proof of this claim, the following notions are useful.  A set $X$ of vertices of $G$ is \emph{$d$-isolated} if the distance
+between any two vertices of $X$ is greater than $2d$ and the distance from $X$ to $\partial G$ is greater than $d$.
+Let $\beta_d(G)$ denote the largest size of a $d$-isolated set in $G$.
+The \emph{radial multigraph} of a graph $G$ with a $2$-cell drawing in a surface $\Sigma$ is
 the bipartite multigraph $R$ with vertex set $V(G)\cup F(G)$ and with edges joining each face $f$ to all incident vertices;
 the multiplicity of the edge $fv$ is the number of appearances of $v$ in the boundary walk of $f$.
-Note that $R$ has a natural drawing in $\Sigma$, where the vertices of $V(G)$ are drawn in the same wc+1y
+Note that $R$ has a natural $2$-cell drawing in $\Sigma$, where the vertices of $V(G)$ are drawn in the same way
 as in $G$, each vertex of $F(G)$ is drawn in the corresponding face of $G$, and adding to $R$ the edges of $G$,
 we obtain a triangulation of $\Sigma$; let us remark that since $G$ is boundary-perpendicular, every hole
-of $\Sigma$ is bounded by a cycle in $R$ in this natural drawing.
+of $\Sigma$ is bounded by a cycle in $R$ in this natural drawing.  Note also that for any $x,y\in V(G)$,
+the distance between $x$ and $y$ in $R$ is at most twice the distance in $G$, as a walk from $x$ to $y$ in $R$ can be obtained
+from a path $P$ in $G$ by, for each $uv\in E(P)$, replacing the edge $uv$ by a path $ufv$, where $f$ is a face of $G$ incident
+with $uv$.
 
-\begin{lemma}\label{lemma:linnet}
-For all integers $k,g\ge 0$ and $c\ge 1$, the following claim holds.
-If $G$ is a graph with a boundary-perpendicular $2$-cell drawing in a surface $\Sigma$ of genus $g$ with $k$ holes
-and every non-contractible cycle of length less than $c$ in $G$ intersects $\partial G$, then
-there exists a net $(H,f)$ perpendicular to $G$ such that
-$$|\partial G_f|<(4g+2k)|V(G)|/c+(4g+2k+1)|\partial G|+5g+3k+2c.$$
+\begin{lemma}\label{lemma:isnet}
+For all integers $k,g\ge 0$ and $d\ge 1$, the following claim holds.
+If $G$ is a graph with a boundary-perpendicular $2$-cell drawing in a surface $\Sigma$ of genus $g$ with $k$ holes,
+then there exists a net $(H,f)$ perpendicular to $G$ such that
+$$|\partial G_f|\le (8d+4)\beta_d(G)+(48d+29)(k+g)+|\partial G|.$$
 \end{lemma}
 \begin{proof}
-If $\Sigma$ is the sphere,  we can let $(H,f)$ be a net with $H$ consisting of a single vertex not contained in $G$.
-If $\Sigma$ is the disk, we can let $(H,f)$ be a net with $H$ consisting of the cycle with vertex set $\partial G$
-tracing the boundary of $f$. Hence, we can assume $\Sigma$ is neither the sphere nor the disk.
+The claim is trivial if $\Sigma$ is the sphere (with $H$ consisting of a single vertex) or the disk (with $H$ being
+a cycle with vertex set $\partial G$).  Hence, we can assume $\Sigma$ is neither the sphere nor the disk.
 
-Let $R$ be the radial multigraph of $G$, with its natural drawing in $\Sigma$.
-Choose a vertex $v\in V(G)$ arbitrarily, and let $T$ be a breadth-first search spanning tree of $R$ from $v$;
-that is, the path in $T$ from $v$ to any other vertex is a shortest path between these vertices in $R$.
-For even integer $r\ge 0$, let $G_r$ denote the subraph of $G$ induced by vertices at distance exactly $r$ from $v$ in $R$.
-We say $r$ is tight if $V(G_r)\cap \partial G=\emptyset$ and $|V(G_r)|<c$.
+Let $R$ be the radial multigraph of $G$ with its natural drawing in $\Sigma$.  
+We can repeatedly delete from $R$ edges between different faces, obtaining a normal subgraph of $R$ with only one $2$-cell face.
+Hence, there exists a net $(H,f)$ perpendicular to $G$ with $H\subseteq R$.  Choose such a net $H$ with $|V(H)|$ minimum.
 
-Let $r_0\ge 0$ be the maximum even integer such that either $r_0=0$, or $r_0$ is tight and $v$ is drawn inside a $2$-cell
-face $f_0$ of $G_{r_0}$.  Let $K_0=v$ if $r=0$ and let $K_0$ denote the subgraph of $G_{r_0}$ drawn in the boundary of $f_0$ otherwise.
-Let $r_1>r_0$ be the minimum even integer such that $r_1$ is tight; note that $V(G_{r_1})=\emptyset$ is possible.
-Since $G$ does not contain a non-contractible cycle of length less than $c$ in $G$ disjoint from $\partial G$,
-every cycle in $G_{r_1}$ is contractible; consequently, $G_{r_1}$ has exactly one face $f_1$ that is not $2$-cell,
-and the complement of $f_1$ is simply-connected.  Let $K_1$ be the subgraph of $G_{r_1}$ drawn in the boundary of $f_1$.
+Let $B$ be the set of vertices $y\in V(H)$ such that either $\deg_H(y)>2$ or
+$y\in\partial H$.  Note that either $\Sigma$ is the projective plane, $H$ is a cycle, and $B=\emptyset$,
+or every component of $H-B$ is a path.
+Let $d_R$ and $d_H$ denote the distance in $R$ and in $H$, respectively.
+Consider any path $Q$ in $R$ with both ends $u$ and $x$ in $V(H)$ and internal vertices in
+$V(R)\setminus V(H)$.  Let $\ell$ be the length of $Q$.  We claim that if $d_H(u,B)>\ell$,
+then $d_H(u,x)\le \ell$.  This is trivial if $Q$ is an edge of $H$.  Otherwise,
+let $P_1$ and $P_2$ be the two edge-disjoint paths in $H$ of length $\ell$
+ending in $u$, and suppose for a contradiction $x$ does not belong to either of them.
+Let $f_1$ and $f_2$ be the two faces of $H\cup Q$, labelled so that the concatenation of $P_i$ with $Q$ is
+contained in the boundary of $f_i$ for $i\in\{1,2\}$.  By symmetry, we can assume $u$ is incident with $f_2$
+twice.  Then $(H\cup Q)-V(P_1-u)$ has only one $2$-cell face and fewer vertices than $H$, contradicting the minimality of $|V(H)|$.
 
-The choice of $r_0$ and $r_1$ implies $v\in f_1$.
-A curve in $f_1$ from $v$ to any vertex $x$ of $R$ drawn in $f_1$ can be continuously transformed to a
-walk in $R$ from $v$ to $x$ disjoint from $G_{r_1}$, implying $x$ is at distance less than $r_1$ from $v$ in $R$.
-Moreover, if $r_0>0$, then $V(K_0)$ separates all vertices of $R$ not drawn in $f_0$ from $v$, implying
-their distance from $v$ is greater than $r_0$.
+More generally, we claim that for all $u,v\in V(H)$,
+\begin{equation}\label{eq:fabran}
+d_R(u,v)\ge \min(d_H(u,v),d_H(u,B)).
+\end{equation}
+Let us prove this claim by the induction on $d_R(u,v)$; the case $d_R(u,v)=0$ is trivial, and thus
+we can assume $u\neq v$ and the claim holds for all vertices of $H$ whose distance in $R$ is smaller than $d_R(u,v)$.
+Let $P$ be a shortest path from $u$ to $v$ in $R$, let $x$ be the first vertex on $P$ after $u$ that belongs to $H$,
+let $Q$ be the segment of $P$ from $u$ to $x$, and let $\ell$ be the length of $Q$.  If $\ell\ge d_H(u,B)$,
+then $d_R(u,v)\ge\ell\ge \min(d_H(u,v),d_H(u,B))$.  Hence, we can assume $d_H(u,B)>\ell$,
+and by the previous paragraph, $d_H(u,x)\le \ell$.  By the induction hypothesis applied to $x$ and $v$
+and the triangle inequality, we have
+$$d_R(u,v)=\ell+d_R(x,v)\ge d_H(u,x)+\min(d_H(x,v),d_H(x,B))\ge \min(d_H(u,v),d_H(u,B)).$$
 
-Let $R'$ be the subgraph of $R\cup K_0\cup K_1$ obtained by deleting all vertices and
-edges drawn in the complement of $\overline{f_1}$ or, in case $r_0>0$, in $f_0$.  The drawing of $R'$ in $\Sigma$ is $2$-cell,
-as the we only deleted parts contained in the interior of the simply-connected complement of $f_1$ and possibly in $f_0$.
-Let $T'$ be the spanning tree of $R'$ consisting of $T\cap R'$ and a spanning tree of $K_0$,
-and let $v'$ be an arbitrary vertex of $K_0$.
-Note that every path in $T'$ ending in $v_0$ contains at most $(r_1-r_0)/2$ vertices of $V(G)\setminus V(K_0)$.
-For each even $r$ such that $r_0<r<r_1$, either $V(G_{r})\cap \partial G\neq \emptyset$,
-or $|V(G_r)|\ge c$.  Consequently, $|V(G)|\ge c((r_1-r_0)/2-1-|\partial G|)$, and $(r_1-r_0)/2\le |V(G)|/c+|\partial G|+1$.
+Let $X\subseteq V(G)\cap V(H)$ be the largest set of vertices such that
+$d_H(u,v)>4d$ for all distinct $u\in X$ and $v\in X\cup B$.  By (\ref{eq:fabran}),
+it follows that $d_G(u,v)\ge\frac{d_R(u,v)}{2}>2d$ for each $u\in X$ and $v\in X\cup \partial G$.
+Consequently, $X$ is a $d$-isolated set in $G$ and $|X|\le \beta_d(G)$.
+It remains to relate $|\partial G_f|$ to $|X|$.
+If $\Sigma$ is the projective plane, then $H$ is a cycle,
+$|X|\ge \max(1,\lfloor|V(H)|/(4d+2)\lfloor)\ge |V(H)|/(8d+4)$
+and $|\partial G_f|=2|V(H)\cap V(G))|=|V(H)|\le (8d+4)|X|$,
+implying the lemma holds.
 
-Consider $R'$ drawn in the surface $\Sigma'$ obtained from $\Sigma$ by patching all holes.
-Since every hole of $\Sigma$ is bounded by a cycle in $R$ and all these cycles belong to $R'$ by the choice of $r_0$ and $r_1$,
-the drawing of $R'$ in $\Sigma'$ is $2$-cell.  Let $R^\star$ be the dual of $R'$ in this surface, and let $D$ be
-the spanning subraph of $R^\star$ whose edges are dual to those in $E(R')\setminus E(T')$.  Since $T'$ has only one face in $\Sigma'$,
-the graph $D$ is connected.  Let $S$ be a spanning tree of $D$, let $X^\star=E(D)\setminus E(S)$, and let $X\subseteq E(R')\setminus E(T')$
-be the set of edges dual to $X^\star$.  Then $T'+X$ has exactly one face in $\Sigma'$ and this face is $2$-cell, since it
-is obtained from the faces of $R'$ by gluing along the edges dual to those of the tree $S$.  Since $T'$ and $S$ are spanning trees
-of $R'$ and its dual, we have
+Hence, we can assume $\Sigma$ is not the projective plane,
+and thus $H$ contains a vertex of degree at least three.  Let $H'$ be the multigraph obtained
+from $H$ by suppressing all vertices of degree two.  Since $H'$ has minimum degree at least three
+and a drawing in $\Sigma$ with one $2$-cell face, Euler's formula (Theorem~\ref{thm:eulerfla}) gives
+$$3|V(H')|\le 2|E(H')|=2(|V(H')|+k+g-1).$$
+This implies $|V(H')|\le 2(k+g-1)$ and $|E(H')|\le 3(k+g-1)$, and thus the number $c$ of the components of $H-B$
+is at most $3(k+g-1)$.  Each component $P$ is a path, and the maximality of $|X|$
+implies $|V(P)\cap X|\ge |V(P)|/(4d+2)-2$.  Therefore,
 \begin{align*}
-|X|&=|E(D)|-|E(S)|=|E(R')|-(|E(T')|+|E(S)|)\\
-&=|E(R')|-(|V(R')|+|F(R')|-2)=g
+|X|&\ge \frac{|V(H-B)|}{4d+2}-2c\ge \frac{|V(H-B)\cap V(G)|}{4d+2}-2c\\
+&\ge \frac{|V(H)\cap V(G)|-|V(H')|-|\partial G|}{4d+2}-2c,
 \end{align*}
-by Euler's formula (Theorem~\ref{thm:eulerfla}).
-
-Let $H'$ be the subgraph of $T'+X$ obtained by iteratively removing vertices of degree one distinct from $v'$; the resulting graph
-still has only one face in $\Sigma'$ and the face is $2$-cell.  Note that $H'$ contains only $X$ and
-the paths from the ends of $X$ to $v'$ in $T'$, implying that $|V(H')\cap (V(G)\setminus V(K_0))|\le 2g(|V(G)|/c+|\partial G|+1)$.
-Let $H''$ be obtained from $H'$ by, for each hole of $\Sigma$, adding the cycle in $R'$ bounding the hole
-and a path from $v'$ to this cycle in $T'$.  We have
-$|V(H'')\cap (V(G)\setminus V(K_0))|\le (2g+k)(|V(G)|/c+|\partial G|+1)+|\partial G|$.
-Note that every face of $H''$ is $2$-cell in $\Sigma$.  Let $H$ be obtained from $H''$
-by iteratively deleting edges between pairs of distinct faces; then $H$ has exactly one face $f$
-and this face is $2$-cell, and thus $(H,f)$ is a net perpendicular to $G$.  We have
-$$|V(H)\cap V(G)|\le |V(H'')\cap V(G)|<(2g+k)(|V(G)|/c+|\partial G|+1)+|\partial G|+c.$$
-Consider a vertex $v\in V(G)\cap V(H)$, and let $b=1$ if $v\in\partial G$ and $b=0$ otherwise.
-Note that when cutting along the net $(H,f)$, every vertex $v\in V(G)\cap V(H)$ is split into $\deg_H(v)-b$ vertices. 
+and
+$$|V(H)\cap V(G)|\le (4d+2)|X|+(24d+14)(k+g-1)+|\partial G|.$$
+Consider a vertex $v\in V(H)\cap V(G)$, and let $b=1$ if $v\in\partial G$ and $b=0$ otherwise.
+Note that when cutting along the net $(H,f)$, $v$ is split into $\deg_H(v)-b$ vertices. 
 Consequently, using Euler's formula, we obtain
 \begin{align*}
-|\partial G_f|&=2|V(G)\cap V(H)|-\partial G+\sum_{v\in V(G)\cap V(H)} (\deg_H(v)-2)\\
-&=2|V(G)\cap V(H)|-|\partial G|+2(|E(H)|-|V(H)|)\\
-&\le 2|V(G)\cap V(H)|-|\partial G|+k+g-1\\
-&<(4g+2k)|V(G)|/c+(4g+2k+1)|\partial G|+5g+3k+2c.
+|\partial G_f|&=2|V(H)\cap V(G)|-\partial G+\sum_{v\in V(H)\cap V(G)} (\deg_H(v)-2)\\
+&=2|V(H)\cap V(G)|-|\partial G|+2(|E(H)|-|V(H)|)\\
+&\le 2|V(H)\cap V(G)|-|\partial G|+k+g-1\\
+&\le (8d+4)|X|+(48d+29)(k+g-1)+|\partial G|.
 \end{align*}
 \end{proof}
+
+In case $G$ comes from the hyperbolic family, we have $|V(G)|=O(|\partial G_f|)$, implying $\beta_d(G)=\Omega(|V(G)|/d)$.
+The neighborhoods of vertices of the largest $d$-isolated set up to distance $d$ are disjoint, implying that most of them
+have size $O(d)$.  In combination with the exponential growth guaranteed by Corollary~\ref{cor:expgrowth}, it follows
+that these neighborhoods contain short non-contractible cycles.
 
 \begin{corollary}\label{cor:hyperew}
 Let $\GG$ be a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma>1$.
