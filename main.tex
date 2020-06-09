@@ -22,6 +22,7 @@
 \newcommand{\sgn}{\text{sgn}}
 \newcommand{\exc}{\text{exc}}
 \newcommand{\GG}{\mathcal{G}}
+\newcommand{\HH}{\mathcal{H}}
 \newcommand{\CC}{\mathcal{C}}
 \newcommand{\FF}{\mathcal{F}}
 \newcommand{\EE}{\mathcal{E}}
@@ -7390,7 +7391,7 @@ the surface along curves passing only through vertices.
 
 We need to make this cutting process a bit more rigorous, as we will need to cut not just along simple closed curves,
 but also along curves that touch (but not cross) itself.  Suppose $H$ is a multigraph drawn in a surface (possibly one with boundary)
-and $f$ is a face of $H$.  If every vertex and edge of $H$ is incident with $f$ and the boundary of $f$ consists of edges and vertices
+and $f$ is a face of $H$.  If the boundary of $f$ consists of edges and vertices
 of $H$ (i.e., is not just part of the boundary of the surface), we say that $(H,f)$ is a \emph{stencil}.
 The basic case is that $H$ is a cycle and $f$ is a face bounded by this cycle, but there are more complicated possibilities
 involving $f$ not being homeomorphic to an open disk or vertices and edges of $H$ appearing more than once in the boundary of $f$.
@@ -7401,7 +7402,9 @@ The stencil $(H,f)$ is \emph{perpendicular} to a drawing of another graph $G$ in
 in their common vertices.  The \emph{slice} of $G$ along the stencil $(H,f)$ is the graph $G_f=\theta^{-1}(G\cap \overline{f})$
 drawn in $\Sigma_f$.  Note that $G_f$ is boundary-perpendicular in $\Sigma_f$, and we can view it as being obtained from
 $G\cap \overline{f}$ by cutting along the boundary of $f$, spliting the vertices as necessary; see Figure~\ref{fig:cutting}
-for an illustration.
+for an illustration.  Let us remark that we generally consider stencils $(H,f)$ such that
+every vertex and edge of $H$ is incident with $f$, but we do not include this as part of the definition, since it
+is sometimes convenient to speak about stencils corresponding to different faces of a single graph $H$.
 
 \begin{figure}
 \begin{center}
@@ -7573,6 +7576,8 @@ This implies $2|V(G')|\le 601|C|-1798=1202|\partial G|-1798$.  Consequently,
 $$|V(G)|=|V(G')|-|\partial G|=600|\partial G|-899<600(|\partial G|-1).$$
 This implies $\GG$ is hyperbolic with Cheeger constant $600$.
 \end{proof}
+To be specific, we will be giving all applications in terms of 5-list-coloring.  However, they of course equally well
+apply to any other coloring problem where the critical graphs form a hyperbolic family.
 
 \subsection{Exponential growth and logarithmic radius}
 
@@ -7657,6 +7662,20 @@ independent set formed by these pendant vertices.  Let $c$ be a new color not ap
 $L(v)=L_0(v)\cup\{c\}$ for every vertex $v\in V(G_0)$, and choose lists of size five containing $c$ for vertices of $H$ arbitrarily.
 The precoloring of $H$ giving each vertex the color $c$ extends to an $L$-coloring of $G$ if and only of $G_0$ is $L_0$-colorable.
 However, deciding colorability of planar graphs from lists of size four is NP-hard.
+
+For surfaces without boundary, Corollary~\ref{cor:expgrowth} can clearly be used to show that the edge-width of graphs from
+hyperbolic families is logarithmic in the number of their vertices.  Actually, slightly more is true.
+\begin{corollary}\label{cor:logew}
+Let $\GG$ be a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma>1$.
+For every graph $G\in \GG$ drawn in a surface without boundary and every vertex $v\in V(G)$, 
+there exists a non-contractible cycle in $G$ of length $O(\log |V(G)|)$ containing $v$.
+\end{corollary}
+\begin{proof}
+Let $r=O(\log |V(G)|)$ be the minimum integer such that $\Bigl(\tfrac{\gamma}{\gamma-1}\Bigr)^r>|V(G)|$.
+The conclusion of Corollary~\ref{cor:expgrowth} is then clearly false, and thus
+there exists a non-contractible closed walk in $G$ containing $v$ of length at most $2r+1$.
+\end{proof}
+Next, we show this bound can actually be substantially improved.
 
 \subsection{Short non-contractible cycles in hyperbolic graphs}
 
@@ -7762,35 +7781,132 @@ have size $O(d)$.  In combination with the exponential growth guaranteed by Coro
 that these neighborhoods contain short non-contractible cycles.
 
 \begin{corollary}\label{cor:hyperew}
-Let $\GG$ be a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma>1$.
+For every $\gamma>1$, there exists a positive integer $d$ such that the following holds.
+Let $\GG$ be a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma$.
 If $G\in\GG$ is a graph with a boundary-perpendicular $2$-cell drawing in a surface of genus $g$ with $k$ holes,
 then either
 \begin{itemize}
-\item $|V(G)|\le 2\gamma(4g+2k+1)|\partial G|+2(13g+7k)\gamma^2$, or
-\item $G$ contains a non-contractible cycle of length less than $4(2g+k)\gamma$ disjoint from $\partial G$.
+\item $|V(G)|\le 2\gamma((48d+29)(k+g)+|\partial G|)$, or
+\item $G$ contains a non-contractible cycle of length at most $2d+1$ disjoint from $\partial G$.
 \end{itemize}
 \end{corollary}
 \begin{proof}
-If the second outcome does not hold, by Lemma~\ref{lemma:linnet}, there exists a net $(H,f)$ perpendicular to $G$ such that
-$$|\partial G_f|<\frac{|V(G)|}{2\gamma}+(4g+2k+1)|\partial G|+(13g+7k)\gamma.$$
-Since $\GG$ is cutting-closed and hyperbolic with Cheeger constant $\gamma$,
-we have $|V(G)|\le |V(G_f)|<\gamma|\partial G_f|$, and thus
-$$\frac{|V(G)|}{2\gamma}\le (4g+2k+1)|\partial G|+(13g+7k)\gamma,$$
-implying the first outcome.
+Choose $d$ as a minimum integer such that $(16d+8)\gamma\le \Bigl(\tfrac{\gamma}{\gamma-1}\Bigr)^d$.
+
+By Lemma~\ref{lemma:isnet}, there exists a net $(H,f)$ perpendicular to $G$ such that
+$|\partial G_f|\le (8d+4)\beta_d(G)+(48d+29)(k+g)+|\partial G|$.
+Since $G\in\GG$, we have $|V(G)|\le |V(G_f)|<\gamma|\partial G_f|$.
+If the first outcome of this corollary does not hold, then $\gamma((48d+29)(k+g)+|\partial G|)\le |V(G)|/2$.
+Combining these inequalities, we obtain $|V(G)|<(16d+8)\gamma\beta_d(G)$.  Let $X$ be a $d$-isolated
+set in $G$ of size more than $\tfrac{|V(G)|}{(16d+8)\gamma}$.  For each $v\in X$, let $G_v$ be the
+subgraph of $G$ induced by vertices at distance at most $d$ from $v$.  Since $X$ is $d$-isolated,
+these subgraphs are pairwise disjoint and disjoint from $\partial G$.  Consequently, there exists $v\in X$
+such that $|V(G_v)|<(16d+8)\gamma\le \Bigl(\tfrac{\gamma}{\gamma-1}\Bigr)^d$.
+By Corollary~\ref{cor:expgrowth}, this implies there exists a non-contractible closed walk in $G$ of length at most $2d+1$
+containing $v$.  This walk is contained in $G_v$, and thus it is disjoint from $\partial G$.  Therefore,
+there also exists a non-contractible cycle of length at most $2d+1$ disjoint from $\partial G$.
 \end{proof}
-In particular, in case the surface has no holes, the first outcome shows the graph has bounded size, and thus
-it contains a non-contractible cycle of bounded length.
+In particular, in case the surface has no holes, the first outcome shows the graph has bounded size,
+giving us the following consequence in combination with Corollary~\ref{cor:logew}.
 \begin{corollary}
 Let $\GG$ be a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma>1$.
-If $G\in\GG$ is drawn in a surface of genus $g$ without boundary, then $G$ has edge-width at most $26\gamma^2g$.
+If $G\in\GG$ is drawn in a surface of genus $g$ without boundary, then $G$ has edge-width $O(\log g)$.
 \end{corollary}
+By considering the class of graphs boundary-critical for $5$-list-coloring, this for example implies
+that every locally planar graph (a graph drawn in a surface of genus $g$ with edge-width $\Omega(\log g)$)
+is 5-list-colorable.
+
+Corollary~\ref{cor:hyperew} has another important consequence, which in particular motivates the notion of strong hyperbolicity
+we will introduce later.  To show this consequence, we need a standard bound on the number of disjoint homotopically non-equivalent
+cycles that can be drawn in a fixed surface.
+\begin{lemma}\label{lemma:disjnonc}
+Let $\Sigma$ be a surface of genus $g$ with $k$ holes, where $k+g>1$, and let $C_1$, \ldots, $C_m$ be non-contractible cycles with disjoint drawings in $\Sigma$.
+If $C_1$, \ldots, $C_m$ are pairwise homotopically non-equivalent, then $m\le 2k+3g-2$.
+\end{lemma}
+\begin{proof}
+If $g=0$ and $k=1$, then all cycles in $\Sigma$ are contractible, and thus $m=0$.  Hence, we can assume $g\ge 1$ or $m\ge 2$.
+Without loss of generality, we can assume $m$ is maximum, and thus every non-contractible cycle in $\Sigma$ disjoint
+from $C_1$, \ldots, $C_m$ is homotopic to one of these cycles.  Moreover, for each hole, we can assume some cycle among $C_1$,
+\ldots, $C_m$ traces its boundary: If there is one homotopic to the curve tracing the boundary, we can shift it to the boundary.
+Otherwise, we can shift the other cycles away from the boundary and add a cycle homotopic to it.
+
+Consequently, letting $H=C_1\cup\ldots\cup C_m$, every face $f$ of $H$ is homeomorphic to the interior of the sphere with at most three holes,
+as otherwise we can draw a cycle non-homotopic to all cycles of $H$ in $f$.
+If $f$ is an open disk, then since the cycle of $H$ bounding it is non-contractible, it must be one-sided and $H$
+must consist of just this one cycle, i.e., $\Sigma$ is the projective plane, $g=1$, $k=0$, and $m=1$.  Consider a face of $f$ of
+$H$ homeomorphic to an open cylinder.  If both cycles bounding $f$ are two-sided, then they are homotopic, and thus they must in
+fact be the same cycle, i.e., $\Sigma$ is the torus, $g=2$, $k=1$, and $m=1$.  If both are one-sided, then
+$\Sigma$ is the Klein bottle, $g=2$, $k=1$, and $m=2$.  Hence, if $f$ is an open cylinder, then exactly one of the cycles
+bounding it is one-sided.  If $f$ is homeomorphic to the interior of the sphere with three holes, then all the cycles bounding it
+must be $2$-sided, as otherwise we could add a $2$-sided cycle going around the boundary formed by an one-sided cycle.
+
+Let $t$ denote the number of one-sided cycles among $C_1$, \ldots, $C_m$.  Then exactly $t$ of the faces of $H$
+are homeomorphic to the open cylinder, implying $3(|F(G)|-t)+t=2(m-t)-k$, and thus
+\begin{equation}\label{eq:djnc-nf}
+|F(G)|=(2m-k)/3.
+\end{equation}
+Let $\Sigma'$ be the surface obtained from $\Sigma$ by patching all the holes, and let $H'$ be the multigraph obtained
+from $H$ by suppressing all but one vertex of each cycle (so the cycles become loops) and inside each face of $H$ with $b\in\{2,3\}$
+boundary cycles, drawing $b-1$ edges between them to turn the face into $2$-cell one.
+Then $|V(H')|=m$, $|E(H')|=m+2|F(H)|-t$, $|F(H')|=|F(H)|+k$, and the drawing of $H'$ in $\Sigma'$ is $2$-cell.
+By the Euler's formula (Theorem~\ref{thm:eulerfla}), we have
+\begin{equation}\label{eq:djnc-ef}
+g-2=|E(H')|-|V(H')|-|F(H')|=|F(H)|-t-k.
+\end{equation}
+Combining (\ref{eq:djnc-nf}) with (\ref{eq:djnc-ef}), we have
+$m\le 2k+3(g+t)/2-3$.  Note that cutting along any of the cycles does not affect whether the remaining cycles are one-sided or not,
+and that cutting along a one-sided cycle decreases the genus by one.  This implies $t\le g$,
+and thus $m\le 2k+3g-3$.
+\end{proof}
+
+Consider a graph $G$ with a $2$-cell boundary-perpendicular drawing in a surface $\Sigma$, and let $H$
+be another graph drawn in $\Sigma$.  For a positive integer $r$, we say $H$ is an \emph{$r$-circular skeleton} of $G$
+if $V(H)\subseteq V(G)$, edges of $H$ intersect $G$ only in their ends, the boundary of each hole in $\Sigma$ is bounded
+by a cycle forming a component of $H$, and all other components of $H$ are non-contactible cycles of length at most $r$.
+We say $H$ is \emph{maximal} if there exists no $r$-circular skeleton $H'$ of $G$ such that $H\subsetneq H'$.
+A face $f$ of $H$ is \emph{cylindrical} if it is homeomorphic to the open cylinder and both cycles in $H$ that bound it
+are disjoint from the boundary of $\Sigma$ (and thus they have length at most $r$).
+\begin{lemma}\label{lemma:hyperstruct}
+For every $\gamma>1$, there exists positive integers $r$ and $c$ such that the following holds.
+Let $\GG$ be a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma$.
+Let $G\in\GG$ be a graph with a boundary-perpendicular $2$-cell drawing in a surface of genus $g$ with $k$ holes
+and let $H$ be a maximal $r$-circular skeleton of $G$.  Then $H$ has less than $2k+3g$ non-cylindrical faces,
+and for each face $f$ of $H$, considering the stencil $(H,f)$, we have
+$|V(G_f)|\le c$ if $f$ is cylindrical and $|V(G_f)|\le 2\gamma|\partial G\cap \partial G_f|+c(k+g)$ if $f$ is non-cylindrical.
+\end{lemma}
+\begin{proof}
+We prove the claim holds for $r=2d+1$, where $d$ is as in Corollary~\ref{cor:hyperew},
+and $c=14\gamma(52d+31)$.
+
+Let $\HH$ be the set cycles of $H$ disjoint from the boundary of $\Sigma$, and let $\HH_1$, \ldots, $\HH_m$
+be the partition of $\HH$ into classes of homotopically equivalent cycles.  For $i=1,\ldots, m$,
+if $|\HH_i|=1$, then let $\Sigma_i$ be the subset of $\Sigma$ consisting of the drawing of the cycle in $\HH_i$,
+otherwise let $\Sigma_i\subset \Sigma$ be the maximal subcylinder of $\Sigma$ bounded by cycles in $\HH_i$.
+Observe that $H\cap \Sigma_i$ contains exactly the cycles in $\HH_i$, all faces of $H$ contained in $\Sigma_i$
+are cylindrical, and for every cylindical face $f$, there exists $i$ such that $f\subset \Sigma_i$.
+Hence, the number of non-cylindrical faces is equal to the number of components of $\Sigma\setminus\bigcup_{i=1}^m \Sigma_i$,
+which is at most $m+1$ (it can be smaller if for some $i$, $\HH_i$ consists of non-separating cycles).
+By Lemma~\ref{lemma:disjnonc}, we have $m+1<2k+3g$.
+
+Consider a face $f$ of $H$.  By the maximality of $H$, every non-contractible cycle in $G_f$ disjoint from $\partial G_f$
+has length greater than $r$.  Let $t$ denote the number of holes of the surface in which $G_f$ is drawn, and $g_f$ its
+genus; clearly $t\le 2m<4k+6g$ and $g_f\le g$.
+Since $\GG$ is cutting-closed, $G_f\in\GG$, and thus Corollary~\ref{cor:hyperew}
+implies $|V(G_f)|\le 2\gamma((48d+29)(t+g_f)+|\partial G_f|)$.  Observe also that if $f$ has $t$ boundary walks,
+then $|\partial G_f|\le |\partial G\cap \partial G_f|+2rt$ (the factor of two accounts for the possibility that the
+boundary walk corresponds to a one-sided cycle).  Together these inequalities imply
+\begin{align*}
+|V(G_f)|&\le 2\gamma((48d+29)(t+g_f)+2rt+|\partial G\cap \partial G_f|)\\
+&\le 2\gamma|\partial G\cap \partial G_f|+2\gamma(48d+2r+29)(t+g_f)\\
+&\le 2\gamma|\partial G\cap \partial G_f|+c(k+g).
+\end{align*}
+In case $f$ is cylindrical, bound follows with $t=2$, $g_f=0$, and $\partial G\cap \partial G_f=\emptyset$.
+\end{proof}
 
 \subsection{Testing? (rename)}
 
 \subsection{Precoloring extension?}
 \subsection{Number of colorings?}
-
-\subsection{Weak structure theorem}
 
 \section{Strong hyperbolicity and the size of embedded critical graphs.}
 
