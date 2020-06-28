@@ -21,11 +21,13 @@
 \newcommand{\crs}{\text{cr}}
 \newcommand{\sgn}{\text{sgn}}
 \newcommand{\exc}{\text{exc}}
+\newcommand{\type}{\text{type}}
 \newcommand{\GG}{\mathcal{G}}
 \newcommand{\HH}{\mathcal{H}}
 \newcommand{\CC}{\mathcal{C}}
 \newcommand{\FF}{\mathcal{F}}
 \newcommand{\EE}{\mathcal{E}}
+\newcommand{\AA}{\mathcal{A}}
 
 \makeatletter
 \newcommand{\ovlr}{\mathpalette{\overarrowsmall@\leftrightarrowfill@}}
@@ -7679,16 +7681,49 @@ Next, we show this bound can actually be substantially improved.
 
 \subsection{Short non-contractible cycles in hyperbolic graphs}
 
+As a motivation, let us have a look at consequences of Corollary~\ref{cor:logew} for the projective plane and the torus.
+Consider a graph $G\in \GG$ drawn in the projective plane.  By Corollary~\ref{cor:logew}, there exists a constant $c_\gamma$
+depending only on the Cheeger constant $\gamma$ of $\GG$ such that $G$ contains a non-contractible
+cycle $C$ of length at most $c_\gamma\log |V(G)|$.  Cutting the surface along this cycle (more precisely, along a curve
+intersecting $G$ exactly in $V(C)$), we obtain a graph $G'$ with boundary-perpendicular drawing in a disk and with
+$|\partial G'|\le 2|V(C)|\le 2c_\gamma\log |V(G)|$.  Since $\GG$ is cutting-closed, we have $G'\in \GG$, and
+thus $|V(G)|\le |V(G')|<\gamma|\partial G'|\le 2\gamma c_\gamma\log |V(G)|$.  This is only possible if $|V(G)|$ is
+small: $|V(G)|\le f^{-1}(2\gamma c_\gamma)$, where $f(x)=x/\log x$.
+\begin{corollary}
+For every $\gamma>1$, there exists $c$ such that if
+$\GG$ is a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma$
+and $G\in\GG$ is drawn in the projective plane, then $|V(G)|\le c$.
+\end{corollary}
+Hence, for example, 5-list-colorability of graphs drawn in the projective plane is characterized by a finite
+number of obstructions.
+
+For the torus, the situation is a bit more complicated.  Cutting along a short non-contractible cycle
+splits the torus into a cylinder.   If the boundaries of the cylinder are close to one another, we can cut
+along a shortest path between them, giving us again a graph drawn in a disk and concluding that $|V(G)|$ is bounded.
+On the other hand, if the distance between tbe boundaries is large, we can analgously to the proof of Corollary~\ref{cor:logew}
+show that $G$ contains another non-contractible cycle disjoint from the boundaries, and we can split the cylinder into two
+subcylinders.  Repeating this construction, we conclude that the torus can be split into a number of subcylinders,
+each of them containing $O(\log |V(G)|)$ vertices of $G$.  Actually, as we show in this section, more is true:
+We can in fact obtain such a decomposition into subcylinders obtaining at most $c_\gamma$ vertices of $G$, for some $c_\gamma$
+depending only on $\gamma$.  We will also give a generalization of this argument to other surfaces.
+
+To this end, we need several definitions.
 Any surface can be cut along suitably chosen stencil so that the resulting surface is a disk.
 More precisely, we say a stencil $(H,f)$ is a \emph{net} if the drawing of $H$ is normal, $H$ has exactly one face $f$,
 and this face is $2$-cell.  Suppose this net is perpendicular to a graph $G$ from a hypebolic class.  Then the hyperbolicity
 condition implies the net must necessarily intersect $G$ in at least a constant fraction of the vertices
-of $G$.  As it turns out, unless $|\partial G|$ is linear in the number of vertices of $G$,
-this can only be forced by $G$ containing short non-contractible cycles.
+of $G$.
 
-In the proof of this claim, the following notions are useful.  A set $X$ of vertices of $G$ is \emph{$d$-isolated} if the distance
+A set $X$ of vertices of $G$ is \emph{$d$-isolated} if the distance
 between any two vertices of $X$ is greater than $2d$ and the distance from $X$ to $\partial G$ is greater than $d$.
 Let $\beta_d(G)$ denote the largest size of a $d$-isolated set in $G$.
+It is easy to see that a minimum-size net $(H,f)$ of a graph $G$ drawn in a fixed surface consists mostly of paths of vertices
+of degree two, and thus $H$ contains a $d$-isolated set of size $\Omega(|V(H)|/d)$.  In the following lemma,
+we will show that distances in $H$ are close to distances in $G$, allowing us to obtain a set of size $\Omega(|V(H)|/d)$
+that is $d$-isolated in $G$.  Thus, such a net has size $|V(H)|=O(d\beta_d(G))$.  Since the neighborhoods
+of vertices in a $d$-isolated set up to distance $d$ are disjoint, this will enable us to use the exponential growth guaranteed
+by Corollary~\ref{cor:expgrowth} to reach the desired conclusion.
+
 The \emph{radial multigraph} of a graph $G$ with a $2$-cell drawing in a surface $\Sigma$ is
 the bipartite multigraph $R$ with vertex set $V(G)\cup F(G)$ and with edges joining each face $f$ to all incident vertices;
 the multiplicity of the edge $fv$ is the number of appearances of $v$ in the boundary walk of $f$.
@@ -7863,47 +7898,275 @@ Consider a graph $G$ with a $2$-cell boundary-perpendicular drawing in a surface
 be another graph drawn in $\Sigma$.  For a positive integer $r$, we say $H$ is an \emph{$r$-circular skeleton} of $G$
 if $V(H)\subseteq V(G)$, edges of $H$ intersect $G$ only in their ends, the boundary of each hole in $\Sigma$ is bounded
 by a cycle forming a component of $H$, and all other components of $H$ are non-contactible cycles of length at most $r$.
-We say $H$ is \emph{maximal} if there exists no $r$-circular skeleton $H'$ of $G$ such that $H\subsetneq H'$.
+We say $H$ is \emph{cycle-maximal} if $G$ does not contain a non-contractible cycle $K$ of length at most $r$
+disjoint from $V(H)$ (note a cycle obtained by slightly shifting the edges of such a cycle $K$ could be added to $H$,
+obtaining a larger $r$-circular skeleton).
 A face $f$ of $H$ is \emph{cylindrical} if it is homeomorphic to the open cylinder and both cycles in $H$ that bound it
 are disjoint from the boundary of $\Sigma$ (and thus they have length at most $r$).
+
 \begin{lemma}\label{lemma:hyperstruct}
-For every $\gamma>1$, there exists positive integers $r$ and $c$ such that the following holds.
+Let $\gamma>1$ be a real number and let $d$ be the corresponding integer from Corollary~\ref{cor:hyperew}.
 Let $\GG$ be a cutting-closed class of graphs hyperbolic with Cheeger constant $\gamma$.
 Let $G\in\GG$ be a graph with a boundary-perpendicular $2$-cell drawing in a surface of genus $g$ with $k$ holes
-and let $H$ be a maximal $r$-circular skeleton of $G$.  Then $H$ has less than $2k+3g$ non-cylindrical faces,
-and for each face $f$ of $H$, considering the stencil $(H,f)$, we have
-$|V(G_f)|\le c$ if $f$ is cylindrical and $|V(G_f)|\le 2\gamma|\partial G\cap \partial G_f|+c(k+g)$ if $f$ is non-cylindrical.
+and let $H$ be a cycle-maximal $(2d+1)$-circular skeleton of $G$.  For each face $f$ of $H$,
+\begin{itemize}
+\item the surface $\Sigma_f$ in which $G_f$ is drawn has $k_f\le 5k+6g$ holes and genus $g_f\le g$,
+\item $G_f$ does not contain any non-contractible cycle of length at most $2d+1$ disjoint from $\partial G_f$, and
+\item $|\partial G_f\setminus\partial G|\le 2(2d+1)k_f$.
+\end{itemize}
+Moreover, let $H'$ be the minimal subgraph of $H$ such that
+$H'$ is a union of components of $H$ and the non-cylindrical faces of $H$ and $H'$ coincide.
+Then $H'$ has at most $2k+3g-2$ cylindrical and at most $2k+3g-1$ non-cylindrical faces.
 \end{lemma}
 \begin{proof}
-We prove the claim holds for $r=2d+1$, where $d$ is as in Corollary~\ref{cor:hyperew},
-and $c=14\gamma(52d+31)$.
-
 Let $\HH$ be the set cycles of $H$ disjoint from the boundary of $\Sigma$, and let $\HH_1$, \ldots, $\HH_m$
-be the partition of $\HH$ into classes of homotopically equivalent cycles.  For $i=1,\ldots, m$,
-if $|\HH_i|=1$, then let $\Sigma_i$ be the subset of $\Sigma$ consisting of the drawing of the cycle in $\HH_i$,
+be the partition of $\HH$ into classes of homotopically equivalent cycles, where $m\le 2k+3g-2$ by Lemma~\ref{lemma:disjnonc}.
+For $i=1,\ldots, m$, if $|\HH_i|=1$, then let $\Sigma_i$ be the subset of $\Sigma$ consisting of the drawing of the cycle in $\HH_i$,
 otherwise let $\Sigma_i\subset \Sigma$ be the maximal subcylinder of $\Sigma$ bounded by cycles in $\HH_i$.
 Observe that $H\cap \Sigma_i$ contains exactly the cycles in $\HH_i$, all faces of $H$ contained in $\Sigma_i$
 are cylindrical, and for every cylindical face $f$, there exists $i$ such that $f\subset \Sigma_i$.
 Hence, the number of non-cylindrical faces is equal to the number of components of $\Sigma\setminus\bigcup_{i=1}^m \Sigma_i$,
 which is at most $m+1$ (it can be smaller if for some $i$, $\HH_i$ consists of non-separating cycles).
-By Lemma~\ref{lemma:disjnonc}, we have $m+1<2k+3g$.
+Note that $H'$ consists exactly of the cycles of $\HH_i$ forming the boundary of $\Sigma_i$, for $i=1,\ldots,m$,
+and thus $H'$ has at most $m$ cylindrical faces.
 
-Consider a face $f$ of $H$.  By the maximality of $H$, every non-contractible cycle in $G_f$ disjoint from $\partial G_f$
-has length greater than $r$.  Let $t$ denote the number of holes of the surface in which $G_f$ is drawn, and $g_f$ its
-genus; clearly $t\le 2m<4k+6g$ and $g_f\le g$.
-Since $\GG$ is cutting-closed, $G_f\in\GG$, and thus Corollary~\ref{cor:hyperew}
-implies $|V(G_f)|\le 2\gamma((48d+29)(t+g_f)+|\partial G_f|)$.  Observe also that if $f$ has $t$ boundary walks,
-then $|\partial G_f|\le |\partial G\cap \partial G_f|+2rt$ (the factor of two accounts for the possibility that the
-boundary walk corresponds to a one-sided cycle).  Together these inequalities imply
+Consider a face $f$ of $H$.  By the cycle-maximality of $H$, every non-contractible cycle in $G_f$ disjoint from $\partial G_f$
+has length greater than $2d+1$.  Let $k_f$ denote the number of holes of the surface $\Sigma_f$ in which $G_f$ is drawn, and $g_f$ its
+genus; clearly $k_f\le k+2m<5k+6g$ and $g_f\le g$.  Since $H$ is cycle-maximal, $G_f$ cannot contain a non-contractible cycle
+of length at most $2d+1$ disjoint from $\partial G_f$.  Moreover,
+$|\partial G_f\setminus \partial G|\le 2(2d+1)k_f$; the factor of two accounts for the possibility that the
+boundary walk corresponds to a one-sided cycle.
+\end{proof}
+Note that since $\GG$ is cutting-closed, we have $G_f\in\GG$, and thus Corollary~\ref{cor:hyperew}
+implies
 \begin{align*}
-|V(G_f)|&\le 2\gamma((48d+29)(t+g_f)+2rt+|\partial G\cap \partial G_f|)\\
-&\le 2\gamma|\partial G\cap \partial G_f|+2\gamma(48d+2r+29)(t+g_f)\\
-&\le 2\gamma|\partial G\cap \partial G_f|+c(k+g).
+$|V(G_f)|&\le 2\gamma((48d+29)(k_f+g_f)+|\partial G_f|)\\
+&\le 2\gamma|\partial G\cap \partial G_f|+2\gamma(52d+31)(k_f+g_f)\\
+&\le 2\gamma|\partial G\cap \partial G_f|+14\gamma(52d+31)(k+g),
 \end{align*}
-In case $f$ is cylindrical, bound follows with $t=2$, $g_f=0$, and $\partial G\cap \partial G_f=\emptyset$.
+and thus all the pieces of the decomposition given by Lemma~\ref{lemma:hyperstruct} have bounded size.
+Subject to rather weak additional assumptions, this decomposition can be used to test presence of a subgraph
+belonging to the fixed hyperbolic family.  This is of course important
+for our intended coloring applications, as this corresponds to testing whether the given graph is colorable by detecting
+the presence of one of the obstructions.
+
+\subsection{Finding a subgraph belonging to a hyperbolic class}
+
+In order to apply Lemma~\ref{lemma:hyperstruct} algorithmically, we of course need to be able to efficiently
+find a cycle-maximal $r$-circular skeleton.  As we do not want to focus on this (albeit important) technicality, let
+us just use the following result without a proof.
+
+\begin{theorem}[Cabello and Mohar~\cite{cabello-sepcurv}]\label{thm:findnc}
+For every surface $\Sigma$ and integer $r$, there exists an algorithm that given a graph $G$ with boundary-perpendicular $2$-cell drawing
+in $\Sigma$ and a set $X\subseteq V(G)$, in time $O(|V(G)|)$ either returns a non-contractible cycle in $G$ of length at most $r$ disjoint
+from $X$, or correctly decides no such cycle exists.
+\end{theorem}
+
+To find a cycle-maximal $r$-circular skeleton, we start with $X=\partial G$ and repeatedly find non-contractible cycles and add them to $X$.
+\begin{corollary}\label{cor:findcsc}
+For every surface $\Sigma$ and integer $r$, there exists an algorithm that given a graph $G$ with boundary-perpendicular $2$-cell drawing
+in $\Sigma$, in time $O(|V(G)|^2)$ returns a cycle-maximal $r$-circular skeleton of $G$.
+\end{corollary}
+Let us remark that by more involved algorithmic techniques, the time complexity can be improved to $O(|V(G)|)$, using e.g. ideas presented
+in~\cite{trfree6}.
+
+Secondly, it is not very hard to construct hyperbolic families for which the membership is algorithmically undecidable,
+by encoding all positive instances of the halting problem into long cylindrical pieces.  Thus, we need additional property
+that ensures algorithmic tractability of the class.  Fortunately, a fairly weak one suffices.
+
+Let $H_1$ and $H_2$ be graphs with boundary-perpendicular drawing in the cylinder $\Pi$ such that $\partial H_1=\partial H_2$.
+Consider two graphs $G_1$ and $G_2$ with boundary-perpendicular drawings in the same surface $\Sigma$.
+We say that $G_2$ is \emph{obtained from $G_1$ by replacing $H_1$ by $H_2$} if 
+there exists a cylinder $\Pi'\subseteq \Sigma$ whose boundary intersects the drawings of $G_1$ and $G_2$ only in vertices
+and a homeomorphism $\theta:\Pi\to\Pi'$ such that
+\begin{itemize}
+\item the subgraphs of $G_1$ and $G_2$ obtained by deleting vertices and edges drawn in the interior of $\Pi'$ are identical, and
+\item $\theta(H_1)=G_1\cap \Pi'$ and $\theta(H_2)=G_2\cap\Pi'$.
+\end{itemize}
+For a class of graphs $\GG$ drawn on surfaces, we write $H_1\equiv_{\GG} H_2$ if for every graph $G_1$ and a graph $G_2$ obtained
+from $G_1$ by replacing $H_1$ by $H_2$, we have $G_1\in \GG$ if and only if $G_2\in\GG$.
+
+To clarify this definition, let us give an example.  Recall that for a graph $G$ and its subgraph $F$,
+$\EE_{F,k}(G)$ denotes the set of $k$-colorings of $F$ that extend to a $k$-coloring of $G$.
+Suppose $\GG$ is the class of graphs with boundary-perpendicular drawings in surfaces
+that are boundary-critical for 5-coloring.  For a graph $H\in \GG$ drawn in the cylinder, let 
+let $\Gamma_H=(\EE_{\partial H,5}(H),I_H,T_H)$, where $I_H$ is the
+set of isolated vertices of $H$ (necessarily contained in $\partial H$, since $H$ is boundary-critical for $5$-coloring),
+and $T_H=\{\EE_{\partial H,5}(H-e):e\in E(H)\}$.  We claim that for graphs $H_1,H_2\in\GG$ are drawn in the cylinder
+with $\partial H_1=\partial H_2$, if $\Gamma_{H_1}=\Gamma_{H_2}$, then $H_1\equiv_{\GG} H_2$.
+Indeed, let $G_2$ be obtained from a graph $G_1$ drawn in a surface by replacing $H_1$ by $H_2$ and let $\theta$ be the corresponding
+homeomorphism.  By symmetry, it is enough to show that if $G_1\in \GG$, then $G_2\in\GG$.
+Note that all isolated vertices of $G_2$ are contained in $\partial G_2=\partial G_1$,
+since all isolated vertices of $G_1$ are contained in $\partial G_1$ by its boundary-criticality and since $I_{H_2}=I_{H_1}$.
+Hence, to establish that $G_2$ is boundary-critical for $5$-coloring, it suffices to show that for every edge $e\in E(G_2)$,
+there exists a $5$-coloring of $\partial G_2$ extending to a $5$-coloring of $G_2-e$, but not to a $5$-coloring of $G_2$.
+If $e\in E(G_2)\setminus \theta(E(H_2))$, then let $e'=e$.  If $e\in \theta(E(H_2))$, then since $T_{H_1}=T_{H_2}$, there exists an edge
+$e_1\in E(H_1)$ such that $\EE_{\partial H_1,5}(H_1-e_1)=\EE_{\partial H_2,5}(H_2-\theta^{-1}(e))$; in this case, we let $e'=\theta(e_1)$.
+Since $G_1$ is boundary-critical for $5$-coloring, there exists a $5$-coloring $\psi$ of $\partial G_1$ extending to $5$-coloring
+of $G_1-e'$, but not to a $5$-coloring of $G_1$.  Since  $\EE_{\partial H_1,5}(H_1-\theta^{-1}(e'))=\EE_{\partial H_2,5}(H_2-\theta^{-1}(e))$
+and $\EE_{\partial H_1,5}(H_1)=\EE_{\partial H_2,5}(H_2)$, it follows that $\psi$ extends to a $5$-coloring of $G_2-e$, but
+not to a $5$-coloring of $G_2$, as required.
+
+Clearly, $\equiv_{\GG}$ is an equivalence relation, and we have the following composition result.
+\begin{observation}\label{obs:compequiv}
+Let $\GG$ be a class of graphs drawn on surfaces.
+Let $G$ and $G'$ be graphs with boundary-perpendicular drawings in the cylinder $\Sigma$.
+Let $H$ be a graph with drawing in $\Sigma$ perpendicular to both $G$ and $G'$ such that $H$ consists of three disjoint non-contractible cycles,
+two of which trace the boundaries of the holes of $\Sigma$, and assume that $G\cap H=G'\cap H$.  Let $f_1$ and $f_2$ be the faces of $H$.
+If $G_{f_1}\equiv_{\GG} G'_{f_1}$ and $G_{f_2}\equiv_{\GG} G'_{f_2}$, then $G\equiv_{\GG} G'$.
+\end{observation}
+\begin{proof}
+Replacing $G$ by $G'$ amounts to replacing $G_{f_1}$ by $G'_{f_1}$ and $G_{f_2}$ by $G'_{f_2}$, and both of these operations
+preserve the membership in $\GG$.
 \end{proof}
 
-\subsection{Testing? (rename)}
+We say that the class $\GG$ has \emph{finite index} if
+for every finite set $X$ of vertices drawn in the boundary of cylinder, $\equiv_{\GG}$ has only finitely many
+classes of equivalence among the graphs $H$ with boundary-perpendicular drawing in the cylinder such that $\partial H=X$.
+Continuing the example of graphs boundary-critical for 5-coloring, there are only finitely many choices for $\Gamma_H$:
+there are only $2^{5^{|X|}}$ choices for a set $\EE_{\partial H,5}(H)$ of colorings, only $2^{2^{5^{|X|}}}$ choices for a set $T_H$ of
+sets of colorings, and at most $2^{|X|}$ choices for the set $I_H$ of boundary vertices.
+This shows that $\equiv_{\GG}$ has at most $2^{|X|+5^{|X|}+2^{5^{|X|}}}$ classes of equivalence for each set $X$,
+showing that $\GG$ has finite index.
+Analogous argument can be employed to show that the classes of boundary-critical graphs have finite index
+for pretty much all natural variants of graph coloring using a bounded number of colors.
+In particular, this is always the case if the membership in the class $\GG$ depends only on the abstract graph $G$
+and the subset $\partial G$ of its vertices (rather than properties depending on the embedding) and can be expressed
+in the monadic second-order logic~\cite{courcelle}.
+
+In addition to finite index, we add another technicality---that the class is closed under homeomorphisms.
+This of course is the case for all classes relevant to us, and simplifies the formulations a bit.  For example,
+it allows us to state the following definition without having to consider self-homeomorphisms of the surface.
+Consider graphs $G$ and $H$ with boundary-perpendicular drawing in a surface $\Sigma$.  We say $H$ \emph{appears} in $G$
+if $\partial H\subseteq \partial G$ and the drawing of $H$ is a subdrawing of the drawing of $G$.
+Note that it is possible for several different graphs from $\GG$ to appear in $G$
+(even ones with the same boundary), when they happen to have a common supergraph.  This motivates the following definitions.
+For a graph $H$ with boundary-perpendicular drawing in the cylinder, let $[H]_\GG$ denote the equivalence class of $H$
+under $\equiv_{\GG}$.  From a more practical perspective, in an algorithm, we would assign distinct identifiers (e.g.,
+consecutive integers) to the equivalence classes and $[H]_\GG$ would then refer to this identifier.
+For a graph $G$ with boundary-perpendicular drawing in the cylinder, let $\type_\GG(G)=\{[H]_\GG:\text{$H$ appears in $G$}\}$.
+Naturally, types compose as follows.
+\begin{observation}\label{obs:comptype}
+Let $\GG$ be a homeomorphism-closed class of graphs drawn on surfaces.
+Let $G$ and $G'$ be graphs with boundary-perpendicular drawings in the cylinder $\Sigma$.
+Let $H$ be a graph with drawing in $\Sigma$ perpendicular to both $G$ and $G'$ such that $H$ consists of three disjoint non-contractible cycles,
+two of which trace the boundaries of the holes of $\Sigma$, and assume that $G\cap H=G'\cap H$.  Let $f_1$ and $f_2$ be the faces of $H$.
+If $\type_{\GG}(G_{f_1})=\type_{\GG}(G'_{f_1})$ and $\type_{\GG}(G_{f_2})=\type_{\GG}(G'_{f_2})$, then $\type_{\GG}(G)=\type_{\GG}(G')$.
+\end{observation}
+\begin{proof}
+Suppose that a graph $F\in\GG$ appears in $G$; then $F_{f_1}$ appears in $G_{f_1}$ and $F_{f_2}$ appears in $G_{f_2}$.
+Since $\type_{\GG}(G_{f_1})=\type_{\GG}(G'_{f_1})$ and $\type_{\GG}(G_{f_2})=\type_{\GG}(G'_{f_2})$,
+for $i\in \{1,2\}$, there exists a graph $F'_i$ appearing in $G'_{f_i}$ such that $F'_i\equiv_\GG F_{f_i}$.
+Let $F'$ be the subgraph of $G'$ such that $F'_{f_1}=F'_1$ and $F'_{f_2}=F'_2$; by Observation~\ref{obs:compequiv},
+$F'\equiv_\GG F$.  Hence, for every graph appearing in $G$, an equivalent graph appears in $G'$, and thus $\type_{\GG}(G)\subseteq \type_{\GG}(G')$.
+Hence, by symmetry between $G$ and $G'$ we have $\type_{\GG}(G)=\type_{\GG}(G')$.
+\end{proof}
+
+Note that if $\GG$ has finite index, then for each finite set $X$ of points in the boundary of the cylinder, there
+are only finitely many possible values for $\type_\GG(G)$ for graphs $G$ with $\partial G=X$.
+This gives us the following algorithm.
+\begin{lemma}\label{lemma:comptype}
+Let $\GG$ be a homeomorphism-closed class of graphs drawn on surfaces of finite index and let $r$ be a positive integer.
+Then there exists an integer $b_0$ and a linear-time algorithm that is given as an input
+\begin{itemize}
+\item a graph $G$ with a boundary-perpendicular drawing in the cylinder,
+\item a graph $H$ with drawing perpendicular to $G$, such that each component of $H$ is a non-contractible cycle of length at most $r$
+and two of these cycles bound the holes of the cylinder, and
+\item for each face $f$ of $H$, the set $\type_\GG(G_f)$, and
+\end{itemize}
+returns a graph $G'$ with a boundary-perpendicular drawing in the cylinder such that $\partial G'=\partial G$,
+$\type_{\GG}(G')=\type_{\GG}(G)$, and $|V(G')|\le b_0$.
+\end{lemma}
+\begin{proof}
+For all integers $0\le a_1,a_2\le r$, let us fix some sets $X_{a_1,a_2}$ in the boundary of the cylinder
+containg $a_1$ points in one of the components of the boundary and $a_2$ points in the other one.
+Let $\CC_{a_1,a_2}$ denote the set of all classes of equivalence of $\equiv_{\GG}$ on the graphs $H\in \GG$
+with boundary-perpendicular drawing in the cylinder such that $\partial H\subseteq X_{a_1,a_2}$.  For each $T\subseteq \CC_{a_1,a_2}$,
+if there exist a graph $Z$ with boundary-perpendicular drawing in the cylinder such that $\type_{\GG}(Z)=T$, let us
+fix one such graph arbitrarily and let it be denoted by $Z_T$; this choice will be hardwired in our algorithm.
+Note that since $\GG$ has finite index, we perform only finitely many choices.
+Let $b_0$ be the maximum of $|V(Z_T)|$ over all choices of $a_1$, $a_2$, and $T$.
+
+Let $a_1$ and $a_2$ denote the numbers of intersections of $\partial G$ with the components of the boundary of the cylinder.
+The algorithm only needs to determine $\type_{\GG}(G)$, and then it can output (the appropriate homeomorphic image of) $Z_{\type_{\GG}(G)}$.
+Let $C_0$, $C_1$, \ldots, $C_m$ be the components of $H$ in order along the cylinder, and for $i\in\{1,\ldots, m\}$, let $f_i$
+denote the face of $H$ bounded by $C_{i-1}$ and $C_i$, and $f'$ the face of $C_0\cup C_i$ bounded by $C_0$ and $C_i$.
+By Observation~\ref{obs:comptype}, $\type_{\GG}(G_{f'_{i-1}})$ and $\type_{\GG}(G_{f_i})$ uniquely determine
+$\type_{\GG}(G_{f'_i})$, and since there are only finitely many possible values for types, the function $\gamma$ describing
+this transition can be hardwired in the algorithm.  Hence, letting $T_1=\type_{\GG}(G_{f_1})$ and for $i=2,\ldots,m$,
+$T_i=\gamma(T_{i-1}, \type_{\GG}(G_{f_i}))$, we in linear time determine $T_m=\type_{\GG}(G_{f'_m})=\type_{\GG}(G)$.
+\end{proof}
+
+Lemmas~\ref{lemma:hyperstruct} and \ref{lemma:comptype} now naturally combine to give the following algorithm.
+
+\begin{theorem}\label{thm:kernelhyp}
+Let $\GG$ be a cutting- and homeomorphism-closed class of graphs hyperbolic with Cheeger constant $\gamma>1$ and of finite index.
+For every surface $\Sigma$, there exists a constant $b$ and a polynomial-time algorithm that 
+for any graph $G$ with a boundary-perpendicular drawing in $\Sigma$ returns a graph $G'$ with a boundary-perpendicular drawing
+in $\Sigma$ such that $\partial G'=\partial G$, $|V(G')|\le |V(G)|+b$, and some graph from $\GG$ appears in $G$
+if and only if some graph with from $\GG$ with at most $2\gamma |\partial G| + b$ vertices appears in $G'$.
+\end{theorem}
+\begin{proof}
+If $\Sigma$ is the sphere, we can return an empty graph, since no graph from $\GG$ is drawn in the sphere.
+Hence, we can assume that $k+g>0$,
+Let $d$ be the constant from Corollary~\ref{cor:hyperew} for the given $\gamma$.
+Let $g$ be the genus and $k$ the number of holes of $\Sigma$.
+Let $r$ and $c$ be the constants from Lemma~\ref{lemma:hyperstruct}, and let $b_0$ be the constant corresponding to $\GG$ and $r=2d+1$
+in Lemma~\ref{lemma:comptype}.  Let $c=2\gamma(52d+31)(k+g)$ and let $b=(4k+6g)\max(7c(k+g), b_0)$.
+
+Let us now describe the algorithm.  First, we apply the algorithm from Corollary~\ref{cor:findcsc} to find
+a maximar $(2d+1)$-circular skeleton $H$ of $G$, and find its minimal subgraph $H'$ such that
+$H'$ is a union of components of $H$ and the non-cylindrical faces of $H$ and $H'$ coincide.
+By Lemma~\ref{lemma:hyperstruct}, the number of faces of $H'$ is at most $4k+6g$.
+
+Consider any face $f$ of $H$, and a graph $F\in\GG$ appearing in $G_f$.
+Since $G_f$ does not contain a non-contractible cycle of length at most $2d+1$ disjoint from $\partial G_f$,
+neither does $F$.  Moreover, $|\partial F\setminus\partial G|\le |\partial G_f\setminus\partial G|\le 2(2d+1)k_f$,
+where $k_f\le 5k+6g$ is the number of holes and $g_f\le g$ is the genus of the surface $\Sigma_f$ in which $G_f$ is drawn.
+Hence, Corollary~\ref{cor:hyperew} implies 
+$|V(F)|\le 2\gamma|\partial G\cap \partial F|+c(k_f+g_f)\le 2\gamma|\partial G\cap \partial F|+7c(k+g)$.
+
+Suppose now $f$ is a cylindrical face. Then $\partial G\cap \partial F=\emptyset$, $k_f=2$, and $g_f=0$,
+and thus $|V(F)\le 2c$.
+Consequently, we can determine $\type_{\GG}(G_f)$ by testing the presence of finitely many such graphs $F$, which can be done in polynomial
+time (the set of graphs in $\GG$ with at most $2c$ vertices and their equivalence classes can be hardwired in the algorithm).
+Applying Lemma~\ref{lemma:comptype} for each cylindrical face $h$ of $H'$, we can find a graph $Z^h$
+with a boundary-perpendicular drawing in the cylinder such that $\partial Z^h=\partial G_h$, $\type_{\GG}(Z^h)=\type_{\GG}(G_h)$, and $|V(Z^h)|\le b_0$.
+Let $G'$ be obtained for $G$ by, for each cylindrical face $h$ of $H'$, replacing $G_h$ by $Z^h$.
+Clearly $\partial G'=\partial G$, and since $H'$ has at most $4k+6g$ faces, we have $|V(G')|\le |V(G)|+b$.
+
+Suppose now that some graph $W\in\GG$ appears in $G$.  For each cylindrical face $h$ of $H'$,
+since $\type_{\GG}(Z^h)=\type_{\GG}(G_h)$ and $W_h\subseteq G_h$, there exists a subgraph $F^h\subseteq Z^h$ such that
+$\partial F^h=\partial W_h$ and $F^h\equiv_{\GG} W_h$.  Let $W'$ be obtained from $W$ by, for each cylindrical face $h$ of $H'$,
+replacing $W_h$ by $F^h$.  By the definition of $\equiv_{\GG}$, we have $W'\in\GG$, and clearly $W'$ appears in $G'$.
+For each cylindrical face $h$ of $H'$,
+we have $|V(W'_h)|=|V(F^h)|\le |V(Z^h)|\le b_0$, while for each non-cylindrical face $h$ of $H'$
+we have $|V(W'_h)|=|V(W_h)|\le 2\gamma|\partial W_h\cap \partial G|+7c(k+g)$.
+Summing these inequalities, we obtain $|V(W')|\le 2\gamma |\partial G| + b$.  
+
+Conversely, it is easy to see that any graph appearing in $G'$ can be transformed to a graph appearing of $G$.
+\end{proof}
+
+In particular, we obtain the following algoritm for graphs without a boundary.
+\begin{corollary}\label{cor:testhyp}
+Let $\GG$ be a cutting- and homeomorphism-closed class of graphs hyperbolic with Cheeger constant $\gamma>1$ and of finite index.
+For every surface $\Sigma$ without a boundary, there exists a polynomial-time algorithm that,
+given a graph $G$ drawn in $\Sigma$, determines whether some graph from $\GG$ appears in $G$.
+\end{corollary}
+\begin{proof}
+Let $G'$ be the graph obtained by applying the algorithm from Theorem~\ref{thm:kernelhyp}. We only need to test whether some graph from $\GG$
+with at most $b$ vertices appears in $G'$, and the finite list of such graphs can be hardwired in the algorithm.
+\end{proof}
+
+Let us quickly comment on the time complexity of the algorithms.  Naively, to test the presence of a subgraph with a fixed number
+$b$ vertices in a graph with $n$ vertices, we would need time $O(n^b)$ to test all possibilities.  This is polynomial, but clearly
+not very satisfying.  However, it turns out that much more efficient algorithms exist for graphs drawn on surfaces.  Using
+e.g. a variation of the algorithm of Eppstein~{bib-eppstein99}, we can implement the subgraph tests in Theorem~\ref{thm:kernelhyp}
+and Corollary~\ref{cor:testhyp} in linear time, with only the multiplicative constant depending on $b$.
+
+For example, taking $\GG$ be the class of graphs boundary-critical for $5$-list-coloring, Corollary~\ref{cor:testhyp}
+gives us a polynomial-time algorithm that for graphs in any fixed surface determines whether they are $5$-list-colorable.
+% TODO -- discuss finding coloring, precoloring extension
 
 \subsection{Precoloring extension?}
 \subsection{Number of colorings?}
